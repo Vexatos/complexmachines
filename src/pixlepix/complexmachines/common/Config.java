@@ -19,6 +19,7 @@ public class Config{
 	public static float oceanGeneratorOutput = 0.5;
 	public static float singlePointGeneratorOutput = 500000;
 	public static float grinderOutput = 5000;
+	public static float focalPointOutput = 3000;
 
 	public static void configure(FMLPreInitializationEvent event){
 		config = new Configuration(
@@ -37,6 +38,7 @@ public class Config{
 		oceanGeneratorOutput = getGeneralConfig("Ocean Generator Output", oceanGeneratorOutput).getFloat();
 		singlePointGeneratorOutput = getGeneralConfig("Single Point Generator Output", singlePointGeneratorOutput).getFloat();
 		grinderOutput = getGeneralConfig("Grinder Output", grinderOutput).getFloat();
+		focalPointOutput = getGeneralConfig("Focal Point Output", focalPointOutput).getFloat();
 
 		config.save();
 	}

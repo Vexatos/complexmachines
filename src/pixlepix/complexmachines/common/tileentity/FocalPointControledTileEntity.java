@@ -2,7 +2,7 @@ package pixlepix.complexmachines.common.tileentity;
 
 import java.util.Random;
 
-
+import pixlepix.complexmachines.common.Config;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -94,7 +94,7 @@ public class FocalPointControledTileEntity extends TileEntityElectrical
 					if (this.connectedElectricUnit != null) {
 
 						this.connectedElectricUnit.getNetwork().startProducing(
-								this, (3000 / this.getVoltage()) / 20,
+								this, (Config.focalPointOutput / this.getVoltage()) / 20,
 								this.getVoltage());
 
 					}
