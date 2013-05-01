@@ -91,7 +91,7 @@ public class SinglePointTileEntity extends TileEntityElectrical implements
 					if (this.connectedElectricUnit != null) {
 
 						this.connectedElectricUnit.getNetwork().startProducing(
-								this, (500000 / this.getVoltage()) / 20,
+								this, (Config.singlePointGeneratorOutput / this.getVoltage()) / 20,
 								this.getVoltage());
 
 					}
