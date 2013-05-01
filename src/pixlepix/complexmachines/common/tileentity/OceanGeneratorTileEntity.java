@@ -92,7 +92,7 @@ public class OceanGeneratorTileEntity extends TileEntityElectrical implements
 				if (this.connectedElectricUnit != null) {
 
 					this.connectedElectricUnit.getNetwork().startProducing(
-							this, powerRunning / this.getVoltage(),
+							this, powerRunning / this.getVoltage() / 20,
 							this.getVoltage());
 
 				}
