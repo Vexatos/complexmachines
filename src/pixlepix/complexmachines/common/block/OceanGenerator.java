@@ -3,7 +3,7 @@ package pixlepix.complexmachines.common.block;
 import java.util.Random;
 
 import pixlepix.complexmachines.client.ClientProxy;
-import pixlepix.complexmachines.common.ComplexMachines;
+import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.tileentity.OceanGeneratorTileEntity;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.prefab.block.BlockAdvanced;
@@ -33,7 +33,7 @@ public class OceanGenerator extends BlockAdvanced {
 	}
 
 	public OceanGenerator() {
-		super(ComplexMachines.blockStartingID + 5, UniversalElectricity.machine);
+		super(Config.blockStartingID + 5, UniversalElectricity.machine);
 		this.setUnlocalizedName("Ocean generator");
 		this.setCreativeTab(CreativeTabs.tabMisc);
 	}

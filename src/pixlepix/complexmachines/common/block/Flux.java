@@ -5,7 +5,7 @@ import java.util.Random;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-import pixlepix.complexmachines.common.ComplexMachines;
+import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.tileentity.FluxTileEntity;
 import universalelectricity.core.UniversalElectricity;
 import net.minecraft.block.Block;
@@ -26,7 +26,7 @@ public class Flux extends Block {
 	}
 
 	public Flux() {
-		super(ComplexMachines.blockStartingID + 17, UniversalElectricity.machine);
+		super(Config.blockStartingID + 17, UniversalElectricity.machine);
 		this.setUnlocalizedName("Flux");
 		this.setCreativeTab(CreativeTabs.tabMisc);
 	}

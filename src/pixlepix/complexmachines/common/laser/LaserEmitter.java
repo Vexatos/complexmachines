@@ -1,7 +1,7 @@
 package pixlepix.complexmachines.common.laser;
 
 import pixlepix.complexmachines.client.ClientProxy;
-import pixlepix.complexmachines.common.ComplexMachines;
+import pixlepix.complexmachines.common.Config;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.prefab.block.BlockAdvanced;
 import net.minecraft.block.BlockContainer;
@@ -63,7 +63,7 @@ public class LaserEmitter extends BlockAdvanced {
         return 0;
     }
 	public LaserEmitter() {
-		super(ComplexMachines.blockStartingID + 8, UniversalElectricity.machine);
+		super(Config.blockStartingID + 8, UniversalElectricity.machine);
 		this.setStepSound(soundMetalFootstep);
 		this.setUnlocalizedName("Laser Emitter");
 		this.setCreativeTab(CreativeTabs.tabMisc);

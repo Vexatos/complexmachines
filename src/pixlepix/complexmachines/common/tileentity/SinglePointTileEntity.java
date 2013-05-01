@@ -1,6 +1,6 @@
 package pixlepix.complexmachines.common.tileentity;
 
-import pixlepix.complexmachines.common.ComplexMachines;
+import pixlepix.complexmachines.common.Config;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -103,7 +103,7 @@ public class SinglePointTileEntity extends TileEntityElectrical implements
 	}
 
 	private boolean atCorrectLocation() {
-		int target=ComplexMachines.singlePointRadius;
+		int target=Config.singlePointRadius;
 		if ((xCoord == target || xCoord == -1*target)
 				&& (zCoord == target || zCoord == -1*target) && yCoord == 60) {
 			return true;

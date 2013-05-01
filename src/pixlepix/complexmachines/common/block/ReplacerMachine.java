@@ -1,7 +1,7 @@
 package pixlepix.complexmachines.common.block;
 
 import pixlepix.complexmachines.client.ClientProxy;
-import pixlepix.complexmachines.common.ComplexMachines;
+import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.tileentity.ReplacerMachineTileEntity;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.prefab.block.BlockAdvanced;
@@ -62,7 +62,7 @@ public class ReplacerMachine extends BlockAdvanced {
         return true;
     }
 	public ReplacerMachine() {
-		super(ComplexMachines.blockStartingID + 2, UniversalElectricity.machine);
+		super(Config.blockStartingID + 2, UniversalElectricity.machine);
 		this.setUnlocalizedName("replacer");
 		this.setCreativeTab(CreativeTabs.tabMisc);
 	}

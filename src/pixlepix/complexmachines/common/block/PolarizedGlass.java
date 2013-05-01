@@ -2,7 +2,7 @@ package pixlepix.complexmachines.common.block;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import pixlepix.complexmachines.common.ComplexMachines;
+import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.tileentity.GrinderTileEntity;
 import universalelectricity.core.UniversalElectricity;
 import net.minecraft.block.Block;
@@ -30,7 +30,7 @@ public class PolarizedGlass extends Block{
 	
 	
 	public PolarizedGlass() {
-		super(ComplexMachines.blockStartingID + 7, UniversalElectricity.machine);
+		super(Config.blockStartingID + 7, UniversalElectricity.machine);
 		this.setStepSound(soundMetalFootstep);
 		this.setUnlocalizedName("Polarized Glass");
 		this.setCreativeTab(CreativeTabs.tabMisc);

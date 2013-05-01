@@ -2,6 +2,7 @@ package pixlepix.complexmachines.common.block;
 
 import pixlepix.complexmachines.client.ClientProxy;
 import pixlepix.complexmachines.common.ComplexMachines;
+import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.tileentity.ExtractorMachineTileEntity;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.prefab.block.BlockAdvanced;
@@ -32,7 +33,7 @@ public class ExtractorMachine extends BlockAdvanced {
 	}
 
 	public ExtractorMachine() {
-		super(ComplexMachines.blockStartingID + 2, UniversalElectricity.machine);
+		super(Config.blockStartingID + 2, UniversalElectricity.machine);
 		this.setStepSound(soundMetalFootstep);
 		this.setUnlocalizedName("extractor");
 		this.setCreativeTab(CreativeTabs.tabMisc);

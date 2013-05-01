@@ -1,6 +1,6 @@
 package pixlepix.complexmachines.common.laser.block;
 
-import pixlepix.complexmachines.common.ComplexMachines;
+import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.laser.tileentity.DebuffLaserBeamTileEntity;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,7 +22,7 @@ public class DebuffLaserBlock extends LaserBlock {
 	}
 
 	public DebuffLaserBlock() {
-		super(ComplexMachines.blockStartingID + 13);
+		super(Config.blockStartingID + 13);
 		this.setStepSound(soundMetalFootstep);
 		this.setUnlocalizedName("Debuff Beam");
 	}
