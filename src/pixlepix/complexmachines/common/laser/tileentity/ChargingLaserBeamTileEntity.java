@@ -36,6 +36,18 @@ public class ChargingLaserBeamTileEntity extends LaserBeamTileEntity {
 				}
 			}
 			
+			for(int j=0;j<currentInventory.armorInventory.length;j++){
+				ItemStack currentItem=currentInventory.armorInventory[j];
+				if(entity!=null&&currentItem!=null&&currentItem.getItem() instanceof IItemElectric){
+					IItemElectric electricItem=(IItemElectric)currentItem.getItem();
+					int currentJoules=(int) electricItem.getJoules(currentItem);
+					int maxJoules=(int) electricItem.getMaxJoules(currentItem);
+					int charge=(int)Math.min(entity.getJoules()-10000,maxJoules-currentJoules);
+					electricItem.setJoules(currentJoules+charge, currentItem);
+					entity.setJoules(entity.getJoules()-charge);
+				}
+			}
+			
 			
 		}
 	}
