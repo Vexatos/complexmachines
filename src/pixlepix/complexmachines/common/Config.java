@@ -24,7 +24,7 @@ public class Config{
 		config.load();
 
 		worldGen = getGeneralConfig("Focal Point Generation", worldGen).getBoolean(true);
-		vanillaRecipes = getGeneralConfig("Vanilla (Easy) Recipies Enabled", vanillaRecipes).getBoolean(true)
+		vanillaRecipes = getGeneralConfig("Vanilla (Easy) Recipies Enabled", vanillaRecipes).getBoolean(true);
 
 		blockStartingID = getGeneralConfig("BlockStartingID", blockStartingID).getInt();
 		itemStartingID = getGeneralConfig("ItemStartingID", itemStartingID).getInt();
@@ -37,7 +37,15 @@ public class Config{
 		config.save();
 	}
 
-	private static Property getGeneralConfig(configName, defaultValue){
+	private static Property getGeneralConfig(String configName, int defaultValue){
+		return config.get(Configuration.CATEGORY_GENERAL, configName, defaultValue);
+	}
+
+	private static Property getGeneralConfig(String configName, float defaultValue){
+		return config.get(Configuration.CATEGORY_GENERAL, configName, defaultValue);
+	}
+
+	private static Property getGeneralConfig(String configName, boolean defaultValue){
 		return config.get(Configuration.CATEGORY_GENERAL, configName, defaultValue);
 	}
 }
