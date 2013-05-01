@@ -210,7 +210,7 @@ public class ComplexMachines {
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
 		Config.configure(event);
-		System.out.println(Config.Config.blockStartingID);
+		System.out.println(Config.blockStartingID);
 		loadBlocks();
 	}
 
