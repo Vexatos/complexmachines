@@ -3,6 +3,7 @@ package pixlepix.complexmachines.common.tileentity;
 import java.util.HashMap;
 
 import pixlepix.complexmachines.common.GrinderFuelData;
+import pixlepix.complexmachines.common.Config;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -96,7 +97,7 @@ public class GrinderTileEntity extends TileEntityElectricityRunnable implements
 			if (this.connectedElectricUnit != null) {
 
 				this.connectedElectricUnit.getNetwork().startProducing(this,
-						(5000 / this.getVoltage()) / 20, this.getVoltage());
+						(Config.grinderOutput / this.getVoltage()) / 20, this.getVoltage());
 				if (ticksOfPowerRemaining <= 0) {
 					this.connectedElectricUnit.getNetwork().stopProducing(this);
 				}

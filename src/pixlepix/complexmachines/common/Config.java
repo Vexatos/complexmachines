@@ -16,7 +16,8 @@ public class Config{
 	public static int singlePointRadius = 5000;
 	public static Configuration config;
 	// Generator Outputs (in Joules/Tick)
-	public static int oceanGeneratorOutput = 0.5;
+	public static float oceanGeneratorOutput = 0.5;
+	public static float grinderOutput = 5000;
 
 	public static void configure(FMLPreInitializationEvent event){
 		config = new Configuration(
@@ -33,6 +34,7 @@ public class Config{
 		singlePointRadius = getGeneralConfig("Single Point Generator Radius", singlePointRadius).getInt();
 
 		oceanGeneratorOutput = getGeneralConfig("Ocean Generator Output", oceanGeneratorOutput).getFloat();
+		grinderOutput = getGeneralConfig("Grinder Output", grinderOutput).getFloat();
 
 		config.save();
 	}
