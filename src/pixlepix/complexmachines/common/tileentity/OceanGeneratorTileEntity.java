@@ -173,7 +173,7 @@ public class OceanGeneratorTileEntity extends TileEntityElectrical implements
 
 	@Override
 	public double getMaxJoules() {
-		return FillerMachineTileEntity.maxJoules;
+		return OceanGeneratorTileEntity.maxJoules;
 	}
 
 	@Override

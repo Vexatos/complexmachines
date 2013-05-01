@@ -1,22 +1,26 @@
 package pixlepix.complexmachines.common;
 
 import pixlepix.complexmachines.client.GuiHandler;
+import pixlepix.complexmachines.common.block.Controller;
 import pixlepix.complexmachines.common.block.ExtractorMachine;
 import pixlepix.complexmachines.common.block.FillerMachine;
 import pixlepix.complexmachines.common.block.Flux;
 import pixlepix.complexmachines.common.block.FocalPoint;
 import pixlepix.complexmachines.common.block.FocalPointControlled;
 import pixlepix.complexmachines.common.block.Grinder;
+import pixlepix.complexmachines.common.block.Motor;
 import pixlepix.complexmachines.common.block.OceanGenerator;
 import pixlepix.complexmachines.common.block.ReplacerMachine;
 import pixlepix.complexmachines.common.block.SinglePointGenerator;
 import pixlepix.complexmachines.common.item.ClusterMinerItem;
 import pixlepix.complexmachines.common.item.FellerItem;
 import pixlepix.complexmachines.common.item.CubeFormerItem;
+import pixlepix.complexmachines.common.itemblock.ControllerItemBlock;
 import pixlepix.complexmachines.common.itemblock.ExtractorItemBlock;
 import pixlepix.complexmachines.common.itemblock.FillerItemBlock;
 import pixlepix.complexmachines.common.itemblock.GrinderItemBlock;
 import pixlepix.complexmachines.common.itemblock.LaserItemBlock;
+import pixlepix.complexmachines.common.itemblock.MotorItemBlock;
 import pixlepix.complexmachines.common.itemblock.OceanGeneratorItemBlock;
 import pixlepix.complexmachines.common.itemblock.ReplacerItemBlock;
 import pixlepix.complexmachines.common.itemblock.SinglePointItemBlock;
@@ -40,11 +44,13 @@ import pixlepix.complexmachines.common.laser.tileentity.HarmingLaserBeamTileEnti
 import pixlepix.complexmachines.common.laser.tileentity.LaserBeamTileEntity;
 import pixlepix.complexmachines.common.laser.tileentity.SuctionLaserBeamTileEntity;
 import pixlepix.complexmachines.common.laser.tileentity.TripwireLaserBeamTileEntity;
+import pixlepix.complexmachines.common.tileentity.ControllerTileEntity;
 import pixlepix.complexmachines.common.tileentity.ExtractorMachineTileEntity;
 import pixlepix.complexmachines.common.tileentity.FillerMachineTileEntity;
 import pixlepix.complexmachines.common.tileentity.FluxTileEntity;
 import pixlepix.complexmachines.common.tileentity.FocalPointControledTileEntity;
 import pixlepix.complexmachines.common.tileentity.GrinderTileEntity;
+import pixlepix.complexmachines.common.tileentity.MotorTileEntity;
 import pixlepix.complexmachines.common.tileentity.OceanGeneratorTileEntity;
 import pixlepix.complexmachines.common.tileentity.ReplacerMachineTileEntity;
 import pixlepix.complexmachines.common.tileentity.SinglePointTileEntity;
@@ -96,6 +102,9 @@ public class ComplexMachines {
 	
 	public static ModFlag flag;
 	
+	public static Block controller;
+	public static Block motor;
+	
 	public static boolean worldGen;
 	public static Block flux;
 	public static Block tripwireLaser;
@@ -144,6 +153,11 @@ public class ComplexMachines {
 			.setCreativeTab(creativeTab);
 	
 
+	controller = new Controller(blockStartingID + 23)
+			.setHardness(0.5F).setStepSound(Block.soundGravelFootstep)
+			.setCreativeTab(creativeTab);
+	
+
 	chargingLaser = new ChargingLaserBlock(blockStartingID + 21)
 			.setHardness(0.5F).setStepSound(Block.soundGravelFootstep);
 	
@@ -184,6 +198,11 @@ public class ComplexMachines {
 
 	replacerMachine = new ReplacerMachine(
 			blockStartingID + 6).setHardness(0.5F)
+			.setStepSound(Block.soundGravelFootstep)
+			.setCreativeTab(creativeTab);
+	
+	motor = new Motor(
+			blockStartingID + 22).setHardness(0.5F)
 			.setStepSound(Block.soundGravelFootstep)
 			.setCreativeTab(creativeTab);
 	oceanGenerator = new OceanGenerator(
@@ -253,6 +272,16 @@ public class ComplexMachines {
 
 		NetworkRegistry networkRegistry = NetworkRegistry.instance();
 		networkRegistry.registerGuiHandler(this, guiHandler);
+		
+
+		LanguageRegistry.addName(motor, "Airship Motor");
+		MinecraftForge.setBlockHarvestLevel(motor, "pickaxe", 0);
+		GameRegistry.registerBlock(motor, MotorItemBlock.class);
+		
+
+		LanguageRegistry.addName(controller, "Airship Controller");
+		MinecraftForge.setBlockHarvestLevel(controller, "pickaxe", 0);
+		GameRegistry.registerBlock(controller, ControllerItemBlock.class);
 		
 
 		LanguageRegistry.addName(flux, "Flux");
@@ -474,8 +503,15 @@ public class ComplexMachines {
 				"Tripbeam");
 		
 
+		GameRegistry.registerTileEntity(ControllerTileEntity.class,
+				"Airship");
+		
 		GameRegistry.registerTileEntity(FluxTileEntity.class,
 				"Flux");
+		
+
+		GameRegistry.registerTileEntity(MotorTileEntity.class,
+				"Airship motor");
 		
 
 
