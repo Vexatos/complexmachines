@@ -1,5 +1,6 @@
 package pixlepix.complexmachines.common.tileentity;
 
+import pixlepix.complexmachines.common.ComplexMachines;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -91,7 +92,7 @@ public class OceanGeneratorTileEntity extends TileEntityElectrical implements
 				if (this.connectedElectricUnit != null) {
 
 					this.connectedElectricUnit.getNetwork().startProducing(
-							this, (powerRunning / this.getVoltage()) / 20,
+							this, powerRunning / this.getVoltage(),
 							this.getVoltage());
 
 				}
@@ -133,7 +134,7 @@ public class OceanGeneratorTileEntity extends TileEntityElectrical implements
 				for (int cycleY = lowerBoundY; cycleY < upperBoundY; cycleY++) {
 					for (int cycleZ = lowerBoundZ; cycleZ < upperBoundZ; cycleZ++) {
 						if (worldObj.getBlockId(cycleX, cycleY, cycleZ) == 9) {
-							powerRunning += 0.5;
+							powerRunning += ComplexMachines.oceanGeneratorOutput;
 						}
 					}
 				}

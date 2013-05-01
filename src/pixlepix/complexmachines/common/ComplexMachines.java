@@ -81,7 +81,11 @@ import cpw.mods.fml.relauncher.Side;
 public class ComplexMachines {
 
 	public static int blockStartingID = 2770;
+
+	// Block configuration
 	public static int singlePointRadius=5000;
+	public static int oceanGeneratorOuput=10;
+
 	private GuiHandler guiHandler = new GuiHandler();
 	
 	
@@ -225,6 +229,7 @@ public class ComplexMachines {
 		blockStartingID = config.getBlock("BlockStartingID", 2770).getInt();
 		spawnProtectionRadius = config.get(Configuration.CATEGORY_GENERAL, "Spawn Protection Radius", 0).getInt();
 		singlePointRadius = config.get(Configuration.CATEGORY_GENERAL, "Single point generator radius ", 5000).getInt();
+                oceanGeneratorOutput = config.get(Configuration.CATEGORY_GENERAL, "Ocean Generator Output ", 10).getInt();
 		itemStartingID = config.get(Configuration.CATEGORY_GENERAL, "ItemStartingID", 11670).getInt();
 		System.out.println(blockStartingID);
 		loadBlocks();
