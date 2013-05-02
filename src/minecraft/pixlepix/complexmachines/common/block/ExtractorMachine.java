@@ -3,8 +3,7 @@ package pixlepix.complexmachines.common.block;
 import pixlepix.complexmachines.client.ClientProxy;
 import pixlepix.complexmachines.common.ComplexMachines;
 import pixlepix.complexmachines.common.Config;
-import pixlepix.complexmachines.common.tileentity.FillerMachineTileEntity;
-import pixlepix.complexmachines.common.tileentity.MotorTileEntity;
+import pixlepix.complexmachines.common.tileentity.ExtractorMachineTileEntity;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.prefab.block.BlockAdvanced;
 import net.minecraft.block.BlockContainer;
@@ -22,63 +21,33 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class Motor extends BlockAdvanced {
+public class ExtractorMachine extends BlockAdvanced {
 	private Icon connectorIcon;
 	private Icon topIcon;
 
-	public Motor(int id) {
+	public ExtractorMachine(int id) {
 		super(id, UniversalElectricity.machine);
-		this.setUnlocalizedName("Motor");
+		this.setStepSound(soundMetalFootstep);
+		this.setUnlocalizedName("extractor");
 		this.setCreativeTab(CreativeTabs.tabMisc);
 	}
 
-	public Motor() {
-		super(Config.blockStartingID + 22, UniversalElectricity.machine);
+	public ExtractorMachine() {
+		super(Config.blockStartingID + 2, UniversalElectricity.machine);
 		this.setStepSound(soundMetalFootstep);
-		this.setUnlocalizedName("Motor");
+		this.setUnlocalizedName("extractor");
 		this.setCreativeTab(CreativeTabs.tabMisc);
 	}
 
 	/**
 	 * Called when the block is placed in the world.
 	 */
-	@Override
-    public boolean onUseWrench(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side,
-            float hitX, float hitY, float hitZ)
-    {
-        int metadata = par1World.getBlockMetadata(x, y, z);
-        
-        int change = 0;
-        
-        // Re-orient the block
-        switch (metadata)
-        {
-            case 0:
-                change = 3;
-                break;
-            case 3:
-                change = 1;
-                break;
-            case 1:
-                change = 2;
-                break;
-            case 2:
-                change = 0;
-                break;
-        }
-        
-        par1World.setBlock(x, y, z, this.blockID, change, 0);
-        par1World.markBlockForRenderUpdate(x, y, z);
-        
-        ((MotorTileEntity) par1World.getBlockTileEntity(x, y, z)).initiate();
-        
-        return true;
-    }
+
 	@Override
 	public void onBlockPlacedBy(World par1World, int x, int y, int z,
 			EntityLiving par5EntityLiving, ItemStack itemStack) {
 
-		((MotorTileEntity) par1World.getBlockTileEntity(x, y, z))
+		((ExtractorMachineTileEntity) par1World.getBlockTileEntity(x, y, z))
 				.initiate();
 		int angle = MathHelper.floor_double((par5EntityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 		int change = 0;
@@ -111,19 +80,60 @@ public class Motor extends BlockAdvanced {
 	 * 
 	 * return true; }
 	 */
+
+	@Override
+	public boolean onMachineActivated(World par1World, int x, int y, int z,
+			EntityPlayer par5EntityPlayer, int side, float hitX, float hitY,
+			float hitZ) {
+		if (!par1World.isRemote) {
+			par5EntityPlayer.openGui(ComplexMachines.instance, 2, par1World, x,
+					y, z);
+			return true;
+		}
+
+		return true;
+	}
+	@Override
+    public boolean onUseWrench(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side,
+            float hitX, float hitY, float hitZ)
+    {
+        int metadata = par1World.getBlockMetadata(x, y, z);
+        
+        int change = 0;
+        
+        // Re-orient the block
+        switch (metadata)
+        {
+            case 0:
+                change = 3;
+                break;
+            case 3:
+                change = 1;
+                break;
+            case 1:
+                change = 2;
+                break;
+            case 2:
+                change = 0;
+                break;
+        }
+        
+        par1World.setBlock(x, y, z, this.blockID, change, 0);
+        par1World.markBlockForRenderUpdate(x, y, z);
+        
+        ((ExtractorMachineTileEntity) par1World.getBlockTileEntity(x, y, z)).initiate();
+        
+        return true;
+    }
+
 	@Override
 	public boolean isOpaqueCube() {
 		return true;
 	}
 
 	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
-
-	@Override
 	public TileEntity createTileEntity(World var1, int metadata) {
-		return new MotorTileEntity();
+		return new ExtractorMachineTileEntity();
 
 	}
 
@@ -143,21 +153,23 @@ public class Motor extends BlockAdvanced {
 	public void registerIcons(IconRegister par1IconRegister) {
 
 		blockIcon = par1IconRegister
-				.registerIcon("ComplexMachines:MotorFront");
+				.registerIcon("ComplexMachines:ExtractorFront");
 		connectorIcon = par1IconRegister
-				.registerIcon("ComplexMachines:MotorInput");
-		topIcon = par1IconRegister.registerIcon("ComplexMachines:MotorTop");
+				.registerIcon("ComplexMachines:ExtractorInput");
+		topIcon = par1IconRegister.registerIcon("ComplexMachines:ExtractorTop");
 	}
 
 	@Override
 	public Icon getIcon(int side, int meta) {
 
-		
+		if (side == meta + 2) {
+			return connectorIcon;
+		} else {
 			if (side == 1 || side == 0) {
 				return topIcon;
 			}
 			return blockIcon;
-		
+		}
 	}
 
 	@Override

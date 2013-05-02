@@ -1,10 +1,8 @@
 package pixlepix.complexmachines.common.block;
 
 import pixlepix.complexmachines.client.ClientProxy;
-import pixlepix.complexmachines.common.ComplexMachines;
 import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.tileentity.FillerMachineTileEntity;
-import pixlepix.complexmachines.common.tileentity.MotorTileEntity;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.prefab.block.BlockAdvanced;
 import net.minecraft.block.BlockContainer;
@@ -22,20 +20,20 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class Motor extends BlockAdvanced {
+public class FillerMachine extends BlockAdvanced {
 	private Icon connectorIcon;
 	private Icon topIcon;
 
-	public Motor(int id) {
+	public FillerMachine(int id) {
 		super(id, UniversalElectricity.machine);
-		this.setUnlocalizedName("Motor");
+		this.setUnlocalizedName("filler");
 		this.setCreativeTab(CreativeTabs.tabMisc);
 	}
 
-	public Motor() {
-		super(Config.blockStartingID + 22, UniversalElectricity.machine);
+	public FillerMachine() {
+		super(Config.blockStartingID + 1, UniversalElectricity.machine);
 		this.setStepSound(soundMetalFootstep);
-		this.setUnlocalizedName("Motor");
+		this.setUnlocalizedName("filler");
 		this.setCreativeTab(CreativeTabs.tabMisc);
 	}
 
@@ -70,7 +68,7 @@ public class Motor extends BlockAdvanced {
         par1World.setBlock(x, y, z, this.blockID, change, 0);
         par1World.markBlockForRenderUpdate(x, y, z);
         
-        ((MotorTileEntity) par1World.getBlockTileEntity(x, y, z)).initiate();
+        ((FillerMachineTileEntity) par1World.getBlockTileEntity(x, y, z)).initiate();
         
         return true;
     }
@@ -78,7 +76,7 @@ public class Motor extends BlockAdvanced {
 	public void onBlockPlacedBy(World par1World, int x, int y, int z,
 			EntityLiving par5EntityLiving, ItemStack itemStack) {
 
-		((MotorTileEntity) par1World.getBlockTileEntity(x, y, z))
+		((FillerMachineTileEntity) par1World.getBlockTileEntity(x, y, z))
 				.initiate();
 		int angle = MathHelper.floor_double((par5EntityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 		int change = 0;
@@ -123,7 +121,7 @@ public class Motor extends BlockAdvanced {
 
 	@Override
 	public TileEntity createTileEntity(World var1, int metadata) {
-		return new MotorTileEntity();
+		return new FillerMachineTileEntity();
 
 	}
 
@@ -143,21 +141,23 @@ public class Motor extends BlockAdvanced {
 	public void registerIcons(IconRegister par1IconRegister) {
 
 		blockIcon = par1IconRegister
-				.registerIcon("ComplexMachines:MotorFront");
+				.registerIcon("ComplexMachines:FillerFront");
 		connectorIcon = par1IconRegister
-				.registerIcon("ComplexMachines:MotorInput");
-		topIcon = par1IconRegister.registerIcon("ComplexMachines:MotorTop");
+				.registerIcon("ComplexMachines:FillerInput");
+		topIcon = par1IconRegister.registerIcon("ComplexMachines:FillerTop");
 	}
 
 	@Override
 	public Icon getIcon(int side, int meta) {
 
-		
+		if (side == meta + 2) {
+			return connectorIcon;
+		} else {
 			if (side == 1 || side == 0) {
 				return topIcon;
 			}
 			return blockIcon;
-		
+		}
 	}
 
 	@Override

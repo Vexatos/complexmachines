@@ -3,8 +3,7 @@ package pixlepix.complexmachines.common.block;
 import pixlepix.complexmachines.client.ClientProxy;
 import pixlepix.complexmachines.common.ComplexMachines;
 import pixlepix.complexmachines.common.Config;
-import pixlepix.complexmachines.common.tileentity.FillerMachineTileEntity;
-import pixlepix.complexmachines.common.tileentity.MotorTileEntity;
+import pixlepix.complexmachines.common.tileentity.GrinderTileEntity;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.prefab.block.BlockAdvanced;
 import net.minecraft.block.BlockContainer;
@@ -22,20 +21,22 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class Motor extends BlockAdvanced {
+public class Grinder extends BlockAdvanced {
 	private Icon connectorIcon;
 	private Icon topIcon;
 
-	public Motor(int id) {
+	public Grinder(int id) {
 		super(id, UniversalElectricity.machine);
-		this.setUnlocalizedName("Motor");
+		this.setUnlocalizedName("Grinder");
 		this.setCreativeTab(CreativeTabs.tabMisc);
 	}
 
-	public Motor() {
-		super(Config.blockStartingID + 22, UniversalElectricity.machine);
+	
+	
+	public Grinder() {
+		super(Config.blockStartingID + 7, UniversalElectricity.machine);
 		this.setStepSound(soundMetalFootstep);
-		this.setUnlocalizedName("Motor");
+		this.setUnlocalizedName("Grinder");
 		this.setCreativeTab(CreativeTabs.tabMisc);
 	}
 
@@ -70,7 +71,7 @@ public class Motor extends BlockAdvanced {
         par1World.setBlock(x, y, z, this.blockID, change, 0);
         par1World.markBlockForRenderUpdate(x, y, z);
         
-        ((MotorTileEntity) par1World.getBlockTileEntity(x, y, z)).initiate();
+        ((GrinderTileEntity) par1World.getBlockTileEntity(x, y, z)).initiate();
         
         return true;
     }
@@ -78,8 +79,7 @@ public class Motor extends BlockAdvanced {
 	public void onBlockPlacedBy(World par1World, int x, int y, int z,
 			EntityLiving par5EntityLiving, ItemStack itemStack) {
 
-		((MotorTileEntity) par1World.getBlockTileEntity(x, y, z))
-				.initiate();
+		((GrinderTileEntity) par1World.getBlockTileEntity(x, y, z)).initiate();
 		int angle = MathHelper.floor_double((par5EntityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 		int change = 0;
 
@@ -102,15 +102,19 @@ public class Motor extends BlockAdvanced {
 		par1World.notifyBlocksOfNeighborChange(x, y, z, this.blockID);
 	}
 
-	/*
-	 * @Override public boolean onMachineActivated(World par1World, int x, int
-	 * y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float
-	 * hitY, float hitZ) { if (!par1World.isRemote) {
-	 * par5EntityPlayer.openGui(ElectricExpansion.instance, 2, par1World, x, y,
-	 * z); return true; }
-	 * 
-	 * return true; }
-	 */
+	@Override
+	public boolean onMachineActivated(World par1World, int x, int y, int z,
+			EntityPlayer par5EntityPlayer, int side, float hitX, float hitY,
+			float hitZ) {
+		if (!par1World.isRemote) {
+			par5EntityPlayer.openGui(ComplexMachines.instance, 2, par1World, x,
+					y, z);
+			return true;
+		}
+
+		return true;
+	}
+
 	@Override
 	public boolean isOpaqueCube() {
 		return true;
@@ -123,7 +127,7 @@ public class Motor extends BlockAdvanced {
 
 	@Override
 	public TileEntity createTileEntity(World var1, int metadata) {
-		return new MotorTileEntity();
+		return new GrinderTileEntity();
 
 	}
 
@@ -138,32 +142,38 @@ public class Motor extends BlockAdvanced {
 	 * 
 	 * @Override public int getRenderType() { return ClientProxy.RENDER_ID; }
 	 */
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {
 
 		blockIcon = par1IconRegister
-				.registerIcon("ComplexMachines:MotorFront");
+				.registerIcon("ComplexMachines:GrinderFront");
 		connectorIcon = par1IconRegister
-				.registerIcon("ComplexMachines:MotorInput");
-		topIcon = par1IconRegister.registerIcon("ComplexMachines:MotorTop");
+				.registerIcon("ComplexMachines:GrinderInput");
+		topIcon = par1IconRegister.registerIcon("ComplexMachines:GrinderTop");
 	}
 
 	@Override
 	public Icon getIcon(int side, int meta) {
 
-		
+		if (side == meta + 2) {
+			return connectorIcon;
+		} else {
 			if (side == 1 || side == 0) {
 				return topIcon;
 			}
 			return blockIcon;
-		
+		}
 	}
+
+
 
 	@Override
 	public TileEntity createNewTileEntity(World world) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }

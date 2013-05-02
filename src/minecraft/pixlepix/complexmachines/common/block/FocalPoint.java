@@ -1,10 +1,9 @@
 package pixlepix.complexmachines.common.block;
 
+import java.util.Random;
+
 import pixlepix.complexmachines.client.ClientProxy;
-import pixlepix.complexmachines.common.ComplexMachines;
 import pixlepix.complexmachines.common.Config;
-import pixlepix.complexmachines.common.tileentity.FillerMachineTileEntity;
-import pixlepix.complexmachines.common.tileentity.MotorTileEntity;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.prefab.block.BlockAdvanced;
 import net.minecraft.block.BlockContainer;
@@ -22,83 +21,47 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class Motor extends BlockAdvanced {
+public class FocalPoint extends BlockContainer {
 	private Icon connectorIcon;
 	private Icon topIcon;
 
-	public Motor(int id) {
+	public FocalPoint(int id) {
 		super(id, UniversalElectricity.machine);
-		this.setUnlocalizedName("Motor");
 		this.setCreativeTab(CreativeTabs.tabMisc);
+
+		this.setUnlocalizedName("focal point");
 	}
 
-	public Motor() {
-		super(Config.blockStartingID + 22, UniversalElectricity.machine);
-		this.setStepSound(soundMetalFootstep);
-		this.setUnlocalizedName("Motor");
+	public FocalPoint() {
+		super(Config.blockStartingID + 3, UniversalElectricity.machine);
+		this.setUnlocalizedName("focal point");
 		this.setCreativeTab(CreativeTabs.tabMisc);
 	}
 
 	/**
 	 * Called when the block is placed in the world.
 	 */
+
 	@Override
-    public boolean onUseWrench(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side,
-            float hitX, float hitY, float hitZ)
-    {
-        int metadata = par1World.getBlockMetadata(x, y, z);
-        
-        int change = 0;
-        
-        // Re-orient the block
-        switch (metadata)
-        {
-            case 0:
-                change = 3;
-                break;
-            case 3:
-                change = 1;
-                break;
-            case 1:
-                change = 2;
-                break;
-            case 2:
-                change = 0;
-                break;
-        }
-        
-        par1World.setBlock(x, y, z, this.blockID, change, 0);
-        par1World.markBlockForRenderUpdate(x, y, z);
-        
-        ((MotorTileEntity) par1World.getBlockTileEntity(x, y, z)).initiate();
-        
-        return true;
-    }
+	public boolean onBlockActivated(World par1World, int par2, int par3,
+			int par4, EntityPlayer par5EntityPlayer, int par6, float par7,
+			float par8, float par9) {
+		par1World.setBlock(par2, par3, par4,
+				Config.blockStartingID + 8);
+		return true;
+	}
+
+	@Override
+	public int quantityDropped(Random rand) {
+		return 0;
+	}
+
 	@Override
 	public void onBlockPlacedBy(World par1World, int x, int y, int z,
 			EntityLiving par5EntityLiving, ItemStack itemStack) {
 
-		((MotorTileEntity) par1World.getBlockTileEntity(x, y, z))
-				.initiate();
-		int angle = MathHelper.floor_double((par5EntityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-		int change = 0;
-
-		switch (angle)
-		{
-			case 0:
-				change = 1;
-				break;
-			case 1:
-				change = 2;
-				break;
-			case 2:
-				change = 0;
-				break;
-			case 3:
-				change = 3;
-				break;
-		}
-		par1World.setBlockMetadataWithNotify(x, y, z, change, 2);
+		// ((FocalPointControledTileEntity) par1World.getBlockTileEntity(x, y,
+		// z)).initiate();
 		par1World.notifyBlocksOfNeighborChange(x, y, z, this.blockID);
 	}
 
@@ -123,13 +86,13 @@ public class Motor extends BlockAdvanced {
 
 	@Override
 	public TileEntity createTileEntity(World var1, int metadata) {
-		return new MotorTileEntity();
-
+		// return new FocalPointControledTileEntity();
+		return null;
 	}
 
 	@Override
 	public boolean hasTileEntity(int metadata) {
-		return true;
+		return false;
 	}
 
 	// Imported code from EE, unsure if it is needed
@@ -143,21 +106,23 @@ public class Motor extends BlockAdvanced {
 	public void registerIcons(IconRegister par1IconRegister) {
 
 		blockIcon = par1IconRegister
-				.registerIcon("ComplexMachines:MotorFront");
+				.registerIcon("ComplexMachines:FocalFront");
 		connectorIcon = par1IconRegister
-				.registerIcon("ComplexMachines:MotorInput");
-		topIcon = par1IconRegister.registerIcon("ComplexMachines:MotorTop");
+				.registerIcon("ComplexMachines:FocalInput");
+		topIcon = par1IconRegister.registerIcon("ComplexMachines:FocalTop");
 	}
 
 	@Override
 	public Icon getIcon(int side, int meta) {
 
-		
+		if (side == meta + 2) {
+			return connectorIcon;
+		} else {
 			if (side == 1 || side == 0) {
 				return topIcon;
 			}
 			return blockIcon;
-		
+		}
 	}
 
 	@Override
@@ -165,5 +130,6 @@ public class Motor extends BlockAdvanced {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }

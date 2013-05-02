@@ -1,10 +1,7 @@
-package pixlepix.complexmachines.common.block;
+package pixlepix.complexmachines.common.laser;
 
 import pixlepix.complexmachines.client.ClientProxy;
-import pixlepix.complexmachines.common.ComplexMachines;
 import pixlepix.complexmachines.common.Config;
-import pixlepix.complexmachines.common.tileentity.FillerMachineTileEntity;
-import pixlepix.complexmachines.common.tileentity.MotorTileEntity;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.prefab.block.BlockAdvanced;
 import net.minecraft.block.BlockContainer;
@@ -15,32 +12,66 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class Motor extends BlockAdvanced {
+public class LaserEmitter extends BlockAdvanced {
 	private Icon connectorIcon;
+	private Icon laserIcon;
 	private Icon topIcon;
 
-	public Motor(int id) {
+	public LaserEmitter(int id) {
 		super(id, UniversalElectricity.machine);
-		this.setUnlocalizedName("Motor");
+		this.setUnlocalizedName("Laser Emitter");
 		this.setCreativeTab(CreativeTabs.tabMisc);
 	}
-
-	public Motor() {
-		super(Config.blockStartingID + 22, UniversalElectricity.machine);
+	@Override
+	public int isProvidingWeakPower(IBlockAccess iBlockAccess, int x, int y, int z, int par5)
+    {
+		TileEntity tileEntity=iBlockAccess.getBlockTileEntity(x, y, z);
+		if(tileEntity instanceof LaserEmitterTileEntity){
+			LaserEmitterTileEntity laserEmitterTileEntity=(LaserEmitterTileEntity)tileEntity;
+			if(laserEmitterTileEntity.tripped){
+				//System.out.println("Attempting to emit redstone power");
+				return 15;
+			}
+		}
+        return 0;
+    }
+	@Override
+	public boolean canConnectRedstone(IBlockAccess iba, int i, int j, int k, int dir) 
+    { 
+        return true; 
+    }
+	@Override
+	public int isProvidingStrongPower(IBlockAccess iBlockAccess, int x, int y, int z, int side)
+    {
+		TileEntity tileEntity=iBlockAccess.getBlockTileEntity(x, y, z);
+		if(tileEntity instanceof LaserEmitterTileEntity){
+			LaserEmitterTileEntity laserEmitterTileEntity=(LaserEmitterTileEntity)tileEntity;
+			if(laserEmitterTileEntity.tripped){
+				//System.out.println("Attempting to emit redstone power");
+				return 15;
+			}
+		}
+        return 0;
+    }
+	public LaserEmitter() {
+		super(Config.blockStartingID + 8, UniversalElectricity.machine);
 		this.setStepSound(soundMetalFootstep);
-		this.setUnlocalizedName("Motor");
+		this.setUnlocalizedName("Laser Emitter");
 		this.setCreativeTab(CreativeTabs.tabMisc);
 	}
 
 	/**
 	 * Called when the block is placed in the world.
+	 * @return 
 	 */
 	@Override
     public boolean onUseWrench(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side,
@@ -70,15 +101,23 @@ public class Motor extends BlockAdvanced {
         par1World.setBlock(x, y, z, this.blockID, change, 0);
         par1World.markBlockForRenderUpdate(x, y, z);
         
-        ((MotorTileEntity) par1World.getBlockTileEntity(x, y, z)).initiate();
+        ((LaserEmitterTileEntity) par1World.getBlockTileEntity(x, y, z)).initiate();
         
         return true;
     }
 	@Override
+	public boolean onMachineActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ){
+		LaserEmitterTileEntity entity=(LaserEmitterTileEntity)world.getBlockTileEntity(x,y,z);
+		return entity.onMachineActivated(world, x, y,z, entityPlayer, side, hitX, hitY, hitZ);
+	}
+	
+	 
+	 
+	@Override
 	public void onBlockPlacedBy(World par1World, int x, int y, int z,
 			EntityLiving par5EntityLiving, ItemStack itemStack) {
 
-		((MotorTileEntity) par1World.getBlockTileEntity(x, y, z))
+		((LaserEmitterTileEntity) par1World.getBlockTileEntity(x, y, z))
 				.initiate();
 		int angle = MathHelper.floor_double((par5EntityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 		int change = 0;
@@ -113,17 +152,24 @@ public class Motor extends BlockAdvanced {
 	 */
 	@Override
 	public boolean isOpaqueCube() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
+	@Override
+	public int getRenderBlockPass() {
+		return 1;
+
+	}
+
+	
 
 	@Override
 	public TileEntity createTileEntity(World var1, int metadata) {
-		return new MotorTileEntity();
+		return new LaserEmitterTileEntity();
 
 	}
 
@@ -143,21 +189,23 @@ public class Motor extends BlockAdvanced {
 	public void registerIcons(IconRegister par1IconRegister) {
 
 		blockIcon = par1IconRegister
-				.registerIcon("ComplexMachines:MotorFront");
+				.registerIcon("ComplexMachines:LaserFront");
 		connectorIcon = par1IconRegister
-				.registerIcon("ComplexMachines:MotorInput");
-		topIcon = par1IconRegister.registerIcon("ComplexMachines:MotorTop");
+				.registerIcon("ComplexMachines:LaserInput");
+		topIcon = par1IconRegister.registerIcon("ComplexMachines:LaserTop");
 	}
 
 	@Override
 	public Icon getIcon(int side, int meta) {
 
-		
+		if (side == meta + 2) {
+			return connectorIcon;
+		} else {
 			if (side == 1 || side == 0) {
 				return topIcon;
 			}
 			return blockIcon;
-		
+		}
 	}
 
 	@Override
@@ -165,5 +213,4 @@ public class Motor extends BlockAdvanced {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }
