@@ -1,6 +1,6 @@
 package pixlepix.complexmachines.common.laser.block;
 
-import pixlepix.complexmachines.common.ComplexMachines;
+import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.laser.tileentity.HarmingLaserBeamTileEntity;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,7 +22,7 @@ public class HarmingLaserBlock extends LaserBlock {
 	}
 
 	public HarmingLaserBlock() {
-		super(ComplexMachines.blockStartingID + 11);
+		super(Config.blockStartingID + 11);
 		this.setStepSound(soundMetalFootstep);
 		this.setUnlocalizedName("Harming Beam");
 	}

@@ -3,7 +3,7 @@ package pixlepix.complexmachines.common.block;
 import java.util.Random;
 
 import pixlepix.complexmachines.client.ClientProxy;
-import pixlepix.complexmachines.common.ComplexMachines;
+import pixlepix.complexmachines.common.Config;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.prefab.block.BlockAdvanced;
 import net.minecraft.block.BlockContainer;
@@ -33,7 +33,7 @@ public class FocalPoint extends BlockContainer {
 	}
 
 	public FocalPoint() {
-		super(ComplexMachines.blockStartingID + 3, UniversalElectricity.machine);
+		super(Config.blockStartingID + 3, UniversalElectricity.machine);
 		this.setUnlocalizedName("focal point");
 		this.setCreativeTab(CreativeTabs.tabMisc);
 	}
@@ -47,7 +47,7 @@ public class FocalPoint extends BlockContainer {
 			int par4, EntityPlayer par5EntityPlayer, int par6, float par7,
 			float par8, float par9) {
 		par1World.setBlock(par2, par3, par4,
-				ComplexMachines.blockStartingID + 8);
+				Config.blockStartingID + 8);
 		return true;
 	}
 

@@ -3,7 +3,7 @@ package pixlepix.complexmachines.common.laser.block;
 import java.util.Random;
 
 import pixlepix.complexmachines.client.ClientProxy;
-import pixlepix.complexmachines.common.ComplexMachines;
+import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.laser.tileentity.LaserBeamTileEntity;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.prefab.block.BlockAdvanced;
@@ -31,11 +31,10 @@ public class LaserBlock extends Block {
 		super(id, Material.portal);
 		this.setUnlocalizedName("Beam");
 		this.setLightValue(1.0F);
-		
 	}
 
 	public LaserBlock() {
-		super(ComplexMachines.blockStartingID + 9, UniversalElectricity.machine);
+		super(Config.blockStartingID + 9, UniversalElectricity.machine);
 		this.setStepSound(soundMetalFootstep);
 		this.setUnlocalizedName("Beam");
 		this.setLightValue(1.0F);

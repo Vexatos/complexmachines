@@ -2,7 +2,7 @@ package pixlepix.complexmachines.common.tileentity;
 
 import java.util.List;
 
-import pixlepix.complexmachines.common.ComplexMachines;
+import pixlepix.complexmachines.common.Config;
 
 import net.minecraft.tileentity.TileEntity;
 
@@ -36,7 +36,7 @@ public class FluxTileEntity extends TileEntity {
 			for(int i=0;i<8;i++){
 				
 				if(worldObj.getBlockId(blocks[i][0], y, blocks[i][1])==0){
-					worldObj.setBlock(blocks[i][0], y, blocks[i][1], ComplexMachines.blockStartingID+18);
+					worldObj.setBlock(blocks[i][0], y, blocks[i][1], Config.blockStartingID+18);
 					TileEntity targetTileEntity=worldObj.getBlockTileEntity(blocks[i][0], y, blocks[i][1]);
 				}
 			}

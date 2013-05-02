@@ -2,7 +2,7 @@ package pixlepix.complexmachines.common.laser;
 
 import java.util.Random;
 
-import pixlepix.complexmachines.common.ComplexMachines;
+import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.laser.tileentity.LaserBeamTileEntity;
 import pixlepix.complexmachines.common.laser.tileentity.SuctionLaserBeamTileEntity;
 import pixlepix.complexmachines.common.tileentity.FluxTileEntity;
@@ -68,7 +68,7 @@ public class LaserEmitterTileEntity extends TileEntityElectricityRunnable
 		super.updateEntity();
 		
 		if(worldObj.getTotalWorldTime()%200==0){
-			worldObj.notifyBlockChange(xCoord, yCoord, zCoord, ComplexMachines.blockStartingID+9);
+			worldObj.notifyBlockChange(xCoord, yCoord, zCoord, Config.blockStartingID+9);
 			
 			tripped=false;
 		}
@@ -113,57 +113,57 @@ public class LaserEmitterTileEntity extends TileEntityElectricityRunnable
 						switch(internalId){
 
 						case 276:
-							laserBeamId=ComplexMachines.blockStartingID+11;
+							laserBeamId=Config.blockStartingID+11;
 							break;
 						case 20:
-							laserBeamId=ComplexMachines.blockStartingID+12;
+							laserBeamId=Config.blockStartingID+12;
 							//System.out.println("Laser of glass");
 							break;
 						case 331:
-							laserBeamId=ComplexMachines.blockStartingID+14;
+							laserBeamId=Config.blockStartingID+14;
 							//System.out.println("Laser of glass");
 							break;
 						case 399:
-							laserBeamId=ComplexMachines.blockStartingID+13;
+							laserBeamId=Config.blockStartingID+13;
 							//System.out.println("Laser of glass");
 							break;
 						case 287:
-							laserBeamId=ComplexMachines.blockStartingID+20;
+							laserBeamId=Config.blockStartingID+20;
 							//System.out.println("Laser of glass");
 							break;
 						case 326:
-							laserBeamId=ComplexMachines.blockStartingID+16;
+							laserBeamId=Config.blockStartingID+16;
 							//System.out.println("Laser of glass");
 							break;
 						case 295:
-							laserBeamId=ComplexMachines.blockStartingID+18;
+							laserBeamId=Config.blockStartingID+18;
 							//System.out.println("Laser of glass");
 							break;
 						case 328:
-							laserBeamId=ComplexMachines.blockStartingID+17;
+							laserBeamId=Config.blockStartingID+17;
 							//System.out.println("Laser of glass");
 							break;
 						case 76:
-							laserBeamId=ComplexMachines.blockStartingID+21;
+							laserBeamId=Config.blockStartingID+21;
 							//System.out.println("Laser of glass");
 							break;
 							
 						case 4:
-							laserBeamId=ComplexMachines.blockStartingID+19;
+							laserBeamId=Config.blockStartingID+19;
 							//System.out.println("Laser of glass");
 							break;
 						case 278:
-							laserBeamId=ComplexMachines.blockStartingID+15;
+							laserBeamId=Config.blockStartingID+15;
 							//System.out.println("Laser of glass");
 							break;
 						default:
-							laserBeamId=ComplexMachines.blockStartingID+10;
+							laserBeamId=Config.blockStartingID+10;
 							break;
 
 
 						}
 						int max=30;
-						if(laserBeamId==ComplexMachines.blockStartingID+18){
+						if(laserBeamId==Config.blockStartingID+18){
 							max=3;
 						}
 						for (int i = 1; i < max; i++) {

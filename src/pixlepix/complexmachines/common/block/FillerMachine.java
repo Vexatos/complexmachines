@@ -1,7 +1,7 @@
 package pixlepix.complexmachines.common.block;
 
 import pixlepix.complexmachines.client.ClientProxy;
-import pixlepix.complexmachines.common.ComplexMachines;
+import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.tileentity.FillerMachineTileEntity;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.prefab.block.BlockAdvanced;
@@ -31,7 +31,7 @@ public class FillerMachine extends BlockAdvanced {
 	}
 
 	public FillerMachine() {
-		super(ComplexMachines.blockStartingID + 1, UniversalElectricity.machine);
+		super(Config.blockStartingID + 1, UniversalElectricity.machine);
 		this.setStepSound(soundMetalFootstep);
 		this.setUnlocalizedName("filler");
 		this.setCreativeTab(CreativeTabs.tabMisc);

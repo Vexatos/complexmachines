@@ -1,7 +1,11 @@
 package pixlepix.complexmachines.common;
 
 import pixlepix.complexmachines.client.GuiHandler;
+<<<<<<< HEAD
 import pixlepix.complexmachines.common.block.Controller;
+=======
+import pixlepix.complexmachines.common.Config;
+>>>>>>> f22a43eac325c67b0be8b6f33ba05a5f9560626a
 import pixlepix.complexmachines.common.block.ExtractorMachine;
 import pixlepix.complexmachines.common.block.FillerMachine;
 import pixlepix.complexmachines.common.block.Flux;
@@ -85,15 +89,8 @@ import cpw.mods.fml.relauncher.Side;
 @Mod(modid = "ComplexMachines", name = "Complex Machines", version = "0.3.3")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
 public class ComplexMachines {
-
-	public static int blockStartingID = 2770;
-	public static int singlePointRadius=5000;
 	private GuiHandler guiHandler = new GuiHandler();
-	
-	
-	private boolean vanillaRecipies;
-	public int itemStartingID;
-	public static int spawnProtectionRadius;
+
 	public static ComplexMachinesTab creativeTab = new ComplexMachinesTab();
 	
 	public static Item feller;
@@ -102,10 +99,13 @@ public class ComplexMachines {
 	
 	public static ModFlag flag;
 	
+<<<<<<< HEAD
 	public static Block controller;
 	public static Block motor;
 	
 	public static boolean worldGen;
+=======
+>>>>>>> f22a43eac325c67b0be8b6f33ba05a5f9560626a
 	public static Block flux;
 	public static Block tripwireLaser;
 	public static Block stoneLaser;
@@ -129,75 +129,79 @@ public class ComplexMachines {
 	public static Block singlePoint;
 	
 	public void loadBlocks(){
-	flux = new Flux(blockStartingID + 18)
+	flux = new Flux(Config.blockStartingID + 18)
 			.setHardness(0.5F).setStepSound(Block.soundGravelFootstep).setCreativeTab(creativeTab);
 
-	tripwireLaser = new TripwireLaserBlock(blockStartingID + 20)
+	tripwireLaser = new TripwireLaserBlock(Config.blockStartingID + 20)
 			.setHardness(0.5F).setStepSound(Block.soundGravelFootstep);
-	stoneLaser = new StoneLaserBlock(blockStartingID + 19)
+	stoneLaser = new StoneLaserBlock(Config.blockStartingID + 19)
 			.setHardness(0.5F).setStepSound(Block.soundGravelFootstep);
-	suctionLaser = new SuctionLaserBlock(blockStartingID + 17)
+	suctionLaser = new SuctionLaserBlock(Config.blockStartingID + 17)
 			.setHardness(0.5F).setStepSound(Block.soundGravelFootstep);
-	electricLaser = new ElecrtricLaserBlock(blockStartingID + 16)
+	electricLaser = new ElecrtricLaserBlock(Config.blockStartingID + 16)
 			.setHardness(0.5F).setStepSound(Block.soundGravelFootstep);
-	miningLaser = new MiningLaserBlock(blockStartingID + 15)
+	miningLaser = new MiningLaserBlock(Config.blockStartingID + 15)
 			.setHardness(0.5F).setStepSound(Block.soundGravelFootstep);
-	redstoneLaser = new RedstoneLaserBlock(blockStartingID + 14)
-			.setHardness(0.5F).setStepSound(Block.soundGravelFootstep);
-
-	debuffLaser = new DebuffLaserBlock(blockStartingID + 13)
+	redstoneLaser = new RedstoneLaserBlock(Config.blockStartingID + 14)
 			.setHardness(0.5F).setStepSound(Block.soundGravelFootstep);
 
-	grinder = new Grinder(blockStartingID + 7)
+	debuffLaser = new DebuffLaserBlock(Config.blockStartingID + 13)
+			.setHardness(0.5F).setStepSound(Block.soundGravelFootstep);
+
+	grinder = new Grinder(Config.blockStartingID + 7)
 			.setHardness(0.5F).setStepSound(Block.soundGravelFootstep)
 			.setCreativeTab(creativeTab);
 	
 
+<<<<<<< HEAD
 	controller = new Controller(blockStartingID + 23)
 			.setHardness(0.5F).setStepSound(Block.soundGravelFootstep)
 			.setCreativeTab(creativeTab);
 	
 
 	chargingLaser = new ChargingLaserBlock(blockStartingID + 21)
+=======
+	chargingLaser = new ChargingLaserBlock(Config.blockStartingID + 21)
+>>>>>>> f22a43eac325c67b0be8b6f33ba05a5f9560626a
 			.setHardness(0.5F).setStepSound(Block.soundGravelFootstep);
 	
 	focalPointControlled = new FocalPointControlled(
-			blockStartingID + 8).setHardness(0.5F)
+			Config.blockStartingID + 8).setHardness(0.5F)
 			.setStepSound(Block.soundGravelFootstep)
 			.setCreativeTab(creativeTab);
 
-	focalPoint = new FocalPoint(blockStartingID + 3)
+	focalPoint = new FocalPoint(Config.blockStartingID + 3)
 			.setHardness(0.5F).setStepSound(Block.soundGravelFootstep)
 			.setCreativeTab(creativeTab);
 
 	laserEmitter = new LaserEmitter(
-			blockStartingID + 9).setHardness(0.5F)
+			Config.blockStartingID + 9).setHardness(0.5F)
 			.setStepSound(Block.soundGravelFootstep)
 			.setCreativeTab(creativeTab);
 
-	laserBlock = new LaserBlock(blockStartingID + 10)
+	laserBlock = new LaserBlock(Config.blockStartingID + 10)
 			.setHardness(0.5F).setStepSound(Block.soundGravelFootstep);
 
-	glassLaserBlock = new GlassLaserBlock(blockStartingID+12)
+	glassLaserBlock = new GlassLaserBlock(Config.blockStartingID+12)
 			.setHardness(0.5F).setStepSound(Block.soundGravelFootstep);
 	
-	harmingLaserBlock = new HarmingLaserBlock(blockStartingID + 11)
+	harmingLaserBlock = new HarmingLaserBlock(Config.blockStartingID + 11)
 	.setHardness(0.5F).setStepSound(Block.soundGravelFootstep);
 
 
 
 	extractorMachine = new ExtractorMachine(
-			blockStartingID + 2).setHardness(0.5F)
+			Config.blockStartingID + 2).setHardness(0.5F)
 			.setStepSound(Block.soundGravelFootstep)
 			.setCreativeTab(creativeTab);
 
 	fillerMachine = new FillerMachine(
-			blockStartingID + 1).setHardness(0.5F)
+			Config.blockStartingID + 1).setHardness(0.5F)
 			.setStepSound(Block.soundGravelFootstep)
 			.setCreativeTab(creativeTab);
 
 	replacerMachine = new ReplacerMachine(
-			blockStartingID + 6).setHardness(0.5F)
+			Config.blockStartingID + 6).setHardness(0.5F)
 			.setStepSound(Block.soundGravelFootstep)
 			.setCreativeTab(creativeTab);
 	
@@ -206,20 +210,20 @@ public class ComplexMachines {
 			.setStepSound(Block.soundGravelFootstep)
 			.setCreativeTab(creativeTab);
 	oceanGenerator = new OceanGenerator(
-			blockStartingID + 5).setHardness(0.5F)
+			Config.blockStartingID + 5).setHardness(0.5F)
 			.setStepSound(Block.soundGravelFootstep)
 			.setCreativeTab(creativeTab);
 
 	singlePoint = new SinglePointGenerator(
-			blockStartingID + 4).setHardness(0.5F)
+			Config.blockStartingID + 4).setHardness(0.5F)
 			.setStepSound(Block.soundGravelFootstep)
 			.setCreativeTab(creativeTab);
 	
-	feller=new FellerItem(itemStartingID+1);
+	feller=new FellerItem(Config.itemStartingID+1);
 
-	clusterMiner=new ClusterMinerItem(itemStartingID+2);
+	clusterMiner=new ClusterMinerItem(Config.itemStartingID+2);
 
-	cubeFormer=new CubeFormerItem(itemStartingID+3);
+	cubeFormer=new CubeFormerItem(Config.itemStartingID+3);
 
 	
 	}
@@ -235,24 +239,14 @@ public class ComplexMachines {
 	
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
-		Configuration config = new Configuration(
-				event.getSuggestedConfigurationFile());
-		config.load();
-
-		worldGen = config.get(Configuration.CATEGORY_GENERAL, "Focal point generation ", false).getBoolean(true);
-		vanillaRecipies = config.get(Configuration.CATEGORY_GENERAL, "Vanilla (Easy) Recipies Enabled ", false).getBoolean(true);
-		blockStartingID = config.getBlock("BlockStartingID", 2770).getInt();
-		spawnProtectionRadius = config.get(Configuration.CATEGORY_GENERAL, "Spawn Protection Radius", 0).getInt();
-		singlePointRadius = config.get(Configuration.CATEGORY_GENERAL, "Single point generator radius ", 5000).getInt();
-		itemStartingID = config.get(Configuration.CATEGORY_GENERAL, "ItemStartingID", 11670).getInt();
-		System.out.println(blockStartingID);
+		Config.configure(event);
+		System.out.println(Config.blockStartingID);
 		loadBlocks();
-		config.save();
 	}
 
 	public static boolean isProtected(int x, int z){
 		int distance=(int) Math.sqrt((x*x)+(z*z));
-		if(distance<spawnProtectionRadius){
+		if(distance<Config.spawnProtectionRadius){
 			return true;
 		}
 		return false;
@@ -386,17 +380,17 @@ public class ComplexMachines {
 		ItemStack steelPlate = new ItemStack(14239, 1, 3);
 		ItemStack stone = new ItemStack(1, 1, 0);
 		ItemStack basicCircuit = new ItemStack(14229, 1, 0);
-		ItemStack result = new ItemStack(blockStartingID + 1, 1, 0);
+		ItemStack result = new ItemStack(Config.blockStartingID + 1, 1, 0);
 		ItemStack eliteCircuit = new ItemStack(14229, 1, 2);
 		ItemStack diamondPickaxe = new ItemStack(278, 1, 0);
-		ItemStack extractor = new ItemStack(blockStartingID + 2, 1, 0);
+		ItemStack extractor = new ItemStack(Config.blockStartingID + 2, 1, 0);
 		ItemStack waterBucket = new ItemStack(326, 1, 0);
 		ItemStack advancedCircuit = new ItemStack(14229, 1, 1);
-		ItemStack singlePoint = new ItemStack(blockStartingID + 4, 1, 0);
-		ItemStack oceanGenerator = new ItemStack(blockStartingID + 5, 1, 0);
-		ItemStack replacerMachine = new ItemStack(blockStartingID + 6, 1, 0);
-		ItemStack grinder = new ItemStack(blockStartingID + 7, 1, 0);
-		ItemStack emitter = new ItemStack(blockStartingID + 9, 1, 0);
+		ItemStack singlePoint = new ItemStack(Config.blockStartingID + 4, 1, 0);
+		ItemStack oceanGenerator = new ItemStack(Config.blockStartingID + 5, 1, 0);
+		ItemStack replacerMachine = new ItemStack(Config.blockStartingID + 6, 1, 0);
+		ItemStack grinder = new ItemStack(Config.blockStartingID + 7, 1, 0);
+		ItemStack emitter = new ItemStack(Config.blockStartingID + 9, 1, 0);
 		ItemStack glowstone = new ItemStack(Block.blocksList[89]);
 		ItemStack diamond = new ItemStack(Item.diamond);
 		ItemStack diamondBlock = new ItemStack(57,1,0);
@@ -408,7 +402,7 @@ public class ComplexMachines {
 		ItemStack clusterMinerCrafting=new ItemStack(clusterMiner);
 		ItemStack cubeFormerCrafting=new ItemStack(cubeFormer);
 		
-		if(vanillaRecipies){
+		if(Config.vanillaRecipies){
 			GameRegistry.addRecipe(emitter, "xyx", "yzy", "xyx", 'x', diamond, 'y',
 					glowstone, 'z', diamondBlock);
 			

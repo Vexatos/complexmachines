@@ -3,7 +3,7 @@ package pixlepix.complexmachines.common.block;
 import java.util.Random;
 
 import pixlepix.complexmachines.client.ClientProxy;
-import pixlepix.complexmachines.common.ComplexMachines;
+import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.tileentity.SinglePointTileEntity;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.prefab.block.BlockAdvanced;
@@ -34,7 +34,7 @@ public class SinglePointGenerator extends BlockAdvanced {
 	}
 
 	public SinglePointGenerator() {
-		super(ComplexMachines.blockStartingID + 4, UniversalElectricity.machine);
+		super(Config.blockStartingID + 4, UniversalElectricity.machine);
 		// this.setStepSound(soundMetalFootstep);
 		this.setUnlocalizedName("Single point generator");
 		this.setCreativeTab(CreativeTabs.tabMisc);
