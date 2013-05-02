@@ -114,12 +114,12 @@ public class Controller extends BlockAdvanced {
 	 */
 	@Override
 	public boolean isOpaqueCube() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean renderAsNormalBlock() {
-		return false;
+		return true;
 	}
 
 	@Override

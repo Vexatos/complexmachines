@@ -383,6 +383,7 @@ public class ComplexMachines {
 		ItemStack replacerMachine = new ItemStack(Config.blockStartingID + 6, 1, 0);
 		ItemStack grinder = new ItemStack(Config.blockStartingID + 7, 1, 0);
 		ItemStack emitter = new ItemStack(Config.blockStartingID + 9, 1, 0);
+		ItemStack motorCrafting = new ItemStack(14240,1,0);
 		ItemStack glowstone = new ItemStack(Block.blocksList[89]);
 		ItemStack diamond = new ItemStack(Item.diamond);
 		ItemStack diamondBlock = new ItemStack(57,1,0);
@@ -392,6 +393,10 @@ public class ComplexMachines {
 		ItemStack fellerCrafting=new ItemStack(feller);
 		ItemStack axe=new ItemStack(Item.axeDiamond);
 		ItemStack clusterMinerCrafting=new ItemStack(clusterMiner);
+		ItemStack airshipMotorCrafting=new ItemStack(motor);
+
+		ItemStack airshipMotorCraftingOutput=new ItemStack(motor,64);
+		ItemStack airshipControllerCrafting=new ItemStack(controller);
 		ItemStack cubeFormerCrafting=new ItemStack(cubeFormer);
 		
 		if(Config.vanillaRecipies){
@@ -423,6 +428,9 @@ public class ComplexMachines {
 		}
 		
 		
+		
+		GameRegistry.addRecipe(airshipControllerCrafting, "xxx", "xyx", "xxx", 'x', steelPlate, 'y', airshipMotorCrafting);
+		GameRegistry.addRecipe(airshipMotorCraftingOutput, "xyx", "yzy", "xyx", 'x', basicCircuit, 'y', steelPlate, 'z', motorCrafting);
 
 		GameRegistry.addRecipe(clusterMinerCrafting, "xxx", "xyx", "xxx", 'x', basicCircuit, 'y', diamondPickaxe);
 		GameRegistry.addRecipe(fellerCrafting, "xxx", "xyx", "xxx", 'x', basicCircuit, 'y', axe);

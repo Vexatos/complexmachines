@@ -68,53 +68,21 @@ public class ControllerTileEntity extends TileEntityElectricityRunnable implemen
 					inputNetwork.stopRequesting(this);
 				}
 		if(worldObj.getTotalWorldTime()%100==0&&getJoules()>10000){
-			ArrayList<ForgeDirection> directions=new ArrayList();
-			/*if(worldObj.getIndirectPowerLevelTo(xCoord, yCoord, zCoord, 0)>0){
-				directions.add(ForgeDirection.UP);
+			ForgeDirection[] directions={ForgeDirection.DOWN,ForgeDirection.UP,ForgeDirection.EAST,ForgeDirection.WEST,ForgeDirection.NORTH,ForgeDirection.SOUTH};
+			
+			for(ForgeDirection movementDirection:directions){
+				if(worldObj.getIndirectPowerOutput(xCoord+movementDirection.offsetX, yCoord+movementDirection.offsetY, zCoord+movementDirection.offsetZ, movementDirection.ordinal())){
+					moveDirection(movementDirection);
+				}
 			}
 			
-			if(worldObj.getIndirectPowerLevelTo(xCoord, yCoord, zCoord, 1)>0){
-				directions.add(ForgeDirection.DOWN);
-				System.out.println("Activated");
-			}
-			if(worldObj.getIndirectPowerLevelTo(xCoord, yCoord, zCoord, 2)>0){
-				directions.add(ForgeDirection.NORTH);
-				System.out.println("Activated");
-			}
-			if(worldObj.getIndirectPowerLevelTo(xCoord, yCoord, zCoord, 3)>0){
-				directions.add(ForgeDirection.SOUTH);
-				System.out.println("Activated");
-			}
-			if(worldObj.getIndirectPowerLevelTo(xCoord, yCoord, zCoord, 4)>0){
-				directions.add(ForgeDirection.WEST);
-				System.out.println("Activated");
-			}
-			if(worldObj.getIndirectPowerLevelTo(xCoord, yCoord, zCoord, 5)>0){
-				directions.add(ForgeDirection.EAST);
-				System.out.println("Activated");
-			}
-			*/
-			ForgeDirection movementDirection=ForgeDirection.DOWN;
+			
+			/*ForgeDirection movementDirection=ForgeDirection.DOWN;
 			if(worldObj.getBlockPowerInput(xCoord, yCoord, zCoord)>0){
 				movementDirection=ForgeDirection.UP;
 			}
-			int max=yCoord+10;
-			if(movementDirection.offsetY==-1){
-				max=yCoord+15;
-				
-			}
-				setJoules(getJoules()-10000);
-				for(int i=xCoord-10;i<xCoord+10;i++){
-					
-					for(int j=yCoord-10;j<max;j++){
-						for(int k=zCoord-10;k<zCoord+10;k++){
-							if(worldObj.getBlockTileEntity(i, j, k)instanceof MotorTileEntity){
-								
-								((MotorTileEntity)worldObj.getBlockTileEntity(i, j, k)).move(movementDirection);
-								
-							}
-						}
-					}
+			*/
+			
 					
 				}
 				
@@ -123,9 +91,60 @@ public class ControllerTileEntity extends TileEntityElectricityRunnable implemen
 			
 		}
 		}
-		}
+		
 	
+			
 	
+			public void moveDirection(ForgeDirection movementDirection){
+				System.out.println(movementDirection);
+				
+
+				int xMax=xCoord+20;
+				int xMin=xCoord-20;
+				
+				int yMax=yCoord+20;
+				int yMin=yCoord-20;
+				
+
+				int zMax=zCoord+20;
+				int zMin=zCoord-20;
+				
+				if(movementDirection.offsetX>0){
+					xMin-=5;
+				}
+				if(movementDirection.offsetX<0){
+					xMin+=5;
+				}
+				if(movementDirection.offsetY>0){
+					yMin-=5;
+				}
+				if(movementDirection.offsetY<0){
+					yMin+=5;
+				}
+				if(movementDirection.offsetZ>0){
+					zMin-=5;
+				}
+				if(movementDirection.offsetZ<0){
+					zMin+=5;
+				}
+				
+					setJoules(getJoules()-10000);
+					for(int i=xMin;i<xMax;i++){
+						for(int j=yMin;j<yMax;j++){
+							for(int k=zMin;k<zMax;k++){
+								
+								
+								if(worldObj.getBlockTileEntity(i, j, k)instanceof MotorTileEntity){
+									
+									((MotorTileEntity)worldObj.getBlockTileEntity(i, j, k)).move(movementDirection);
+									
+								}
+							}
+							}
+					}
+				
+				
+			}
 
 
 
