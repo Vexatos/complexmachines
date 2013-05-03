@@ -31,7 +31,10 @@ public class MotorTileEntity extends TileEntity {
 		int targetX = target.x+direction.offsetX;
 		int targetY = target.y+direction.offsetY;
 		int targetZ = target.z+direction.offsetZ;
-		if(worldObj.getBlockId(targetX, targetY, targetZ)==8||worldObj.getBlockId(targetX, targetY, targetZ)==10||worldObj.getBlockId(targetX, targetY, targetZ)==0||(worldObj.getBlockTileEntity(targetX, targetY, targetZ) instanceof MotorTileEntity&&center)){
+
+		int meta=worldObj.getBlockMetadata(target.x,target.y,target.z);
+		int targetId=worldObj.getBlockId(targetX, targetY, targetZ);
+		if((targetId>7&&targetId<12)||targetId==0||(worldObj.getBlockTileEntity(targetX, targetY, targetZ) instanceof MotorTileEntity&&center)){
 			AirshipBlockRegistry.register(targetX, targetY, targetZ);
 			int materialId=worldObj.getBlockId(target.x, target.y, target.z);
 			
@@ -39,7 +42,6 @@ public class MotorTileEntity extends TileEntity {
 			Block targetBlockType = this.blockType;
 			TileEntity newEntity=worldObj.getBlockTileEntity(targetX, targetY, targetZ);
 		
-			int meta=worldObj.getBlockMetadata(targetX,targetY,targetZ);
 			//System.out.println(meta);
 			worldObj.setBlock(targetX, targetY, targetZ, materialId);
 			worldObj.setBlockMetadataWithNotify(targetX, targetY, targetZ, meta, 2);
