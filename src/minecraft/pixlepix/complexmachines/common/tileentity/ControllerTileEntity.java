@@ -3,6 +3,8 @@ package pixlepix.complexmachines.common.tileentity;
 import java.util.ArrayList;
 import java.util.List;
 
+import pixlepix.complexmachines.common.AirshipBlockRegistry;
+
 import com.google.common.io.ByteArrayDataInput;
 
 import universalelectricity.core.UniversalElectricity;
@@ -67,6 +69,10 @@ public class ControllerTileEntity extends TileEntityElectricityRunnable implemen
 				} else {
 					inputNetwork.stopRequesting(this);
 				}
+
+			if(worldObj.getTotalWorldTime()%100==96){
+				AirshipBlockRegistry.empty();
+			}
 		if(worldObj.getTotalWorldTime()%100==0&&getJoules()>10000){
 			ForgeDirection[] directions={ForgeDirection.DOWN,ForgeDirection.UP,ForgeDirection.EAST,ForgeDirection.WEST,ForgeDirection.NORTH,ForgeDirection.SOUTH};
 			
