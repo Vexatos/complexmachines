@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pixlepix.complexmachines.common.AirshipBlockRegistry;
+import pixlepix.complexmachines.common.AirshipDelayedBlock;
 import pixlepix.complexmachines.common.CoordTuple;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
@@ -16,6 +18,8 @@ import net.minecraftforge.common.ForgeDirection;
 public class MotorTileEntity extends TileEntity {
 	
 	public int ticks=0;
+	public int momentum;
+	public ForgeDirection momentumDirection;
 	
 	public void initiate() {
 		
@@ -23,6 +27,9 @@ public class MotorTileEntity extends TileEntity {
 	}
 	
 	public void updateEntity(){
+		if(ticks<0){
+			
+		}
 		ticks--;
 	}
 	
@@ -37,36 +44,62 @@ public class MotorTileEntity extends TileEntity {
 		if((targetId>7&&targetId<12)||targetId==0||(worldObj.getBlockTileEntity(targetX, targetY, targetZ) instanceof MotorTileEntity&&center)){
 			AirshipBlockRegistry.register(targetX, targetY, targetZ);
 			int materialId=worldObj.getBlockId(target.x, target.y, target.z);
-			
+			TileEntity oldEntity=worldObj.getBlockTileEntity(target.x, target.y, target.z);
+			NBTTagList list=new NBTTagList();
+			Class oClass=null;
 			NBTTagCompound data=new NBTTagCompound();
+			if(oldEntity != null){
+				oClass=oldEntity.getClass();
+				oldEntity.writeToNBT(data);
+				list.appendTag(data);
+				oldEntity.invalidate();
+			}
 			Block targetBlockType = this.blockType;
-			TileEntity newEntity=worldObj.getBlockTileEntity(targetX, targetY, targetZ);
-		
-			//System.out.println(meta);
-			worldObj.setBlock(targetX, targetY, targetZ, materialId);
-			worldObj.setBlockMetadataWithNotify(targetX, targetY, targetZ, meta, 2);
+			/*if(AirshipDelayedBlock.shouldBeDelayed(materialId)){
+				AirshipBlockRegistry.addDelayed(new AirshipDelayedBlock(targetX,targetY,targetZ,materialId,meta, worldObj));
+				worldObj.setBlock(target.x, target.y, target.z, 0);
+				System.out.println(worldObj);
+				return;
+			}
+			*/
+			worldObj.setBlock(targetX, targetY, targetZ, materialId, meta, 2);
+			if(worldObj.getBlockTileEntity(targetX, targetY, targetZ) instanceof MotorTileEntity){
+				((MotorTileEntity)worldObj.getBlockTileEntity(targetX, targetY, targetZ)).momentum=this.momentum;
+				((MotorTileEntity)worldObj.getBlockTileEntity(targetX, targetY, targetZ)).momentumDirection=this.momentumDirection;
+			}
+			worldObj.setBlock(target.x, target.y, target.z, 0);
 			
 			
-			TileEntity oldEntity=worldObj.getBlockTileEntity(targetX, targetY, targetZ);
 			//if(newEntity!=null&&!(newEntity instanceof MotorTileEntity)){
-			if(newEntity!=null){
+			if(list.tagCount()>0){
+				NBTTagCompound restoreData=(NBTTagCompound) list.tagAt(0);
+				TileEntity newEntity=null;
+                try {
+					newEntity = (TileEntity)oClass.newInstance();
+				} catch (InstantiationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+                newEntity.readFromNBT(data);
 				newEntity.xCoord=targetX;
 				newEntity.yCoord=targetY;
 				newEntity.zCoord=targetZ;
-				
-				
+				worldObj.getBlockTileEntity(targetX, targetY, targetZ).invalidate();
 				worldObj.setBlockTileEntity(targetX, targetY, targetZ, newEntity);
+				
 			}
-
-			worldObj.setBlock(target.x, target.y, target.z, 0);
 		}
 		}
 	}
 	
 	public void move(ForgeDirection direction){
+		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
 		if(ticks<0){
 			ticks=3;
-			CoordTuple[] nearby={new CoordTuple(xCoord+1,yCoord,zCoord+1),new CoordTuple(xCoord+1,yCoord,zCoord-1),new CoordTuple(xCoord-1,yCoord,zCoord+1),new CoordTuple(xCoord-1,yCoord,zCoord-1),new CoordTuple(xCoord+1,yCoord,zCoord),new CoordTuple(xCoord-1,yCoord,zCoord),new CoordTuple(xCoord,yCoord+1,zCoord),new CoordTuple(xCoord,yCoord-1,zCoord),new CoordTuple(xCoord,yCoord,zCoord+1),new CoordTuple(xCoord,yCoord,zCoord-1)};
+			//xCoordTuple[] nearby={new CoordTuple(xCoord+1,yCoord,zCoord+1),new CoordTuple(xCoord+1,yCoord,zCoord-1),new CoordTuple(xCoord-1,yCoord,zCoord+1),new CoordTuple(xCoord-1,yCoord,zCoord-1),new CoordTuple(xCoord+1,yCoord,zCoord),new CoordTuple(xCoord-1,yCoord,zCoord),new CoordTuple(xCoord,yCoord+1,zCoord),new CoordTuple(xCoord,yCoord-1,zCoord),new CoordTuple(xCoord,yCoord,zCoord+1),new CoordTuple(xCoord,yCoord,zCoord-1)};
 			ArrayList<CoordTuple> near=new ArrayList<CoordTuple>();
 			int xMin=xCoord-2;
 			int yMin=yCoord-2;
@@ -106,7 +139,7 @@ public class MotorTileEntity extends TileEntity {
 			if(!reverse){
 				for(int i=xCoord-2;i<xCoord+3;i++){
 					for(int j=yCoord-2;j<yCoord+3;j++){
-						System.out.println("Second loop");
+					
 						for(int k=zCoord-2;k<zCoord+3;k++){
 							register(i,j,k,near);
 							
@@ -146,14 +179,16 @@ public class MotorTileEntity extends TileEntity {
 			List<Entity> entities=worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(xCoord-1.5, yCoord-1.5, zCoord-1.5, xCoord+1.5, yCoord+1.5, zCoord+1.5));
 			for(int i=0;i<entities.size();i++){
 				Entity entity=entities.get(i);
-				entity.setPosition(entity.posX, entity.posY+2, entity.posZ);
+				entity.setPosition(entity.posX+direction.offsetX, entity.posY+direction.offsetY, entity.posZ+direction.offsetZ);
 			}
+			this.momentum=150;
+			this.momentumDirection=direction;
 		}
 	}
 
 	private void register(int i, int j, int k, ArrayList near) {
 		if(xCoord!=i||yCoord!=j||zCoord!=k){
-			System.out.println("X: "+i+"Y: "+j+"Z:");
+			
 			if(worldObj.getBlockId(i, j, k)!=0){
 				near.add(new CoordTuple(i,j,k));
 			}

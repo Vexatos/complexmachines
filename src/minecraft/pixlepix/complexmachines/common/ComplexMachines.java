@@ -99,7 +99,7 @@ public class ComplexMachines {
 	
 	public static Block controller;
 	public static Block motor;
-	
+
 	public static boolean worldGen;
 	public static Block flux;
 	public static Block tripwireLaser;

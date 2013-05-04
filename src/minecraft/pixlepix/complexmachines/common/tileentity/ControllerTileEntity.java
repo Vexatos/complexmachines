@@ -73,6 +73,10 @@ public class ControllerTileEntity extends TileEntityElectricityRunnable implemen
 			if(worldObj.getTotalWorldTime()%100==96){
 				AirshipBlockRegistry.empty();
 			}
+			if(worldObj.getTotalWorldTime()%100==5){
+				System.out.println("Placing delayed blocks");
+				AirshipBlockRegistry.placeDelayed();
+			}
 		if(worldObj.getTotalWorldTime()%100==0&&getJoules()>10000){
 			ForgeDirection[] directions={ForgeDirection.DOWN,ForgeDirection.UP,ForgeDirection.EAST,ForgeDirection.WEST,ForgeDirection.NORTH,ForgeDirection.SOUTH};
 			
@@ -102,7 +106,7 @@ public class ControllerTileEntity extends TileEntityElectricityRunnable implemen
 			
 	
 			public void moveDirection(ForgeDirection movementDirection){
-				System.out.println(movementDirection);
+				
 				
 
 				int xMax=xCoord+20;
