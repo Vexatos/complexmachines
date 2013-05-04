@@ -38,7 +38,9 @@ public class MotorTileEntity extends TileEntity {
 		int targetX = target.x+direction.offsetX;
 		int targetY = target.y+direction.offsetY;
 		int targetZ = target.z+direction.offsetZ;
-
+		
+		
+		
 		int meta=worldObj.getBlockMetadata(target.x,target.y,target.z);
 		int targetId=worldObj.getBlockId(targetX, targetY, targetZ);
 		if((targetId>7&&targetId<12)||targetId==0||(worldObj.getBlockTileEntity(targetX, targetY, targetZ) instanceof MotorTileEntity&&center)){
@@ -62,7 +64,7 @@ public class MotorTileEntity extends TileEntity {
 				return;
 			}
 			*/
-			worldObj.setBlock(targetX, targetY, targetZ, materialId, meta, 2);
+			worldObj.setBlock(targetX, targetY, targetZ, materialId, meta, 3);
 			if(worldObj.getBlockTileEntity(targetX, targetY, targetZ) instanceof MotorTileEntity){
 				((MotorTileEntity)worldObj.getBlockTileEntity(targetX, targetY, targetZ)).momentum=this.momentum;
 				((MotorTileEntity)worldObj.getBlockTileEntity(targetX, targetY, targetZ)).momentumDirection=this.momentumDirection;
@@ -73,21 +75,12 @@ public class MotorTileEntity extends TileEntity {
 			//if(newEntity!=null&&!(newEntity instanceof MotorTileEntity)){
 			if(list.tagCount()>0){
 				NBTTagCompound restoreData=(NBTTagCompound) list.tagAt(0);
-				TileEntity newEntity=null;
-                try {
-					newEntity = (TileEntity)oClass.newInstance();
-				} catch (InstantiationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				TileEntity newEntity=worldObj.getBlockTileEntity(targetX, targetY, targetZ);
+               
                 newEntity.readFromNBT(data);
 				newEntity.xCoord=targetX;
 				newEntity.yCoord=targetY;
 				newEntity.zCoord=targetZ;
-				worldObj.getBlockTileEntity(targetX, targetY, targetZ).invalidate();
 				worldObj.setBlockTileEntity(targetX, targetY, targetZ, newEntity);
 				
 			}
@@ -141,7 +134,10 @@ public class MotorTileEntity extends TileEntity {
 					for(int j=yCoord-2;j<yCoord+3;j++){
 					
 						for(int k=zCoord-2;k<zCoord+3;k++){
-							register(i,j,k,near);
+
+							if(!isTrailing(i,j,k,direction)){
+								register(i,j,k,near);
+							}
 							
 						}	
 					}
@@ -151,7 +147,9 @@ public class MotorTileEntity extends TileEntity {
 				for(int i=xCoord+2;i>xCoord-3;i--){
 					for(int j=yCoord+2;j>yCoord-3;j--){
 						for(int k=zCoord+2;k>zCoord-3;k--){
-							register(i,j,k,near);
+							if(!isTrailing(i,j,k,direction)){
+								register(i,j,k,near);
+							}
 							
 						}	
 					}
@@ -175,17 +173,33 @@ public class MotorTileEntity extends TileEntity {
 			moveBlock(direction, new CoordTuple(xCoord-direction.offsetX,yCoord-direction.offsetY,zCoord-direction.offsetZ),true);
 			moveBlock(direction, new CoordTuple(xCoord-2*direction.offsetX,yCoord-2*direction.offsetY,zCoord-2*direction.offsetZ),true);
 			moveBlock(direction, new CoordTuple(xCoord-3*direction.offsetX,yCoord-3*direction.offsetY,zCoord-3*direction.offsetZ),true);
-
+			if(direction.offsetY==1){
 			List<Entity> entities=worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(xCoord-1.5, yCoord-1.5, zCoord-1.5, xCoord+1.5, yCoord+1.5, zCoord+1.5));
-			for(int i=0;i<entities.size();i++){
-				Entity entity=entities.get(i);
-				entity.setPosition(entity.posX+direction.offsetX, entity.posY+direction.offsetY, entity.posZ+direction.offsetZ);
+				for(int i=0;i<entities.size();i++){
+					
+					Entity entity=entities.get(i);
+					entity.setPosition(entity.posX, entity.posY+1.5, entity.posZ);
+				}
 			}
 			this.momentum=150;
 			this.momentumDirection=direction;
 		}
 	}
 
+	public boolean isTrailing(int x,int y, int z, ForgeDirection direction){
+		if(x==xCoord-direction.offsetX&&y==yCoord-direction.offsetY&&z==zCoord-direction.offsetZ){
+			return true;
+		}
+		if(x==xCoord-2*direction.offsetX&&y==yCoord-2*direction.offsetY&&z==zCoord-2*direction.offsetZ){
+			return true;
+		}
+		if(x==xCoord-3*direction.offsetX&&y==yCoord-3*direction.offsetY&&z==zCoord-3*direction.offsetZ){
+			return true;
+		}
+		return false;
+	}
+	
+	
 	private void register(int i, int j, int k, ArrayList near) {
 		if(xCoord!=i||yCoord!=j||zCoord!=k){
 			
