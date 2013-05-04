@@ -48,10 +48,8 @@ public class MotorTileEntity extends TileEntity {
 			int materialId=worldObj.getBlockId(target.x, target.y, target.z);
 			TileEntity oldEntity=worldObj.getBlockTileEntity(target.x, target.y, target.z);
 			NBTTagList list=new NBTTagList();
-			Class oClass=null;
 			NBTTagCompound data=new NBTTagCompound();
 			if(oldEntity != null){
-				oClass=oldEntity.getClass();
 				oldEntity.writeToNBT(data);
 				list.appendTag(data);
 				oldEntity.invalidate();
@@ -64,12 +62,9 @@ public class MotorTileEntity extends TileEntity {
 				return;
 			}
 			*/
-			worldObj.setBlock(targetX, targetY, targetZ, materialId, meta, 3);
-			if(worldObj.getBlockTileEntity(targetX, targetY, targetZ) instanceof MotorTileEntity){
-				((MotorTileEntity)worldObj.getBlockTileEntity(targetX, targetY, targetZ)).momentum=this.momentum;
-				((MotorTileEntity)worldObj.getBlockTileEntity(targetX, targetY, targetZ)).momentumDirection=this.momentumDirection;
-			}
+
 			worldObj.setBlock(target.x, target.y, target.z, 0);
+			worldObj.setBlock(targetX, targetY, targetZ, materialId, meta, 3);
 			
 			
 			//if(newEntity!=null&&!(newEntity instanceof MotorTileEntity)){
