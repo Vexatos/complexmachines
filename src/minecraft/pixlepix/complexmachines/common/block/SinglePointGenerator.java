@@ -33,6 +33,14 @@ public class SinglePointGenerator extends BlockAdvanced {
 		this.setCreativeTab(CreativeTabs.tabMisc);
 	}
 
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister par1IconRegister) {
+
+		blockIcon = par1IconRegister
+				.registerIcon("ComplexMachines:SingleModel");
+	}
+	
 	public SinglePointGenerator() {
 		super(Config.blockStartingID + 4, UniversalElectricity.machine);
 		// this.setStepSound(soundMetalFootstep);
@@ -81,15 +89,7 @@ public class SinglePointGenerator extends BlockAdvanced {
 	 * 
 	 * return true; }
 	 */
-	@Override
-	public boolean isOpaqueCube() {
-		return true;
-	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
+	
 
 	@Override
 	public TileEntity createTileEntity(World var1, int metadata) {
@@ -108,6 +108,24 @@ public class SinglePointGenerator extends BlockAdvanced {
 	 * 
 	 * @Override public int getRenderType() { return ClientProxy.RENDER_ID; }
 	 */
+	
+	@Override
+	public boolean renderAsNormalBlock(){
+		return false;
+	}
+	
+	@Override
+	public boolean isOpaqueCube(){
+		return false;
+	}
+	
+	 @SideOnly(Side.CLIENT)
+	    @Override
+	    public int getRenderType()
+	    {
+	        return ClientProxy.RENDER_ID;
+	    }
+	/*
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {
@@ -131,6 +149,7 @@ public class SinglePointGenerator extends BlockAdvanced {
 			return blockIcon;
 		}
 	}
+	*/
 	@Override
     public boolean onUseWrench(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side,
             float hitX, float hitY, float hitZ)

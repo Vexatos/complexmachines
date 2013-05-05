@@ -151,15 +151,6 @@ public class LaserEmitter extends BlockAdvanced {
 	 * return true; }
 	 */
 	@Override
-	public boolean isOpaqueCube() {
-		return false;
-	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
-	@Override
 	public int getRenderBlockPass() {
 		return 1;
 
@@ -194,7 +185,24 @@ public class LaserEmitter extends BlockAdvanced {
 				.registerIcon("ComplexMachines:LaserInput");
 		topIcon = par1IconRegister.registerIcon("ComplexMachines:LaserTop");
 	}
-
+	
+	@Override
+	public boolean renderAsNormalBlock(){
+		return false;
+	}
+	
+	@Override
+	public boolean isOpaqueCube(){
+		return false;
+	}
+	
+	 @SideOnly(Side.CLIENT)
+	    @Override
+	    public int getRenderType()
+	    {
+	        return ClientProxy.RENDER_ID;
+	    }
+	
 	@Override
 	public Icon getIcon(int side, int meta) {
 

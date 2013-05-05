@@ -31,7 +31,32 @@ public class FocalPointControlled extends BlockAdvanced {
 		this.setUnlocalizedName("focal point controlled");
 		this.setCreativeTab(CreativeTabs.tabMisc);
 	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister par1IconRegister) {
 
+		blockIcon = par1IconRegister
+				.registerIcon("ComplexMachines:FocalModel");
+	}
+	
+	@Override
+	public boolean renderAsNormalBlock(){
+		return false;
+	}
+	
+	@Override
+	public boolean isOpaqueCube(){
+		return false;
+	}
+	
+	 @SideOnly(Side.CLIENT)
+	    @Override
+	    public int getRenderType()
+	    {
+	        return ClientProxy.RENDER_ID;
+	    }
+	
 	public FocalPointControlled() {
 		super(Config.blockStartingID + 8, UniversalElectricity.machine);
 		this.setUnlocalizedName("focal point controlled");
@@ -95,15 +120,7 @@ public class FocalPointControlled extends BlockAdvanced {
 	 * 
 	 * return true; }
 	 */
-	@Override
-	public boolean isOpaqueCube() {
-		return true;
-	}
 
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
 
 	@Override
 	public TileEntity createTileEntity(World var1, int metadata) {
@@ -122,6 +139,7 @@ public class FocalPointControlled extends BlockAdvanced {
 	 * 
 	 * @Override public int getRenderType() { return ClientProxy.RENDER_ID; }
 	 */
+	/*
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {
@@ -145,7 +163,7 @@ public class FocalPointControlled extends BlockAdvanced {
 			return blockIcon;
 		}
 	}
-
+	*/
 	@Override
 	public TileEntity createNewTileEntity(World world) {
 		return new FocalPointControledTileEntity();

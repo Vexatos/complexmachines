@@ -126,10 +126,7 @@ public class ExtractorMachine extends BlockAdvanced {
         return true;
     }
 
-	@Override
-	public boolean isOpaqueCube() {
-		return false;
-	}
+	
 
 	@Override
 	public TileEntity createTileEntity(World var1, int metadata) {
@@ -148,7 +145,16 @@ public class ExtractorMachine extends BlockAdvanced {
 	 * 
 	 * @Override public int getRenderType() { return ClientProxy.RENDER_ID; }
 	 */
+	
+	
 	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister par1IconRegister) {
+
+		blockIcon = par1IconRegister
+				.registerIcon("ComplexMachines:ExtractorModel");
+	}
+	/*@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {
 
@@ -171,11 +177,28 @@ public class ExtractorMachine extends BlockAdvanced {
 			return blockIcon;
 		}
 	}
-
+	*/
 	@Override
 	public TileEntity createNewTileEntity(World world) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public boolean renderAsNormalBlock(){
+		return false;
+	}
+	
+	@Override
+	public boolean isOpaqueCube(){
+		return false;
+	}
+	
+	 @SideOnly(Side.CLIENT)
+	    @Override
+	    public int getRenderType()
+	    {
+	        return ClientProxy.RENDER_ID;
+	    }
 
 }

@@ -32,12 +32,37 @@ public class OceanGenerator extends BlockAdvanced {
 		this.setCreativeTab(CreativeTabs.tabMisc);
 	}
 
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister par1IconRegister) {
+
+		blockIcon = par1IconRegister
+				.registerIcon("ComplexMachines:OceanModel");
+	}
+	
 	public OceanGenerator() {
 		super(Config.blockStartingID + 5, UniversalElectricity.machine);
 		this.setUnlocalizedName("Ocean generator");
 		this.setCreativeTab(CreativeTabs.tabMisc);
 	}
-
+	
+	@Override
+	public boolean renderAsNormalBlock(){
+		return false;
+	}
+	
+	@Override
+	public boolean isOpaqueCube(){
+		return false;
+	}
+	
+	 @SideOnly(Side.CLIENT)
+	    @Override
+	    public int getRenderType()
+	    {
+	        return ClientProxy.RENDER_ID;
+	    }
+	
 	/**
 	 * Called when the block is placed in the world.
 	 */
@@ -110,15 +135,7 @@ public class OceanGenerator extends BlockAdvanced {
 	 * 
 	 * return true; }
 	 */
-	@Override
-	public boolean isOpaqueCube() {
-		return true;
-	}
-
-	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
+	
 
 	@Override
 	public TileEntity createTileEntity(World var1, int metadata) {
@@ -137,6 +154,8 @@ public class OceanGenerator extends BlockAdvanced {
 	 * 
 	 * @Override public int getRenderType() { return ClientProxy.RENDER_ID; }
 	 */
+	
+	/*
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {
@@ -160,7 +179,7 @@ public class OceanGenerator extends BlockAdvanced {
 			return blockIcon;
 		}
 	}
-
+	*/
 	@Override
 	public TileEntity createNewTileEntity(World world) {
 		// TODO Auto-generated method stub
