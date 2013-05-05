@@ -255,6 +255,7 @@ public class ComplexMachines {
 		//flag=new ModFlag(nbt);
 		FlagRegistry.registerFlag("ComplexMachines");
 		proxy.registerRenderers();
+		proxy.init();
 
 		NetworkRegistry networkRegistry = NetworkRegistry.instance();
 		networkRegistry.registerGuiHandler(this, guiHandler);

@@ -128,7 +128,7 @@ public class ExtractorMachine extends BlockAdvanced {
 
 	@Override
 	public boolean isOpaqueCube() {
-		return true;
+		return false;
 	}
 
 	@Override

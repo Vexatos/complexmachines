@@ -183,6 +183,7 @@ public class MotorTileEntity extends TileEntity {
 
 	public boolean isTrailing(int x,int y, int z, ForgeDirection direction){
 		if(x==xCoord-direction.offsetX&&y==yCoord-direction.offsetY&&z==zCoord-direction.offsetZ){
+			System.out.println(x+y+z);
 			return true;
 		}
 		if(x==xCoord-2*direction.offsetX&&y==yCoord-2*direction.offsetY&&z==zCoord-2*direction.offsetZ){
@@ -191,6 +192,7 @@ public class MotorTileEntity extends TileEntity {
 		if(x==xCoord-3*direction.offsetX&&y==yCoord-3*direction.offsetY&&z==zCoord-3*direction.offsetZ){
 			return true;
 		}
+		
 		return false;
 	}
 	
