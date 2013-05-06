@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pixlepix.complexmachines.common.AirshipBlockRegistry;
+import pixlepix.complexmachines.common.ComplexMachines;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -82,7 +83,9 @@ public class ControllerTileEntity extends TileEntityElectricityRunnable implemen
 			
 			for(ForgeDirection movementDirection:directions){
 				if(worldObj.getIndirectPowerOutput(xCoord+movementDirection.offsetX, yCoord+movementDirection.offsetY, zCoord+movementDirection.offsetZ, movementDirection.ordinal())){
-					moveDirection(movementDirection);
+					if(!ComplexMachines.isProtected(xCoord, zCoord)){
+						moveDirection(movementDirection);
+					}
 				}
 			}
 			

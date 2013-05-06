@@ -13,6 +13,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.common.ForgeDirection;
 
 public class MotorTileEntity extends TileEntity {
@@ -24,6 +27,21 @@ public class MotorTileEntity extends TileEntity {
 	public void initiate() {
 		
 		
+	}
+	
+	//HUGE thanks to StevenRS11 for this code
+	//Used to prevent blocks that need support popping out
+
+		
+	
+	public boolean needsSupport(int id){
+		int[] support={6,26,27,28,31,32,37,38,39,40,50,55,59,63,64,65,66,68,69,70,71,72,75,76,77,83,93,94,96,104,105,106,111,115,131,132,141,142,143,147,148,149,150,157};
+		for(int i=0;i<support.length;i++){
+			if(support[i]==id){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public void updateEntity(){
@@ -64,7 +82,11 @@ public class MotorTileEntity extends TileEntity {
 			*/
 
 			worldObj.setBlock(target.x, target.y, target.z, 0);
-			worldObj.setBlock(targetX, targetY, targetZ, materialId, meta, 3);
+			if(needsSupport(materialId)){
+				AirshipBlockRegistry.addDelayed(new AirshipDelayedBlock(targetX,targetY,targetZ,materialId,meta,worldObj));
+			}else{
+				worldObj.setBlock(targetX, targetY, targetZ, materialId, meta, 3);
+			}
 			
 			
 			//if(newEntity!=null&&!(newEntity instanceof MotorTileEntity)){
