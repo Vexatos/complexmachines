@@ -6,7 +6,6 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 public class Config{
 	// Base Config
-	public static boolean worldGen = false;
 	public static boolean vanillaRecipies = false;
 	// ID Config
 	public static int blockStartingID = 2770;
@@ -26,7 +25,6 @@ public class Config{
 			event.getSuggestedConfigurationFile());
 		config.load();
 
-		worldGen = getGeneralConfig("Focal Point Generation", worldGen).getBoolean(true);
 		vanillaRecipies = getGeneralConfig("Vanilla (Easy) Recipies Enabled", vanillaRecipies).getBoolean(true);
 
 		blockStartingID = getGeneralConfig("BlockStartingID", blockStartingID).getInt();
