@@ -104,10 +104,21 @@ public class SinglePointTileEntity extends TileEntityElectrical implements
 
 	private boolean atCorrectLocation() {
 		int target=Config.singlePointRadius;
-		if ((xCoord == target || xCoord == -1*target)
-				&& (zCoord == target || zCoord == -1*target) && yCoord == 60) {
-			return true;
-		}
+			System.out.println("Target");
+			if(xCoord==target&&zCoord==target&&yCoord==60){
+				return true;
+			}
+			if(xCoord==target&&zCoord==-1*target&&yCoord==60){
+				return true;
+			}
+			if(xCoord==-1*target&&zCoord==target&&yCoord==60){
+				return true;
+			}
+			if(xCoord==-1*target&&zCoord==-1*target&&yCoord==60){
+				return true;
+			}
+			
+		
 		return false;
 	}
 
