@@ -372,7 +372,6 @@ public class ComplexMachines {
 		
 		ItemStack steelPlate = new ItemStack(14239, 1, 3);
 		ItemStack stone = new ItemStack(1, 1, 0);
-		ItemStack basicCircuit = new ItemStack(14229, 1, 0);
 		ItemStack result = new ItemStack(Config.blockStartingID + 1, 1, 0);
 		ItemStack eliteCircuit = new ItemStack(14229, 1, 2);
 		ItemStack diamondPickaxe = new ItemStack(278, 1, 0);
@@ -430,30 +429,18 @@ public class ComplexMachines {
 		
 		
 		
-		GameRegistry.addRecipe(airshipControllerCrafting, "xxx", "xyx", "xxx", 'x', steelPlate, 'y', airshipMotorCrafting);
-		GameRegistry.addRecipe(airshipMotorCraftingOutput, "xyx", "yzy", "xyx", 'x', basicCircuit, 'y', steelPlate, 'z', motorCrafting);
-
-		GameRegistry.addRecipe(clusterMinerCrafting, "xxx", "xyx", "xxx", 'x', basicCircuit, 'y', diamondPickaxe);
-		GameRegistry.addRecipe(fellerCrafting, "xxx", "xyx", "xxx", 'x', basicCircuit, 'y', axe);
-
-		GameRegistry.addRecipe(cubeFormerCrafting, " x ", "xyx", " x ", 'x', steelPlate, 'y',
-				advancedCircuit);
-		GameRegistry.addRecipe(emitter, "xyx", "yzy", "xyx", 'x', diamond, 'y',
-				glowstone, 'z', eliteCircuit);
-		GameRegistry.addRecipe(grinder, "xxx", "xyx", "xxx", 'x', steelPlate,
-				'y', eliteCircuit);
-		GameRegistry.addRecipe(replacerMachine, "xxx", "yzy", "xxx", 'x',
-				steelPlate, 'y', result, 'z', basicCircuit);
-		GameRegistry.addRecipe(singlePoint, "xyx", "yxy", "xyx", 'x',
-				basicCircuit, 'y', eliteCircuit);
-		GameRegistry.addRecipe(extractor, "xyx", "xzx", "xxx", 'x', steelPlate,
-				'y', diamondPickaxe, 'z', eliteCircuit);
-
-		GameRegistry.addRecipe(oceanGenerator, "xyx", "zyz", "xyx", 'x',
-				waterBucket, 'y', eliteCircuit, 'z', steelPlate);
-
-		GameRegistry.addRecipe(result, "xyx", "yzy", "xyx", 'x', stone, 'y',
-				basicCircuit, 'z', steelPlate);
+		GameRegistry.addRecipe(airshipControllerCrafting, "xxx", "xyx", "xxx", 'x', "plateSteel", 'y', airshipMotorCrafting);
+		GameRegistry.addRecipe(airshipMotorCraftingOutput, "xyx", "yzy", "xyx", 'x', "circuitBasic", 'y', "plateSteel", 'z', motorCrafting);
+		GameRegistry.addRecipe(clusterMinerCrafting, "xxx", "xyx", "xxx", 'x', "circuitBasic", 'y', diamondPickaxe);
+		GameRegistry.addRecipe(fellerCrafting, "xxx", "xyx", "xxx", 'x', "circuitBasic", 'y', axe);
+		GameRegistry.addRecipe(cubeFormerCrafting, " x ", "xyx", " x ", 'x', "plateSteel", 'y',"circuitAdvanced");
+		GameRegistry.addRecipe(emitter, "xyx", "yzy", "xyx", 'x', diamond, 'y',glowstone, 'z', "circuitElite");
+		GameRegistry.addRecipe(grinder, "xxx", "xyx", "xxx", 'x', "plateSteel",'y', "circuitElite");
+		GameRegistry.addRecipe(replacerMachine, "xxx", "yzy", "xxx", 'x',"plateSteel", 'y', result, 'z', "circuitBasic");
+		GameRegistry.addRecipe(singlePoint, "xyx", "yxy", "xyx", 'x',"circuitBasic", 'y', "circuitElite");
+		GameRegistry.addRecipe(extractor, "xyx", "xzx", "xxx", 'x', "plateSteel",'y', diamondPickaxe, 'z', "circuitElite");
+		GameRegistry.addRecipe(oceanGenerator, "xyx", "zyz", "xyx", 'x',waterBucket, 'y', "circuitElit", 'z', "plateSteel");
+		GameRegistry.addRecipe(result, "xyx", "yzy", "xyx", 'x', stone, 'y',"circuitBasic", 'z', "plateSteel");
 		
 		
 		
