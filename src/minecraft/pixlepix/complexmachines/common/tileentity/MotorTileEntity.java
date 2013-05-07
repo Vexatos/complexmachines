@@ -29,9 +29,180 @@ public class MotorTileEntity extends TileEntity {
 		
 	}
 	
-	//HUGE thanks to StevenRS11 for this code
-	//Used to prevent blocks that need support popping out
+	
+		public static boolean setBlockDirectlyMain(World world,int par1, int par2, int par3, int par4, int par5, int par6, boolean support)
+	    {
+	        if (par1 >= -30000000 && par3 >= -30000000 && par1 < 30000000 && par3 < 30000000)
+	        {
+	            if (par2 < 0)
+	            {
+	                return false;
+	            }
+	            else if (par2 >= 256)
+	            {
+	                return false;
+	            }
+	            else
+	            {
+	                Chunk chunk = world.getChunkFromChunkCoords(par1 >> 4, par3 >> 4);
+	                int k1 = 0;
 
+	                if ((par6 & 1) != 0)
+	                {
+	                    k1 = chunk.getBlockID(par1 & 15, par2, par3 & 15);
+	                }
+
+	                boolean flag = setBlockIDWithMetadataDirect(chunk,par1 & 15, par2, par3 & 15, par4, par5,support,world);
+	                world.theProfiler.startSection("checkLight");
+	                world.updateAllLightTypes(par1, par2, par3);
+	                world.theProfiler.endSection();
+
+	                if (flag)
+	                {
+	                    if ((par6 & 2) != 0 && (!world.isRemote || (par6 & 4) == 0))
+	                    {
+	                        world.markBlockForUpdate(par1, par2, par3);
+	                    }
+
+	                    if (!world.isRemote && (par6 & 1) != 0)
+	                    {
+	                    	
+	                        world.notifyBlockChange(par1, par2, par3, k1);
+	                        Block block = Block.blocksList[par4];
+
+	                        if (block != null && block.hasComparatorInputOverride())
+	                        {
+	                            world.func_96440_m(par1, par2, par3, par4);
+	                        }
+	                    }
+	                }
+
+	                return flag;
+	            }
+	        }
+	        else
+	        {
+	            return false;
+	        }
+	    }
+
+		public static boolean setBlockIDWithMetadataDirect(Chunk chunk, int par1, int par2, int par3, int par4, int par5, boolean support, World world)
+	    {
+	        int j1 = par3 << 4 | par1;
+
+	        if (par2 >= chunk.precipitationHeightMap[j1] - 1)
+	        {
+	            chunk.precipitationHeightMap[j1] = -999;
+	        }
+
+	        int k1 = chunk.heightMap[j1];
+	        int l1 = chunk.getBlockID(par1, par2, par3);
+	        int i2 = chunk.getBlockMetadata(par1, par2, par3);
+
+	        if (l1 == par4 && i2 == par5)
+	        {
+	            return false;
+	        }
+	        else
+	        {
+	            ExtendedBlockStorage extendedblockstorage = chunk.getBlockStorageArray()[par2 >> 4];
+	            boolean flag = false;
+
+	            if (extendedblockstorage == null)
+	            {
+	                if (par4 == 0)
+	                {
+	                    return false;
+	                }
+
+	                extendedblockstorage = chunk.getBlockStorageArray()[par2 >> 4] = new ExtendedBlockStorage(par2 >> 4 << 4, !chunk.worldObj.provider.hasNoSky);
+	                flag = par2 >= k1;
+	            }
+
+	            int j2 = chunk.xPosition * 16 + par1;
+	            int k2 = chunk.zPosition * 16 + par3;
+
+	            if (l1 != 0 && !chunk.worldObj.isRemote)
+	            {
+	                Block.blocksList[l1].onSetBlockIDWithMetaData(chunk.worldObj, j2, par2, k2, i2);
+	            }
+
+	            extendedblockstorage.setExtBlockID(par1, par2 & 15, par3, par4);
+
+	            if (l1 != 0)
+	            {
+	                if (!chunk.worldObj.isRemote)
+	                {
+	                    Block.blocksList[l1].breakBlock(chunk.worldObj, j2, par2, k2, l1, i2);
+	                }
+	                else if (Block.blocksList[l1] != null && Block.blocksList[l1].hasTileEntity(i2))
+	                {
+	                    TileEntity te = world.getBlockTileEntity(j2, par2, k2);
+	                    if (te != null && te.shouldRefresh(l1, par4, i2, par5, world, j2, par2, k2))
+	                    {
+	                        chunk.worldObj.removeBlockTileEntity(j2, par2, k2);
+	                    }
+	                }
+	            }
+
+	            if (extendedblockstorage.getExtBlockID(par1, par2 & 15, par3) != par4)
+	            {
+	                return false;
+	            }
+	            else
+	            {
+	                extendedblockstorage.setExtBlockMetadata(par1, par2 & 15, par3, par5);
+
+	                if (flag)
+	                {
+	                    chunk.generateSkylightMap();
+	                }
+	                else
+	                {
+	                    
+	                }
+
+	                TileEntity tileentity;
+
+	                if (par4 != 0)
+	                {
+	                    if (!chunk.worldObj.isRemote)
+	                    {
+	                    	
+	                    	
+	                    	if(!support){
+	                    	
+	                    		//Block.blocksList[par4].onBlockAdded(chunk.worldObj, j2, par2, k2);
+	                    	}else{
+	                    		System.out.println("Moving block that requires support");
+	                    	}
+	                    	
+	                    }
+
+	                    if (Block.blocksList[par4] != null && Block.blocksList[par4].hasTileEntity(par5))
+	                    {
+	                        tileentity = chunk.getChunkBlockTileEntity(par1, par2, par3);
+
+	                        if (tileentity == null)
+	                        {
+	                            tileentity = Block.blocksList[par4].createTileEntity(chunk.worldObj, par5);
+	                            chunk.worldObj.setBlockTileEntity(j2, par2, k2, tileentity);
+	                        }
+
+	                        if (tileentity != null)
+	                        {
+	                            tileentity.updateContainingBlockInfo();
+	                            tileentity.blockMetadata = par5;
+	                        }
+	                    }
+	                }
+
+	                chunk.isModified = true;
+	                return true;
+	            }
+	        }
+	    }
+	
 		
 	
 	public boolean needsSupport(int id){
@@ -50,6 +221,34 @@ public class MotorTileEntity extends TileEntity {
 		}
 		ticks--;
 	}
+	public void scan(ForgeDirection direction, CoordTuple target, boolean center){
+		if(!worldObj.isRemote){
+			int targetX = target.x+direction.offsetX;
+			int targetY = target.y+direction.offsetY;
+			int targetZ = target.z+direction.offsetZ;
+			
+			
+			
+			int meta=worldObj.getBlockMetadata(target.x,target.y,target.z);
+			int targetId=worldObj.getBlockId(targetX, targetY, targetZ);
+			if((targetId>7&&targetId<12)||targetId==0||(worldObj.getBlockTileEntity(targetX, targetY, targetZ) instanceof MotorTileEntity&&center)){
+				
+				int materialId=worldObj.getBlockId(target.x, target.y, target.z);
+				
+				if(needsSupport(materialId)){
+					AirshipBlockRegistry.addDelayed(new AirshipDelayedBlock(targetX,targetY,targetZ,materialId,meta,worldObj));
+					worldObj.setBlock(target.x, target.y, target.z, 0);
+				//worldObj.setBlock(targetX, targetY, targetZ, materialId, meta, 3);
+				}
+				
+				
+				
+				//if(newEntity!=null&&!(newEntity instanceof MotorTileEntity)){
+				
+				
+			}
+			}
+		}
 	
 	public void moveBlock(ForgeDirection direction, CoordTuple target, boolean center){
 		if(!worldObj.isRemote){
@@ -82,11 +281,11 @@ public class MotorTileEntity extends TileEntity {
 			*/
 
 			worldObj.setBlock(target.x, target.y, target.z, 0);
-			if(needsSupport(materialId)){
-				AirshipBlockRegistry.addDelayed(new AirshipDelayedBlock(targetX,targetY,targetZ,materialId,meta,worldObj));
-			}else{
-				worldObj.setBlock(targetX, targetY, targetZ, materialId, meta, 3);
-			}
+			
+			//AirshipBlockRegistry.addDelayed(new AirshipDelayedBlock(targetX,targetY,targetZ,materialId,meta,worldObj));
+			
+			worldObj.setBlock(targetX, targetY, targetZ, materialId, meta, 3);
+			
 			
 			
 			//if(newEntity!=null&&!(newEntity instanceof MotorTileEntity)){
@@ -106,8 +305,18 @@ public class MotorTileEntity extends TileEntity {
 	}
 	
 	public void move(ForgeDirection direction){
-		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, direction.ordinal(), 3);
+		
 		if(ticks<0){
+			
+			for(int i=xCoord-4;i<xCoord+4;i++){
+				for(int j=yCoord-4;j<yCoord+4;j++){
+				
+					for(int k=zCoord-4;k<zCoord+4;k++){
+						scan(direction, new CoordTuple(i,j,k),true);
+						
+					}
+				}
+			}
 			ticks=3;
 			//xCoordTuple[] nearby={new CoordTuple(xCoord+1,yCoord,zCoord+1),new CoordTuple(xCoord+1,yCoord,zCoord-1),new CoordTuple(xCoord-1,yCoord,zCoord+1),new CoordTuple(xCoord-1,yCoord,zCoord-1),new CoordTuple(xCoord+1,yCoord,zCoord),new CoordTuple(xCoord-1,yCoord,zCoord),new CoordTuple(xCoord,yCoord+1,zCoord),new CoordTuple(xCoord,yCoord-1,zCoord),new CoordTuple(xCoord,yCoord,zCoord+1),new CoordTuple(xCoord,yCoord,zCoord-1)};
 			ArrayList<CoordTuple> near=new ArrayList<CoordTuple>();
@@ -151,7 +360,7 @@ public class MotorTileEntity extends TileEntity {
 					for(int j=yCoord-2;j<yCoord+3;j++){
 					
 						for(int k=zCoord-2;k<zCoord+3;k++){
-
+							scan(direction,new CoordTuple(i,j,k), true);
 							if(!isTrailing(i,j,k,direction)){
 								register(i,j,k,near);
 							}
@@ -164,6 +373,8 @@ public class MotorTileEntity extends TileEntity {
 				for(int i=xCoord+2;i>xCoord-3;i--){
 					for(int j=yCoord+2;j>yCoord-3;j--){
 						for(int k=zCoord+2;k>zCoord-3;k--){
+
+							scan(direction,new CoordTuple(i,j,k), true);
 							if(!isTrailing(i,j,k,direction)){
 								register(i,j,k,near);
 							}
@@ -175,8 +386,6 @@ public class MotorTileEntity extends TileEntity {
 			}
 				
 			
-						
-		
 					
 			for(int l=0;l<near.size();l++){
 				CoordTuple target=near.get(l);
@@ -189,7 +398,7 @@ public class MotorTileEntity extends TileEntity {
 
 			moveBlock(direction, new CoordTuple(xCoord-direction.offsetX,yCoord-direction.offsetY,zCoord-direction.offsetZ),true);
 			moveBlock(direction, new CoordTuple(xCoord-2*direction.offsetX,yCoord-2*direction.offsetY,zCoord-2*direction.offsetZ),true);
-			moveBlock(direction, new CoordTuple(xCoord-3*direction.offsetX,yCoord-3*direction.offsetY,zCoord-3*direction.offsetZ),true);
+			//moveBlock(direction, new CoordTuple(xCoord-3*direction.offsetX,yCoord-3*direction.offsetY,zCoord-3*direction.offsetZ),true);
 			if(direction.offsetY==1){
 			List<Entity> entities=worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(xCoord-1.5, yCoord-1.5, zCoord-1.5, xCoord+1.5, yCoord+1.5, zCoord+1.5));
 				for(int i=0;i<entities.size();i++){
@@ -198,14 +407,13 @@ public class MotorTileEntity extends TileEntity {
 					entity.setPosition(entity.posX, entity.posY+1.5, entity.posZ);
 				}
 			}
-			this.momentum=150;
-			this.momentumDirection=direction;
+			
 		}
 	}
 
 	public boolean isTrailing(int x,int y, int z, ForgeDirection direction){
 		if(x==xCoord-direction.offsetX&&y==yCoord-direction.offsetY&&z==zCoord-direction.offsetZ){
-			System.out.println(x+y+z);
+			//System.out.println(x+y+z);
 			return true;
 		}
 		if(x==xCoord-2*direction.offsetX&&y==yCoord-2*direction.offsetY&&z==zCoord-2*direction.offsetZ){

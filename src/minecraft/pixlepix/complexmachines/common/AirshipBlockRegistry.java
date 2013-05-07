@@ -26,26 +26,17 @@ public class AirshipBlockRegistry {
 	}
 	
 	public static void placeDelayed(){
-		if(!delayedPlaced){
+		
 			for(int i=0;i<delayed.size();i++){
 				AirshipDelayedBlock toPlace=delayed.get(i);
-				System.out.println(toPlace.x);
-
-				System.out.println(toPlace.y);
-
-				System.out.println(toPlace.z);
-
-				System.out.println(toPlace.id);
-
-				System.out.println(toPlace.meta);
-
-				System.out.println(toPlace.world);
 				toPlace.world.setBlock(toPlace.x, toPlace.y, toPlace.z, toPlace.id,toPlace.meta,3);
 				
 			}
+
+			delayed=new ArrayList<AirshipDelayedBlock>();
 		}
-		delayedPlaced=true;
-	}
+		
+	
 	
 	public static void addDelayed(AirshipDelayedBlock block){
 		delayed.add(block);
