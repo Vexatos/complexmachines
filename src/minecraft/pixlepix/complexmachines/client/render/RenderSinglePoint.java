@@ -43,7 +43,7 @@ public class RenderSinglePoint extends TileEntitySpecialRenderer
                 GL11.glRotatef(270, 0.0F, 1.0F, 0.0F);
                 break;
         }
-        
+        GL11.glRotatef(180, 0.0F, 1.0F, 0.0F);
         GL11.glScalef(1.0F, -1F, -1F);
         this.model.render(null, 0, 0, 0, 0, 0, 0.0625F);
         GL11.glPopMatrix();
