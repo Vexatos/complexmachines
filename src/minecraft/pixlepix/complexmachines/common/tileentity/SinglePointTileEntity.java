@@ -62,7 +62,17 @@ public class SinglePointTileEntity extends TileEntityElectrical implements
 	public void updateEntity() {
 		// System.out.println("Focal Points have been spawned at "+"  "+xCoord+"  "+yCoord+"  "+zCoord);
 		super.updateEntity();
-
+		ticks++;
+		if(ticks%20==0){
+			for(int i=0;i<256;i++){
+				if(worldObj.getBlockId(xCoord, i, zCoord)==Config.blockStartingID+4&&i!=yCoord){
+					worldObj.setBlock(xCoord, yCoord, zCoord, 0);
+					return;
+				}
+			}
+		}
+		
+		
 		if (!this.worldObj.isRemote) {
 			if (atCorrectLocation()) {
 				// Check nearby blocks and see if the conductor is full. If so,
@@ -104,16 +114,16 @@ public class SinglePointTileEntity extends TileEntityElectrical implements
 
 	private boolean atCorrectLocation() {
 		int target=Config.singlePointRadius;
-			if(xCoord==target&&zCoord==target&&yCoord==60){
+			if(xCoord==target&&zCoord==target){
 				return true;
 			}
-			if(xCoord==target&&zCoord==-1*target&&yCoord==60){
+			if(xCoord==target&&zCoord==-1*target){
 				return true;
 			}
-			if(xCoord==-1*target&&zCoord==target&&yCoord==60){
+			if(xCoord==-1*target&&zCoord==target){
 				return true;
 			}
-			if(xCoord==-1*target&&zCoord==-1*target&&yCoord==60){
+			if(xCoord==-1*target&&zCoord==-1*target){
 				return true;
 			}
 			

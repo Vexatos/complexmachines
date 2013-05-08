@@ -67,6 +67,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -383,7 +384,6 @@ public class ComplexMachines {
 		ItemStack replacerMachine = new ItemStack(Config.blockStartingID + 6, 1, 0);
 		ItemStack grinder = new ItemStack(Config.blockStartingID + 7, 1, 0);
 		ItemStack emitter = new ItemStack(Config.blockStartingID + 9, 1, 0);
-		ItemStack motorCrafting = new ItemStack(14240,1,0);
 		ItemStack glowstone = new ItemStack(Block.blocksList[89]);
 		ItemStack diamond = new ItemStack(Item.diamond);
 		ItemStack diamondBlock = new ItemStack(57,1,0);
@@ -428,12 +428,19 @@ public class ComplexMachines {
 		}
 		
 		
-		
-		GameRegistry.addRecipe(airshipControllerCrafting, "xxx", "xyx", "xxx", 'x', "plateSteel", 'y', airshipMotorCrafting);
-		GameRegistry.addRecipe(airshipMotorCraftingOutput, "xyx", "yzy", "xyx", 'x', "circuitBasic", 'y', "plateSteel", 'z', motorCrafting);
-		GameRegistry.addRecipe(clusterMinerCrafting, "xxx", "xyx", "xxx", 'x', "circuitBasic", 'y', diamondPickaxe);
-		GameRegistry.addRecipe(fellerCrafting, "xxx", "xyx", "xxx", 'x', "circuitBasic", 'y', axe);
-		GameRegistry.addRecipe(cubeFormerCrafting, " x ", "xyx", " x ", 'x', "plateSteel", 'y',"circuitAdvanced");
+		GameRegistry.addRecipe(new ShapedOreRecipe(airshipControllerCrafting,true,new Object[]{"xxx", "xyx", "xxx", 'x', "plateSteel", 'y', airshipMotorCrafting}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(airshipMotorCraftingOutput,true,new Object[]{ "xyx", "yzy", "xyx", 'x', "circuitBasic", 'y', "plateSteel", 'z', "motor"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(clusterMinerCrafting,true,new Object[]{"xxx", "xyx", "xxx", 'x', "circuitBasic", 'y', diamondPickaxe}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(fellerCrafting,true,new Object[]{"xxx", "xyx", "xxx", 'x', "circuitBasic", 'y',axe}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(cubeFormerCrafting,true,new Object[]{" x ", "xyx", " x ", 'x', "plateSteel", 'y',"circuitAdvanced"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(emitter,true,new Object[]{"xyx", "yzy", "xyx", 'x', diamond, 'y',glowstone, 'z', "circuitElite"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(grinder,true,new Object[]{"xxx", "xyx", "xxx", 'x', "plateSteel",'y', "circuitElite"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(replacerMachine,true,new Object[]{"xxx", "yzy", "xxx", 'x',"plateSteel", 'y', result, 'z', "circuitBasic"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(singlePoint,true,new Object[]{"xyx", "yxy", "xyx", 'x',"circuitBasic", 'y', "circuitElite"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(extractor,true,new Object[]{"xyx", "xzx", "xxx", 'x', "plateSteel",'y', diamondPickaxe, 'z', "circuitElite"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(oceanGenerator,true,new Object[]{"xyx", "zyz", "xyx", 'x',waterBucket, 'y', "circuitElit", 'z', "plateSteel"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(result,true,new Object[]{"xyx", "yzy", "xyx", 'x', stone, 'y',"circuitBasic", 'z', "plateSteel"}));
+		/*
 		GameRegistry.addRecipe(emitter, "xyx", "yzy", "xyx", 'x', diamond, 'y',glowstone, 'z', "circuitElite");
 		GameRegistry.addRecipe(grinder, "xxx", "xyx", "xxx", 'x', "plateSteel",'y', "circuitElite");
 		GameRegistry.addRecipe(replacerMachine, "xxx", "yzy", "xxx", 'x',"plateSteel", 'y', result, 'z', "circuitBasic");
@@ -441,7 +448,7 @@ public class ComplexMachines {
 		GameRegistry.addRecipe(extractor, "xyx", "xzx", "xxx", 'x', "plateSteel",'y', diamondPickaxe, 'z', "circuitElite");
 		GameRegistry.addRecipe(oceanGenerator, "xyx", "zyz", "xyx", 'x',waterBucket, 'y', "circuitElit", 'z', "plateSteel");
 		GameRegistry.addRecipe(result, "xyx", "yzy", "xyx", 'x', stone, 'y',"circuitBasic", 'z', "plateSteel");
-		
+		*/
 		
 		
 
