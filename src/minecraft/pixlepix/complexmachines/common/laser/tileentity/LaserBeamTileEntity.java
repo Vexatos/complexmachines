@@ -6,6 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 public class LaserBeamTileEntity extends TileEntity {
 	public int ticks = 0;
 	private boolean initialized;
+	private boolean assured=false;
 
 	public LaserEmitterTileEntity entity;
 	public void setEntity(LaserEmitterTileEntity entity){
@@ -13,26 +14,39 @@ public class LaserBeamTileEntity extends TileEntity {
 	}
 	
 	public void destroy(){
-		worldObj.setBlock(xCoord, yCoord, zCoord, 0);
-
-		this.invalidate();
+		
 	}
 	public void updateEntity() {
-		//System.out.println(ticks);
 		
-		ticks++;
-		if (ticks > 600) {
-			
-			if(entity!=null){
-				entity.notifyDecay();
-				
-			}
+		if(!worldObj.isRemote&&worldObj.getTotalWorldTime()%51==1){
 			worldObj.setBlock(xCoord, yCoord, zCoord, 0);
-
-			this.invalidate();
-			
 		}
 
+	}
+	public void check(){
+		boolean alive=false;
+		int mismatches=0;
+			if(entity!=null){
+			
+			if(!(xCoord==entity.xCoord)){
+				mismatches++;
+			}
+			if(!(yCoord==entity.yCoord)){
+				mismatches++;
+			}
+			if(!(zCoord==entity.zCoord)){
+				mismatches++;
+			}
+			System.out.println(""+xCoord+yCoord+zCoord+mismatches);
+			if(mismatches==1){
+				if(entity.laserBeamId==worldObj.getBlockId(xCoord, yCoord, zCoord)){
+					alive=true;
+				}
+			}
+		}
+		if(!alive){
+			worldObj.setBlock(xCoord, yCoord, zCoord, 0);
+		}
 	}
 	
 	

@@ -438,7 +438,7 @@ public class ComplexMachines {
 		GameRegistry.addRecipe(new ShapedOreRecipe(replacerMachine,true,new Object[]{"xxx", "yzy", "xxx", 'x',"plateSteel", 'y', result, 'z', "circuitBasic"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(singlePoint,true,new Object[]{"xyx", "yxy", "xyx", 'x',"circuitBasic", 'y', "circuitElite"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(extractor,true,new Object[]{"xyx", "xzx", "xxx", 'x', "plateSteel",'y', diamondPickaxe, 'z', "circuitElite"}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(oceanGenerator,true,new Object[]{"xyx", "zyz", "xyx", 'x',waterBucket, 'y', "circuitElit", 'z', "plateSteel"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(oceanGenerator,true,new Object[]{"xyx", "zyz", "xyx", 'x',waterBucket, 'y', "circuitElite", 'z', "plateSteel"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(result,true,new Object[]{"xyx", "yzy", "xyx", 'x', stone, 'y',"circuitBasic", 'z', "plateSteel"}));
 		/*
 		GameRegistry.addRecipe(emitter, "xyx", "yzy", "xyx", 'x', diamond, 'y',glowstone, 'z', "circuitElite");

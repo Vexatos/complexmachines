@@ -29,6 +29,8 @@ public class MotorItemBlock extends ItemBlock {
 			
 			list.add(EnumColor.AQUA + "This is part of an airship");
 			list.add(EnumColor.ORANGE + "Moves nearby blocks");
+
+			list.add(EnumColor.ORANGE + "Range of a 5x5x5 cube");
 			list.add(EnumColor.ORANGE + "Activated by nearby controller");
 			list.add(EnumColor.DARK_GREEN + "2KW while in use");
 		}

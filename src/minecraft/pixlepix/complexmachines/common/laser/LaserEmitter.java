@@ -105,6 +105,7 @@ public class LaserEmitter extends BlockAdvanced {
         
         return true;
     }
+	
 	@Override
 	public boolean onMachineActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ){
 		LaserEmitterTileEntity entity=(LaserEmitterTileEntity)world.getBlockTileEntity(x,y,z);

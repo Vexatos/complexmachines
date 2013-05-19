@@ -29,7 +29,10 @@ public class ControllerItemBlock extends ItemBlock {
 			
 			list.add(EnumColor.AQUA + "This is part of an airship");
 			list.add(EnumColor.ORANGE + "Activates nearby motors");
-			list.add(EnumColor.ORANGE + "Redstone power to move up");
+			list.add(EnumColor.ORANGE + "Power it with redstone");
+			list.add(EnumColor.ORANGE + "Power it in the direction");
+			list.add(EnumColor.ORANGE + "You want to move it");
+			list.add(EnumColor.ORANGE + "Also needs a motor to move");
 			list.add(EnumColor.DARK_GREEN + "2KW while in use");
 		}
 	}

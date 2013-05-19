@@ -28,6 +28,10 @@ public class ExtractorItemBlock extends ItemBlock {
 		else {
 			
 			list.add(EnumColor.AQUA + "This machine will dig up ores.");
+
+			list.add(EnumColor.ORANGE + "Place ores in the top row");
+
+			list.add(EnumColor.ORANGE + "To target them");
 			list.add(EnumColor.DARK_GREEN + "1MJ per ore block dug up");
 		}
 	}
