@@ -37,16 +37,16 @@ public class LaserEmitterTileEntity extends TileEntityElectricityRunnable
 	public final double TRANSFER_LIMIT = 12500;
 	private int drawingTicks = 0;
 	private double joulesStored = 0;
-	
+
 	public static double maxJoules = 11000;
 	public int ticks = 0;
 	/**
 	 * The ItemStacks that hold the items currently being used in the wire mill;
 	 * 0 = battery; 1 = input; 2 = output;
 	 */
-	
+
 	public boolean tripped;
-	
+
 	private ItemStack[] inventory = new ItemStack[1];
 
 	private int playersUsing = 0;
@@ -67,33 +67,33 @@ public class LaserEmitterTileEntity extends TileEntityElectricityRunnable
 			if(worldObj.getBlockId(xCoord + laserDirection.offsetX * i, yCoord, zCoord + laserDirection.offsetZ * i) == 1&&internalId==278){
 				if(getJoules()>50000){
 					setJoules(getJoules()-50000);
-					worldObj.setBlock(xCoord + laserDirection.offsetX * i, yCoord, zCoord + laserDirection.offsetZ * i, 0);
-					
-					
+					worldObj.setBlock(xCoord + laserDirection.offsetX * i, yCoord, zCoord + laserDirection.offsetZ * i,0);
+
+
 				}
 			}
 			TileEntity entity=worldObj.getBlockTileEntity(xCoord + laserDirection.offsetX*i, yCoord, zCoord + laserDirection.offsetZ * i);
 			if (worldObj.getBlockId(xCoord + laserDirection.offsetX * i, yCoord, zCoord + laserDirection.offsetZ * i) == 0||entity instanceof LaserBeamTileEntity||entity instanceof FluxTileEntity) {
-				worldObj.setBlock(xCoord+ laserDirection.offsetX * i, yCoord,zCoord + laserDirection.offsetZ * i,laserBeamId);
+				worldObj.setBlock(xCoord+ laserDirection.offsetX * i, yCoord,zCoord + laserDirection.offsetZ * i,laserBeamId,laserDirection.ordinal(),3);
 				if (entity instanceof LaserBeamTileEntity) {
 					LaserBeamTileEntity laserEntity = (LaserBeamTileEntity)entity;
 					((LaserBeamTileEntity) entity).setEntity(this);
-					
+
 				}
 					if (entity instanceof SuctionLaserBeamTileEntity) {
 						SuctionLaserBeamTileEntity suctionEntity = (SuctionLaserBeamTileEntity)entity;
 						suctionEntity.xDirection=-1*laserDirection.offsetX;
 						suctionEntity.zDirection=-1*laserDirection.offsetZ;
 					}
-			
-		
+
+
 			}else {
 				return;
 			}
 		}
-		
+
 	}
-	
+
 	public void beamMatching(int internalId){
 		switch(internalId){
 
@@ -132,7 +132,7 @@ public class LaserEmitterTileEntity extends TileEntityElectricityRunnable
 			laserBeamId=Config.blockStartingID+21;
 			//System.out.println("Laser of glass");
 			break;
-			
+
 		case 4:
 			laserBeamId=Config.blockStartingID+19;
 			//System.out.println("Laser of glass");
@@ -180,41 +180,39 @@ public class LaserEmitterTileEntity extends TileEntityElectricityRunnable
 			}
 		}
 	}
-	
-	
-	
+
+
+
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
 
 		ForgeDirection inputDirection = ForgeDirection.getOrientation(this.getBlockMetadata() + 2);
-		
+
 		// System.out.println(getJoules());
 		if (!this.worldObj.isRemote) {
 				consumePower();
 				unTrip();
-			
+
 				ticks++;
 				if (getJoules() > 10000) {
 					ForgeDirection laserDirection = inputDirection.getOpposite();
 					int id=worldObj.getBlockId(xCoord+ laserDirection.offsetX, yCoord, zCoord + laserDirection.offsetZ);
-					if (worldObj.getTotalWorldTime()%51==2 ||id==0) {
+					if (worldObj.getTotalWorldTime()%500==2 ||id==0) {
 						setJoules(getJoules() - 8000);
 
 						beamMatching(internalId);
-						int max=30;
+						int max=2;
 						if(laserBeamId==Config.blockStartingID+18){
-							max=3;
+							max=4;
 						}
-						
+
 						formBeam(max,laserDirection);
-					
+
 
 				}
 
-			}else{
-				removeBeam();
-			}
+			
 		}
 
 		if (!this.worldObj.isRemote) {
@@ -226,11 +224,11 @@ public class LaserEmitterTileEntity extends TileEntityElectricityRunnable
 
 		this.joulesStored = Math.min(this.joulesStored, this.getMaxJoules());
 		this.joulesStored = Math.max(this.joulesStored, 0d);
-		
-		
+
+		}
 	}
-		
-	
+
+
 
 
 
@@ -333,28 +331,13 @@ public class LaserEmitterTileEntity extends TileEntityElectricityRunnable
 		return true;
 	}
 
-	
+
 
 	public void notifyTripwire() {
 		tripped=true;
-		
+
 	}
-	public void removeBeam() {
-		if(!worldObj.isRemote){
-		int max=30;
 	
-			ForgeDirection laserDirection = ForgeDirection.getOrientation(this.getBlockMetadata() + 2).getOpposite();
-			for (int i = 1; i < max; i++) {
-				TileEntity entity=worldObj.getBlockTileEntity(xCoord + laserDirection.offsetX*i, yCoord, zCoord + laserDirection.offsetZ * i);
-				if (entity instanceof LaserBeamTileEntity) {
-					worldObj.setBlock(xCoord+ laserDirection.offsetX * i, yCoord,zCoord + laserDirection.offsetZ * i,0);
-				}else {
-					return;
-				}
-			}
-		}
-		
-	}
 
 
 

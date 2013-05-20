@@ -4,6 +4,7 @@ import pixlepix.complexmachines.client.render.RenderExtractor;
 import pixlepix.complexmachines.client.render.RenderFiller;
 import pixlepix.complexmachines.client.render.RenderFocalPoint;
 import pixlepix.complexmachines.client.render.RenderHandler;
+import pixlepix.complexmachines.client.render.RenderLaser;
 import pixlepix.complexmachines.client.render.RenderLaserEmitter;
 import pixlepix.complexmachines.client.render.RenderOceanGenerator;
 import pixlepix.complexmachines.client.render.RenderSinglePoint;
@@ -16,6 +17,7 @@ import pixlepix.complexmachines.client.render.item.RenderItemSinglePoint;
 import pixlepix.complexmachines.common.CommonProxy;
 import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.laser.LaserEmitterTileEntity;
+import pixlepix.complexmachines.common.laser.tileentity.LaserBeamTileEntity;
 import pixlepix.complexmachines.common.tileentity.ExtractorMachineTileEntity;
 import pixlepix.complexmachines.common.tileentity.FillerMachineTileEntity;
 import pixlepix.complexmachines.common.tileentity.FocalPointControledTileEntity;
@@ -51,6 +53,8 @@ public class ClientProxy extends CommonProxy
         
 
         ClientRegistry.registerTileEntity(FillerMachineTileEntity.class, "TileEntityFillerMachine", new RenderFiller());
+
+        ClientRegistry.registerTileEntity(LaserBeamTileEntity.class, "LaserBeam", new RenderLaser());
 
         ClientRegistry.registerTileEntity(ExtractorMachineTileEntity.class, "TileEntityExtractorMachine", new RenderExtractor());
 

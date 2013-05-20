@@ -12,7 +12,7 @@ public class TripwireLaserBeamTileEntity extends LaserBeamTileEntity {
 	public void updateEntity(){
 		super.updateEntity();
 		
-		List<Entity> entities=worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(xCoord-0.5, yCoord-0.5, zCoord-0.5, xCoord+0.5, yCoord+0.5, zCoord+0.5));
+		List<Entity> entities=worldObj.getEntitiesWithinAABB(Entity.class, getLaserAABB());
 		for(int i=0;i<entities.size();i++){
 			Entity detectedEntity=entities.get(i);
 			

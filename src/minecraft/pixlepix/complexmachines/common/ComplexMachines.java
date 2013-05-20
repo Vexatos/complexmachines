@@ -1,9 +1,12 @@
 package pixlepix.complexmachines.common;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import pixlepix.complexmachines.client.GuiHandler;
-
 import pixlepix.complexmachines.common.block.Controller;
-import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.block.ExtractorMachine;
 import pixlepix.complexmachines.common.block.FillerMachine;
 import pixlepix.complexmachines.common.block.Flux;
@@ -15,8 +18,8 @@ import pixlepix.complexmachines.common.block.OceanGenerator;
 import pixlepix.complexmachines.common.block.ReplacerMachine;
 import pixlepix.complexmachines.common.block.SinglePointGenerator;
 import pixlepix.complexmachines.common.item.ClusterMinerItem;
-import pixlepix.complexmachines.common.item.FellerItem;
 import pixlepix.complexmachines.common.item.CubeFormerItem;
+import pixlepix.complexmachines.common.item.FellerItem;
 import pixlepix.complexmachines.common.itemblock.ControllerItemBlock;
 import pixlepix.complexmachines.common.itemblock.ExtractorItemBlock;
 import pixlepix.complexmachines.common.itemblock.FillerItemBlock;
@@ -58,16 +61,6 @@ import pixlepix.complexmachines.common.tileentity.ReplacerMachineTileEntity;
 import pixlepix.complexmachines.common.tileentity.SinglePointTileEntity;
 import universalelectricity.prefab.flag.FlagRegistry;
 import universalelectricity.prefab.flag.ModFlag;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -77,13 +70,10 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
-import cpw.mods.fml.common.registry.TickRegistry;
-import cpw.mods.fml.relauncher.Side;
 
 @Mod(modid = "ComplexMachines", name = "Complex Machines", version = "0.3.3")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)

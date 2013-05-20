@@ -12,7 +12,7 @@ public class ElectricLaserBeamTileEntity extends LaserBeamTileEntity {
 	
 	public void updateEntity(){
 		super.updateEntity();
-		List<EntityLiving> entities=worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(xCoord-25, yCoord-25, zCoord-25, xCoord+25, yCoord+25, zCoord+25));
+		List<EntityLiving> entities=worldObj.getEntitiesWithinAABB(EntityLiving.class, getExpandedLaserAABB());
 		for(int i=0;i<entities.size();i++){
 			
 			EntityLiving entity=entities.get(i);

@@ -15,7 +15,7 @@ public class SuctionLaserBeamTileEntity extends LaserBeamTileEntity {
 	public void updateEntity(){
 		
 		super.updateEntity();
-		List<Entity> entities=worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(xCoord-1.5, yCoord-1.5, zCoord-1.5, xCoord+1.5, yCoord+1.5, zCoord+1.5));
+		List<Entity> entities=worldObj.getEntitiesWithinAABB(Entity.class, getLaserAABB());
 		//System.out.println(entities);
 		for(int i=0;i<entities.size();i++){
 			Entity entity=entities.get(i);

@@ -14,7 +14,7 @@ public int ticks=0;
 	public void updateEntity(){
 		
 		super.updateEntity();
-		List<EntityLiving> entities=worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(xCoord-.5, yCoord-.5, zCoord-.5, xCoord+.5, yCoord+.5, zCoord+.5));
+		List<EntityLiving> entities=worldObj.getEntitiesWithinAABB(EntityLiving.class, getLaserAABB());
 		//System.out.println(entities);
 		for(int i=0;i<entities.size();i++){
 			
