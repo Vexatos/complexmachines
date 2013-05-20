@@ -30,178 +30,8 @@ public class MotorTileEntity extends TileEntity {
 	}
 	
 	
-		public static boolean setBlockDirectlyMain(World world,int par1, int par2, int par3, int par4, int par5, int par6, boolean support)
-	    {
-	        if (par1 >= -30000000 && par3 >= -30000000 && par1 < 30000000 && par3 < 30000000)
-	        {
-	            if (par2 < 0)
-	            {
-	                return false;
-	            }
-	            else if (par2 >= 256)
-	            {
-	                return false;
-	            }
-	            else
-	            {
-	                Chunk chunk = world.getChunkFromChunkCoords(par1 >> 4, par3 >> 4);
-	                int k1 = 0;
-
-	                if ((par6 & 1) != 0)
-	                {
-	                    k1 = chunk.getBlockID(par1 & 15, par2, par3 & 15);
-	                }
-
-	                boolean flag = setBlockIDWithMetadataDirect(chunk,par1 & 15, par2, par3 & 15, par4, par5,support,world);
-	                world.theProfiler.startSection("checkLight");
-	                world.updateAllLightTypes(par1, par2, par3);
-	                world.theProfiler.endSection();
-
-	                if (flag)
-	                {
-	                    if ((par6 & 2) != 0 && (!world.isRemote || (par6 & 4) == 0))
-	                    {
-	                        world.markBlockForUpdate(par1, par2, par3);
-	                    }
-
-	                    if (!world.isRemote && (par6 & 1) != 0)
-	                    {
-	                    	
-	                        world.notifyBlockChange(par1, par2, par3, k1);
-	                        Block block = Block.blocksList[par4];
-
-	                        if (block != null && block.hasComparatorInputOverride())
-	                        {
-	                            world.func_96440_m(par1, par2, par3, par4);
-	                        }
-	                    }
-	                }
-
-	                return flag;
-	            }
-	        }
-	        else
-	        {
-	            return false;
-	        }
-	    }
-
-		public static boolean setBlockIDWithMetadataDirect(Chunk chunk, int par1, int par2, int par3, int par4, int par5, boolean support, World world)
-	    {
-	        int j1 = par3 << 4 | par1;
-
-	        if (par2 >= chunk.precipitationHeightMap[j1] - 1)
-	        {
-	            chunk.precipitationHeightMap[j1] = -999;
-	        }
-
-	        int k1 = chunk.heightMap[j1];
-	        int l1 = chunk.getBlockID(par1, par2, par3);
-	        int i2 = chunk.getBlockMetadata(par1, par2, par3);
-
-	        if (l1 == par4 && i2 == par5)
-	        {
-	            return false;
-	        }
-	        else
-	        {
-	            ExtendedBlockStorage extendedblockstorage = chunk.getBlockStorageArray()[par2 >> 4];
-	            boolean flag = false;
-
-	            if (extendedblockstorage == null)
-	            {
-	                if (par4 == 0)
-	                {
-	                    return false;
-	                }
-
-	                extendedblockstorage = chunk.getBlockStorageArray()[par2 >> 4] = new ExtendedBlockStorage(par2 >> 4 << 4, !chunk.worldObj.provider.hasNoSky);
-	                flag = par2 >= k1;
-	            }
-
-	            int j2 = chunk.xPosition * 16 + par1;
-	            int k2 = chunk.zPosition * 16 + par3;
-
-	            if (l1 != 0 && !chunk.worldObj.isRemote)
-	            {
-	                Block.blocksList[l1].onSetBlockIDWithMetaData(chunk.worldObj, j2, par2, k2, i2);
-	            }
-
-	            extendedblockstorage.setExtBlockID(par1, par2 & 15, par3, par4);
-
-	            if (l1 != 0)
-	            {
-	                if (!chunk.worldObj.isRemote)
-	                {
-	                    Block.blocksList[l1].breakBlock(chunk.worldObj, j2, par2, k2, l1, i2);
-	                }
-	                else if (Block.blocksList[l1] != null && Block.blocksList[l1].hasTileEntity(i2))
-	                {
-	                    TileEntity te = world.getBlockTileEntity(j2, par2, k2);
-	                    if (te != null && te.shouldRefresh(l1, par4, i2, par5, world, j2, par2, k2))
-	                    {
-	                        chunk.worldObj.removeBlockTileEntity(j2, par2, k2);
-	                    }
-	                }
-	            }
-
-	            if (extendedblockstorage.getExtBlockID(par1, par2 & 15, par3) != par4)
-	            {
-	                return false;
-	            }
-	            else
-	            {
-	                extendedblockstorage.setExtBlockMetadata(par1, par2 & 15, par3, par5);
-
-	                if (flag)
-	                {
-	                    chunk.generateSkylightMap();
-	                }
-	                else
-	                {
-	                    
-	                }
-
-	                TileEntity tileentity;
-
-	                if (par4 != 0)
-	                {
-	                    if (!chunk.worldObj.isRemote)
-	                    {
-	                    	
-	                    	
-	                    	if(!support){
-	                    	
-	                    		//Block.blocksList[par4].onBlockAdded(chunk.worldObj, j2, par2, k2);
-	                    	}else{
-	                    		System.out.println("Moving block that requires support");
-	                    	}
-	                    	
-	                    }
-
-	                    if (Block.blocksList[par4] != null && Block.blocksList[par4].hasTileEntity(par5))
-	                    {
-	                        tileentity = chunk.getChunkBlockTileEntity(par1, par2, par3);
-
-	                        if (tileentity == null)
-	                        {
-	                            tileentity = Block.blocksList[par4].createTileEntity(chunk.worldObj, par5);
-	                            chunk.worldObj.setBlockTileEntity(j2, par2, k2, tileentity);
-	                        }
-
-	                        if (tileentity != null)
-	                        {
-	                            tileentity.updateContainingBlockInfo();
-	                            tileentity.blockMetadata = par5;
-	                        }
-	                    }
-	                }
-
-	                chunk.isModified = true;
-	                return true;
-	            }
-	        }
-	    }
+		
+		
 	
 		
 	
@@ -236,9 +66,8 @@ public class MotorTileEntity extends TileEntity {
 				int materialId=worldObj.getBlockId(target.x, target.y, target.z);
 				
 				if(needsSupport(materialId)){
-					AirshipBlockRegistry.addDelayed(new AirshipDelayedBlock(targetX,targetY,targetZ,materialId,meta,worldObj));
-					worldObj.setBlock(target.x, target.y, target.z, 0);
-				//worldObj.setBlock(targetX, targetY, targetZ, materialId, meta, 3);
+					AirshipBlockRegistry.addDelayed(new AirshipDelayedBlock(targetX,targetY,targetZ,materialId,meta,worldObj,target.x,target.y,target.z));
+					//worldObj.setBlock(target.x, target.y, target.z, 0);
 				}
 				
 				
@@ -260,7 +89,6 @@ public class MotorTileEntity extends TileEntity {
 		
 		int meta=worldObj.getBlockMetadata(target.x,target.y,target.z);
 		int targetId=worldObj.getBlockId(targetX, targetY, targetZ);
-		if((targetId>7&&targetId<12)||targetId==0||(worldObj.getBlockTileEntity(targetX, targetY, targetZ) instanceof MotorTileEntity&&center)){
 			AirshipBlockRegistry.register(targetX, targetY, targetZ);
 			int materialId=worldObj.getBlockId(target.x, target.y, target.z);
 			TileEntity oldEntity=worldObj.getBlockTileEntity(target.x, target.y, target.z);
@@ -272,36 +100,10 @@ public class MotorTileEntity extends TileEntity {
 				oldEntity.invalidate();
 			}
 			Block targetBlockType = this.blockType;
-			/*if(AirshipDelayedBlock.shouldBeDelayed(materialId)){
-				AirshipBlockRegistry.addDelayed(new AirshipDelayedBlock(targetX,targetY,targetZ,materialId,meta, worldObj));
-				worldObj.setBlock(target.x, target.y, target.z, 0);
-				System.out.println(worldObj);
-				return;
-			}
-			*/
-
-			worldObj.setBlock(target.x, target.y, target.z, 0);
+			AirshipBlockRegistry.addBlock(new AirshipDelayedBlock(targetX,targetY,targetZ,materialId,meta,worldObj,list,target.x,target.y,target.z));
 			
-			//AirshipBlockRegistry.addDelayed(new AirshipDelayedBlock(targetX,targetY,targetZ,materialId,meta,worldObj));
-			
-			worldObj.setBlock(targetX, targetY, targetZ, materialId, meta, 3);
-			
-			
-			
-			//if(newEntity!=null&&!(newEntity instanceof MotorTileEntity)){
-			if(list.tagCount()>0){
-				NBTTagCompound restoreData=(NBTTagCompound) list.tagAt(0);
-				TileEntity newEntity=worldObj.getBlockTileEntity(targetX, targetY, targetZ);
-               
-                newEntity.readFromNBT(data);
-				newEntity.xCoord=targetX;
-				newEntity.yCoord=targetY;
-				newEntity.zCoord=targetZ;
-				worldObj.setBlockTileEntity(targetX, targetY, targetZ, newEntity);
-				
-			}
 		}
-		}
+		
 	}
 	
 	public void move(ForgeDirection direction){
@@ -404,7 +206,7 @@ public class MotorTileEntity extends TileEntity {
 				for(int i=0;i<entities.size();i++){
 					
 					Entity entity=entities.get(i);
-					entity.setPosition(entity.posX, entity.posY+1.5, entity.posZ);
+					entity.setPosition(entity.posX, entity.posY+2, entity.posZ);
 				}
 			}
 			
