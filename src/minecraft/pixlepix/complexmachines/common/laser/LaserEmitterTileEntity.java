@@ -3,6 +3,7 @@ package pixlepix.complexmachines.common.laser;
 import java.util.Random;
 
 import pixlepix.complexmachines.common.Config;
+import pixlepix.complexmachines.common.CoordTuple;
 import pixlepix.complexmachines.common.laser.tileentity.LaserBeamTileEntity;
 import pixlepix.complexmachines.common.laser.tileentity.SuctionLaserBeamTileEntity;
 import pixlepix.complexmachines.common.tileentity.FluxTileEntity;
@@ -38,7 +39,7 @@ public class LaserEmitterTileEntity extends TileEntityElectricityRunnable
 	private int drawingTicks = 0;
 	private double joulesStored = 0;
 
-	public static double maxJoules = 11000;
+	public static double maxJoules = 25000;
 	public int ticks = 0;
 	/**
 	 * The ItemStacks that hold the items currently being used in the wire mill;
@@ -61,6 +62,12 @@ public class LaserEmitterTileEntity extends TileEntityElectricityRunnable
 	@Override
 	public void initiate() {
 		this.initialized = true;
+	}
+	public void removeBeam(){
+		ForgeDirection direction=ForgeDirection.getOrientation(this.getBlockMetadata() + 2).getOpposite();
+		if(worldObj.getBlockTileEntity(xCoord+direction.offsetX, yCoord, zCoord+direction.offsetZ)instanceof LaserBeamTileEntity){
+			worldObj.setBlock(xCoord+direction.offsetX, yCoord, zCoord+direction.offsetZ,0);
+		}
 	}
 	public void formBeam(int max, ForgeDirection laserDirection){
 		for (int i = 1; i < max; i++) {
@@ -133,14 +140,6 @@ public class LaserEmitterTileEntity extends TileEntityElectricityRunnable
 			//System.out.println("Laser of glass");
 			break;
 
-		case 4:
-			laserBeamId=Config.blockStartingID+19;
-			//System.out.println("Laser of glass");
-			break;
-		case 278:
-			laserBeamId=Config.blockStartingID+15;
-			//System.out.println("Laser of glass");
-			break;
 		default:
 			laserBeamId=Config.blockStartingID+10;
 			break;
@@ -213,6 +212,8 @@ public class LaserEmitterTileEntity extends TileEntityElectricityRunnable
 				}
 
 			
+		}else{
+			removeBeam();
 		}
 
 		if (!this.worldObj.isRemote) {
@@ -328,6 +329,7 @@ public class LaserEmitterTileEntity extends TileEntityElectricityRunnable
 		}else{
 			internalId=0;
 		}
+		removeBeam();
 		return true;
 	}
 

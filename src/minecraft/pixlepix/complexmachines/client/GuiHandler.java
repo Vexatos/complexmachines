@@ -8,6 +8,7 @@ import pixlepix.complexmachines.common.container.ContainerExtractor;
 import pixlepix.complexmachines.common.container.ContainerGrinder;
 import pixlepix.complexmachines.common.tileentity.ExtractorMachineTileEntity;
 import pixlepix.complexmachines.common.tileentity.GrinderTileEntity;
+import pixlepix.complexmachines.common.tileentity.MotorTileEntity;
 import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.src.*;
@@ -55,7 +56,10 @@ if(tile_entity instanceof GrinderTileEntity){
 // If it is it returns a new GuiTutorial instance
 return new GuiGrinder(player.inventory, (GrinderTileEntity) tile_entity);
 }
-
+if(tile_entity instanceof MotorTileEntity){
+	// If it is it returns a new GuiTutorial instance
+	return new GuiAirship((MotorTileEntity) tile_entity);
+	}
 if(tile_entity instanceof ExtractorMachineTileEntity){
 	// If it is it returns a new GuiTutorial instance
 	return new GuiExtractor(player.inventory, (ExtractorMachineTileEntity) tile_entity);

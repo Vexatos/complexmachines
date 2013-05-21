@@ -47,6 +47,7 @@ public class DebuffLaserBlock extends LaserBlock {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {
 
-		blockIcon = par1IconRegister.registerIcon("ComplexMachines:DebuffLaser");
+		blockIcon = par1IconRegister.registerIcon("ComplexMachines:GlassLaser");
+
 	}
 }

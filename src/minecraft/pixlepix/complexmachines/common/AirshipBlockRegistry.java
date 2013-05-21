@@ -38,12 +38,14 @@ public class AirshipBlockRegistry {
 				if(toPlace.list!=null){
 					if(toPlace.list.tagCount()>0){
 						NBTTagCompound restoreData=(NBTTagCompound) toPlace.list.tagAt(0);
+						restoreData.setInteger("x", toPlace.x);
+
+						restoreData.setInteger("y", toPlace.y);
+
+						restoreData.setInteger("z", toPlace.z);
 						TileEntity newEntity=toPlace.world.getBlockTileEntity(toPlace.x, toPlace.y, toPlace.z);
 		               
 		                newEntity.readFromNBT(restoreData);
-						newEntity.xCoord=toPlace.x;
-						newEntity.yCoord=toPlace.y;
-						newEntity.zCoord=toPlace.z;
 						toPlace.world.setBlockTileEntity(toPlace.x, toPlace.y, toPlace.z, newEntity);
 						
 					}

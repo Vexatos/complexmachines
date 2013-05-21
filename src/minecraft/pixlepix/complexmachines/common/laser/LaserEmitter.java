@@ -209,14 +209,14 @@ public class LaserEmitter extends BlockAdvanced {
 
 		if (side == meta + 2) {
 			return connectorIcon;
-		} else {
-			if (side == 1 || side == 0) {
-				return topIcon;
-			}
-			return blockIcon;
 		}
+		
+		if (side == 1 || side == 0) {
+			return topIcon;
+		}
+		return blockIcon;
+		
 	}
-
 	@Override
 	public TileEntity createNewTileEntity(World world) {
 		// TODO Auto-generated method stub

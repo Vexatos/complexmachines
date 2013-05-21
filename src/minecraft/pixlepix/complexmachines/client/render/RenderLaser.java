@@ -33,31 +33,46 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 String laserTexture="/mods/ComplexMachines/textures/blocks/LaserBeam.png";
     	int laserId=(var1.worldObj.getBlockId(var1.xCoord, var1.yCoord, var1.zCoord))-Config.blockStartingID;
+    	
     	switch(laserId){
     		case 20: 
     			laserTexture="/mods/ComplexMachines/textures/blocks/GlassLaser.png";
+    			break;
     		case 19: 
     			laserTexture="/mods/ComplexMachines/textures/blocks/StoneBrick.png";
+
+    			break;
     		case 17: 
     			laserTexture="/mods/ComplexMachines/textures/blocks/SuctionLaser.png";
-    		case 16: 
-    			laserTexture="/mods/ComplexMachines/textures/blocks/ElectricLaser.png";
-    		case 15: 
-    			laserTexture="/mods/ComplexMachines/textures/blocks/MiningLaser.png";
+
+    			break;
     		case 14: 
     			laserTexture="/mods/ComplexMachines/textures/blocks/RedstoneLaser.png";
+
+    			break;
 
     		case 13: 
     			laserTexture="/mods/ComplexMachines/textures/blocks/DebuffLaser.png";
 
+    			break;
+
     		case 21: 
     			laserTexture="/mods/ComplexMachines/textures/blocks/ChargingBeam.png";
 
+    			break;
+    		case 16: 
+    			laserTexture="/mods/ComplexMachines/textures/blocks/ElectricLaser.png";
+
+    			break;
     		case 12: 
     			laserTexture="/mods/ComplexMachines/textures/blocks/GlassLaser.png";
 
+    			break;
+
     		case 11: 
     			laserTexture="/mods/ComplexMachines/textures/blocks/HarmingLaser.png";
+
+    			break;
     			
     	}
     	    	
