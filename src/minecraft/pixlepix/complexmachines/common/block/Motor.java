@@ -39,16 +39,12 @@ public class Motor extends BlockAdvanced {
 		this.setCreativeTab(CreativeTabs.tabMisc);
 	}
 	@Override
-	public boolean onMachineActivated(World par1World, int x, int y, int z,
-			EntityPlayer par5EntityPlayer, int side, float hitX, float hitY,
-			float hitZ) {
-		if (!par1World.isRemote) {
-			par5EntityPlayer.openGui(ComplexMachines.instance, 3, par1World, x,
-					y, z);
+	public boolean onBlockActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY,float hitZ) {
+			super.onBlockActivated(par1World, x,  y, z, par5EntityPlayer,  side, hitX, hitY,hitZ);
+			par5EntityPlayer.openGui(ComplexMachines.instance, 3, par1World, x, y, z);
 			return true;
-		}
+		
 
-		return true;
 	}
 
 	/**

@@ -39,7 +39,7 @@ public class ElecrtricLaserBlock extends LaserBlock {
 	public void registerIcons(IconRegister par1IconRegister) {
 
 
-		blockIcon = par1IconRegister.registerIcon("ComplexMachines:GlassLaser");
+		blockIcon = par1IconRegister.registerIcon("ComplexMachines:ElectricLaser");
 
 	}
 	

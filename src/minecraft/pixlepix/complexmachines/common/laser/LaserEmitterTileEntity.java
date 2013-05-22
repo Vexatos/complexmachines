@@ -71,14 +71,7 @@ public class LaserEmitterTileEntity extends TileEntityElectricityRunnable
 	}
 	public void formBeam(int max, ForgeDirection laserDirection){
 		for (int i = 1; i < max; i++) {
-			if(worldObj.getBlockId(xCoord + laserDirection.offsetX * i, yCoord, zCoord + laserDirection.offsetZ * i) == 1&&internalId==278){
-				if(getJoules()>50000){
-					setJoules(getJoules()-50000);
-					worldObj.setBlock(xCoord + laserDirection.offsetX * i, yCoord, zCoord + laserDirection.offsetZ * i,0);
-
-
-				}
-			}
+			
 			TileEntity entity=worldObj.getBlockTileEntity(xCoord + laserDirection.offsetX*i, yCoord, zCoord + laserDirection.offsetZ * i);
 			if (worldObj.getBlockId(xCoord + laserDirection.offsetX * i, yCoord, zCoord + laserDirection.offsetZ * i) == 0||entity instanceof LaserBeamTileEntity||entity instanceof FluxTileEntity) {
 				worldObj.setBlock(xCoord+ laserDirection.offsetX * i, yCoord,zCoord + laserDirection.offsetZ * i,laserBeamId,laserDirection.ordinal(),3);
@@ -213,6 +206,7 @@ public class LaserEmitterTileEntity extends TileEntityElectricityRunnable
 
 			
 		}else{
+			System.out.println(getJoules());
 			removeBeam();
 		}
 

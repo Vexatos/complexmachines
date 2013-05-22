@@ -6,9 +6,14 @@ import java.util.List;
 import pixlepix.complexmachines.common.AirshipBlockRegistry;
 import pixlepix.complexmachines.common.AirshipDelayedBlock;
 import pixlepix.complexmachines.common.CoordTuple;
+import universalelectricity.core.block.IElectricityStorage;
+import universalelectricity.prefab.tile.TileEntityElectricityRunnable;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
@@ -18,11 +23,17 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.common.ForgeDirection;
 
-public class MotorTileEntity extends TileEntity {
+public class MotorTileEntity extends TileEntityElectricityRunnable implements IInventory, IElectricityStorage {
 	
 	public int ticks=0;
+	public double joulesStored;
+	public int maxJoules=25000;
+	public int direction=0;
+	private ItemStack[] inventory = new ItemStack[1];
 	public int momentum;
 	public ForgeDirection momentumDirection;
+
+	private int playersUsing;
 	
 	public void initiate() {
 		
@@ -32,7 +43,81 @@ public class MotorTileEntity extends TileEntity {
 	
 		
 		
-	
+	@Override
+	public int getSizeInventory() {
+		// TODO Auto-generated method stub
+		return 1;
+	}
+
+	@Override
+	public ItemStack getStackInSlot(int i) {
+		// TODO Auto-generated method stub
+		return inventory[0];
+	}
+
+	@Override
+	public ItemStack decrStackSize(int par1, int par2) {
+
+		if (this.inventory[par1] != null) {
+			ItemStack var3;
+
+			if (this.inventory[par1].stackSize <= par2) {
+				var3 = this.inventory[par1];
+				this.inventory[par1] = null;
+				return var3;
+			} else {
+				var3 = this.inventory[par1].splitStack(par2);
+
+				if (this.inventory[par1].stackSize == 0) {
+					this.inventory[par1] = null;
+				}
+
+				return var3;
+			}
+		} else
+			return null;
+
+	}
+
+	@Override
+	public ItemStack getStackInSlotOnClosing(int par1) {
+		if (this.inventory[par1] != null) {
+			ItemStack var2 = this.inventory[par1];
+			this.inventory[par1] = null;
+			return var2;
+		} else
+			return null;
+	}
+
+	@Override
+	public void setInventorySlotContents(int par1, ItemStack par2ItemStack) {
+		if (par1 < inventory.length) {
+			this.inventory[par1] = par2ItemStack;
+
+			if (par2ItemStack != null
+					&& par2ItemStack.stackSize > this.getInventoryStackLimit()) {
+				par2ItemStack.stackSize = this.getInventoryStackLimit();
+			}
+		}
+	}
+
+	@Override
+	public String getInvName() {
+		// TODO Auto-generated method stub
+		return "Grinder";
+	}
+
+	@Override
+	public boolean isInvNameLocalized() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int getInventoryStackLimit() {
+		// TODO Auto-generated method stub
+		return 64;
+	}
 		
 	
 	public boolean needsSupport(int id){
@@ -50,6 +135,9 @@ public class MotorTileEntity extends TileEntity {
 			
 		}
 		ticks--;
+		//if(!worldObj.isRemote){
+			System.out.println(direction);
+		//}
 	}
 	public void scan(ForgeDirection direction, CoordTuple target, boolean center){
 		if(!worldObj.isRemote){
@@ -238,6 +326,110 @@ public class MotorTileEntity extends TileEntity {
 		}
 		
 	}
-	
+
+
+
+
+	@Override
+	public boolean canConnect(ForgeDirection direction) {
+		return direction.ordinal() == this.getBlockMetadata() + 2;
+	}
+
+
+	@Override
+	public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer) {
+
+		return this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord,
+				this.zCoord) != this ? false
+				: par1EntityPlayer.getDistanceSq(this.xCoord + 0.5D,
+						this.yCoord + 0.5D, this.zCoord + 0.5D) <= 64.0D;
+	}
+
+	@Override
+	public void openChest() {
+		this.playersUsing++;
+
+	}
+
+	@Override
+	public void closeChest() {
+	}
+
+	@Override
+	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
+		return false;
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
+		super.readFromNBT(par1NBTTagCompound);
+		this.inventory = new ItemStack[this.getSizeInventory()];
+		try {
+			this.joulesStored = par1NBTTagCompound.getDouble("joulesStored");
+		} catch (Exception e) {
+		}
+
+		NBTTagList var2 = par1NBTTagCompound.getTagList("Items");
+		for (int var3 = 0; var3 < var2.tagCount(); ++var3) {
+			NBTTagCompound var4 = (NBTTagCompound) var2.tagAt(var3);
+			byte var5 = var4.getByte("Slot");
+
+			if (var5 >= 0 && var5 < this.inventory.length) {
+				this.inventory[var5] = ItemStack.loadItemStackFromNBT(var4);
+			}
+		}
+
+		this.direction = par1NBTTagCompound.getInteger("direction");
+	}
+
+	/**
+	 * Writes a tile entity to NBT.
+	 */
+	@Override
+	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
+		super.writeToNBT(par1NBTTagCompound);
+		par1NBTTagCompound.setDouble("joulesStored", this.getJoules());
+
+		NBTTagList var2 = new NBTTagList();
+
+		for (int var3 = 0; var3 < this.inventory.length; ++var3) {
+			if (this.inventory[var3] != null) {
+				NBTTagCompound var4 = new NBTTagCompound();
+				var4.setByte("Slot", (byte) var3);
+				this.inventory[var3].writeToNBT(var4);
+				var2.appendTag(var4);
+			}
+		}
+		
+		par1NBTTagCompound.setTag("Items", var2);
+		par1NBTTagCompound.setInteger("Direction", direction);
+	}
+
+
+
+
+	@Override
+	public double getJoules() {
+		// TODO Auto-generated method stub
+		return joulesStored;
+	}
+
+
+
+
+	@Override
+	public void setJoules(double joules) {
+		// TODO Auto-generated method stub
+		this.joulesStored=joules;
+	}
+
+
+
+
+	@Override
+	public double getMaxJoules() {
+		// TODO Auto-generated method stub
+		return this.maxJoules;
+	}
 
 }

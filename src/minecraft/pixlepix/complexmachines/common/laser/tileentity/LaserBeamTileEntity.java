@@ -75,6 +75,7 @@ public class LaserBeamTileEntity extends TileEntity {
 		this.entity=entity;
 	}
 	public void updateEntity() {
+		System.out.println("Laser is alive");
 		if(!worldObj.isRemote&&worldObj.getTotalWorldTime()%500==1){
 			worldObj.setBlock(xCoord, yCoord, zCoord, 0);
 		}
