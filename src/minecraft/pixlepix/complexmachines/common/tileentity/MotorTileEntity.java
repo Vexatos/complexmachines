@@ -188,18 +188,23 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 		super.updateEntity();
 
 		ForgeDirection inputDirection = ForgeDirection.getOrientation(this.getBlockMetadata() + 2);
-
-		System.out.println(""+worldObj.isRemote+direction);
 		// System.out.println(getJoules());
 		if (!this.worldObj.isRemote) {
+			if(worldObj.getTotalWorldTime()%100==96){
+				AirshipBlockRegistry.empty();
+			}
+			if(worldObj.getTotalWorldTime()%100==2){
+				AirshipBlockRegistry.placeDelayed();
+			}
 				consumePower();
 
 				if (getJoules() > 10000) {
 					if (worldObj.getTotalWorldTime()%100==0) {
 
-						setJoules(getJoules()-10000);
-						System.out.println(getDirection());
+						System.out.println(""+direction+worldObj.isRemote);
 						if(getDirection()!=null){
+
+							setJoules(getJoules()-10000);
 							System.out.println(getDirection().name());
 							move(getDirection());
 						}
@@ -282,13 +287,11 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 	
 	public void move(ForgeDirection direction){
 		
-		 	System.out.println("1");
 			for(int i=xCoord-4;i<xCoord+4;i++){
 				for(int j=yCoord-4;j<yCoord+4;j++){
 
 					for(int k=zCoord-4;k<zCoord+4;k++){
 
-					 	System.out.println("2");
 						scan(direction, new CoordTuple(i,j,k),true);
 
 					}
@@ -299,28 +302,72 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 			
 
 			
+			int xMin=xCoord-2;
+			int yMin=yCoord-2;
+			int zMin=zCoord-2;
+
+			int xMax=xCoord+3;
+			int yMax=yCoord+3;
+			int zMax=zCoord+3;
+
+			int xInc=1;
+			int yInc=1;
+			int zInc=1;
+
+			boolean reverse=false;
+
+			if(direction.offsetX==1){
+				xMax=xCoord-2;
+				xMin=xCoord+3;
+				xInc=-1;
+				reverse=true;
+			}
+
+			if(direction.offsetY==1){
+				yMax=yCoord-2;
+				yMin=yCoord+3;
+				yInc=-1;
+				reverse=true;
+			}
+
+			if(direction.offsetZ==1){
+				zMax=zCoord-2;
+				zMin=zCoord+3;
+				zInc=-1;
+				reverse=true;
+			}
+
+			if(!reverse){
 				for(int i=xCoord-2;i<xCoord+3;i++){
 					for(int j=yCoord-2;j<yCoord+3;j++){
 
 						for(int k=zCoord-2;k<zCoord+3;k++){
-
-						 	System.out.println("3");
 							scan(direction,new CoordTuple(i,j,k), true);
-							
 								register(i,j,k,near);
 							
 
 						}	
 					}
 				}
-			
+			}else{
 
+				for(int i=xCoord+2;i>xCoord-3;i--){
+					for(int j=yCoord+2;j>yCoord-3;j--){
+						for(int k=zCoord+2;k>zCoord-3;k--){
 
-			 	System.out.println("4");
+							scan(direction,new CoordTuple(i,j,k), true);
+								register(i,j,k,near);
+							
+
+						}	
+					}
+				}
+
+			}
 
 			for(int l=0;l<near.size();l++){
 				CoordTuple target=near.get(l);
-				if(target!=null&&!AirshipBlockRegistry.check(target.x, target.y, target.z)){
+				if(target!=null){
 					moveBlock(direction, target,false);
 				}
 			}
@@ -345,7 +392,7 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 
 	
 	
-	private void register(int i, int j, int k, ArrayList near) {
+	private void register(int i, int j, int k, @SuppressWarnings("rawtypes") ArrayList near) {
 		if(xCoord!=i||yCoord!=j||zCoord!=k){
 			
 			if(worldObj.getBlockId(i, j, k)!=0){
@@ -459,6 +506,11 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 	public double getMaxJoules() {
 		// TODO Auto-generated method stub
 		return this.maxJoules;
+	}
+
+	public void setDirection(int direction2) {
+		// TODO Auto-generated method stub
+		this.direction=direction2;
 	}
 
 }
