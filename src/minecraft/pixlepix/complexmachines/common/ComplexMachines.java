@@ -20,6 +20,7 @@ import pixlepix.complexmachines.common.block.SinglePointGenerator;
 import pixlepix.complexmachines.common.item.ClusterMinerItem;
 import pixlepix.complexmachines.common.item.CubeFormerItem;
 import pixlepix.complexmachines.common.item.FellerItem;
+import pixlepix.complexmachines.common.item.RangeExtender;
 import pixlepix.complexmachines.common.itemblock.ControllerItemBlock;
 import pixlepix.complexmachines.common.itemblock.ExtractorItemBlock;
 import pixlepix.complexmachines.common.itemblock.FillerItemBlock;
@@ -85,6 +86,8 @@ public class ComplexMachines {
 	public static Item feller;
 	public static Item clusterMiner;
 	public static Item cubeFormer;
+
+	public static Item rangeExtender;
 	
 	public static ModFlag flag;
 	
@@ -207,6 +210,8 @@ public class ComplexMachines {
 	clusterMiner=new ClusterMinerItem(Config.itemStartingID+2);
 
 	cubeFormer=new CubeFormerItem(Config.itemStartingID+3);
+
+	rangeExtender=new RangeExtender(Config.itemStartingID+4);
 
 	
 	}
@@ -358,6 +363,8 @@ public class ComplexMachines {
 
 		LanguageRegistry.addName(cubeFormer, "Cube Former");
 
+		LanguageRegistry.addName(rangeExtender, "Motor range extender upgrade");
+
 		LanguageRegistry.addName(clusterMiner, "Cluster Miner");
 
 		
@@ -388,6 +395,8 @@ public class ComplexMachines {
 		ItemStack airshipMotorCraftingOutput=new ItemStack(motor,64);
 		ItemStack airshipControllerCrafting=new ItemStack(controller);
 		ItemStack cubeFormerCrafting=new ItemStack(cubeFormer);
+
+		ItemStack rangeExtenderCrafting=new ItemStack(rangeExtender);
 		
 		if(Config.vanillaRecipies){
 			GameRegistry.addRecipe(emitter, "xyx", "yzy", "xyx", 'x', diamond, 'y',
@@ -430,6 +439,8 @@ public class ComplexMachines {
 		GameRegistry.addRecipe(new ShapedOreRecipe(extractor,true,new Object[]{"xyx", "xzx", "xxx", 'x', "plateSteel",'y', diamondPickaxe, 'z', "circuitElite"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(oceanGenerator,true,new Object[]{"xyx", "zyz", "xyx", 'x',waterBucket, 'y', "circuitElite", 'z', "plateSteel"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(result,true,new Object[]{"xyx", "yzy", "xyx", 'x', stone, 'y',"circuitBasic", 'z', "plateSteel"}));
+
+		GameRegistry.addRecipe(new ShapedOreRecipe(rangeExtenderCrafting,true,new Object[]{"ooo", "yxy", "ooo", 'x',"motor", 'y', "circuitAdvanced", 'o', "ingotSteel"}));
 		/*
 		GameRegistry.addRecipe(emitter, "xyx", "yzy", "xyx", 'x', diamond, 'y',glowstone, 'z', "circuitElite");
 		GameRegistry.addRecipe(grinder, "xxx", "xyx", "xxx", 'x', "plateSteel",'y', "circuitElite");

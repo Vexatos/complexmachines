@@ -7,6 +7,7 @@ import pixlepix.complexmachines.common.AirshipBlockRegistry;
 import pixlepix.complexmachines.common.AirshipDelayedBlock;
 import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.CoordTuple;
+import pixlepix.complexmachines.common.item.RangeExtender;
 import pixlepix.complexmachines.common.laser.LaserEmitterTileEntity;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.block.IElectricityStorage;
@@ -201,11 +202,9 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 				if (getJoules() > 10000) {
 					if (worldObj.getTotalWorldTime()%100==0) {
 
-						System.out.println(""+direction+worldObj.isRemote);
-						if(getDirection()!=null){
+												if(getDirection()!=null){
 
 							setJoules(getJoules()-10000);
-							System.out.println(getDirection().name());
 							move(getDirection());
 						}
 
@@ -214,7 +213,6 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 
 			
 			}else{
-				System.out.println(getJoules());
 			}
 
 		if (!this.worldObj.isRemote) {
@@ -286,17 +284,8 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 	}
 	
 	public void move(ForgeDirection direction){
-		
-			for(int i=xCoord-4;i<xCoord+4;i++){
-				for(int j=yCoord-4;j<yCoord+4;j++){
-
-					for(int k=zCoord-4;k<zCoord+4;k++){
-
-						scan(direction, new CoordTuple(i,j,k),true);
-
-					}
-				}
-			}
+			System.out.println(getRange());
+			
 			//xCoordTuple[] nearby={new CoordTuple(xCoord+1,yCoord,zCoord+1),new CoordTuple(xCoord+1,yCoord,zCoord-1),new CoordTuple(xCoord-1,yCoord,zCoord+1),new CoordTuple(xCoord-1,yCoord,zCoord-1),new CoordTuple(xCoord+1,yCoord,zCoord),new CoordTuple(xCoord-1,yCoord,zCoord),new CoordTuple(xCoord,yCoord+1,zCoord),new CoordTuple(xCoord,yCoord-1,zCoord),new CoordTuple(xCoord,yCoord,zCoord+1),new CoordTuple(xCoord,yCoord,zCoord-1)};
 			ArrayList<CoordTuple> near=new ArrayList<CoordTuple>();
 			
@@ -338,10 +327,10 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 			}
 
 			if(!reverse){
-				for(int i=xCoord-2;i<xCoord+3;i++){
-					for(int j=yCoord-2;j<yCoord+3;j++){
+				for(int i=xCoord-getRange();i<xCoord+getRange()+1;i++){
+					for(int j=yCoord-getRange();j<yCoord+getRange()+1;j++){
 
-						for(int k=zCoord-2;k<zCoord+3;k++){
+						for(int k=zCoord-getRange();k<zCoord+getRange()+1;k++){
 							scan(direction,new CoordTuple(i,j,k), true);
 								register(i,j,k,near);
 							
@@ -351,9 +340,9 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 				}
 			}else{
 
-				for(int i=xCoord+2;i>xCoord-3;i--){
-					for(int j=yCoord+2;j>yCoord-3;j--){
-						for(int k=zCoord+2;k>zCoord-3;k--){
+				for(int i=xCoord+getRange();i>(xCoord-getRange())-1;i--){
+					for(int j=yCoord+getRange();j>(yCoord-getRange())-1;j--){
+						for(int k=zCoord+getRange();k>(zCoord-getRange())-1;k--){
 
 							scan(direction,new CoordTuple(i,j,k), true);
 								register(i,j,k,near);
@@ -433,7 +422,7 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 
 	@Override
 	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
-		return false;
+		return itemstack.itemID==Config.itemStartingID+4;
 	}
 
 	@Override
@@ -499,9 +488,17 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 		this.joulesStored=joules;
 	}
 
+	public int getRange(){
+		ItemStack upgrades=inventory[0];
+		if(upgrades!=null&&upgrades.getItem() instanceof RangeExtender){
+			
+			return upgrades.stackSize+2;
+		}else{
+			return 2;
+		}
+	}
 
-
-
+	
 	@Override
 	public double getMaxJoules() {
 		// TODO Auto-generated method stub

@@ -55,7 +55,10 @@ public class AirshipBlockRegistry {
 
 			normal=new ArrayList<AirshipDelayedBlock>();
 			for(int i=0;i<delayed.size();i++){
+				
 				AirshipDelayedBlock toPlace=delayed.get(i);
+
+				toPlace.world.setBlock(toPlace.x, toPlace.y, toPlace.z, 0);
 				toPlace.world.setBlock(toPlace.x, toPlace.y, toPlace.z, toPlace.id,toPlace.meta,3);
 				toPlace.world.setBlock(toPlace.oldX, toPlace.oldY, toPlace.oldZ, 0);
 			}
