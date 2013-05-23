@@ -74,7 +74,7 @@ public class ControllerTileEntity extends TileEntityElectricityRunnable implemen
 			if(worldObj.getTotalWorldTime()%100==96){
 				AirshipBlockRegistry.empty();
 			}
-			if(worldObj.getTotalWorldTime()%100==5){
+			if(worldObj.getTotalWorldTime()%100==2){
 				AirshipBlockRegistry.placeDelayed();
 			}
 		if(worldObj.getTotalWorldTime()%100==0&&getJoules()>10000){

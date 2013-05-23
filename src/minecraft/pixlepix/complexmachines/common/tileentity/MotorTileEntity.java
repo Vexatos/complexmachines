@@ -5,8 +5,17 @@ import java.util.List;
 
 import pixlepix.complexmachines.common.AirshipBlockRegistry;
 import pixlepix.complexmachines.common.AirshipDelayedBlock;
+import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.CoordTuple;
+import pixlepix.complexmachines.common.laser.LaserEmitterTileEntity;
+import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.block.IElectricityStorage;
+import universalelectricity.core.electricity.ElectricityNetworkHelper;
+import universalelectricity.core.electricity.ElectricityPack;
+import universalelectricity.core.electricity.IElectricityNetwork;
+import universalelectricity.core.vector.Vector3;
+import universalelectricity.core.vector.VectorHelper;
+import universalelectricity.prefab.network.PacketManager;
 import universalelectricity.prefab.tile.TileEntityElectricityRunnable;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -25,7 +34,7 @@ import net.minecraftforge.common.ForgeDirection;
 
 public class MotorTileEntity extends TileEntityElectricityRunnable implements IInventory, IElectricityStorage {
 	
-	public int ticks=0;
+	private static final double TRANSFER_LIMIT = 25000;
 	public double joulesStored;
 	public int maxJoules=25000;
 	public int direction=0;
@@ -40,7 +49,32 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 		
 	}
 	
-	
+	public void consumePower(){
+		ForgeDirection inputDirection = ForgeDirection.getOrientation(this.getBlockMetadata() + 2);
+		TileEntity inputTile = VectorHelper.getTileEntityFromSide(
+				this.worldObj, new Vector3(this), inputDirection);
+
+		IElectricityNetwork inputNetwork = ElectricityNetworkHelper
+				.getNetworkFromTileEntity(inputTile,
+						inputDirection.getOpposite());
+
+		if (inputNetwork != null) {
+			if (this.joulesStored < maxJoules) {
+				inputNetwork.startRequesting(this,Math.min(this.getMaxJoules() - this.getJoules(),this.TRANSFER_LIMIT) / this.getVoltage(),this.getVoltage());
+				ElectricityPack electricityPack = inputNetwork.consumeElectricity(this);
+				this.setJoules(this.joulesStored+ electricityPack.getWatts());
+
+				if (UniversalElectricity.isVoltageSensitive) {
+					if (electricityPack.voltage > this.getVoltage()) {
+						this.worldObj.createExplosion(null, this.xCoord,
+								this.yCoord, this.zCoord, 2f, true);
+					}
+				}
+			} else {
+				inputNetwork.stopRequesting(this);
+			}
+		}
+	}
 		
 		
 	@Override
@@ -130,14 +164,65 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 		return false;
 	}
 	
-	public void updateEntity(){
-		if(ticks<0){
-			
+	public ForgeDirection getDirection(){
+		switch(direction){
+
+		case 1:
+			return ForgeDirection.UP;
+		case 2:
+			return ForgeDirection.DOWN;
+		case 3:
+			return ForgeDirection.NORTH;
+		case 4:
+			return ForgeDirection.EAST;
+		case 5:
+			return ForgeDirection.SOUTH;
+		case 6:
+			return ForgeDirection.WEST;
+		
 		}
-		ticks--;
-		//if(!worldObj.isRemote){
-			System.out.println(direction);
-		//}
+		return null;
+	}
+	
+	public void updateEntity(){
+		super.updateEntity();
+
+		ForgeDirection inputDirection = ForgeDirection.getOrientation(this.getBlockMetadata() + 2);
+
+		System.out.println(""+worldObj.isRemote+direction);
+		// System.out.println(getJoules());
+		if (!this.worldObj.isRemote) {
+				consumePower();
+
+				if (getJoules() > 10000) {
+					if (worldObj.getTotalWorldTime()%100==0) {
+
+						setJoules(getJoules()-10000);
+						System.out.println(getDirection());
+						if(getDirection()!=null){
+							System.out.println(getDirection().name());
+							move(getDirection());
+						}
+
+
+					}
+
+			
+			}else{
+				System.out.println(getJoules());
+			}
+
+		if (!this.worldObj.isRemote) {
+			if (this.ticks % 3 == 0 && this.playersUsing > 0) {
+//				PacketManager.sendPacketToClients(this.getDescriptionPacket(),
+	//					this.worldObj, new Vector3(this), 12);
+			}
+		}
+
+		this.joulesStored = Math.min(this.joulesStored, this.getMaxJoules());
+		this.joulesStored = Math.max(this.joulesStored, 0d);
+
+		}
 	}
 	public void scan(ForgeDirection direction, CoordTuple target, boolean center){
 		if(!worldObj.isRemote){
@@ -168,6 +253,7 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 		}
 	
 	public void moveBlock(ForgeDirection direction, CoordTuple target, boolean center){
+		
 		if(!worldObj.isRemote){
 		int targetX = target.x+direction.offsetX;
 		int targetY = target.y+direction.offsetY;
@@ -196,87 +282,42 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 	
 	public void move(ForgeDirection direction){
 		
-		if(ticks<0){
-			
+		 	System.out.println("1");
 			for(int i=xCoord-4;i<xCoord+4;i++){
 				for(int j=yCoord-4;j<yCoord+4;j++){
-				
+
 					for(int k=zCoord-4;k<zCoord+4;k++){
+
+					 	System.out.println("2");
 						scan(direction, new CoordTuple(i,j,k),true);
-						
+
 					}
 				}
 			}
-			ticks=3;
 			//xCoordTuple[] nearby={new CoordTuple(xCoord+1,yCoord,zCoord+1),new CoordTuple(xCoord+1,yCoord,zCoord-1),new CoordTuple(xCoord-1,yCoord,zCoord+1),new CoordTuple(xCoord-1,yCoord,zCoord-1),new CoordTuple(xCoord+1,yCoord,zCoord),new CoordTuple(xCoord-1,yCoord,zCoord),new CoordTuple(xCoord,yCoord+1,zCoord),new CoordTuple(xCoord,yCoord-1,zCoord),new CoordTuple(xCoord,yCoord,zCoord+1),new CoordTuple(xCoord,yCoord,zCoord-1)};
 			ArrayList<CoordTuple> near=new ArrayList<CoordTuple>();
-			int xMin=xCoord-2;
-			int yMin=yCoord-2;
-			int zMin=zCoord-2;
 			
-			int xMax=xCoord+3;
-			int yMax=yCoord+3;
-			int zMax=zCoord+3;
+
 			
-			int xInc=1;
-			int yInc=1;
-			int zInc=1;
-			
-			boolean reverse=false;
-			
-			if(direction.offsetX==1){
-				xMax=xCoord-2;
-				xMin=xCoord+3;
-				xInc=-1;
-				reverse=true;
-			}
-			
-			if(direction.offsetY==1){
-				yMax=yCoord-2;
-				yMin=yCoord+3;
-				yInc=-1;
-				reverse=true;
-			}
-			
-			if(direction.offsetZ==1){
-				zMax=zCoord-2;
-				zMin=zCoord+3;
-				zInc=-1;
-				reverse=true;
-			}
-			
-			if(!reverse){
 				for(int i=xCoord-2;i<xCoord+3;i++){
 					for(int j=yCoord-2;j<yCoord+3;j++){
-					
-						for(int k=zCoord-2;k<zCoord+3;k++){
-							scan(direction,new CoordTuple(i,j,k), true);
-							if(!isTrailing(i,j,k,direction)){
-								register(i,j,k,near);
-							}
-							
-						}	
-					}
-				}
-			}else{
-				
-				for(int i=xCoord+2;i>xCoord-3;i--){
-					for(int j=yCoord+2;j>yCoord-3;j--){
-						for(int k=zCoord+2;k>zCoord-3;k--){
 
+						for(int k=zCoord-2;k<zCoord+3;k++){
+
+						 	System.out.println("3");
 							scan(direction,new CoordTuple(i,j,k), true);
-							if(!isTrailing(i,j,k,direction)){
-								register(i,j,k,near);
-							}
 							
+								register(i,j,k,near);
+							
+
 						}	
 					}
 				}
-				
-			}
-				
 			
-					
+
+
+			 	System.out.println("4");
+
 			for(int l=0;l<near.size();l++){
 				CoordTuple target=near.get(l);
 				if(target!=null&&!AirshipBlockRegistry.check(target.x, target.y, target.z)){
@@ -292,35 +333,23 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 			if(direction.offsetY==1){
 			List<Entity> entities=worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(xCoord-1.5, yCoord-1.5, zCoord-1.5, xCoord+1.5, yCoord+1.5, zCoord+1.5));
 				for(int i=0;i<entities.size();i++){
-					
+
 					Entity entity=entities.get(i);
 					entity.setPosition(entity.posX, entity.posY+2, entity.posZ);
 				}
 			}
-			
-		}
-	}
 
-	public boolean isTrailing(int x,int y, int z, ForgeDirection direction){
-		if(x==xCoord-direction.offsetX&&y==yCoord-direction.offsetY&&z==zCoord-direction.offsetZ){
-			//System.out.println(x+y+z);
-			return true;
-		}
-		if(x==xCoord-2*direction.offsetX&&y==yCoord-2*direction.offsetY&&z==zCoord-2*direction.offsetZ){
-			return true;
-		}
-		if(x==xCoord-3*direction.offsetX&&y==yCoord-3*direction.offsetY&&z==zCoord-3*direction.offsetZ){
-			return true;
-		}
 		
-		return false;
 	}
+	
+
 	
 	
 	private void register(int i, int j, int k, ArrayList near) {
 		if(xCoord!=i||yCoord!=j||zCoord!=k){
 			
 			if(worldObj.getBlockId(i, j, k)!=0){
+
 				near.add(new CoordTuple(i,j,k));
 			}
 		}
@@ -402,7 +431,7 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 		}
 		
 		par1NBTTagCompound.setTag("Items", var2);
-		par1NBTTagCompound.setInteger("Direction", direction);
+		par1NBTTagCompound.setInteger("direction", direction);
 	}
 
 

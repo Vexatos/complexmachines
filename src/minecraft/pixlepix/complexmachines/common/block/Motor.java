@@ -161,17 +161,21 @@ public class Motor extends BlockAdvanced {
 	public Icon getIcon(int side, int meta) {
 
 		
-			if (side == 1 || side == 0) {
-				return topIcon;
-			}
+		if (side == meta + 2) {
+			return connectorIcon;
+		}
+		if (side == 1 || side == 0) {
+			return topIcon;
+		}
 			return blockIcon;
+		}
 		
-	}
+	
 
 	@Override
 	public TileEntity createNewTileEntity(World world) {
 		// TODO Auto-generated method stub
-		return null;
+		return new MotorTileEntity();
 	}
 
 }

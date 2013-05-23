@@ -23,7 +23,7 @@ public class PacketHandler implements IPacketHandler {
 	{
 		Side side = FMLCommonHandler.instance().getEffectiveSide();
 
-		if (packet.channel.equals("TConstruct"))
+		if (packet.channel.equals("Complex Machines"))
 		{
 			if (side == Side.SERVER)
 				handleServerPacket(packet);
@@ -40,23 +40,12 @@ public class PacketHandler implements IPacketHandler {
 		int dimension;
 		byte packetID;
 
-		try
-		{
-			packetID = inputStream.readByte();
-			dimension = inputStream.readInt();
-
-			World world = DimensionManager.getWorld(dimension);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-			return;
-		}
+		
 	}
 
 	void handleServerPacket (Packet250CustomPayload packet)
 	{
-		System.out.println("Reading airship packet");
+		System.out.println("Server 1");
 		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
 
 		byte packetID;
@@ -67,6 +56,8 @@ public class PacketHandler implements IPacketHandler {
 
 			if (packetID == 1) 
 			{
+
+				System.out.println("Server 2");
 				int dimension = inputStream.readInt();
 
 				World world = DimensionManager.getWorld(dimension);
@@ -76,9 +67,12 @@ public class PacketHandler implements IPacketHandler {
 				int direction = inputStream.readInt();
 				TileEntity te = world.getBlockTileEntity(x, y, z);
 				if(te instanceof MotorTileEntity){
+
+					System.out.println("Server 3");
+
+					System.out.println("Server 4: "+direction);
 					((MotorTileEntity)te).direction=direction;
 				}
-				String toolName = inputStream.readUTF();
 				
 			}
 			
@@ -95,7 +89,7 @@ public class PacketHandler implements IPacketHandler {
 		}
 		catch (IOException e)
 		{
-			System.out.println("Failed at reading server packet for TConstruct.");
+			System.out.println("Failed at reading server packet for Complex Machines.");
 			e.printStackTrace();
 			return;
 		}
