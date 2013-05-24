@@ -155,7 +155,7 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 	}
 		
 	
-	public boolean needsSupport(int id){
+	public static boolean needsSupport(int id){
 		int[] support={6,26,27,28,31,32,37,38,39,40,50,55,59,63,64,65,66,68,69,70,71,72,75,76,77,83,93,94,96,104,105,106,111,115,131,132,141,142,143,147,148,149,150,157};
 		for(int i=0;i<support.length;i++){
 			if(support[i]==id){
@@ -227,7 +227,7 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 
 		}
 	}
-	public void scan(ForgeDirection direction, CoordTuple target, boolean center){
+	/*public void scan(ForgeDirection direction, CoordTuple target, boolean center){
 		if(!worldObj.isRemote){
 			int targetX = target.x+direction.offsetX;
 			int targetY = target.y+direction.offsetY;
@@ -254,7 +254,7 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 			}
 			}
 		}
-	
+	*/
 	public void moveBlock(ForgeDirection direction, CoordTuple target, boolean center){
 		
 		if(!worldObj.isRemote){
@@ -278,6 +278,9 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 			}
 			Block targetBlockType = this.blockType;
 			AirshipBlockRegistry.addBlock(new AirshipDelayedBlock(targetX,targetY,targetZ,materialId,meta,worldObj,list,target.x,target.y,target.z));
+			if(needsSupport(materialId)){
+				worldObj.setBlock(target.x, target.y, target.z, 0);
+			}
 			
 		}
 		
@@ -331,7 +334,7 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 					for(int j=yCoord-getRange();j<yCoord+getRange()+1;j++){
 
 						for(int k=zCoord-getRange();k<zCoord+getRange()+1;k++){
-							scan(direction,new CoordTuple(i,j,k), true);
+							//scan(direction,new CoordTuple(i,j,k), true);
 								register(i,j,k,near);
 							
 
@@ -344,7 +347,7 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 					for(int j=yCoord+getRange();j>(yCoord-getRange())-1;j--){
 						for(int k=zCoord+getRange();k>(zCoord-getRange())-1;k--){
 
-							scan(direction,new CoordTuple(i,j,k), true);
+							//scan(direction,new CoordTuple(i,j,k), true);
 								register(i,j,k,near);
 							
 
@@ -367,11 +370,18 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 			moveBlock(direction, new CoordTuple(xCoord-2*direction.offsetX,yCoord-2*direction.offsetY,zCoord-2*direction.offsetZ),true);
 			//moveBlock(direction, new CoordTuple(xCoord-3*direction.offsetX,yCoord-3*direction.offsetY,zCoord-3*direction.offsetZ),true);
 			if(direction.offsetY==1){
-			List<Entity> entities=worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(xCoord-1.5, yCoord-1.5, zCoord-1.5, xCoord+1.5, yCoord+1.5, zCoord+1.5));
+			List<Entity> entities=worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(xCoord-getRange(), yCoord-getRange(), zCoord-getRange(), xCoord+getRange(), yCoord+getRange(), zCoord+getRange()));
 				for(int i=0;i<entities.size();i++){
 
 					Entity entity=entities.get(i);
-					entity.setPosition(entity.posX, entity.posY+2, entity.posZ);
+					entity.setPosition(entity.posX, entity.posY+3, entity.posZ);
+				}
+			}else{
+				List<Entity> entities=worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(xCoord-getRange(), yCoord-getRange(), zCoord-getRange(), xCoord+getRange(), yCoord+getRange(), zCoord+getRange()));
+				for(int i=0;i<entities.size();i++){
+
+					Entity entity=entities.get(i);
+					entity.setPosition(entity.posX+direction.offsetX, entity.posY+.2, entity.posZ+direction.offsetZ);
 				}
 			}
 

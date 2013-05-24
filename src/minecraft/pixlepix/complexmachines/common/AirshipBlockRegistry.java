@@ -2,6 +2,8 @@ package pixlepix.complexmachines.common;
 
 import java.util.ArrayList;
 
+import pixlepix.complexmachines.common.tileentity.MotorTileEntity;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
@@ -31,7 +33,11 @@ public class AirshipBlockRegistry {
 	
 	public static void placeDelayed(){
 			for(int i=0;i<normal.size();i++){
+
 				AirshipDelayedBlock toPlace=normal.get(i);
+				if(MotorTileEntity.needsSupport(toPlace.id)){
+					delayed.add(toPlace);
+				}else{
 				toPlace.world.setBlock(toPlace.x, toPlace.y, toPlace.z, toPlace.id,toPlace.meta,3);
 				
 				toPlace.world.setBlock(toPlace.oldX, toPlace.oldY, toPlace.oldZ, 0);
@@ -50,7 +56,7 @@ public class AirshipBlockRegistry {
 						
 					}
 				}
-			
+				}
 			}
 
 			normal=new ArrayList<AirshipDelayedBlock>();
@@ -58,7 +64,6 @@ public class AirshipBlockRegistry {
 				
 				AirshipDelayedBlock toPlace=delayed.get(i);
 
-				toPlace.world.setBlock(toPlace.x, toPlace.y, toPlace.z, 0);
 				toPlace.world.setBlock(toPlace.x, toPlace.y, toPlace.z, toPlace.id,toPlace.meta,3);
 				toPlace.world.setBlock(toPlace.oldX, toPlace.oldY, toPlace.oldZ, 0);
 			}
