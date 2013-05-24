@@ -191,8 +191,8 @@ public class ExtractorMachineTileEntity extends TileEntityElectricityRunnable
 
 		if (!this.worldObj.isRemote) {
 			if (this.ticks % 3 == 0 && this.playersUsing > 0) {
-				 PacketManager.sendPacketToClients(this.getDescriptionPacket(),
-				this.worldObj, new Vector3(this), 12);
+				//PacketManager.sendPacketToClients(this.getDescriptionPacket(),
+				//this.worldObj, new Vector3(this), 12);
 			}
 		}
 
