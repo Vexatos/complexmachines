@@ -136,12 +136,7 @@ public class GrinderTileEntity extends TileEntityElectricityRunnable implements
 
 		}
 
-		if (!this.worldObj.isRemote) {
-			if (this.ticks % 3 == 0 && this.playersUsing > 0) {
-				PacketManager.sendPacketToClients(this.getDescriptionPacket(),
-						this.worldObj, new Vector3(this), 12);
-			}
-		}
+		
 
 		this.joulesStored = Math.min(this.joulesStored, this.getMaxJoules());
 		this.joulesStored = Math.max(this.joulesStored, 0d);
