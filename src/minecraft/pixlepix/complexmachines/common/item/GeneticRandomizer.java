@@ -8,20 +8,22 @@ import org.lwjgl.input.Keyboard;
 
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import pixlepix.complexmachines.common.*;
+import pixlepix.complexmachines.common.mob.GeneticMob;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import universalelectricity.core.item.ItemElectric;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-public class BeaconFormer extends ItemElectric
+public class GeneticRandomizer extends ItemElectric
 {
-    public BeaconFormer(int par1)
+    public GeneticRandomizer(int par1)
     {
         super(par1);
-        this.setUnlocalizedName("Beacon Former");
+        this.setUnlocalizedName("Randomizer");
         maxStackSize=1;
         this.setCreativeTab(ComplexMachines.creativeTab);
     }
@@ -35,31 +37,20 @@ public class BeaconFormer extends ItemElectric
 		}
 		else {
 			
-			list.add(EnumColor.AQUA + "Places a beacon above nearby players");
-			list.add(EnumColor.DARK_GREEN + "100KJ per ore mined");
+			list.add(EnumColor.AQUA + "Randomizes the genes of mobs");
+			list.add(EnumColor.DARK_GREEN + "100KJ per mob");
 		}
 	}
-    
-    
     @Override
-    public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float par8, float par9, float par10)
+    public boolean itemInteractionForEntity(ItemStack par1ItemStack, EntityLiving par2EntityLiving)
     {
-    		
-    		int targetId=world.getBlockId(x, y, z);
-    		if (!player.worldObj.isRemote)
-    			return false;
-    		List<EntityPlayer> entities=player.worldObj.getEntitiesWithinAABB(EntityPlayer.class, AxisAlignedBB.getBoundingBox(player.posX-30,player.posY-30,player.posZ-30,player.posX+30,player.posY+30,player.posZ+30));
-    		for(int i=0;i<entities.size();i++){
-    			EntityPlayer target=entities.get(i);
-    		    player.worldObj.setBlock((int)target.posX, (int)target.posY, (int)target.posZ, Config.blockStartingID+10, 10, 3);
-    		}
-    			
+        if(!(par2EntityLiving instanceof EntityPlayer)){
+        	par2EntityLiving.worldObj.spawnEntityInWorld(new GeneticMob(par2EntityLiving.worldObj));
+        	par2EntityLiving.setDead();
+        	
+        }
     	
-    	
-    	
-    	
-		return false;
-        
+    	return true;
     }
 
     

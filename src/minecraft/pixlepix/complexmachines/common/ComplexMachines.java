@@ -17,10 +17,10 @@ import pixlepix.complexmachines.common.block.Motor;
 import pixlepix.complexmachines.common.block.OceanGenerator;
 import pixlepix.complexmachines.common.block.ReplacerMachine;
 import pixlepix.complexmachines.common.block.SinglePointGenerator;
-import pixlepix.complexmachines.common.item.BeaconFormer;
 import pixlepix.complexmachines.common.item.ClusterMinerItem;
 import pixlepix.complexmachines.common.item.CubeFormerItem;
 import pixlepix.complexmachines.common.item.FellerItem;
+import pixlepix.complexmachines.common.item.GeneticRandomizer;
 import pixlepix.complexmachines.common.item.RangeExtender;
 import pixlepix.complexmachines.common.itemblock.ControllerItemBlock;
 import pixlepix.complexmachines.common.itemblock.ExtractorItemBlock;
@@ -51,6 +51,7 @@ import pixlepix.complexmachines.common.laser.tileentity.HarmingLaserBeamTileEnti
 import pixlepix.complexmachines.common.laser.tileentity.LaserBeamTileEntity;
 import pixlepix.complexmachines.common.laser.tileentity.SuctionLaserBeamTileEntity;
 import pixlepix.complexmachines.common.laser.tileentity.TripwireLaserBeamTileEntity;
+import pixlepix.complexmachines.common.mob.GeneticMob;
 import pixlepix.complexmachines.common.tileentity.ControllerTileEntity;
 import pixlepix.complexmachines.common.tileentity.ExtractorMachineTileEntity;
 import pixlepix.complexmachines.common.tileentity.FillerMachineTileEntity;
@@ -74,6 +75,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
@@ -87,6 +89,7 @@ public class ComplexMachines {
 	public static Item feller;
 	public static Item clusterMiner;
 	public static Item cubeFormer;
+	public static Item randomizer;
 
 
 	public static Item rangeExtender;
@@ -120,6 +123,7 @@ public class ComplexMachines {
 	public static Block singlePoint;
 	
 	public void loadBlocks(){
+		EntityRegistry.registerModEntity(GeneticMob.class, "GeneticMob", 1, this, 50, 1, true);
 	flux = new Flux(Config.blockStartingID + 18)
 			.setHardness(0.5F).setStepSound(Block.soundGravelFootstep).setCreativeTab(creativeTab);
 
@@ -213,6 +217,7 @@ public class ComplexMachines {
 
 	cubeFormer=new CubeFormerItem(Config.itemStartingID+3);
 
+	randomizer=new GeneticRandomizer(Config.itemStartingID+5);
 
 	rangeExtender=new RangeExtender(Config.itemStartingID+4);
 
@@ -256,6 +261,8 @@ public class ComplexMachines {
 		proxy.registerRenderers();
 		proxy.init();
 
+		LanguageRegistry.instance().addStringLocalization("entity.ComplexMachines.GeneticMob.name", "Mutant");
+		
 		NetworkRegistry networkRegistry = NetworkRegistry.instance();
 		networkRegistry.registerGuiHandler(this, guiHandler);
 		
@@ -365,6 +372,8 @@ public class ComplexMachines {
 		LanguageRegistry.addName(feller, "Feller");
 
 		LanguageRegistry.addName(cubeFormer, "Cube Former");
+
+		LanguageRegistry.addName(randomizer, "GeneticRandomizer");
 		
 		
 		LanguageRegistry.addName(rangeExtender, "Motor range extender upgrade");
@@ -396,7 +405,7 @@ public class ComplexMachines {
 		ItemStack clusterMinerCrafting=new ItemStack(clusterMiner);
 		ItemStack airshipMotorCrafting=new ItemStack(motor);
 
-		ItemStack airshipMotorCraftingOutput=new ItemStack(motor,64);
+		ItemStack airshipMotorCraftingOutput=new ItemStack(motor);
 		ItemStack airshipControllerCrafting=new ItemStack(controller);
 		ItemStack cubeFormerCrafting=new ItemStack(cubeFormer);
 
