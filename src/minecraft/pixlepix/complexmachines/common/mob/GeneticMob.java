@@ -38,7 +38,8 @@ public class GeneticMob extends EntityMob {
 		this.texture=genome.texture;
 		
 		
-		 this.tasks.addTask(0, new EntityAISwimming(this));
+		/* 
+		this.tasks.addTask(0, new EntityAISwimming(this));
 		 if(genome.hostile||genome.provokable){
 
 		        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
@@ -49,7 +50,7 @@ public class GeneticMob extends EntityMob {
 	         this.tasks.addTask(3, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
 		 }
          this.tasks.addTask(4, new EntityAIWander(this, this.moveSpeed));
-		
+		*/
 		
 	}
 	@Override

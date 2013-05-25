@@ -5,6 +5,7 @@ import java.util.List;
 
 import pixlepix.complexmachines.common.AirshipBlockRegistry;
 import pixlepix.complexmachines.common.AirshipDelayedBlock;
+import pixlepix.complexmachines.common.ComplexMachines;
 import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.CoordTuple;
 import pixlepix.complexmachines.common.item.RangeExtender;
@@ -258,6 +259,9 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 	public void moveBlock(ForgeDirection direction, CoordTuple target, boolean center){
 		
 		if(!worldObj.isRemote){
+			if(ComplexMachines.isProtected(xCoord, zCoord)){
+				return;
+			}
 		int targetX = target.x+direction.offsetX;
 		int targetY = target.y+direction.offsetY;
 		int targetZ = target.z+direction.offsetZ;
