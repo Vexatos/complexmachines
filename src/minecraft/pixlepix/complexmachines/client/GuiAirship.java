@@ -23,6 +23,7 @@ public class GuiAirship extends GuiContainer
     private MotorTileEntity tileEntity;
     
     private int containerWidth;
+
     private int containerHeight;
 
 	private int direction;
@@ -57,13 +58,13 @@ public class GuiAirship extends GuiContainer
 
         int cornerX = (this.width - this.xSize) / 2;
         int cornerY = (this.height - this.ySize) / 2;
-    	buttonList.add(new GuiButton(1, cornerX+0, cornerY+ySize/4, 20, 20, "+"));
-        buttonList.add(new GuiButton(2, cornerX+25, cornerY+ySize/4, 20, 20, "-"));
-        buttonList.add(new GuiButton(3, cornerX+50, cornerY+ySize/4, 20, 20, "N"));
-        buttonList.add(new GuiButton(4, cornerX+75, cornerY+ySize/4, 20, 20, "E"));
+    	buttonList.add(new GuiButton(1, cornerX+20, cornerY+ySize/4, 20, 20, "+"));
+        buttonList.add(new GuiButton(2, cornerX+40, cornerY+ySize/4, 20, 20, "-"));
+        buttonList.add(new GuiButton(3, cornerX+60, cornerY+ySize/4, 20, 20, "N"));
+        buttonList.add(new GuiButton(4, cornerX+80, cornerY+ySize/4, 20, 20, "E"));
         buttonList.add(new GuiButton(5, cornerX+100, cornerY+ySize/4, 20, 20, "S"));
-        buttonList.add(new GuiButton(6, cornerX+125, cornerY+ySize/4, 20, 20, "W"));
-        buttonList.add(new GuiButton(0, cornerX+150, cornerY+ySize/4, 20, 20, "O"));
+        buttonList.add(new GuiButton(6, cornerX+120, cornerY+ySize/4, 20, 20, "W"));
+        buttonList.add(new GuiButton(0, cornerX+140, cornerY+ySize/4, 20, 20, "O"));
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.renderEngine.bindTexture(GuiAirship.getTexture());
         this.containerWidth = (this.width - this.xSize) / 2;

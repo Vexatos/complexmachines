@@ -17,6 +17,7 @@ import pixlepix.complexmachines.common.block.Motor;
 import pixlepix.complexmachines.common.block.OceanGenerator;
 import pixlepix.complexmachines.common.block.ReplacerMachine;
 import pixlepix.complexmachines.common.block.SinglePointGenerator;
+import pixlepix.complexmachines.common.item.BeaconFormer;
 import pixlepix.complexmachines.common.item.ClusterMinerItem;
 import pixlepix.complexmachines.common.item.CubeFormerItem;
 import pixlepix.complexmachines.common.item.FellerItem;
@@ -86,6 +87,7 @@ public class ComplexMachines {
 	public static Item feller;
 	public static Item clusterMiner;
 	public static Item cubeFormer;
+
 
 	public static Item rangeExtender;
 	
@@ -210,6 +212,7 @@ public class ComplexMachines {
 	clusterMiner=new ClusterMinerItem(Config.itemStartingID+2);
 
 	cubeFormer=new CubeFormerItem(Config.itemStartingID+3);
+
 
 	rangeExtender=new RangeExtender(Config.itemStartingID+4);
 
@@ -362,7 +365,8 @@ public class ComplexMachines {
 		LanguageRegistry.addName(feller, "Feller");
 
 		LanguageRegistry.addName(cubeFormer, "Cube Former");
-
+		
+		
 		LanguageRegistry.addName(rangeExtender, "Motor range extender upgrade");
 
 		LanguageRegistry.addName(clusterMiner, "Cluster Miner");

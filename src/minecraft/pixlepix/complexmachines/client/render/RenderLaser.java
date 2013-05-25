@@ -85,28 +85,34 @@ String laserTexture="/mods/ComplexMachines/textures/blocks/LaserBeam.png";
     	        GL11.glRotatef(270, 0.0F, 1.0F, 0.0F);
     	        
     	        GL11.glScalef(1.0F, -1F, -1F);
-
-    	        ForgeDirection direction=ForgeDirection.VALID_DIRECTIONS[var1.worldObj.getBlockMetadata(var1.xCoord, var1.yCoord, var1.zCoord)];
-    	       
-    	        if(direction.offsetX==1){
+    	        ForgeDirection direction=null;
+    	        int meta=var1.worldObj.getBlockMetadata(var1.xCoord, var1.yCoord, var1.zCoord);
+    	        if(meta<ForgeDirection.VALID_DIRECTIONS.length){
+    	        	direction=ForgeDirection.VALID_DIRECTIONS[var1.worldObj.getBlockMetadata(var1.xCoord, var1.yCoord, var1.zCoord)];
+    	        }
+    	        if(meta==10){
     	        	GL11.glRotatef(270,0F, 1.0F, 0F);
-    	        	GL11.glTranslated(-0.5, 0.5, 0.5);
     	        }
-    	        if(direction.offsetX==-1){
-    	        	GL11.glRotatef(90,0F,1F,0F);
-
-    	        	GL11.glTranslated(-0.5, 0.5, 0.5);
+    	        if(direction!=null){
+	    	        if(direction.offsetX==1){
+	    	        	GL11.glRotatef(90,0F, 0F, 1.00F);
+	    	        	GL11.glTranslated(-0.5, 0.5, 0.5);
+	    	        }
+	    	        if(direction.offsetX==-1){
+	    	        	GL11.glRotatef(90,0F,1F,0F);
+	
+	    	        	GL11.glTranslated(-0.5, 0.5, 0.5);
+	    	        }
+	    	        if(direction.offsetZ==1){
+	
+	    	        	GL11.glTranslated(-0.5, 0.5, 0.5);
+	    	        }
+	    	        if(direction.offsetZ==-1){
+	
+	    	        	GL11.glTranslated(-20.5, 0.5, 0.5);
+	
+	    	        }
     	        }
-    	        if(direction.offsetZ==1){
-
-    	        	GL11.glTranslated(-0.5, 0.5, 0.5);
-    	        }
-    	        if(direction.offsetZ==-1){
-
-    	        	GL11.glTranslated(-20.5, 0.5, 0.5);
-
-    	        }
-    	        
     	        //GL11.glTranslated();
     	        //GL11.glScaled(20,1,20);
     	        this.model.render();
