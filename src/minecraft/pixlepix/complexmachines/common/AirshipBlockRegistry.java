@@ -38,6 +38,8 @@ public class AirshipBlockRegistry {
 				if(MotorTileEntity.needsSupport(toPlace.id)){
 					delayed.add(toPlace);
 				}else{
+					
+				
 				toPlace.world.setBlock(toPlace.x, toPlace.y, toPlace.z, toPlace.id,toPlace.meta,3);
 				
 				toPlace.world.setBlock(toPlace.oldX, toPlace.oldY, toPlace.oldZ, 0);
@@ -50,8 +52,9 @@ public class AirshipBlockRegistry {
 
 						restoreData.setInteger("z", toPlace.z);
 						TileEntity newEntity=toPlace.world.getBlockTileEntity(toPlace.x, toPlace.y, toPlace.z);
-		               
-		                newEntity.readFromNBT(restoreData);
+						if (newEntity!=null){
+							newEntity.readFromNBT(restoreData);
+						}
 						toPlace.world.setBlockTileEntity(toPlace.x, toPlace.y, toPlace.z, newEntity);
 						
 					}
