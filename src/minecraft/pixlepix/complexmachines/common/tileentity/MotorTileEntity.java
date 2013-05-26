@@ -281,7 +281,9 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 				oldEntity.invalidate();
 			}
 			Block targetBlockType = this.blockType;
-			AirshipBlockRegistry.addBlock(new AirshipDelayedBlock(targetX,targetY,targetZ,materialId,meta,worldObj,list,target.x,target.y,target.z));
+			if(!(materialId==7)){
+				AirshipBlockRegistry.addBlock(new AirshipDelayedBlock(targetX,targetY,targetZ,materialId,meta,worldObj,list,target.x,target.y,target.z));
+			}
 			if(needsSupport(materialId)){
 				worldObj.setBlock(target.x, target.y, target.z, 0);
 			}
