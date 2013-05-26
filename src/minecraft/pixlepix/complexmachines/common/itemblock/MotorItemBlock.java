@@ -31,7 +31,9 @@ public class MotorItemBlock extends ItemBlock {
 			list.add(EnumColor.ORANGE + "Moves nearby blocks");
 
 			list.add(EnumColor.ORANGE + "Range of a 5x5x5 cube");
-			list.add(EnumColor.ORANGE + "Activated by nearby controller");
+			list.add(EnumColor.ORANGE + "Extend range with range upgrades");
+
+			list.add(EnumColor.ORANGE + "Click buttons to move");
 			list.add(EnumColor.DARK_GREEN + "2KW while in use");
 		}
 	}
