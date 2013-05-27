@@ -43,17 +43,6 @@ public class AirshipBlockRegistry {
 				toPlace.world.setBlock(toPlace.x, toPlace.y, toPlace.z, toPlace.id,toPlace.meta,3);
 				
 				toPlace.world.setBlock(toPlace.oldX, toPlace.oldY, toPlace.oldZ, 0);
-				
-				
-				}
-			}
-			
-			for(int i=0;i<normal.size();i++){
-
-				AirshipDelayedBlock toPlace=normal.get(i);
-				
-					
-				
 				if(toPlace.list!=null){
 					if(toPlace.list.tagCount()>0){
 						NBTTagCompound restoreData=(NBTTagCompound) toPlace.list.tagAt(0);
@@ -68,8 +57,8 @@ public class AirshipBlockRegistry {
 						}
 						toPlace.world.setBlockTileEntity(toPlace.x, toPlace.y, toPlace.z, newEntity);
 						
-					
 					}
+				}
 				}
 			}
 
