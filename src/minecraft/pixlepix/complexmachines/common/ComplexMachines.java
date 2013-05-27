@@ -96,7 +96,7 @@ public class ComplexMachines {
 	
 	public static ModFlag flag;
 	
-	//public static Block controller;
+	public static Block controller;
 	public static Block motor;
 
 	public static boolean worldGen;
@@ -148,9 +148,9 @@ public class ComplexMachines {
 			.setCreativeTab(creativeTab);
 	
 
-	//controller = new Controller(Config.blockStartingID + 23)
-			//.setHardness(0.5F).setStepSound(Block.soundGravelFootstep)
-			//.setCreativeTab(creativeTab);
+	controller = new Controller(Config.blockStartingID + 23)
+			.setHardness(0.5F).setStepSound(Block.soundGravelFootstep)
+			.setCreativeTab(creativeTab);
 	
 
 	chargingLaser = new ChargingLaserBlock(Config.blockStartingID + 21)
@@ -272,9 +272,9 @@ public class ComplexMachines {
 		GameRegistry.registerBlock(motor, MotorItemBlock.class);
 		
 
-		//LanguageRegistry.addName(controller, "Airship Controller");
-		//MinecraftForge.setBlockHarvestLevel(controller, "pickaxe", 0);
-		//GameRegistry.registerBlock(controller, ControllerItemBlock.class);
+		LanguageRegistry.addName(controller, "Airship Controller");
+		MinecraftForge.setBlockHarvestLevel(controller, "pickaxe", 0);
+		GameRegistry.registerBlock(controller, ControllerItemBlock.class);
 		
 
 		LanguageRegistry.addName(flux, "Flux");
@@ -406,7 +406,7 @@ public class ComplexMachines {
 		ItemStack airshipMotorCrafting=new ItemStack(motor);
 
 		ItemStack airshipMotorCraftingOutput=new ItemStack(motor);
-		//ItemStack airshipControllerCrafting=new ItemStack(controller);
+		ItemStack airshipControllerCrafting=new ItemStack(controller);
 		ItemStack cubeFormerCrafting=new ItemStack(cubeFormer);
 
 		ItemStack rangeExtenderCrafting=new ItemStack(rangeExtender);
@@ -440,7 +440,7 @@ public class ComplexMachines {
 		}
 		
 		
-		//GameRegistry.addRecipe(new ShapedOreRecipe(airshipControllerCrafting,true,new Object[]{"xxx", "xyx", "xxx", 'x', "plateSteel", 'y', airshipMotorCrafting}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(airshipControllerCrafting,true,new Object[]{"xxx", "xyx", "xxx", 'x', "plateSteel", 'y', airshipMotorCrafting}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(airshipMotorCraftingOutput,true,new Object[]{ "xyx", "yzy", "xyx", 'x', "circuitBasic", 'y', "plateSteel", 'z', "motor"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(clusterMinerCrafting,true,new Object[]{"xxx", "xyx", "xxx", 'x', "circuitBasic", 'y', diamondPickaxe}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(fellerCrafting,true,new Object[]{"xxx", "xyx", "xxx", 'x', "circuitBasic", 'y',axe}));
