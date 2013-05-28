@@ -23,7 +23,6 @@ public class LaserBeamTileEntity extends TileEntity {
 			meta=3;
 		}
 		ForgeDirection direction=ForgeDirection.VALID_DIRECTIONS[meta];
-		System.out.println(direction.ordinal());
 		
 		switch(direction.ordinal()){
 		

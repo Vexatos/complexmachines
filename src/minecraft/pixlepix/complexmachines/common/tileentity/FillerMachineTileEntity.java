@@ -94,7 +94,7 @@ public class FillerMachineTileEntity extends TileEntityElectricityRunnable
 					inputNetwork.stopRequesting(this);
 				}
 				if (getJoules() > 10000) {
-					if (++ticks % 20 == 0) {
+					if (worldObj.getTotalWorldTime()%20 == 0) {
 
 						int lowerBoundX = xCoord;
 
@@ -124,7 +124,7 @@ public class FillerMachineTileEntity extends TileEntityElectricityRunnable
 								for (int cycleZ = lowerBoundZ; cycleZ < upperBoundZ; cycleZ++) {
 									if (worldObj.getBlockId(cycleX, cycleY,cycleZ) == 0) {
 										
-										if(ComplexMachines.isProtected(cycleX, cycleZ)){
+										if(!ComplexMachines.isProtected(cycleX, cycleZ)){
 											worldObj.setBlock(cycleX, cycleY,cycleZ, 1);
 										}
 										setJoules(getJoules() - 10000);

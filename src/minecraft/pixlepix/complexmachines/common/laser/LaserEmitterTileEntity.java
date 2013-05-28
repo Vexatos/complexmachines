@@ -206,7 +206,7 @@ public class LaserEmitterTileEntity extends TileEntityElectricityRunnable
 
 			
 		}else{
-			System.out.println(getJoules());
+			//System.out.println(getJoules());
 			removeBeam();
 		}
 
