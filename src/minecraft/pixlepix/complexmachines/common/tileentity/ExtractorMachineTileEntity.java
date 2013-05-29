@@ -5,6 +5,7 @@ import java.util.Random;
 
 import pixlepix.complexmachines.common.ComplexMachines;
 
+import mekanism.api.IStrictEnergyAcceptor;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -38,7 +39,7 @@ import com.google.common.io.ByteArrayDataInput;
 import cpw.mods.fml.common.Loader;
 
 public class ExtractorMachineTileEntity extends TileEntityElectricityRunnable
-		implements IPacketReceiver, IElectricityStorage, IInventory {
+		implements IPacketReceiver, IElectricityStorage, IInventory, IStrictEnergyAcceptor {
 	public final double WATTS_PER_TICK = 5000;
 	public final double TRANSFER_LIMIT = 125000;
 	private int drawingTicks = 0;
@@ -479,5 +480,36 @@ public class ExtractorMachineTileEntity extends TileEntityElectricityRunnable
 			}
 		}
 		par1NBTTagCompound.setTag("Items", var2);
+	}
+
+	@Override
+	public double getEnergy() {
+		// TODO Auto-generated method stub
+		return this.getJoules();
+	}
+
+	@Override
+	public void setEnergy(double energy) {
+		this.setJoules(energy);
+		
+	}
+
+	@Override
+	public double getMaxEnergy() {
+		// TODO Auto-generated method stub
+		return this.getMaxJoules();
+	}
+
+	@Override
+	public double transferEnergyToAcceptor(double amount) {
+		double energyTransfered=Math.max(getMaxEnergy()-this.getEnergy(),amount );
+		this.setEnergy(this.getEnergy()+energyTransfered);
+		return amount-energyTransfered;
+	}
+
+	@Override
+	public boolean canReceiveEnergy(ForgeDirection side) {
+		// TODO Auto-generated method stub
+		return this.canConnect(side);
 	}
 }

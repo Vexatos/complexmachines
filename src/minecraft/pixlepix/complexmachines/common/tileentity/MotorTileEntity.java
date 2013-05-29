@@ -19,6 +19,7 @@ import universalelectricity.core.vector.Vector3;
 import universalelectricity.core.vector.VectorHelper;
 import universalelectricity.prefab.network.PacketManager;
 import universalelectricity.prefab.tile.TileEntityElectricityRunnable;
+import mekanism.api.IStrictEnergyAcceptor;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -34,7 +35,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.common.ForgeDirection;
 
-public class MotorTileEntity extends TileEntityElectricityRunnable implements IInventory, IElectricityStorage {
+public class MotorTileEntity extends TileEntityElectricityRunnable implements IInventory, IElectricityStorage, IStrictEnergyAcceptor {
 	
 	private static final double TRANSFER_LIMIT = 25000;
 	public double joulesStored;
@@ -524,6 +525,36 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 	public void setDirection(int direction2) {
 		// TODO Auto-generated method stub
 		this.direction=direction2;
+	}
+	@Override
+	public double getEnergy() {
+		// TODO Auto-generated method stub
+		return this.getJoules();
+	}
+
+	@Override
+	public void setEnergy(double energy) {
+		this.setJoules(energy);
+		
+	}
+
+	@Override
+	public double getMaxEnergy() {
+		// TODO Auto-generated method stub
+		return this.getMaxJoules();
+	}
+
+	@Override
+	public double transferEnergyToAcceptor(double amount) {
+		double energyTransfered=Math.max(getMaxEnergy()-this.getEnergy(),amount );
+		this.setEnergy(this.getEnergy()+energyTransfered);
+		return amount-energyTransfered;
+	}
+
+	@Override
+	public boolean canReceiveEnergy(ForgeDirection side) {
+		// TODO Auto-generated method stub
+		return this.canConnect(side);
 	}
 
 }

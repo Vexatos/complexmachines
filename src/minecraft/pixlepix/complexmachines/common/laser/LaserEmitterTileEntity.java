@@ -8,6 +8,7 @@ import pixlepix.complexmachines.common.laser.tileentity.LaserBeamTileEntity;
 import pixlepix.complexmachines.common.laser.tileentity.SuctionLaserBeamTileEntity;
 import pixlepix.complexmachines.common.tileentity.FluxTileEntity;
 
+import mekanism.api.IStrictEnergyAcceptor;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -33,7 +34,7 @@ import universalelectricity.prefab.tile.TileEntityElectricityRunnable;
 import com.google.common.io.ByteArrayDataInput;
 
 public class LaserEmitterTileEntity extends TileEntityElectricityRunnable
-		implements IPacketReceiver, IElectricityStorage {
+		implements IPacketReceiver, IElectricityStorage, IStrictEnergyAcceptor {
 	public final double WATTS_PER_TICK = 5000;
 	public final double TRANSFER_LIMIT = 12500;
 	private int drawingTicks = 0;
@@ -332,6 +333,36 @@ public class LaserEmitterTileEntity extends TileEntityElectricityRunnable
 	public void notifyTripwire() {
 		tripped=true;
 
+	}
+	@Override
+	public double getEnergy() {
+		// TODO Auto-generated method stub
+		return this.getJoules();
+	}
+
+	@Override
+	public void setEnergy(double energy) {
+		this.setJoules(energy);
+		
+	}
+
+	@Override
+	public double getMaxEnergy() {
+		// TODO Auto-generated method stub
+		return this.getMaxJoules();
+	}
+
+	@Override
+	public double transferEnergyToAcceptor(double amount) {
+		double energyTransfered=Math.max(getMaxEnergy()-this.getEnergy(),amount );
+		this.setEnergy(this.getEnergy()+energyTransfered);
+		return amount-energyTransfered;
+	}
+
+	@Override
+	public boolean canReceiveEnergy(ForgeDirection side) {
+		// TODO Auto-generated method stub
+		return this.canConnect(side);
 	}
 	
 

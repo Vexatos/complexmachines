@@ -1,6 +1,7 @@
 package pixlepix.complexmachines.common.tileentity;
 
 import pixlepix.complexmachines.common.ComplexMachines;
+import mekanism.api.IStrictEnergyAcceptor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -32,7 +33,7 @@ import com.google.common.io.ByteArrayDataInput;
 import cpw.mods.fml.common.Loader;
 
 public class FillerMachineTileEntity extends TileEntityElectricityRunnable
-		implements IPacketReceiver, IElectricityStorage {
+		implements IPacketReceiver, IElectricityStorage, IStrictEnergyAcceptor {
 	public final double WATTS_PER_TICK = 5000;
 	public final double TRANSFER_LIMIT = 12500;
 	private int drawingTicks = 0;
@@ -205,6 +206,36 @@ public class FillerMachineTileEntity extends TileEntityElectricityRunnable
 	@Override
 	public boolean canConnect(ForgeDirection direction) {
 		return direction.ordinal() == this.getBlockMetadata() + 2;
+	}
+	@Override
+	public double getEnergy() {
+		// TODO Auto-generated method stub
+		return this.getJoules();
+	}
+
+	@Override
+	public void setEnergy(double energy) {
+		this.setJoules(energy);
+		
+	}
+
+	@Override
+	public double getMaxEnergy() {
+		// TODO Auto-generated method stub
+		return this.getMaxJoules();
+	}
+
+	@Override
+	public double transferEnergyToAcceptor(double amount) {
+		double energyTransfered=Math.max(getMaxEnergy()-this.getEnergy(),amount );
+		this.setEnergy(this.getEnergy()+energyTransfered);
+		return amount-energyTransfered;
+	}
+
+	@Override
+	public boolean canReceiveEnergy(ForgeDirection side) {
+		// TODO Auto-generated method stub
+		return this.canConnect(side);
 	}
 
 }

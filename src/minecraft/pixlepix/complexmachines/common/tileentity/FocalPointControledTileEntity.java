@@ -3,6 +3,7 @@ package pixlepix.complexmachines.common.tileentity;
 import java.util.Random;
 
 import pixlepix.complexmachines.common.Config;
+import mekanism.api.ICableOutputter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -36,7 +37,7 @@ import com.google.common.io.ByteArrayDataInput;
 import cpw.mods.fml.common.Loader;
 
 public class FocalPointControledTileEntity extends TileEntityElectrical
-		implements IPacketReceiver, IElectricityStorage {
+		implements IPacketReceiver, IElectricityStorage, ICableOutputter {
 	public final double WATTS_PER_TICK = 5000;
 	public final double TRANSFER_LIMIT = 12500;
 	private int drawingTicks = 0;
@@ -158,6 +159,17 @@ public class FocalPointControledTileEntity extends TileEntityElectrical
 	@Override
 	public boolean canConnect(ForgeDirection direction) {
 		return direction.ordinal() == this.getBlockMetadata() + 2;
+	}
+	
+
+	
+
+	
+
+	@Override
+	public boolean canOutputTo(ForgeDirection side) {
+		// TODO Auto-generated method stub
+		return this.canConnect(side);
 	}
 
 }
