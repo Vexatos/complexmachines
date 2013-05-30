@@ -168,6 +168,13 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 	}
 	
 	public ForgeDirection getDirection(){
+		ForgeDirection[] directions={ForgeDirection.DOWN,ForgeDirection.UP,ForgeDirection.EAST,ForgeDirection.WEST,ForgeDirection.NORTH,ForgeDirection.SOUTH};
+		
+		for(ForgeDirection movementDirection:directions){
+			if(worldObj.getIndirectPowerOutput(xCoord+movementDirection.offsetX, yCoord+movementDirection.offsetY, zCoord+movementDirection.offsetZ, movementDirection.ordinal())){
+				return movementDirection;
+			}
+		}
 		switch(direction){
 
 		case 1:
@@ -203,8 +210,9 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 
 				if (getJoules() > 10000) {
 					if (worldObj.getTotalWorldTime()%100==0) {
-
-												if(getDirection()!=null){
+						
+						
+						if(getDirection()!=null){
 
 							setJoules(getJoules()-10000);
 							move(getDirection());
