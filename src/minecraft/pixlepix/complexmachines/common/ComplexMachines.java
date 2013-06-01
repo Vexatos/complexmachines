@@ -4,6 +4,9 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import pixlepix.complexmachines.client.GuiHandler;
 import pixlepix.complexmachines.common.block.Controller;
@@ -22,6 +25,7 @@ import pixlepix.complexmachines.common.item.CubeFormerItem;
 import pixlepix.complexmachines.common.item.FellerItem;
 import pixlepix.complexmachines.common.item.GeneticRandomizer;
 import pixlepix.complexmachines.common.item.RangeExtender;
+import pixlepix.complexmachines.common.item.RemoteItem;
 import pixlepix.complexmachines.common.itemblock.ControllerItemBlock;
 import pixlepix.complexmachines.common.itemblock.ExtractorItemBlock;
 import pixlepix.complexmachines.common.itemblock.FillerItemBlock;
@@ -87,6 +91,8 @@ public class ComplexMachines {
 	public static ComplexMachinesTab creativeTab = new ComplexMachinesTab();
 	
 	public static Item feller;
+
+	public static Item remote;
 	public static Item clusterMiner;
 	public static Item cubeFormer;
 	public static Item randomizer;
@@ -121,6 +127,14 @@ public class ComplexMachines {
 	public static Block replacerMachine;
 	public static Block oceanGenerator;
 	public static Block singlePoint;
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public void loadBlocks(){
 		EntityRegistry.registerModEntity(GeneticMob.class, "GeneticMob", 1, this, 50, 1, true);
@@ -212,6 +226,8 @@ public class ComplexMachines {
 			.setCreativeTab(creativeTab);
 	
 	feller=new FellerItem(Config.itemStartingID+1);
+
+	remote=new RemoteItem(Config.itemStartingID+6);
 
 	clusterMiner=new ClusterMinerItem(Config.itemStartingID+2);
 
@@ -371,6 +387,8 @@ public class ComplexMachines {
 
 		LanguageRegistry.addName(feller, "Feller");
 
+		LanguageRegistry.addName(remote, "Remote Interloper");
+
 		LanguageRegistry.addName(cubeFormer, "Cube Former");
 
 		LanguageRegistry.addName(randomizer, "GeneticRandomizer");
@@ -409,12 +427,13 @@ public class ComplexMachines {
 		ItemStack airshipControllerCrafting=new ItemStack(controller);
 		ItemStack cubeFormerCrafting=new ItemStack(cubeFormer);
 
+		ItemStack remoteCrafting=new ItemStack(remote);
+
 		ItemStack rangeExtenderCrafting=new ItemStack(rangeExtender);
 		
 		if(Config.vanillaRecipies){
 			GameRegistry.addRecipe(emitter, "xyx", "yzy", "xyx", 'x', diamond, 'y',
 					glowstone, 'z', diamondBlock);
-			
 			GameRegistry.addRecipe(grinder, "xxx", "xyx", "xxx", 'x', ironIngot,
 					'y', diamondBlock);
 			
@@ -441,6 +460,7 @@ public class ComplexMachines {
 		
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(airshipControllerCrafting,true,new Object[]{"xxx", "xyx", "xxx", 'x', "plateSteel", 'y', airshipMotorCrafting}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(remote,true,new Object[]{"xyx", "zyz", "zyz", 'x', "glowstone", 'y', "ingotCopper",'z',"plateSteel"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(airshipMotorCraftingOutput,true,new Object[]{ "xyx", "yzy", "xyx", 'x', "circuitBasic", 'y', "plateSteel", 'z', "motor"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(clusterMinerCrafting,true,new Object[]{"xxx", "xyx", "xxx", 'x', "circuitBasic", 'y', diamondPickaxe}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(fellerCrafting,true,new Object[]{"xxx", "xyx", "xxx", 'x', "circuitBasic", 'y',axe}));

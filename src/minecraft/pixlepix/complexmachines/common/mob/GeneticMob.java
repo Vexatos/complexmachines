@@ -25,6 +25,9 @@ public class GeneticMob extends EntityMob {
 		System.out.println("Killing genetic mob");
 		super.setDead();
 	}
+	public boolean canDespawn(){
+		return false;
+	}
 	
 	public void updateEntity(){
 		System.out.println("Genetic mob is alive");
@@ -34,8 +37,10 @@ public class GeneticMob extends EntityMob {
 	public GeneticMob(World par1World) {
 		super(par1World);
 		genome=new Genome();
-		moveSpeed=genome.moveSpeed;
-		this.texture=genome.texture;
+		this.moveSpeed=20;
+		this.texture="/mob/pigzombie.png";
+		//moveSpeed=genome.moveSpeed;
+		//this.texture=genome.texture;
 		
 		
 		/* 
@@ -62,24 +67,32 @@ public class GeneticMob extends EntityMob {
 	@Override
 	public int getAttackStrength(Entity par1Entity)
     {
-		if(genome==null){
-			System.out.println("Null Genome");
 			return 10;
-			
-		}
-     return genome.damage;
+		
     }
 
 	@Override
 	public int getMaxHealth() {
-		// TODO Auto-generated method stub
-		if(genome==null){
-			System.out.println("Null Genome");
-			return 10;
-			
-		}
-		return genome.health;
+		
+		return 10;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 }

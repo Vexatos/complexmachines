@@ -1,43 +1,31 @@
 package pixlepix.complexmachines.common.tileentity;
 
-import pixlepix.complexmachines.common.ComplexMachines;
 import mekanism.api.IStrictEnergyAcceptor;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.common.ISidedInventory;
-import net.minecraftforge.common.MinecraftForge;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.block.IElectricityStorage;
 import universalelectricity.core.electricity.ElectricityNetworkHelper;
 import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.electricity.IElectricityNetwork;
-import universalelectricity.core.item.IItemElectric;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.core.vector.VectorHelper;
 import universalelectricity.prefab.network.IPacketReceiver;
-import universalelectricity.prefab.network.PacketManager;
 import universalelectricity.prefab.tile.TileEntityElectricityRunnable;
 
 import com.google.common.io.ByteArrayDataInput;
 
-import cpw.mods.fml.common.Loader;
-
-public class FillerMachineTileEntity extends TileEntityElectricityRunnable
+public class AccessMachineTileEntity extends TileEntityElectricityRunnable
 		implements IPacketReceiver, IElectricityStorage, IStrictEnergyAcceptor {
 	public final double WATTS_PER_TICK = 5000;
 	public final double TRANSFER_LIMIT = 12500;
 	private int drawingTicks = 0;
 	private double joulesStored = 0;
+	public boolean powered=false;
 	public static double maxJoules = 2000000;
 	public int ticks = 0;
 	/**
@@ -74,7 +62,7 @@ public class FillerMachineTileEntity extends TileEntityElectricityRunnable
 							inputDirection.getOpposite());
 
 			if (inputNetwork != null) {
-				if (this.joulesStored < FillerMachineTileEntity.maxJoules) {
+				if (this.joulesStored < AccessMachineTileEntity.maxJoules) {
 					inputNetwork.startRequesting(
 							this,
 							Math.min(this.getMaxJoules() - this.getJoules(),
@@ -94,50 +82,11 @@ public class FillerMachineTileEntity extends TileEntityElectricityRunnable
 				} else {
 					inputNetwork.stopRequesting(this);
 				}
-				if (getJoules() > 10000) {
-					if (worldObj.getTotalWorldTime()%20 == 0) {
-
-						int lowerBoundX = xCoord;
-
-						int lowerBoundY = yCoord;
-
-						int lowerBoundZ = zCoord;
-
-						int upperBoundX = xCoord;
-
-						int upperBoundY = yCoord;
-
-						int upperBoundZ = zCoord;
-						lowerBoundX = xCoord - 15;
-
-						lowerBoundY = yCoord - 0;
-
-						lowerBoundZ = zCoord - 15;
-
-						upperBoundX = xCoord + 15;
-
-						upperBoundY = yCoord + 15;
-
-						upperBoundZ = zCoord + 15;
-						boolean blocksChanged = false;
-						for (int cycleX = lowerBoundX; cycleX < upperBoundX; cycleX++) {
-							for (int cycleY = upperBoundY; cycleY > lowerBoundY; cycleY--) {
-								for (int cycleZ = lowerBoundZ; cycleZ < upperBoundZ; cycleZ++) {
-									if (worldObj.getBlockId(cycleX, cycleY,cycleZ) == 0) {
-										
-										if(!ComplexMachines.isProtected(cycleX, cycleZ)){
-											worldObj.setBlock(cycleX, cycleY,cycleZ, 1);
-										}
-										setJoules(getJoules() - 10000);
-										return;
-
-									}
-								}
-							}
-						}
-
-					}
-
+				if (getJoules() > 10) {
+					powered=true;
+					setJoules(this.getJoules()-10);
+				}else{
+					powered=false;
 				}
 
 			}
@@ -145,7 +94,8 @@ public class FillerMachineTileEntity extends TileEntityElectricityRunnable
 
 		if (!this.worldObj.isRemote) {
 			if (this.ticks % 3 == 0 && this.playersUsing > 0) {
-							}
+				
+			}
 		}
 
 		this.joulesStored = Math.min(this.joulesStored, this.getMaxJoules());
@@ -198,7 +148,7 @@ public class FillerMachineTileEntity extends TileEntityElectricityRunnable
 
 	@Override
 	public double getMaxJoules() {
-		return FillerMachineTileEntity.maxJoules;
+		return AccessMachineTileEntity.maxJoules;
 	}
 
 	@Override
@@ -207,7 +157,6 @@ public class FillerMachineTileEntity extends TileEntityElectricityRunnable
 	}
 	@Override
 	public double getEnergy() {
-		// TODO Auto-generated method stub
 		return this.getJoules();
 	}
 
@@ -219,7 +168,6 @@ public class FillerMachineTileEntity extends TileEntityElectricityRunnable
 
 	@Override
 	public double getMaxEnergy() {
-		// TODO Auto-generated method stub
 		return this.getMaxJoules();
 	}
 
@@ -232,7 +180,6 @@ public class FillerMachineTileEntity extends TileEntityElectricityRunnable
 
 	@Override
 	public boolean canReceiveEnergy(ForgeDirection side) {
-		// TODO Auto-generated method stub
 		return this.canConnect(side);
 	}
 
