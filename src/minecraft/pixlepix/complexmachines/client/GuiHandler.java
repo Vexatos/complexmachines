@@ -1,9 +1,6 @@
 	
-	// This is my package declaration, do not mess with the standard (package net.minecraft.src;) like I did,
-	// Because I know what Im doing in this part, If you don't know what your doing keep it the normal (package net.minecraft.src;)
 	package pixlepix.complexmachines.client;
 	
-	// These are all the imports you will need
 	import pixlepix.complexmachines.common.container.ContainerAirship;
 import pixlepix.complexmachines.common.container.ContainerExtractor;
 import pixlepix.complexmachines.common.container.ContainerGrinder;

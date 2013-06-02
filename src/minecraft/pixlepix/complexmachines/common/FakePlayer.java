@@ -52,6 +52,13 @@ public class FakePlayer extends EntityPlayer {
 		this.realPlayer=realPlayer;
 		
 	}
+	@Override
+	public double getDistanceSq(double par1, double par3, double par5)
+	    {
+		
+			
+	        return 1;
+	    }
 
 	
 	@Override
