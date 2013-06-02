@@ -1,5 +1,6 @@
 package pixlepix.complexmachines.common;
 
+import basiccomponents.common.BasicComponents;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -236,6 +237,34 @@ public class ComplexMachines {
 	randomizer=new GeneticRandomizer(Config.itemStartingID+5);
 
 	rangeExtender=new RangeExtender(Config.itemStartingID+4);
+	
+	BasicComponents.requestItem("plateSteel", 0);
+
+	BasicComponents.requestItem("plateCopper", 0);
+	
+
+	BasicComponents.requestItem("ingotSteel", 0);
+
+	BasicComponents.requestItem("ingotCopper", 0);
+	
+
+	BasicComponents.requestItem("motor", 0);
+	
+
+	BasicComponents.requestItem("circuitBasic", 0);
+
+	BasicComponents.requestItem("circuitAdvanced", 0);
+
+	BasicComponents.requestItem("circuitElite", 0);
+	
+
+
+	BasicComponents.requestItem("oreSteel", 0);
+
+	BasicComponents.requestItem("oreCopper", 0);
+	
+	
+	BasicComponents.requestBlock("copperWire", 0);
 
 	
 	}
@@ -399,6 +428,8 @@ public class ComplexMachines {
 		LanguageRegistry.addName(clusterMiner, "Cluster Miner");
 
 		
+		
+		
 		ItemStack steelPlate = new ItemStack(14239, 1, 3);
 		ItemStack stone = new ItemStack(1, 1, 0);
 		ItemStack result = new ItemStack(Config.blockStartingID + 1, 1, 0);
@@ -431,6 +462,10 @@ public class ComplexMachines {
 
 		ItemStack rangeExtenderCrafting=new ItemStack(rangeExtender);
 		
+		
+
+		
+		
 		if(Config.vanillaRecipies){
 			GameRegistry.addRecipe(emitter, "xyx", "yzy", "xyx", 'x', diamond, 'y',
 					glowstone, 'z', diamondBlock);
@@ -460,7 +495,7 @@ public class ComplexMachines {
 		
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(airshipControllerCrafting,true,new Object[]{"xxx", "xyx", "xxx", 'x', "plateSteel", 'y', airshipMotorCrafting}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(remote,true,new Object[]{"xyx", "zyz", "zyz", 'x', "glowstone", 'y', "ingotCopper",'z',"plateSteel"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(remote,true,new Object[]{"xyx", "zyz", "zyz", 'x', glowstone, 'y', "ingotCopper",'z',"plateSteel"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(airshipMotorCraftingOutput,true,new Object[]{ "xyx", "yzy", "xyx", 'x', "circuitBasic", 'y', "plateSteel", 'z', "motor"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(clusterMinerCrafting,true,new Object[]{"xxx", "xyx", "xxx", 'x', "circuitBasic", 'y', diamondPickaxe}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(fellerCrafting,true,new Object[]{"xxx", "xyx", "xxx", 'x', "circuitBasic", 'y',axe}));

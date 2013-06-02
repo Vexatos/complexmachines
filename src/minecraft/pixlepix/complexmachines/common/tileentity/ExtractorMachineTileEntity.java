@@ -163,7 +163,7 @@ public class ExtractorMachineTileEntity extends TileEntityElectricityRunnable
 						// System.out.println("X: "+targetX+"  Y:"+targetY+"   Z:"+targetZ+"   id:"+worldObj.getBlockId(targetX,targetY,targetZ));
 						int matchedSlot = isOre(targetId);
 						// System.out.println(targetId);
-						if (worldObj.getChunkFromBlockCoords(targetX, targetZ).isChunkLoaded&& matchedSlot != -1&&ComplexMachines.isProtected(targetX, targetZ)) {
+						if (worldObj.getChunkFromBlockCoords(targetX, targetZ).isChunkLoaded&& matchedSlot != -1&&!ComplexMachines.isProtected(targetX, targetZ)) {
 							oreFound = true;
 							setJoules(getJoules() - COST_ON_ORE);
 
