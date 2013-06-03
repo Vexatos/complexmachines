@@ -1,6 +1,8 @@
 package pixlepix.complexmachines.common;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 
 import pixlepix.complexmachines.common.tileentity.MotorTileEntity;
 
@@ -12,6 +14,8 @@ public class AirshipBlockRegistry {
 	public static boolean delayedPlaced=false;
 	public static ArrayList<AirshipDelayedBlock> delayed=new ArrayList<AirshipDelayedBlock>();
 	public static ArrayList<AirshipDelayedBlock> normal=new ArrayList<AirshipDelayedBlock>();
+
+	public static ArrayList<AirshipDelayedTileEntity> tileEntityError=new ArrayList<AirshipDelayedTileEntity>();
 	public static void empty(){
 		moved=new ArrayList<CoordTuple>();
 		delayed=new ArrayList<AirshipDelayedBlock>();
@@ -30,7 +34,21 @@ public class AirshipBlockRegistry {
 	public static void register(int x,int y, int z){
 		moved.add(new CoordTuple(x,y,z));
 	}
-	
+	public static void fixEntities(){
+		
+
+        Iterator iterator = tileEntityError.iterator();
+		for(int i=0;i<tileEntityError.size();i++){
+			AirshipDelayedTileEntity data=tileEntityError.get(i);
+			try{
+				data.world.setBlockTileEntity(data.x, data.y, data.z, data.entity);
+				iterator.remove();
+			}catch(Exception e){
+				
+			}
+		}
+		
+	}
 	public static void placeDelayed(){
 			for(int i=0;i<normal.size();i++){
 
@@ -55,13 +73,22 @@ public class AirshipBlockRegistry {
 						if (newEntity!=null){
 							newEntity.readFromNBT(restoreData);
 						}
-						toPlace.world.setBlockTileEntity(toPlace.x, toPlace.y, toPlace.z, newEntity);
+						
+						//TODO Bad practice is fun!
+						try{
+							toPlace.world.setBlockTileEntity(toPlace.x, toPlace.y, toPlace.z, newEntity);
+						}
+						catch(ConcurrentModificationException e){
+							tileEntityError.add(new AirshipDelayedTileEntity(toPlace.x, toPlace.y, toPlace.z, newEntity, toPlace.world));
+							
+							
+						}
 						
 					}
 				}
 				}
 			}
-
+			fixEntities();
 			normal=new ArrayList<AirshipDelayedBlock>();
 			for(int i=0;i<delayed.size();i++){
 				
@@ -71,6 +98,7 @@ public class AirshipBlockRegistry {
 				toPlace.world.setBlock(toPlace.oldX, toPlace.oldY, toPlace.oldZ, 0);
 			}
 
+			fixEntities();
 			delayed=new ArrayList<AirshipDelayedBlock>();
 		}
 		
