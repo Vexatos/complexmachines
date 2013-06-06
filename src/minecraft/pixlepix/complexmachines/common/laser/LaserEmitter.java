@@ -67,6 +67,15 @@ public class LaserEmitter extends BasicComplexBlock {
 		return LaserItemBlock.class;
 		
 	}
+	
+	
+	@Override
+	 public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ){
+		super.onBlockActivated(world, x, y, z, entityPlayer, side, hitX, hitY, hitZ);
+		LaserEmitterTileEntity entity=(LaserEmitterTileEntity)world.getBlockTileEntity(x,y,z);
+	    return entity.onMachineActivated(world, x, y,z, entityPlayer, side, hitX, hitY, hitZ);
+	 }
+	
 	@Override
 	public boolean threeSidedTextures(){
 		return false;

@@ -91,11 +91,7 @@ public class LaserBlock extends BasicComplexBlock {
 		return null;
 		
 	}
-	@Override
-	 public boolean onMachineActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int side, float hitX, float hitY, float hitZ){
-		LaserEmitterTileEntity entity=(LaserEmitterTileEntity)world.getBlockTileEntity(x,y,z);
-	    return entity.onMachineActivated(world, x, y,z, entityPlayer, side, hitX, hitY, hitZ);
-	 }
+	
 	
 
 }
