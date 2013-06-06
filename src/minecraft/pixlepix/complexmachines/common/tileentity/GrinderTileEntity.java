@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import pixlepix.complexmachines.common.GrinderFuelData;
 import pixlepix.complexmachines.common.Config;
+import pixlepix.complexmachines.common.PowerProducerComplexTileEntity;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -37,85 +38,30 @@ import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.Loader;
 
-public class GrinderTileEntity extends TileEntityElectricityRunnable implements
-		IPacketReceiver, IElectricityStorage, IInventory {
-	public final double WATTS_PER_TICK = 5000;
-	public final double TRANSFER_LIMIT = 12500;
-	private int drawingTicks = 0;
-	private double joulesStored = 0;
-	public static double maxJoules = 200000;
-	public int ticks = 10000;
-	public int ticksOfPowerRemaining = 0;
-	public int watts = 0;
 
-	public static HashMap<Item, GrinderFuelData> values = new HashMap<Item, GrinderFuelData>();
+
+
+public class GrinderTileEntity extends PowerProducerComplexTileEntity implements IInventory {
+	public double electricOutput=Config.grinderOutput;
+	public int ticksOfPowerRemaining = 0;
 
 	private IConductor connectedElectricUnit;
-	/**
-	 * The ItemStacks that hold the items currently being used in the wire mill;
-	 * 0 = battery; 1 = input; 2 = output;
-	 */
+
 	private ItemStack[] inventory = new ItemStack[6];
 
 	private int playersUsing = 0;
 	public int orientation;
-	private int targetID = 0;
-	private int targetMeta = 0;
-
-	private boolean initialized;
 
 	
 
 	@Override
-	public void initiate() {
-		this.initialized = true;
-	}
-
-	public void producePower() {
-
-		ForgeDirection outputDirection = ForgeDirection.getOrientation(this
-				.getBlockMetadata() + 2);
-		TileEntity outputTile = VectorHelper.getConnectorFromSide(
-				this.worldObj, new Vector3(this.xCoord, this.yCoord,
-						this.zCoord), outputDirection);
-
-		IElectricityNetwork network = ElectricityNetworkHelper
-				.getNetworkFromTileEntity(outputTile, outputDirection);
-
-		if (network != null) {
-			if (network.getRequest().getWatts() > 0) {
-				this.connectedElectricUnit = (IConductor) outputTile;
-			} else {
-				this.connectedElectricUnit = null;
-			}
-		} else {
-			this.connectedElectricUnit = null;
-		}
-
-		if (!this.isDisabled()) {
-
-			if (this.connectedElectricUnit != null) {
-
-				this.connectedElectricUnit.getNetwork().startProducing(this,
-						(Config.grinderOutput / this.getVoltage()) / 20, this.getVoltage());
-				if (ticksOfPowerRemaining <= 0) {
-					this.connectedElectricUnit.getNetwork().stopProducing(this);
-				}
-
-			}
-		}
-
-	}
-
-	@Override
 	public void updateEntity() {
-		super.updateEntity();
 		// System.out.println(ticksOfPowerRemaining);
 		if (!this.worldObj.isRemote) {
 
 			if (ticksOfPowerRemaining != 0) {
 				ticksOfPowerRemaining--;
-				producePower();
+				super.updateEntity();
 			} else {
 
 				for (int i = 0; i < inventory.length; i++) {
@@ -138,30 +84,9 @@ public class GrinderTileEntity extends TileEntityElectricityRunnable implements
 
 		
 
-		this.joulesStored = Math.min(this.joulesStored, this.getMaxJoules());
-		this.joulesStored = Math.max(this.joulesStored, 0d);
 	}
 
-	@Override
-	public void handlePacketData(INetworkManager inputNetwork, int type,
-			Packet250CustomPayload packet, EntityPlayer player,
-			ByteArrayDataInput dataStream) {
-		try {
-			this.drawingTicks = dataStream.readInt();
-			this.disabledTicks = dataStream.readInt();
-			this.joulesStored = dataStream.readDouble();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Reads a tile entity from NBT.
-	 */
-
-	/**
-	 * Writes a tile entity to NBT.
-	 */
+	
 
 	@Override
 	public double getVoltage() {
@@ -172,30 +97,7 @@ public class GrinderTileEntity extends TileEntityElectricityRunnable implements
 	 * @return The amount of ticks required to draw this item
 	 */
 
-	public int getDrawingTimeLeft() {
-		return this.drawingTicks;
-	}
-
-	@Override
-	public double getJoules() {
-		return this.joulesStored;
-	}
-
-	@Override
-	public void setJoules(double joules) {
-		this.joulesStored = joules;
-	}
-
-	@Override
-	public double getMaxJoules() {
-		return GrinderTileEntity.maxJoules;
-	}
-
-	@Override
-	public boolean canConnect(ForgeDirection direction) {
-		return direction.ordinal() == this.getBlockMetadata() + 2;
-	}
-
+	
 	@Override
 	public int getSizeInventory() {
 		// TODO Auto-generated method stub
@@ -302,7 +204,7 @@ public class GrinderTileEntity extends TileEntityElectricityRunnable implements
 		super.readFromNBT(par1NBTTagCompound);
 		this.inventory = new ItemStack[this.getSizeInventory()];
 		try {
-			this.joulesStored = par1NBTTagCompound.getDouble("joulesStored");
+			this.setJoules(par1NBTTagCompound.getDouble("joulesStored"));
 		} catch (Exception e) {
 		}
 

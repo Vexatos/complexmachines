@@ -2,6 +2,8 @@ package pixlepix.complexmachines.common;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
+import pixlepix.complexmachines.common.*;
+import pixlepix.complexmachines.common.laser.LaserEmitter;
 
 public class ComplexMachinesTab extends CreativeTabs {
 	public ComplexMachinesTab() {
@@ -10,6 +12,8 @@ public class ComplexMachinesTab extends CreativeTabs {
 
 	@Override
 	public ItemStack getIconItemStack() {
-		return new ItemStack(ComplexMachines.extractorMachine);
+		
+		return new ItemStack(ComplexMachines.loader.getBlock(LaserEmitter.class));
+		
 	}
 }

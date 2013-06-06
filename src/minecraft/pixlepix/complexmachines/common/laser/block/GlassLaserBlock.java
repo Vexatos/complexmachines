@@ -1,21 +1,33 @@
 package pixlepix.complexmachines.common.laser.block;
 
+import pixlepix.complexmachines.common.laser.tileentity.HarmingLaserBeamTileEntity;
+import pixlepix.complexmachines.common.laser.tileentity.LaserBeamTileEntity;
 import net.minecraft.client.renderer.texture.IconRegister;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class GlassLaserBlock extends HarmingLaserBlock {
-	public GlassLaserBlock(int id) {
-		super(id);
-		this.setUnlocalizedName("Glass");
-		this.setBlockUnbreakable();
+	static int blockIdIncrement=12;
+	public GlassLaserBlock() {
+		super(12);
 	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister par1IconRegister) {
+	String textureBase="ComplexMachines:";
+	public String textureSpecific="GlassLaser";
 
-		blockIcon = par1IconRegister.registerIcon("ComplexMachines:GlassLaser");
+	@Override
+	public Class getTileEntityClass() {
+		return HarmingLaserBeamTileEntity.class;
+	}
+
+	@Override
+	public String getFront() {
+		// TODO Auto-generated method stub
+		return textureSpecific;
+	}
+
+	@Override
+	public String getName() {
+		return "GlassLaserBeam";
 	}
 
 }

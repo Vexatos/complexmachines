@@ -3,7 +3,11 @@ package pixlepix.complexmachines.common.block;
 import java.util.Random;
 
 import pixlepix.complexmachines.client.ClientProxy;
+import pixlepix.complexmachines.common.BasicComplexBlock;
+import pixlepix.complexmachines.common.ComplexMachines;
 import pixlepix.complexmachines.common.Config;
+import pixlepix.complexmachines.common.itemblock.FillerItemBlock;
+import pixlepix.complexmachines.common.tileentity.FillerMachineTileEntity;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.prefab.block.BlockAdvanced;
 import net.minecraft.block.BlockContainer;
@@ -18,30 +22,15 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class FocalPoint extends BlockContainer {
+public class FocalPoint extends BasicComplexBlock {
 	private Icon connectorIcon;
 	private Icon topIcon;
 
-	public FocalPoint(int id) {
-		super(id, UniversalElectricity.machine);
-		this.setCreativeTab(CreativeTabs.tabMisc);
-
-		this.setUnlocalizedName("focal point");
-	}
-
-	public FocalPoint() {
-		super(Config.blockStartingID + 3, UniversalElectricity.machine);
-		this.setUnlocalizedName("focal point");
-		this.setCreativeTab(CreativeTabs.tabMisc);
-	}
-
-	/**
-	 * Called when the block is placed in the world.
-	 */
-
+	
 	@Override
 	public boolean onBlockActivated(World par1World, int par2, int par3,
 			int par4, EntityPlayer par5EntityPlayer, int par6, float par7,
@@ -56,79 +45,62 @@ public class FocalPoint extends BlockContainer {
 		return 0;
 	}
 
-	@Override
-	public void onBlockPlacedBy(World par1World, int x, int y, int z,
-			EntityLiving par5EntityLiving, ItemStack itemStack) {
+	
 
-		// ((FocalPointControledTileEntity) par1World.getBlockTileEntity(x, y,
-		// z)).initiate();
-		par1World.notifyBlocksOfNeighborChange(x, y, z, this.blockID);
+	public FocalPoint() {
+		super(3);
 	}
-
-	/*
-	 * @Override public boolean onMachineActivated(World par1World, int x, int
-	 * y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float
-	 * hitY, float hitZ) { if (!par1World.isRemote) {
-	 * par5EntityPlayer.openGui(ElectricExpansion.instance, 2, par1World, x, y,
-	 * z); return true; }
-	 * 
-	 * return true; }
-	 */
-	@Override
-	public boolean isOpaqueCube() {
-		return true;
-	}
+	static int blockIdIncrement=3;
+	String textureBase="ComplexMachines:";
+	public String textureSpecific="FocalFront";
 
 	@Override
-	public boolean renderAsNormalBlock() {
-		return false;
-	}
-
-	@Override
-	public TileEntity createTileEntity(World var1, int metadata) {
-		// return new FocalPointControledTileEntity();
-		return null;
-	}
-
-	@Override
-	public boolean hasTileEntity(int metadata) {
-		return false;
-	}
-
-	// Imported code from EE, unsure if it is needed
-	/*
-	 * @SideOnly(Side.CLIENT)
-	 * 
-	 * @Override public int getRenderType() { return ClientProxy.RENDER_ID; }
-	 */
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister par1IconRegister) {
-
-		blockIcon = par1IconRegister
-				.registerIcon("ComplexMachines:FocalFront");
-		connectorIcon = par1IconRegister
-				.registerIcon("ComplexMachines:FocalInput");
-		topIcon = par1IconRegister.registerIcon("ComplexMachines:FocalTop");
-	}
-
-	@Override
-	public Icon getIcon(int side, int meta) {
-
-		if (side == meta + 2) {
-			return connectorIcon;
-		} else {
-			if (side == 1 || side == 0) {
-				return topIcon;
-			}
-			return blockIcon;
-		}
-	}
-
-	@Override
-	public TileEntity createNewTileEntity(World world) {
+	public String getFront() {
 		// TODO Auto-generated method stub
+		return textureSpecific;
+	}
+
+	@Override
+	public String getTop() {
+		// TODO Auto-generated method stub
+		return textureSpecificTop;
+	}
+
+	@Override
+	public String getInput() {
+		// TODO Auto-generated method stub
+		 return textureSpecificConnector;
+	}
+	 public String textureSpecificTop="FocalTop";
+
+	public String textureSpecificConnector="FocalInput";
+
+	@Override
+	public Class getTileEntityClass() {
 		return null;
+	}
+
+	@Override
+	public void addRecipe() {}
+
+	@Override
+	public String getName() {
+		return "Focal Point";
+	}
+
+	@Override
+	public boolean hasItemBlock() {
+		return false;
+	}
+
+	@Override
+	public Class getItemBlock() {
+		return null;
+		
+	}
+	@Override
+	public boolean threeSidedTextures(){
+		return true;
 	}
 
 

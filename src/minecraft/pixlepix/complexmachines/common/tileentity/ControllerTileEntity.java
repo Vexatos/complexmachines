@@ -5,6 +5,7 @@ import java.util.List;
 
 import pixlepix.complexmachines.common.AirshipBlockRegistry;
 import pixlepix.complexmachines.common.ComplexMachines;
+import pixlepix.complexmachines.common.PowerConsumerComplexTileEntity;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -26,10 +27,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 
-public class ControllerTileEntity extends TileEntityElectricityRunnable implements IPacketReceiver, IElectricityStorage {
+public class ControllerTileEntity extends PowerConsumerComplexTileEntity{
 
 	private static final double TRANSFER_LIMIT = 10000;
-	private double joulesStored;
 
 
 
@@ -44,32 +44,7 @@ public class ControllerTileEntity extends TileEntityElectricityRunnable implemen
 
 		if (!this.worldObj.isRemote) {
 
-			ForgeDirection inputDirection = ForgeDirection.getOrientation(this
-					.getBlockMetadata() + 2);
-			TileEntity inputTile = VectorHelper.getTileEntityFromSide(
-					this.worldObj, new Vector3(this), inputDirection);
-
-			IElectricityNetwork inputNetwork = ElectricityNetworkHelper
-					.getNetworkFromTileEntity(inputTile,
-							inputDirection.getOpposite());
-
-			if (inputNetwork != null) {
-				if (this.joulesStored < getMaxJoules()) {
-					inputNetwork.startRequesting(this,Math.min(this.getMaxJoules() - this.getJoules(),this.TRANSFER_LIMIT) / this.getVoltage(),this.getVoltage());
-					ElectricityPack electricityPack = inputNetwork
-							.consumeElectricity(this);
-					this.setJoules(this.joulesStored
-							+ electricityPack.getWatts());
-
-					if (UniversalElectricity.isVoltageSensitive) {
-						if (electricityPack.voltage > this.getVoltage()) {
-							this.worldObj.createExplosion(null, this.xCoord,
-									this.yCoord, this.zCoord, 2f, true);
-						}
-					}
-				} else {
-					inputNetwork.stopRequesting(this);
-				}
+			
 
 			if(worldObj.getTotalWorldTime()%100==96){
 				AirshipBlockRegistry.empty();
@@ -89,11 +64,7 @@ public class ControllerTileEntity extends TileEntityElectricityRunnable implemen
 			}
 			
 			
-			/*ForgeDirection movementDirection=ForgeDirection.DOWN;
-			if(worldObj.getBlockPowerInput(xCoord, yCoord, zCoord)>0){
-				movementDirection=ForgeDirection.UP;
-			}
-			*/
+			
 			
 					
 				}
@@ -102,7 +73,7 @@ public class ControllerTileEntity extends TileEntityElectricityRunnable implemen
 			}
 			
 		}
-		}
+		
 		
 	
 			
@@ -160,48 +131,11 @@ public class ControllerTileEntity extends TileEntityElectricityRunnable implemen
 
 
 
-			@Override
-			public double getVoltage() {
-				return 480;
-			}
+			
 
-			/**
-			 * @return The amount of ticks required to draw this item
-			 */
+
 
 			
-			@Override
-			public double getJoules() {
-				return this.joulesStored;
-			}
-
-			@Override
-			public void setJoules(double joules) {
-				this.joulesStored = joules;
-			}
-
-			@Override
-			public double getMaxJoules() {
-				return 200000;
-			}
-
-			@Override
-			public boolean canConnect(ForgeDirection direction) {
-				return direction.ordinal() == this.getBlockMetadata() + 2;
-			}
-
-
-			@Override
-			public void handlePacketData(INetworkManager inputNetwork, int type,
-					Packet250CustomPayload packet, EntityPlayer player,
-					ByteArrayDataInput dataStream) {
-				try {
-					this.disabledTicks = dataStream.readInt();
-					this.joulesStored = dataStream.readDouble();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
 	
 	
 		}

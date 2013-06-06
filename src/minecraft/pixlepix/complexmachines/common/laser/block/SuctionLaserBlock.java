@@ -1,5 +1,6 @@
 package pixlepix.complexmachines.common.laser.block;
 
+import pixlepix.complexmachines.common.laser.tileentity.HarmingLaserBeamTileEntity;
 import pixlepix.complexmachines.common.laser.tileentity.SuctionLaserBeamTileEntity;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -13,32 +14,31 @@ import net.minecraft.world.World;
 public class SuctionLaserBlock extends LaserBlock {
 
 
-	public SuctionLaserBlock(int id) {
-		super(id);
-		this.setUnlocalizedName("Suction Beam");
-		
-	}
 	
-	@Override
-	public void onBlockPlacedBy(World par1World, int x, int y, int z,
-			EntityLiving par5EntityLiving, ItemStack itemStack) {
-
-		par1World.notifyBlocksOfNeighborChange(x, y, z, this.blockID);
-		((SuctionLaserBeamTileEntity) par1World.getBlockTileEntity(x, y, z))
-				.initiate();
-
-	}
-	@Override
-	public TileEntity createTileEntity(World var1, int metadata) {
-		return new SuctionLaserBeamTileEntity();
-
-	}
 	
+	
+	public SuctionLaserBlock() {
+		super(17);
+	}
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister par1IconRegister) {
+	public String getFront() {
+		// TODO Auto-generated method stub
+		return textureSpecific;
+	}
+	static int blockIdIncrement=17;
+	String textureBase="ComplexMachines:";
+	public String textureSpecific="SuctionLaser";
 
-		blockIcon = par1IconRegister.registerIcon("ComplexMachines:SuctionLaser");
+	@Override
+	public Class getTileEntityClass() {
+		return SuctionLaserBeamTileEntity.class;
+	}
+
+	
+
+	@Override
+	public String getName() {
+		return "SuctionLaserBeam";
 	}
 	
 }

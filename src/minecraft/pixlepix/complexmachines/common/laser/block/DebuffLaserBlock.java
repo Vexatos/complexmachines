@@ -2,6 +2,7 @@ package pixlepix.complexmachines.common.laser.block;
 
 import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.laser.tileentity.DebuffLaserBeamTileEntity;
+import pixlepix.complexmachines.common.laser.tileentity.LaserBeamTileEntity;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -15,39 +16,27 @@ import universalelectricity.core.UniversalElectricity;
 public class DebuffLaserBlock extends LaserBlock {
 
 	
-	public DebuffLaserBlock(int id) {
-		super(id);
-		this.setUnlocalizedName("Debuff Beam");
-		this.setBlockUnbreakable();
-	}
+	static int blockIdIncrement=13;
+	String textureBase="ComplexMachines:";
+	public String textureSpecific="DebuffLaser";
 
 	public DebuffLaserBlock() {
-		super(Config.blockStartingID + 13);
-		this.setStepSound(soundMetalFootstep);
-		this.setUnlocalizedName("Debuff Beam");
+		super(13);
 	}
 	
 	@Override
-	public void onBlockPlacedBy(World par1World, int x, int y, int z,
-			EntityLiving par5EntityLiving, ItemStack itemStack) {
-
-		par1World.notifyBlocksOfNeighborChange(x, y, z, this.blockID);
-		((DebuffLaserBeamTileEntity) par1World.getBlockTileEntity(x, y, z))
-				.initiate();
-
+	public Class getTileEntityClass() {
+		return DebuffLaserBeamTileEntity.class;
+	}
+	@Override
+	public String getFront() {
+		// TODO Auto-generated method stub
+		return textureSpecific;
 	}
 	
+
 	@Override
-	public TileEntity createTileEntity(World var1, int metadata) {
-		return new DebuffLaserBeamTileEntity();
-
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister par1IconRegister) {
-
-		blockIcon = par1IconRegister.registerIcon("ComplexMachines:DebuffLaser");
-
+	public String getName() {
+		return "DebuffLaserBeam";
 	}
 }

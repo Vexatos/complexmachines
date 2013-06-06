@@ -11,7 +11,6 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import pixlepix.complexmachines.common.*;
-import pixlepix.complexmachines.common.tileentity.AccessMachineTileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;

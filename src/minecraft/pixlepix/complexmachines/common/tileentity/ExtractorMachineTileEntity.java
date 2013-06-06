@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import pixlepix.complexmachines.common.ComplexMachines;
+import pixlepix.complexmachines.common.PowerConsumerComplexTileEntity;
 
 import mekanism.api.IStrictEnergyAcceptor;
 import net.minecraft.block.Block;
@@ -38,8 +39,7 @@ import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.Loader;
 
-public class ExtractorMachineTileEntity extends TileEntityElectricityRunnable
-		implements IPacketReceiver, IElectricityStorage, IInventory, IStrictEnergyAcceptor {
+public class ExtractorMachineTileEntity extends PowerConsumerComplexTileEntity implements IPacketReceiver, IElectricityStorage, IInventory {
 	public final double WATTS_PER_TICK = 5000;
 	public final double TRANSFER_LIMIT = 125000;
 	private int drawingTicks = 0;
@@ -99,35 +99,7 @@ public class ExtractorMachineTileEntity extends TileEntityElectricityRunnable
 		super.updateEntity();
 
 		if (!this.worldObj.isRemote) {
-			ForgeDirection inputDirection = ForgeDirection.getOrientation(this
-					.getBlockMetadata() + 2);
-			TileEntity inputTile = VectorHelper.getTileEntityFromSide(
-					this.worldObj, new Vector3(this), inputDirection);
-
-			IElectricityNetwork inputNetwork = ElectricityNetworkHelper
-					.getNetworkFromTileEntity(inputTile,
-							inputDirection.getOpposite());
-
-			if (inputNetwork != null) {
-				if (this.joulesStored < ExtractorMachineTileEntity.maxJoules) {
-
-					inputNetwork.startRequesting(
-							this,
-							Math.min(this.getMaxJoules() - this.getJoules(),
-									this.TRANSFER_LIMIT) / this.getVoltage(),
-							this.getVoltage());
-					ElectricityPack electricityPack = inputNetwork
-							.consumeElectricity(this);
-					this.setJoules(this.joulesStored
-							+ electricityPack.getWatts());
-
-					if (UniversalElectricity.isVoltageSensitive) {
-						if (electricityPack.voltage > this.getVoltage()) {
-							this.worldObj.createExplosion(null, this.xCoord,
-									this.yCoord, this.zCoord, 2f, true);
-						}
-					}
-				} else {
+			
 					boolean oreFound = false;
 					int tries=0;
 					while (!oreFound && getJoules() > 1000) {
@@ -148,16 +120,7 @@ public class ExtractorMachineTileEntity extends TileEntityElectricityRunnable
 
 						int targetY = rand.nextInt(15) + 5;
 
-						//
-						// Standard generator
-						//
-						/*
-						 * targetX-=rand.nextInt(2000);
-						 * 
-						 * targetY-=rand.nextInt(100);
-						 * 
-						 * targetZ-=rand.nextInt(2000);
-						 */
+						
 						int targetId = worldObj.getBlockId(targetX, targetY,
 								targetZ);
 						// System.out.println("X: "+targetX+"  Y:"+targetY+"   Z:"+targetZ+"   id:"+worldObj.getBlockId(targetX,targetY,targetZ));
@@ -186,16 +149,11 @@ public class ExtractorMachineTileEntity extends TileEntityElectricityRunnable
 					}
 					// inputNetwork.stopRequesting(this);
 				}
-			}
+			
 
-		}
+		
 
-		if (!this.worldObj.isRemote) {
-			if (this.ticks % 3 == 0 && this.playersUsing > 0) {
-				//PacketManager.sendPacketToClients(this.getDescriptionPacket(),
-				//this.worldObj, new Vector3(this), 12);
-			}
-		}
+		
 
 		this.joulesStored = Math.min(this.joulesStored, this.getMaxJoules());
 		this.joulesStored = Math.max(this.joulesStored, 0d);
@@ -482,34 +440,5 @@ public class ExtractorMachineTileEntity extends TileEntityElectricityRunnable
 		par1NBTTagCompound.setTag("Items", var2);
 	}
 
-	@Override
-	public double getEnergy() {
-		// TODO Auto-generated method stub
-		return this.getJoules();
-	}
-
-	@Override
-	public void setEnergy(double energy) {
-		this.setJoules(energy);
-		
-	}
-
-	@Override
-	public double getMaxEnergy() {
-		// TODO Auto-generated method stub
-		return this.getMaxJoules();
-	}
-
-	@Override
-	public double transferEnergyToAcceptor(double amount) {
-		double energyTransfered=Math.max(getMaxEnergy()-this.getEnergy(),amount );
-		this.setEnergy(this.getEnergy()+energyTransfered);
-		return amount-energyTransfered;
-	}
-
-	@Override
-	public boolean canReceiveEnergy(ForgeDirection side) {
-		// TODO Auto-generated method stub
-		return this.canConnect(side);
-	}
+	
 }

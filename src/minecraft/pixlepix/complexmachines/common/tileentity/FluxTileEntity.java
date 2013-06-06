@@ -2,11 +2,12 @@ package pixlepix.complexmachines.common.tileentity;
 
 import java.util.List;
 
+import pixlepix.complexmachines.common.BasicComplexTileEntity;
 import pixlepix.complexmachines.common.Config;
 
 import net.minecraft.tileentity.TileEntity;
 
-public class FluxTileEntity extends TileEntity {
+public class FluxTileEntity extends BasicComplexTileEntity {
 	public int count;
 	public boolean established=false;
 	public int ticks;

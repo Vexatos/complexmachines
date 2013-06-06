@@ -1,6 +1,7 @@
 package pixlepix.complexmachines.common.tileentity;
 
 import pixlepix.complexmachines.common.Config;
+import pixlepix.complexmachines.common.PowerProducerComplexTileEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -33,13 +34,10 @@ import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.Loader;
 
-public class OceanGeneratorTileEntity extends TileEntityElectrical implements
-		IPacketReceiver, IElectricityStorage {
-	public final double WATTS_PER_TICK = 5000;
-	public final double TRANSFER_LIMIT = 12500;
+public class OceanGeneratorTileEntity extends PowerProducerComplexTileEntity {
 	private double drawingTicks = 0;
 	private double joulesStored = 0;
-	public double powerRunning = 0;
+	public double electricOutput = 0;
 	public static double maxJoules = 2000000;
 	public int ticks = 1000;
 	/**
@@ -47,64 +45,26 @@ public class OceanGeneratorTileEntity extends TileEntityElectrical implements
 	 * 0 = battery; 1 = input; 2 = output;
 	 */
 
-	private int playersUsing = 0;
 	public int orientation;
-	private int targetID = 0;
-	private int targetMeta = 0;
-
-	private boolean initialized;
-	private IConductor connectedElectricUnit;
 
 	@Override
 	public void initiate() {
-		this.initialized = true;
 		getOceanTiles();
 	}
 
 	public void updateEntity() {
 		// System.out.println("Focal Points have been spawned at "+"  "+xCoord+"  "+yCoord+"  "+zCoord);
 		super.updateEntity();
-		getOceanTiles();
-		if (!this.worldObj.isRemote) {
-			// Check nearby blocks and see if the conductor is full. If so, then
-			// it is connected
-			ForgeDirection outputDirection = ForgeDirection.getOrientation(this
-					.getBlockMetadata() + 2);
-			TileEntity outputTile = VectorHelper.getConnectorFromSide(
-					this.worldObj, new Vector3(this.xCoord, this.yCoord,
-							this.zCoord), outputDirection);
-
-			IElectricityNetwork network = ElectricityNetworkHelper
-					.getNetworkFromTileEntity(outputTile, outputDirection);
-
-			if (network != null) {
-				if (network.getRequest().getWatts() > 0) {
-					this.connectedElectricUnit = (IConductor) outputTile;
-				} else {
-					this.connectedElectricUnit = null;
-				}
-			} else {
-				this.connectedElectricUnit = null;
-			}
-
-			if (!this.isDisabled()) {
-
-				if (this.connectedElectricUnit != null) {
-
-					this.connectedElectricUnit.getNetwork().startProducing(
-							this, powerRunning / this.getVoltage() / 20,
-							this.getVoltage());
-
-				}
-			}
-
+		if(worldObj.getTotalWorldTime()%1000==0){
+			getOceanTiles();
 		}
+		
 	}
 
 	private void getOceanTiles() {
 		// System.out.println(powerRunning);
 		ticks++;
-		if (ticks > 2000 || powerRunning < 1) {
+		if (ticks > 2000 || electricOutput < 1) {
 
 			ticks = 0;
 			int lowerBoundX = xCoord;
@@ -134,7 +94,7 @@ public class OceanGeneratorTileEntity extends TileEntityElectrical implements
 				for (int cycleY = lowerBoundY; cycleY < upperBoundY; cycleY++) {
 					for (int cycleZ = lowerBoundZ; cycleZ < upperBoundZ; cycleZ++) {
 						if (worldObj.getBlockId(cycleX, cycleY, cycleZ) == 9) {
-							powerRunning += Config.oceanGeneratorOutput;
+							electricOutput += Config.oceanGeneratorOutput;
 						}
 					}
 				}
@@ -144,42 +104,6 @@ public class OceanGeneratorTileEntity extends TileEntityElectrical implements
 
 	}
 
-	@Override
-	public void handlePacketData(INetworkManager inputNetwork, int type,
-			Packet250CustomPayload packet, EntityPlayer player,
-			ByteArrayDataInput dataStream) {
-		try {
-			this.drawingTicks = dataStream.readInt();
-			this.disabledTicks = dataStream.readInt();
-			this.joulesStored = dataStream.readDouble();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public double getVoltage() {
-		return 120;
-	}
-
-	@Override
-	public double getJoules() {
-		return this.joulesStored;
-	}
-
-	@Override
-	public void setJoules(double joules) {
-		this.joulesStored = joules;
-	}
-
-	@Override
-	public double getMaxJoules() {
-		return OceanGeneratorTileEntity.maxJoules;
-	}
-
-	@Override
-	public boolean canConnect(ForgeDirection direction) {
-		return direction.ordinal() == this.getBlockMetadata() + 2;
-	}
+	
 
 }

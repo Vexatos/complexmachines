@@ -8,6 +8,7 @@ import pixlepix.complexmachines.common.AirshipDelayedBlock;
 import pixlepix.complexmachines.common.ComplexMachines;
 import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.CoordTuple;
+import pixlepix.complexmachines.common.PowerConsumerComplexTileEntity;
 import pixlepix.complexmachines.common.item.RangeExtender;
 import pixlepix.complexmachines.common.laser.LaserEmitterTileEntity;
 import universalelectricity.core.UniversalElectricity;
@@ -35,7 +36,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.common.ForgeDirection;
 
-public class MotorTileEntity extends TileEntityElectricityRunnable implements IInventory, IElectricityStorage, IStrictEnergyAcceptor {
+public class MotorTileEntity extends PowerConsumerComplexTileEntity implements IInventory {
 	
 	private static final double TRANSFER_LIMIT = 25000;
 	public double joulesStored;
@@ -52,32 +53,7 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 		
 	}
 	
-	public void consumePower(){
-		ForgeDirection inputDirection = ForgeDirection.getOrientation(this.getBlockMetadata() + 2);
-		TileEntity inputTile = VectorHelper.getTileEntityFromSide(
-				this.worldObj, new Vector3(this), inputDirection);
-
-		IElectricityNetwork inputNetwork = ElectricityNetworkHelper
-				.getNetworkFromTileEntity(inputTile,
-						inputDirection.getOpposite());
-
-		if (inputNetwork != null) {
-			if (this.joulesStored < maxJoules) {
-				inputNetwork.startRequesting(this,Math.min(this.getMaxJoules() - this.getJoules(),this.TRANSFER_LIMIT) / this.getVoltage(),this.getVoltage());
-				ElectricityPack electricityPack = inputNetwork.consumeElectricity(this);
-				this.setJoules(this.joulesStored+ electricityPack.getWatts());
-
-				if (UniversalElectricity.isVoltageSensitive) {
-					if (electricityPack.voltage > this.getVoltage()) {
-						this.worldObj.createExplosion(null, this.xCoord,
-								this.yCoord, this.zCoord, 2f, true);
-					}
-				}
-			} else {
-				inputNetwork.stopRequesting(this);
-			}
-		}
-	}
+	
 		
 		
 	@Override
@@ -206,7 +182,6 @@ public class MotorTileEntity extends TileEntityElectricityRunnable implements II
 			if(worldObj.getTotalWorldTime()%100==2){
 				AirshipBlockRegistry.placeDelayed();
 			}
-				consumePower();
 
 				if (getJoules() > 10000) {
 					if (worldObj.getTotalWorldTime()%100==0) {

@@ -3,7 +3,12 @@ package pixlepix.complexmachines.common.block;
 import java.util.Random;
 
 import pixlepix.complexmachines.client.ClientProxy;
+import pixlepix.complexmachines.common.BasicComplexBlock;
+import pixlepix.complexmachines.common.ComplexMachines;
 import pixlepix.complexmachines.common.Config;
+import pixlepix.complexmachines.common.itemblock.ExtractorItemBlock;
+import pixlepix.complexmachines.common.itemblock.OceanGeneratorItemBlock;
+import pixlepix.complexmachines.common.tileentity.ExtractorMachineTileEntity;
 import pixlepix.complexmachines.common.tileentity.OceanGeneratorTileEntity;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.prefab.block.BlockAdvanced;
@@ -13,176 +18,78 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class OceanGenerator extends BlockAdvanced {
-	private Icon connectorIcon;
-	private Icon topIcon;
-
-	public OceanGenerator(int id) {
-		super(id, UniversalElectricity.machine);
-		this.setUnlocalizedName("Ocean generator");
-		this.setCreativeTab(CreativeTabs.tabMisc);
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister par1IconRegister) {
-
-		blockIcon = par1IconRegister
-				.registerIcon("ComplexMachines:OceanModel");
-	}
-	
+public class OceanGenerator extends BasicComplexBlock {
+	static int blockIdIncrement=5;
 	public OceanGenerator() {
-		super(Config.blockStartingID + 5, UniversalElectricity.machine);
-		this.setUnlocalizedName("Ocean generator");
-		this.setCreativeTab(CreativeTabs.tabMisc);
+		super(5);
 	}
-	
-	@Override
-	public boolean renderAsNormalBlock(){
-		return false;
-	}
-	
-	@Override
-	public boolean isOpaqueCube(){
-		return false;
-	}
-	
-	 @SideOnly(Side.CLIENT)
-	    @Override
-	    public int getRenderType()
-	    {
-	        return ClientProxy.RENDER_ID;
-	    }
-	
-	/**
-	 * Called when the block is placed in the world.
-	 */
-	@Override
-    public boolean onUseWrench(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side,
-            float hitX, float hitY, float hitZ)
-    {
-        int metadata = par1World.getBlockMetadata(x, y, z);
-        
-        int change = 0;
-        
-        // Re-orient the block
-        switch (metadata)
-        {
-            case 0:
-                change = 3;
-                break;
-            case 3:
-                change = 1;
-                break;
-            case 1:
-                change = 2;
-                break;
-            case 2:
-                change = 0;
-                break;
-        }
-        
-        par1World.setBlock(x, y, z, this.blockID, change, 0);
-        par1World.markBlockForRenderUpdate(x, y, z);
-        
-        ((OceanGeneratorTileEntity) par1World.getBlockTileEntity(x, y, z)).initiate();
-        
-        return true;
-    }
-	@Override
-	public void onBlockPlacedBy(World par1World, int x, int y, int z,
-			EntityLiving par5EntityLiving, ItemStack itemStack) {
-
-		((OceanGeneratorTileEntity) par1World.getBlockTileEntity(x, y, z))
-				.initiate();
-		int angle = MathHelper.floor_double((par5EntityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-		int change = 0;
-
-		switch (angle)
-		{
-			case 0:
-				change = 1;
-				break;
-			case 1:
-				change = 2;
-				break;
-			case 2:
-				change = 0;
-				break;
-			case 3:
-				change = 3;
-				break;
-		}
-		par1World.setBlockMetadataWithNotify(x, y, z, change, 2);
-		par1World.notifyBlocksOfNeighborChange(x, y, z, this.blockID);
-	}
-
-	/*
-	 * @Override public boolean onMachineActivated(World par1World, int x, int
-	 * y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float
-	 * hitY, float hitZ) { if (!par1World.isRemote) {
-	 * par5EntityPlayer.openGui(ElectricExpansion.instance, 2, par1World, x, y,
-	 * z); return true; }
-	 * 
-	 * return true; }
-	 */
-	
+	String textureBase="ComplexMachines:";
+	public String textureSpecific="OceanGeneratorModel";
 
 	@Override
-	public TileEntity createTileEntity(World var1, int metadata) {
-		return new OceanGeneratorTileEntity();
-
+	public String getFront() {
+		// TODO Auto-generated method stub
+		return textureSpecific;
 	}
 
 	@Override
-	public boolean hasTileEntity(int metadata) {
+	public String getTop() {
+		// TODO Auto-generated method stub
+		return textureSpecificTop;
+	}
+	@Override
+	public boolean hasModel(){
+		return true;
+	}
+	@Override
+	public String getInput() {
+		// TODO Auto-generated method stub
+		 return textureSpecificConnector;
+	}
+	 public String textureSpecificTop="null";
+
+	public String textureSpecificConnector="null";
+
+	@Override
+	public Class getTileEntityClass() {
+		return OceanGeneratorTileEntity.class;
+	}
+
+	@Override
+	public void addRecipe() {
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ComplexMachines.loader.getBlock(OceanGenerator.class)),true,new Object[]{"xyx", "zyz", "xyx", 'x',new ItemStack(Item.bucketWater), 'y', "circuitElite", 'z', "plateSteel"}));
+		
+	}
+
+	@Override
+	public String getName() {
+		return "OceanGenerator";
+	}
+
+	@Override
+	public boolean hasItemBlock() {
 		return true;
 	}
 
-	// Imported code from EE, unsure if it is needed
-	/*
-	 * @SideOnly(Side.CLIENT)
-	 * 
-	 * @Override public int getRenderType() { return ClientProxy.RENDER_ID; }
-	 */
-	
-	/*
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister par1IconRegister) {
-
-		blockIcon = par1IconRegister
-				.registerIcon("ComplexMachines:OceanFront");
-		connectorIcon = par1IconRegister
-				.registerIcon("ComplexMachines:OceanInput");
-		topIcon = par1IconRegister.registerIcon("ComplexMachines:OceanTop");
+	public Class getItemBlock() {
+		return OceanGeneratorItemBlock.class;
+		
 	}
-
 	@Override
-	public Icon getIcon(int side, int meta) {
-
-		if (side == meta + 2) {
-			return connectorIcon;
-		} else {
-			if (side == 1 || side == 0) {
-				return topIcon;
-			}
-			return blockIcon;
-		}
-	}
-	*/
-	@Override
-	public TileEntity createNewTileEntity(World world) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean threeSidedTextures(){
+		return false;
 	}
 }

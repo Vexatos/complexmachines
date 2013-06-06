@@ -3,7 +3,12 @@ package pixlepix.complexmachines.common.laser.block;
 import java.util.Random;
 
 import pixlepix.complexmachines.client.ClientProxy;
+import pixlepix.complexmachines.common.BasicComplexBlock;
+import pixlepix.complexmachines.common.ComplexMachines;
 import pixlepix.complexmachines.common.Config;
+import pixlepix.complexmachines.common.itemblock.LaserItemBlock;
+import pixlepix.complexmachines.common.laser.LaserEmitter;
+import pixlepix.complexmachines.common.laser.LaserEmitterTileEntity;
 import pixlepix.complexmachines.common.laser.tileentity.LaserBeamTileEntity;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.prefab.block.BlockAdvanced;
@@ -21,94 +26,71 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class LaserBlock extends Block {
-	private Icon connectorIcon;
-
-	public LaserBlock(int id) {
-		super(id, Material.portal);
-		this.setUnlocalizedName("Beam");
-		this.setLightValue(1.0F);
-	}
-
+public class LaserBlock extends BasicComplexBlock {
+	static int blockIdIncrement=10;
+	String textureBase="ComplexMachines:";
+	public String textureSpecific="LaserBeam";
 	public LaserBlock() {
-		super(Config.blockStartingID + 9, UniversalElectricity.machine);
-		this.setStepSound(soundMetalFootstep);
-		this.setUnlocalizedName("Beam");
-		this.setLightValue(1.0F);
+		super(10);
 	}
 
-	@Override
-	public int quantityDropped(Random rand) {
-		return 0;
+	public LaserBlock(int i) {
+		super(i);
 	}
-
+	
+	
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World,
 			int par2, int par3, int par4) {
 		return null;
 	}
-
-	/**
-	 * Called when the block is placed in the world.
-	 */
+	
 	@Override
-	public void onBlockPlacedBy(World par1World, int x, int y, int z,
-			EntityLiving par5EntityLiving, ItemStack itemStack) {
-
-		par1World.notifyBlocksOfNeighborChange(x, y, z, this.blockID);
-		((LaserBeamTileEntity) par1World.getBlockTileEntity(x, y, z))
-				.initiate();
-
+	public Class getTileEntityClass() {
+		return LaserBeamTileEntity.class;
 	}
-
-	/*
-	 * @Override public boolean onMachineActivated(World par1World, int x, int
-	 * y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float
-	 * hitY, float hitZ) { if (!par1World.isRemote) {
-	 * par5EntityPlayer.openGui(ElectricExpansion.instance, 2, par1World, x, y,
-	 * z); return true; }
-	 * 
-	 * return true; }
-	 */
 	@Override
-	public boolean isOpaqueCube() {
+	public boolean inCreativeTab(){
 		return false;
 	}
 
 	@Override
-	public boolean renderAsNormalBlock() {
+	public String getFront() {
+		// TODO Auto-generated method stub
+		return textureSpecific;
+	}
+
+	@Override
+	public String getTop() {
+		// TODO Auto-generated method stub
+		return getFront();
+	}
+
+	@Override
+	public String getInput() {
+		// TODO Auto-generated method stub
+		 return getFront();
+	}
+
+	@Override
+	public String getName() {
+		return "LaserBeam";
+	}
+
+	@Override
+	public boolean hasItemBlock() {
 		return false;
 	}
 
-	public int getRenderBlockPass() {
-		return 1;
-
-	}
-
 	@Override
-	public TileEntity createTileEntity(World var1, int metadata) {
-		return new LaserBeamTileEntity();
-
+	public Class getItemBlock() {
+		return null;
+		
 	}
-
-	@Override
-	public boolean hasTileEntity(int metadata) {
-		return true;
-	}
-
-	// Imported code from EE, unsure if it is needed
-	/*
-	 * @SideOnly(Side.CLIENT)
-	 * 
-	 * @Override public int getRenderType() { return ClientProxy.RENDER_ID; }
-	 */
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister par1IconRegister) {
-
-		blockIcon = par1IconRegister.registerIcon("ComplexMachines:LaserBeam");
-	}
+	
 
 }

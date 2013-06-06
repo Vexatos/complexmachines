@@ -2,6 +2,7 @@ package pixlepix.complexmachines.common.laser.block;
 
 import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.laser.tileentity.HarmingLaserBeamTileEntity;
+import pixlepix.complexmachines.common.laser.tileentity.LaserBeamTileEntity;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -15,39 +16,28 @@ import universalelectricity.core.UniversalElectricity;
 public class HarmingLaserBlock extends LaserBlock {
 
 	
-	public HarmingLaserBlock(int id) {
-		super(id);
-		this.setUnlocalizedName("Harming Beam");
-		this.setBlockUnbreakable();
-	}
-
-	public HarmingLaserBlock() {
-		super(Config.blockStartingID + 11);
-		this.setStepSound(soundMetalFootstep);
-		this.setUnlocalizedName("Harming Beam");
-	}
 	
+	static int blockIdIncrement=11;
+	String textureBase="ComplexMachines:";
+	public String textureSpecific="HarmingLaserBeam";
+
 	@Override
-	public void onBlockPlacedBy(World par1World, int x, int y, int z,
-			EntityLiving par5EntityLiving, ItemStack itemStack) {
-
-		par1World.notifyBlocksOfNeighborChange(x, y, z, this.blockID);
-		((HarmingLaserBeamTileEntity) par1World.getBlockTileEntity(x, y, z))
-				.initiate();
-
+	public Class getTileEntityClass() {
+		return HarmingLaserBeamTileEntity.class;
 	}
-	
 	@Override
-	public TileEntity createTileEntity(World var1, int metadata) {
-		return new HarmingLaserBeamTileEntity();
-
+	public String getFront() {
+		// TODO Auto-generated method stub
+		return textureSpecific;
 	}
+	public HarmingLaserBlock(int i) {
+		super(i);
+	}
+
 	
+
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister par1IconRegister) {
-
-		blockIcon = par1IconRegister.registerIcon("ComplexMachines:HarmingLaser");
-
+	public String getName() {
+		return "HarmingLaserBeam";
 	}
 }

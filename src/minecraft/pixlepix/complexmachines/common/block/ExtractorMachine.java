@@ -1,9 +1,13 @@
 package pixlepix.complexmachines.common.block;
 
 import pixlepix.complexmachines.client.ClientProxy;
+import pixlepix.complexmachines.common.BasicComplexBlock;
 import pixlepix.complexmachines.common.ComplexMachines;
 import pixlepix.complexmachines.common.Config;
+import pixlepix.complexmachines.common.itemblock.ExtractorItemBlock;
+import pixlepix.complexmachines.common.itemblock.FillerItemBlock;
 import pixlepix.complexmachines.common.tileentity.ExtractorMachineTileEntity;
+import pixlepix.complexmachines.common.tileentity.FillerMachineTileEntity;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.prefab.block.BlockAdvanced;
 import net.minecraft.block.BlockContainer;
@@ -18,69 +22,17 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ExtractorMachine extends BlockAdvanced {
-	private Icon connectorIcon;
-	private Icon topIcon;
-
-	public ExtractorMachine(int id) {
-		super(id, UniversalElectricity.machine);
-		this.setStepSound(soundMetalFootstep);
-		this.setUnlocalizedName("extractor");
-		this.setCreativeTab(CreativeTabs.tabMisc);
-	}
-
+public class ExtractorMachine extends BasicComplexBlock {
+	
+	
 	public ExtractorMachine() {
-		super(Config.blockStartingID + 2, UniversalElectricity.machine);
-		this.setStepSound(soundMetalFootstep);
-		this.setUnlocalizedName("extractor");
-		this.setCreativeTab(CreativeTabs.tabMisc);
+		super(2);
 	}
-
-	/**
-	 * Called when the block is placed in the world.
-	 */
-
-	@Override
-	public void onBlockPlacedBy(World par1World, int x, int y, int z,
-			EntityLiving par5EntityLiving, ItemStack itemStack) {
-
-		((ExtractorMachineTileEntity) par1World.getBlockTileEntity(x, y, z))
-				.initiate();
-		int angle = MathHelper.floor_double((par5EntityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-		int change = 0;
-
-		switch (angle)
-		{
-			case 0:
-				change = 1;
-				break;
-			case 1:
-				change = 2;
-				break;
-			case 2:
-				change = 0;
-				break;
-			case 3:
-				change = 3;
-				break;
-		}
-		par1World.setBlockMetadataWithNotify(x, y, z, change, 2);
-		par1World.notifyBlocksOfNeighborChange(x, y, z, this.blockID);
-	}
-
-	/*
-	 * @Override public boolean onMachineActivated(World par1World, int x, int
-	 * y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float
-	 * hitY, float hitZ) { if (!par1World.isRemote) {
-	 * par5EntityPlayer.openGui(ElectricExpansion.instance, 2, par1World, x, y,
-	 * z); return true; }
-	 * 
-	 * return true; }
-	 */
-
 	@Override
 	public boolean onMachineActivated(World par1World, int x, int y, int z,
 			EntityPlayer par5EntityPlayer, int side, float hitX, float hitY,
@@ -93,112 +45,67 @@ public class ExtractorMachine extends BlockAdvanced {
 
 		return true;
 	}
-	@Override
-    public boolean onUseWrench(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side,
-            float hitX, float hitY, float hitZ)
-    {
-        int metadata = par1World.getBlockMetadata(x, y, z);
-        
-        int change = 0;
-        
-        // Re-orient the block
-        switch (metadata)
-        {
-            case 0:
-                change = 3;
-                break;
-            case 3:
-                change = 1;
-                break;
-            case 1:
-                change = 2;
-                break;
-            case 2:
-                change = 0;
-                break;
-        }
-        
-        par1World.setBlock(x, y, z, this.blockID, change, 0);
-        par1World.markBlockForRenderUpdate(x, y, z);
-        
-        ((ExtractorMachineTileEntity) par1World.getBlockTileEntity(x, y, z)).initiate();
-        
-        return true;
-    }
-
 	
-
 	@Override
-	public TileEntity createTileEntity(World var1, int metadata) {
-		return new ExtractorMachineTileEntity();
-
-	}
-
-	@Override
-	public boolean hasTileEntity(int metadata) {
+	public boolean hasModel(){
 		return true;
 	}
-
-	// Imported code from EE, unsure if it is needed
-	/*
-	 * @SideOnly(Side.CLIENT)
-	 * 
-	 * @Override public int getRenderType() { return ClientProxy.RENDER_ID; }
-	 */
 	
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister par1IconRegister) {
+	 
+	 static int blockIdIncrement=2;
+		String textureBase="ComplexMachines:";
+		public String textureSpecific="ExtractorModel";
 
-		blockIcon = par1IconRegister
-				.registerIcon("ComplexMachines:ExtractorModel");
-	}
-	/*@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister par1IconRegister) {
-
-		blockIcon = par1IconRegister
-				.registerIcon("ComplexMachines:ExtractorFront");
-		connectorIcon = par1IconRegister
-				.registerIcon("ComplexMachines:ExtractorInput");
-		topIcon = par1IconRegister.registerIcon("ComplexMachines:ExtractorTop");
-	}
-
-	@Override
-	public Icon getIcon(int side, int meta) {
-
-		if (side == meta + 2) {
-			return connectorIcon;
-		} else {
-			if (side == 1 || side == 0) {
-				return topIcon;
-			}
-			return blockIcon;
+		@Override
+		public String getFront() {
+			// TODO Auto-generated method stub
+			return textureSpecific;
 		}
-	}
-	*/
-	@Override
-	public TileEntity createNewTileEntity(World world) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public boolean renderAsNormalBlock(){
-		return false;
-	}
-	
-	@Override
-	public boolean isOpaqueCube(){
-		return false;
-	}
-	
-	 @SideOnly(Side.CLIENT)
-	    @Override
-	    public int getRenderType()
-	    {
-	        return ClientProxy.RENDER_ID;
-	    }
+
+		@Override
+		public String getTop() {
+			// TODO Auto-generated method stub
+			return textureSpecificTop;
+		}
+
+		@Override
+		public String getInput() {
+			// TODO Auto-generated method stub
+			 return textureSpecificConnector;
+		}
+	 public String textureSpecificTop="null";
+
+		public String textureSpecificConnector="null";
+
+		@Override
+		public Class getTileEntityClass() {
+			return ExtractorMachineTileEntity.class;
+		}
+
+		@Override
+		public void addRecipe() {
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ComplexMachines.loader.getBlock(ExtractorMachine.class)),true,new Object[]{"xyx", "xzx", "xxx", 'x', "plateSteel",'y', new ItemStack(Item.pickaxeDiamond), 'z', "circuitElite"}));
+			
+		}
+
+		@Override
+		public String getName() {
+			return "Extractor";
+		}
+
+		@Override
+		public boolean hasItemBlock() {
+			return true;
+		}
+
+		@Override
+		public Class getItemBlock() {
+			return ExtractorItemBlock.class;
+			
+		}
+		@Override
+		public boolean threeSidedTextures(){
+			return false;
+		}
 
 }

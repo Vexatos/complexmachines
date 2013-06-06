@@ -1,6 +1,7 @@
 package pixlepix.complexmachines.common.tileentity;
 
 import pixlepix.complexmachines.common.Config;
+import pixlepix.complexmachines.common.PowerProducerComplexTileEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -33,14 +34,9 @@ import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.Loader;
 
-public class SinglePointTileEntity extends TileEntityElectrical implements
-		IPacketReceiver, IElectricityStorage {
-	public final double WATTS_PER_TICK = 5000;
-	public final double TRANSFER_LIMIT = 12500;
-	private int drawingTicks = 0;
-	private double joulesStored = 0;
+public class SinglePointTileEntity extends PowerProducerComplexTileEntity{
+	
 	public static double maxJoules = 2000000;
-	public int ticks = 10000;
 	/**
 	 * The ItemStacks that hold the items currently being used in the wire mill;
 	 * 0 = battery; 1 = input; 2 = output;
@@ -60,8 +56,7 @@ public class SinglePointTileEntity extends TileEntityElectrical implements
 	}
 
 	public void updateEntity() {
-		// System.out.println("Focal Points have been spawned at "+"  "+xCoord+"  "+yCoord+"  "+zCoord);
-		super.updateEntity();
+		
 		ticks++;
 		if(ticks%20==0){
 			for(int i=0;i<256;i++){
@@ -75,43 +70,14 @@ public class SinglePointTileEntity extends TileEntityElectrical implements
 		
 		if (!this.worldObj.isRemote) {
 			if (atCorrectLocation()) {
-				// Check nearby blocks and see if the conductor is full. If so,
-				// then it is connected
-				ForgeDirection outputDirection = ForgeDirection
-						.getOrientation(this.getBlockMetadata() + 2);
-				TileEntity outputTile = VectorHelper.getConnectorFromSide(
-						this.worldObj, new Vector3(this.xCoord, this.yCoord,
-								this.zCoord), outputDirection);
+				super.updateEntity(); 
+				
 
-				IElectricityNetwork network = ElectricityNetworkHelper
-						.getNetworkFromTileEntity(outputTile, outputDirection);
-
-				if (network != null) {
-					if (network.getRequest().getWatts() > 0) {
-						this.connectedElectricUnit = (IConductor) outputTile;
-					} else {
-						this.connectedElectricUnit = null;
-					}
-				} else {
-					this.connectedElectricUnit = null;
-				}
-
-				if (!this.isDisabled()) {
-
-					if (this.connectedElectricUnit != null) {
-
-						this.connectedElectricUnit.getNetwork().startProducing(
-								this, (Config.singlePointGeneratorOutput / this.getVoltage()) / 20,
-								this.getVoltage());
-
-					}
-				}
-
-			}
+			
 
 		}
 	}
-
+	}
 	private boolean atCorrectLocation() {
 		int target=Config.singlePointRadius;
 			if(xCoord==target&&zCoord==target){
@@ -131,42 +97,6 @@ public class SinglePointTileEntity extends TileEntityElectrical implements
 		return false;
 	}
 
-	@Override
-	public void handlePacketData(INetworkManager inputNetwork, int type,
-			Packet250CustomPayload packet, EntityPlayer player,
-			ByteArrayDataInput dataStream) {
-		try {
-			this.drawingTicks = dataStream.readInt();
-			this.disabledTicks = dataStream.readInt();
-			this.joulesStored = dataStream.readDouble();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public double getVoltage() {
-		return 120;
-	}
-
-	@Override
-	public double getJoules() {
-		return this.joulesStored;
-	}
-
-	@Override
-	public void setJoules(double joules) {
-		this.joulesStored = joules;
-	}
-
-	@Override
-	public double getMaxJoules() {
-		return FillerMachineTileEntity.maxJoules;
-	}
-
-	@Override
-	public boolean canConnect(ForgeDirection direction) {
-		return direction.ordinal() == this.getBlockMetadata() + 2;
-	}
+	
 
 }

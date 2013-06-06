@@ -4,6 +4,7 @@ import java.util.Random;
 
 import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.CoordTuple;
+import pixlepix.complexmachines.common.PowerConsumerComplexTileEntity;
 import pixlepix.complexmachines.common.laser.tileentity.LaserBeamTileEntity;
 import pixlepix.complexmachines.common.laser.tileentity.SuctionLaserBeamTileEntity;
 import pixlepix.complexmachines.common.tileentity.FluxTileEntity;
@@ -33,8 +34,7 @@ import universalelectricity.prefab.tile.TileEntityElectricityRunnable;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class LaserEmitterTileEntity extends TileEntityElectricityRunnable
-		implements IPacketReceiver, IElectricityStorage, IStrictEnergyAcceptor {
+public class LaserEmitterTileEntity extends PowerConsumerComplexTileEntity {
 	public final double WATTS_PER_TICK = 5000;
 	public final double TRANSFER_LIMIT = 12500;
 	private int drawingTicks = 0;
@@ -147,32 +147,7 @@ public class LaserEmitterTileEntity extends TileEntityElectricityRunnable
 			tripped=false;
 		}
 	}
-	public void consumePower(){
-		ForgeDirection inputDirection = ForgeDirection.getOrientation(this.getBlockMetadata() + 2);
-		TileEntity inputTile = VectorHelper.getTileEntityFromSide(
-				this.worldObj, new Vector3(this), inputDirection);
-
-		IElectricityNetwork inputNetwork = ElectricityNetworkHelper
-				.getNetworkFromTileEntity(inputTile,
-						inputDirection.getOpposite());
-
-		if (inputNetwork != null) {
-			if (this.joulesStored < LaserEmitterTileEntity.maxJoules) {
-				inputNetwork.startRequesting(this,Math.min(this.getMaxJoules() - this.getJoules(),this.TRANSFER_LIMIT) / this.getVoltage(),this.getVoltage());
-				ElectricityPack electricityPack = inputNetwork.consumeElectricity(this);
-				this.setJoules(this.joulesStored+ electricityPack.getWatts());
-
-				if (UniversalElectricity.isVoltageSensitive) {
-					if (electricityPack.voltage > this.getVoltage()) {
-						this.worldObj.createExplosion(null, this.xCoord,
-								this.yCoord, this.zCoord, 2f, true);
-					}
-				}
-			} else {
-				inputNetwork.stopRequesting(this);
-			}
-		}
-	}
+	
 
 
 
@@ -184,7 +159,6 @@ public class LaserEmitterTileEntity extends TileEntityElectricityRunnable
 
 		// System.out.println(getJoules());
 		if (!this.worldObj.isRemote) {
-				consumePower();
 				unTrip();
 
 				ticks++;
@@ -211,13 +185,7 @@ public class LaserEmitterTileEntity extends TileEntityElectricityRunnable
 			removeBeam();
 		}
 
-		if (!this.worldObj.isRemote) {
-			if (this.ticks % 3 == 0 && this.playersUsing > 0) {
-				PacketManager.sendPacketToClients(this.getDescriptionPacket(),
-						this.worldObj, new Vector3(this), 12);
-			}
-		}
-
+		
 		this.joulesStored = Math.min(this.joulesStored, this.getMaxJoules());
 		this.joulesStored = Math.max(this.joulesStored, 0d);
 
@@ -276,38 +244,7 @@ public class LaserEmitterTileEntity extends TileEntityElectricityRunnable
 		par1NBTTagCompound.setTag("Items", var2);
 	}
 
-	@Override
-	public double getVoltage() {
-		return 480;
-	}
 
-	/**
-	 * @return The amount of ticks required to draw this item
-	 */
-
-	public int getDrawingTimeLeft() {
-		return this.drawingTicks;
-	}
-
-	@Override
-	public double getJoules() {
-		return this.joulesStored;
-	}
-
-	@Override
-	public void setJoules(double joules) {
-		this.joulesStored = joules;
-	}
-
-	@Override
-	public double getMaxJoules() {
-		return LaserEmitterTileEntity.maxJoules;
-	}
-
-	@Override
-	public boolean canConnect(ForgeDirection direction) {
-		return direction.ordinal() == this.getBlockMetadata() + 2;
-	}
 
 
 
@@ -334,36 +271,8 @@ public class LaserEmitterTileEntity extends TileEntityElectricityRunnable
 		tripped=true;
 
 	}
-	@Override
-	public double getEnergy() {
-		// TODO Auto-generated method stub
-		return this.getJoules();
-	}
 
-	@Override
-	public void setEnergy(double energy) {
-		this.setJoules(energy);
-		
-	}
-
-	@Override
-	public double getMaxEnergy() {
-		// TODO Auto-generated method stub
-		return this.getMaxJoules();
-	}
-
-	@Override
-	public double transferEnergyToAcceptor(double amount) {
-		double energyTransfered=Math.max(getMaxEnergy()-this.getEnergy(),amount );
-		this.setEnergy(this.getEnergy()+energyTransfered);
-		return amount-energyTransfered;
-	}
-
-	@Override
-	public boolean canReceiveEnergy(ForgeDirection side) {
-		// TODO Auto-generated method stub
-		return this.canConnect(side);
-	}
+	
 	
 
 

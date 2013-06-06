@@ -1,11 +1,12 @@
 package pixlepix.complexmachines.common.laser.tileentity;
 
+import pixlepix.complexmachines.common.BasicComplexTileEntity;
 import pixlepix.complexmachines.common.laser.LaserEmitterTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 
-public class LaserBeamTileEntity extends TileEntity {
+public class LaserBeamTileEntity extends BasicComplexTileEntity {
 	public int ticks = 0;
 	private boolean initialized;
 	int ordinalNorth=ForgeDirection.NORTH.ordinal();

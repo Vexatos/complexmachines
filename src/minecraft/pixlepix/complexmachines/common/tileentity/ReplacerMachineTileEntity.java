@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import pixlepix.complexmachines.common.ComplexMachines;
+import pixlepix.complexmachines.common.PowerConsumerComplexTileEntity;
 
 import mekanism.api.IStrictEnergyAcceptor;
 import net.minecraft.block.Block;
@@ -38,38 +39,21 @@ import com.google.common.io.ByteArrayDataInput;
 
 import cpw.mods.fml.common.Loader;
 
-public class ReplacerMachineTileEntity extends TileEntityElectricityRunnable
-		implements IPacketReceiver, IElectricityStorage, IStrictEnergyAcceptor {
+public class ReplacerMachineTileEntity extends PowerConsumerComplexTileEntity {
 	public final double WATTS_PER_TICK = 5000;
 	public final double TRANSFER_LIMIT = 125000;
 	private int drawingTicks = 0;
 	private double joulesStored = 0;
 	public static double maxJoules = 5000000;
-	public final int COST_ON_ORE = 5000000;
-	public final int COST_ON_MISS = 2500;
 	public int ticks;
-	private ItemStack[] inventory = new ItemStack[3];
 	Random rand = new Random();
 	private int playersUsing = 0;
 	public int orientation;
-	private int targetID = 0;
-	private int targetMeta = 0;
-	public final int[] ORE_LIST = { 14, 15, 16, 21, 56, 73, 129, 458, 688,
-			3002, 3880, 3970, 3989 };
-	private boolean initialized;
 
-	public boolean isOre(int id) {
-		for (int i = 0; i < ORE_LIST.length; i++) {
-			if (ORE_LIST[i] == id) {
-				return true;
-			}
-		}
-		return false;
-	}
+	
 
 	@Override
 	public void initiate() {
-		this.initialized = true;
 	}
 
 	public boolean chestsSetUp() {
@@ -120,35 +104,7 @@ public class ReplacerMachineTileEntity extends TileEntityElectricityRunnable
 		super.updateEntity();
 
 		if (!this.worldObj.isRemote) {
-			ForgeDirection inputDirection = ForgeDirection.getOrientation(this
-					.getBlockMetadata() + 2);
-			TileEntity inputTile = VectorHelper.getTileEntityFromSide(
-					this.worldObj, new Vector3(this), inputDirection);
-
-			IElectricityNetwork inputNetwork = ElectricityNetworkHelper
-					.getNetworkFromTileEntity(inputTile,
-							inputDirection.getOpposite());
-
-			if (inputNetwork != null) {
-				if (this.joulesStored < ReplacerMachineTileEntity.maxJoules) {
-
-					inputNetwork.startRequesting(
-							this,
-							Math.min(this.getMaxJoules() - this.getJoules(),
-									this.TRANSFER_LIMIT) / this.getVoltage(),
-							this.getVoltage());
-					ElectricityPack electricityPack = inputNetwork
-							.consumeElectricity(this);
-					this.setJoules(this.joulesStored
-							+ electricityPack.getWatts());
-
-					if (UniversalElectricity.isVoltageSensitive) {
-						if (electricityPack.voltage > this.getVoltage()) {
-							this.worldObj.createExplosion(null, this.xCoord,
-									this.yCoord, this.zCoord, 2f, true);
-						}
-					}
-				}
+			
 
 				if (getJoules() > 10000)
 
@@ -192,13 +148,12 @@ public class ReplacerMachineTileEntity extends TileEntityElectricityRunnable
 									for (int cycleY = lowerBoundY; cycleY < upperBoundY; cycleY++) {
 										for (int cycleZ = lowerBoundZ; cycleZ < upperBoundZ; cycleZ++) {
 											if (worldObj.getBlockId(cycleX,cycleY, cycleZ) == 1) {
-												if(ComplexMachines.isProtected(cycleX, cycleZ)){
+												if(!ComplexMachines.isProtected(cycleX, cycleZ)){
 													worldObj.setBlock(cycleX,cycleY, cycleZ,idToReplace);
 												}
 												// System.out.println("X: "+cycleX+"Y: "+cycleY+"Z: "+cycleZ);
 												setJoules(getJoules() - 10000);
-												takeBlockFromChest(inputChest,
-														idToReplace);
+												takeBlockFromChest(inputChest,idToReplace);
 												return;
 											}
 										}
@@ -209,15 +164,6 @@ public class ReplacerMachineTileEntity extends TileEntityElectricityRunnable
 						}
 					}
 				}
-			}
-
-		}
-
-		if (!this.worldObj.isRemote) {
-			if (this.ticks % 3 == 0 && this.playersUsing > 0) {
-				PacketManager.sendPacketToClients(this.getDescriptionPacket(),
-						this.worldObj, new Vector3(this), 12);
-			}
 		}
 
 		this.joulesStored = Math.min(this.joulesStored, this.getMaxJoules());
@@ -229,71 +175,11 @@ public class ReplacerMachineTileEntity extends TileEntityElectricityRunnable
 			Packet250CustomPayload packet, EntityPlayer player,
 			ByteArrayDataInput dataStream) {
 		try {
-			this.drawingTicks = dataStream.readInt();
-			this.disabledTicks = dataStream.readInt();
 			this.joulesStored = dataStream.readDouble();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	@Override
-	public double getVoltage() {
-		return 480;
-	}
-
-	public int getDrawingTimeLeft() {
-		return this.drawingTicks;
-	}
-
-	@Override
-	public double getJoules() {
-		return this.joulesStored;
-	}
-
-	@Override
-	public void setJoules(double joules) {
-		this.joulesStored = joules;
-	}
-
-	@Override
-	public double getMaxJoules() {
-		return ReplacerMachineTileEntity.maxJoules;
-	}
-
-	@Override
-	public boolean canConnect(ForgeDirection direction) {
-
-		return direction.ordinal() == this.getBlockMetadata() + 2;
-	}
-	@Override
-	public double getEnergy() {
-		// TODO Auto-generated method stub
-		return this.getJoules();
-	}
-
-	@Override
-	public void setEnergy(double energy) {
-		this.setJoules(energy);
-		
-	}
-
-	@Override
-	public double getMaxEnergy() {
-		// TODO Auto-generated method stub
-		return this.getMaxJoules();
-	}
-
-	@Override
-	public double transferEnergyToAcceptor(double amount) {
-		double energyTransfered=Math.max(getMaxEnergy()-this.getEnergy(),amount );
-		this.setEnergy(this.getEnergy()+energyTransfered);
-		return amount-energyTransfered;
-	}
-
-	@Override
-	public boolean canReceiveEnergy(ForgeDirection side) {
-		// TODO Auto-generated method stub
-		return this.canConnect(side);
-	}
+	
 }

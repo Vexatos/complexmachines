@@ -3,6 +3,7 @@ package pixlepix.complexmachines.client;
 import pixlepix.complexmachines.client.render.RenderExtractor;
 import pixlepix.complexmachines.client.render.RenderFiller;
 import pixlepix.complexmachines.client.render.RenderFocalPoint;
+import pixlepix.complexmachines.client.render.RenderGeneticMob;
 import pixlepix.complexmachines.client.render.RenderHandler;
 import pixlepix.complexmachines.client.render.RenderLaser;
 import pixlepix.complexmachines.client.render.RenderLaserEmitter;
@@ -18,11 +19,14 @@ import pixlepix.complexmachines.common.CommonProxy;
 import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.laser.LaserEmitterTileEntity;
 import pixlepix.complexmachines.common.laser.tileentity.LaserBeamTileEntity;
+import pixlepix.complexmachines.common.mob.GeneticMob;
 import pixlepix.complexmachines.common.tileentity.ExtractorMachineTileEntity;
 import pixlepix.complexmachines.common.tileentity.FillerMachineTileEntity;
 import pixlepix.complexmachines.common.tileentity.FocalPointControledTileEntity;
 import pixlepix.complexmachines.common.tileentity.OceanGeneratorTileEntity;
 import pixlepix.complexmachines.common.tileentity.SinglePointTileEntity;
+import net.minecraft.client.model.ModelZombie;
+import net.minecraft.client.renderer.entity.RenderZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -65,6 +69,9 @@ public class ClientProxy extends CommonProxy
         ClientRegistry.registerTileEntity(FocalPointControledTileEntity.class, "FocalPoint", new RenderFocalPoint());
         ClientRegistry.registerTileEntity(LaserEmitterTileEntity.class, "LaserEmitter", new RenderLaserEmitter());
        
+        
+        
+        RenderingRegistry.registerEntityRenderingHandler(GeneticMob.class, new RenderGeneticMob(new ModelZombie(),0.3F));
     }
     
     
