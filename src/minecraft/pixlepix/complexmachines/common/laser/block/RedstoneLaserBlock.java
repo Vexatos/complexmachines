@@ -1,6 +1,7 @@
 package pixlepix.complexmachines.common.laser.block;
 
 import pixlepix.complexmachines.common.laser.tileentity.LaserBeamTileEntity;
+import pixlepix.complexmachines.common.laser.tileentity.RedstoneLaserBeamTileEntity;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
@@ -54,7 +55,11 @@ public class RedstoneLaserBlock extends LaserBlock{
 	public String getName() {
 		return "RedstoneLaserBeam";
 	}
-	
-	
+	@Override
+	public Class getTileEntityClass(){
+		return RedstoneLaserBeamTileEntity.class;
+		
+	}
+
 	
 }
