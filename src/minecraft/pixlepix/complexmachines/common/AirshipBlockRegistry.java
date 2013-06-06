@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
+import pixlepix.complexmachines.api.IAirshipSpecialMove;
 import pixlepix.complexmachines.common.tileentity.MotorTileEntity;
 
 import net.minecraft.nbt.NBTTagCompound;
@@ -44,7 +45,7 @@ public class AirshipBlockRegistry {
 				data.world.setBlockTileEntity(data.x, data.y, data.z, data.entity);
 				iterator.remove();
 			}catch(Exception e){
-				
+				e.printStackTrace();
 			}
 		}
 		
@@ -72,6 +73,9 @@ public class AirshipBlockRegistry {
 						TileEntity newEntity=toPlace.world.getBlockTileEntity(toPlace.x, toPlace.y, toPlace.z);
 						if (newEntity!=null){
 							newEntity.readFromNBT(restoreData);
+							if(newEntity instanceof IAirshipSpecialMove&&toPlace.data!=null){
+								((IAirshipSpecialMove)newEntity).afterMove(toPlace.data);
+							}
 						}
 						
 						//TODO Bad practice is fun!

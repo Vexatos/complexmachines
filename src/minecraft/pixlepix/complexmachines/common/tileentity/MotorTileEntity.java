@@ -3,6 +3,8 @@ package pixlepix.complexmachines.common.tileentity;
 import java.util.ArrayList;
 import java.util.List;
 
+import pixlepix.complexmachines.api.AirshipSpecialMoveData;
+import pixlepix.complexmachines.api.IAirshipSpecialMove;
 import pixlepix.complexmachines.common.AirshipBlockRegistry;
 import pixlepix.complexmachines.common.AirshipDelayedBlock;
 import pixlepix.complexmachines.common.ComplexMachines;
@@ -212,34 +214,7 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 
 		}
 	}
-	/*public void scan(ForgeDirection direction, CoordTuple target, boolean center){
-		if(!worldObj.isRemote){
-			int targetX = target.x+direction.offsetX;
-			int targetY = target.y+direction.offsetY;
-			int targetZ = target.z+direction.offsetZ;
-			
-			
-			
-			int meta=worldObj.getBlockMetadata(target.x,target.y,target.z);
-			int targetId=worldObj.getBlockId(targetX, targetY, targetZ);
-			if((targetId>7&&targetId<12)||targetId==0||(worldObj.getBlockTileEntity(targetX, targetY, targetZ) instanceof MotorTileEntity&&center)){
-				
-				int materialId=worldObj.getBlockId(target.x, target.y, target.z);
-				
-				if(needsSupport(materialId)){
-					AirshipBlockRegistry.addDelayed(new AirshipDelayedBlock(targetX,targetY,targetZ,materialId,meta,worldObj,target.x,target.y,target.z));
-					//worldObj.setBlock(target.x, target.y, target.z, 0);
-				}
-				
-				
-				
-				//if(newEntity!=null&&!(newEntity instanceof MotorTileEntity)){
-				
-				
-			}
-			}
-		}
-	*/
+	
 	public void moveBlock(ForgeDirection direction, CoordTuple target, boolean center){
 		
 		if(!worldObj.isRemote){
@@ -259,14 +234,18 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 			TileEntity oldEntity=worldObj.getBlockTileEntity(target.x, target.y, target.z);
 			NBTTagList list=new NBTTagList();
 			NBTTagCompound data=new NBTTagCompound();
+			AirshipSpecialMoveData specialData=null;
 			if(oldEntity != null){
 				oldEntity.writeToNBT(data);
 				list.appendTag(data);
+				if(oldEntity instanceof IAirshipSpecialMove){
+					specialData=((IAirshipSpecialMove)oldEntity).beforeMove(direction);
+				}
 				oldEntity.invalidate();
 			}
 			Block targetBlockType = this.blockType;
 			if(!(materialId==7)){
-				AirshipBlockRegistry.addBlock(new AirshipDelayedBlock(targetX,targetY,targetZ,materialId,meta,worldObj,list,target.x,target.y,target.z));
+				AirshipBlockRegistry.addBlock(new AirshipDelayedBlock(targetX,targetY,targetZ,materialId,meta,worldObj,list,target.x,target.y,target.z,specialData));
 			}
 			if(needsSupport(materialId)){
 				worldObj.setBlock(target.x, target.y, target.z, 0);

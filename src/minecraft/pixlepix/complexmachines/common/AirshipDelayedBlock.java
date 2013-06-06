@@ -2,6 +2,8 @@ package pixlepix.complexmachines.common;
 
 import java.util.ArrayList;
 
+import pixlepix.complexmachines.api.AirshipSpecialMoveData;
+
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 
@@ -17,7 +19,8 @@ public class AirshipDelayedBlock {
 	public int oldX;
 	public int oldY;
 	public int oldZ;
-	public AirshipDelayedBlock(int x,int y,int z,int id, int meta, World world, NBTTagList list, int oldX, int oldY, int oldZ){
+	public AirshipSpecialMoveData data;
+	public AirshipDelayedBlock(int x,int y,int z,int id, int meta, World world, NBTTagList list, int oldX, int oldY, int oldZ,AirshipSpecialMoveData data){
 		this.x=x;
 		this.y=y;
 		this.z=z;
@@ -28,6 +31,7 @@ public class AirshipDelayedBlock {
 		this.oldX=oldX;
 		this.oldY=oldY;
 		this.oldZ=oldZ;
+		this.data=data;
 	}
 	public AirshipDelayedBlock(int x,int y,int z,int id, int meta, World world,int oldX,int oldY,int oldZ){
 		this.x=x;
