@@ -33,6 +33,9 @@ public class HarmingLaserBlock extends LaserBlock {
 	public HarmingLaserBlock(int i) {
 		super(i);
 	}
+	public HarmingLaserBlock() {
+		super(11);
+	}
 
 	
 
