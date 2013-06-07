@@ -123,11 +123,11 @@ public class LaserEmitterTileEntity extends PowerConsumerComplexTileEntity {
 			//System.out.println("Laser of glass");
 			break;
 		case 295:
-			laserBeamId=Config.blockStartingID+18;
+			laserBeamId=Config.blockStartingID+17;
 			//System.out.println("Laser of glass");
 			break;
 		case 328:
-			laserBeamId=Config.blockStartingID+17;
+			laserBeamId=Config.blockStartingID+18;
 			//System.out.println("Laser of glass");
 			break;
 		
@@ -168,7 +168,7 @@ public class LaserEmitterTileEntity extends PowerConsumerComplexTileEntity {
 
 						beamMatching(internalId);
 						int max=2;
-						if(laserBeamId==Config.blockStartingID+18){
+						if(laserBeamId==Config.blockStartingID+17){
 							max=4;
 						}
 

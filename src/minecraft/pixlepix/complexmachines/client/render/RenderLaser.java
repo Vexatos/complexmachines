@@ -42,7 +42,7 @@ String laserTexture="/mods/ComplexMachines/textures/blocks/LaserBeam.png";
     			laserTexture="/mods/ComplexMachines/textures/blocks/StoneBrick.png";
 
     			break;
-    		case 17: 
+    		case 18: 
     			laserTexture="/mods/ComplexMachines/textures/blocks/SuctionLaser.png";
 
     			break;
