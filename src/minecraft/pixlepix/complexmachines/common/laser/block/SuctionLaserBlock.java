@@ -25,7 +25,6 @@ public class SuctionLaserBlock extends LaserBlock {
 		// TODO Auto-generated method stub
 		return textureSpecific;
 	}
-	static int blockIdIncrement=17;
 	String textureBase="ComplexMachines:";
 	public String textureSpecific="SuctionLaser";
 

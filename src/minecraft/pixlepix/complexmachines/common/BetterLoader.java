@@ -57,8 +57,6 @@ public class BetterLoader {
 
 		classes.add(RedstoneLaserBlock.class);
 
-		classes.add(StoneLaserBlock.class);
-
 		classes.add(SuctionLaserBlock.class);
 
 		classes.add(TripwireLaserBlock.class);

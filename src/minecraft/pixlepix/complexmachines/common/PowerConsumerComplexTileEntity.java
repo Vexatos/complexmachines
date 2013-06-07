@@ -8,6 +8,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import pixlepix.complexmachines.common.tileentity.FillerMachineTileEntity;
 
+import buildcraft.api.power.PowerFramework;
+import buildcraft.api.power.PowerProvider;
+
 import com.google.common.io.ByteArrayDataInput;
 
 import mekanism.api.IStrictEnergyAcceptor;
@@ -30,10 +33,7 @@ public class PowerConsumerComplexTileEntity extends BasicComplexTileEntity imple
 
 	private int playersUsing = 0;
 	public int orientation;
-
-	@Override
-	public void initiate() {
-	}
+	
 
 	@Override
 	public void updateEntity() {

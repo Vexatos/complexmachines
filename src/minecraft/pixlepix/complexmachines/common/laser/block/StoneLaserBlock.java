@@ -52,7 +52,7 @@ public class StoneLaserBlock extends LaserBlock {
 
 	@Override
 	public String getName() {
-		return "SuctionLaserBeam";
+		return "StoneLaserBeam";
 	}
 	
 	
