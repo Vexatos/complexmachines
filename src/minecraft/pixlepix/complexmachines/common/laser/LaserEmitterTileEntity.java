@@ -75,6 +75,7 @@ public class LaserEmitterTileEntity extends PowerConsumerComplexTileEntity {
 			
 			TileEntity entity=worldObj.getBlockTileEntity(xCoord + laserDirection.offsetX*i, yCoord, zCoord + laserDirection.offsetZ * i);
 			if (worldObj.getBlockId(xCoord + laserDirection.offsetX * i, yCoord, zCoord + laserDirection.offsetZ * i) == 0||entity instanceof LaserBeamTileEntity||entity instanceof FluxTileEntity) {
+			
 				worldObj.setBlock(xCoord+ laserDirection.offsetX * i, yCoord,zCoord + laserDirection.offsetZ * i,laserBeamId,laserDirection.ordinal(),3);
 				if (entity instanceof LaserBeamTileEntity) {
 					LaserBeamTileEntity laserEntity = (LaserBeamTileEntity)entity;
@@ -129,10 +130,7 @@ public class LaserEmitterTileEntity extends PowerConsumerComplexTileEntity {
 			laserBeamId=Config.blockStartingID+17;
 			//System.out.println("Laser of glass");
 			break;
-		case 76:
-			laserBeamId=Config.blockStartingID+21;
-			//System.out.println("Laser of glass");
-			break;
+		
 
 		default:
 			laserBeamId=Config.blockStartingID+10;
