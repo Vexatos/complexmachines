@@ -87,7 +87,6 @@ public class LaserEmitter extends BasicComplexBlock {
 		if(tileEntity instanceof LaserEmitterTileEntity){
 			LaserEmitterTileEntity laserEmitterTileEntity=(LaserEmitterTileEntity)tileEntity;
 			if(laserEmitterTileEntity.tripped){
-				//System.out.println("Attempting to emit redstone power");
 				return 15;
 			}
 		}
@@ -105,7 +104,6 @@ public class LaserEmitter extends BasicComplexBlock {
 		if(tileEntity instanceof LaserEmitterTileEntity){
 			LaserEmitterTileEntity laserEmitterTileEntity=(LaserEmitterTileEntity)tileEntity;
 			if(laserEmitterTileEntity.tripped){
-				//System.out.println("Attempting to emit redstone power");
 				return 15;
 			}
 		}

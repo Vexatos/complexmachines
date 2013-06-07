@@ -100,7 +100,7 @@ String laserTexture="/mods/ComplexMachines/textures/blocks/LaserBeam.png";
 	    	        if(meta==5){
 	    	        	GL11.glRotatef(270,0F,1F,0F);
 
-	    	        	GL11.glTranslated(0, -1, -1);
+	    	        	GL11.glTranslated(0, .5, .5);
 	    	        }
 	    	        if(direction.offsetZ==1){
 	

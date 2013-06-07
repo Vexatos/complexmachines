@@ -256,7 +256,6 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 	}
 	
 	public void move(ForgeDirection direction){
-			System.out.println(getRange());
 			
 			//xCoordTuple[] nearby={new CoordTuple(xCoord+1,yCoord,zCoord+1),new CoordTuple(xCoord+1,yCoord,zCoord-1),new CoordTuple(xCoord-1,yCoord,zCoord+1),new CoordTuple(xCoord-1,yCoord,zCoord-1),new CoordTuple(xCoord+1,yCoord,zCoord),new CoordTuple(xCoord-1,yCoord,zCoord),new CoordTuple(xCoord,yCoord+1,zCoord),new CoordTuple(xCoord,yCoord-1,zCoord),new CoordTuple(xCoord,yCoord,zCoord+1),new CoordTuple(xCoord,yCoord,zCoord-1)};
 			ArrayList<CoordTuple> near=new ArrayList<CoordTuple>();

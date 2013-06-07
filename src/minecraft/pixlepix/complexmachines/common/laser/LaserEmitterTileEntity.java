@@ -179,7 +179,6 @@ public class LaserEmitterTileEntity extends PowerConsumerComplexTileEntity {
 
 			
 		}else{
-			//System.out.println(getJoules());
 			removeBeam();
 		}
 

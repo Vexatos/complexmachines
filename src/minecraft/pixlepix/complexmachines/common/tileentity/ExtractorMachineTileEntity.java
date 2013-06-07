@@ -95,7 +95,6 @@ public class ExtractorMachineTileEntity extends PowerConsumerComplexTileEntity i
 
 	@Override
 	public void updateEntity() {
-		// System.out.println("Recieving ticks");
 		super.updateEntity();
 
 		if (!this.worldObj.isRemote) {
@@ -108,7 +107,6 @@ public class ExtractorMachineTileEntity extends PowerConsumerComplexTileEntity i
 						if(tries>50){
 							return;
 						}
-						// System.out.println("Scanning");
 						ticks = 0;
 
 						int targetX = xCoord - 400;
@@ -141,7 +139,6 @@ public class ExtractorMachineTileEntity extends PowerConsumerComplexTileEntity i
 									.get(0);
 							worldObj.setBlock(targetY, targetY, targetZ, 0);
 							dropItems(drop, matchedSlot);
-							// System.out.println(drops);
 
 						}
 						;
@@ -161,8 +158,6 @@ public class ExtractorMachineTileEntity extends PowerConsumerComplexTileEntity i
 
 	private void dropItems(ItemStack drop, int matchedSlot) {
 		// Find nearby chests
-
-		// System.out.println(drop);
 
 		int posX = xCoord;
 		int posY = yCoord;

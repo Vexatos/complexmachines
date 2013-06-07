@@ -8,6 +8,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.common.ForgeDirection;
 
 public class SuctionLaserBeamTileEntity extends LaserBeamTileEntity {
 	public int xDirection=0;
@@ -19,14 +20,19 @@ public class SuctionLaserBeamTileEntity extends LaserBeamTileEntity {
 		//System.out.println(entities);
 		for(int i=0;i<entities.size();i++){
 			Entity entity=entities.get(i);
-					EntityPlayer player=(EntityPlayer)entity;
-					player.setPosition(.05*xDirection+player.posX, player.posY, .05*zDirection+player.posZ);
+				int meta=worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
+				if(meta==0){
+					meta=3;
+				}
+				ForgeDirection direction=ForgeDirection.VALID_DIRECTIONS[meta];
+				
+				entity.addVelocity(-1*direction.offsetX, 0, -1*direction.offsetZ);
 				
 				
-			
+			}
 			
 		}
 	}
 	
 
-}
+
