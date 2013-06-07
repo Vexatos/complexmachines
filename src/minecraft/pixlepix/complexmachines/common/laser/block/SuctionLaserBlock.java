@@ -18,7 +18,7 @@ public class SuctionLaserBlock extends LaserBlock {
 	
 	
 	public SuctionLaserBlock() {
-		super(17);
+		super(18);
 	}
 	@Override
 	public String getFront() {
