@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityEggInfo;
 import net.minecraft.entity.EntityList;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.ForgeDirection;
 import pixlepix.complexmachines.client.GuiHandler;
 import pixlepix.complexmachines.common.item.ClusterMinerItem;
 import pixlepix.complexmachines.common.item.CubeFormerItem;
@@ -123,6 +124,11 @@ public class ComplexMachines {
 	@Init
 	public void load(FMLInitializationEvent event) {
 
+		/*
+		for(ForgeDirection dir:ForgeDirection.VALID_DIRECTIONS){
+			System.out.println(dir.toString()+dir.ordinal());
+		}
+		*/
 		
 		FlagRegistry.registerFlag("ComplexMachines");
 		proxy.registerRenderers();

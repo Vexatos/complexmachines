@@ -7,18 +7,11 @@
  * http://www.mod-buildcraft.com/MMPL-1.0.txt
  */
 
-package buildcraft.api.power;
+package buildcraft.api.transport;
 
 import net.minecraftforge.common.ForgeDirection;
 
-public interface IPowerReceptor {
+public interface IPipeConnection {
 
-	public void setPowerProvider(IPowerProvider provider);
-
-	public IPowerProvider getPowerProvider();
-
-	public void doWork();
-
-	public int powerRequest(ForgeDirection from);
-
+	public boolean isPipeConnected(ForgeDirection with);
 }

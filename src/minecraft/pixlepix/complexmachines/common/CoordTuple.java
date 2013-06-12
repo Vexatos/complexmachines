@@ -2,20 +2,22 @@ package pixlepix.complexmachines.common;
 
 import java.util.ArrayList;
 
+import universalelectricity.core.vector.Vector3;
+
 import net.minecraft.world.World;
 
 public class CoordTuple
 {
-	public final int x;
-	public final int y;
-	public final int z;
+	public final double x;
+	public final double y;
+	public final double z;
 
-	public static CoordTuple[] getNearby(int x,int y, int z){
+	public static CoordTuple[] getNearby(double x,double y, double z){
 		CoordTuple[] out=new CoordTuple[27];
 		int index=0;
-		for(int i=x-1;i<x+1;i++){
-			for(int j=y-1;j<y+1;j++){
-				for(int k=z-1;k<z+1;k++){
+		for(int i=(int)x-1;i<(int)x+1;i++){
+			for(int j=(int)y-1;j<(int)y+1;j++){
+				for(int k=(int)z-1;k<(int)z+1;k++){
 					out[index]=new CoordTuple(i,j,k);
 					index++;
 				}
@@ -24,14 +26,14 @@ public class CoordTuple
 		return out;
 	}
 	
-	public CoordTuple(int posX, int posY, int posZ)
+	public CoordTuple(double posX, double posY, double posZ)
 	{
 		x = posX;
 		y = posY;
 		z = posZ;
 	}
 	public int getBlock(World world){
-		return world.getBlockId(x, y, z);
+		return world.getBlockId((int)x,(int) y, (int)z);
 	}
 	public boolean equals(CoordTuple coord)
 	{
@@ -45,7 +47,7 @@ public class CoordTuple
 			return false;
 	}
 
-	public boolean equals(int posX, int posY, int posZ)
+	public boolean equals(double posX, double posY, double posZ)
 	{
 		if (this.x == posX && this.y == posY && this.z == posZ)
 			return true;
@@ -56,5 +58,24 @@ public class CoordTuple
 	public String toString()
 	{
 	    return "X: "+x+", Y: "+y+", Z: "+z;
+	}
+	public Vector3 getVector(){
+		return new Vector3(x,y,z);
+	}
+	public CoordTuple advance(CoordTuple tuple, double increment){
+		double newX=x;
+		double newY=y;
+		double newZ=z;
+		if(tuple.x>x){
+			newX+=increment;
+		}
+		if(tuple.y>y){
+			newY+=increment;
+		}
+		if(tuple.z>z){
+			newZ+=increment;
+		}
+		return new CoordTuple(newX,newY,newZ);
+		
 	}
 }

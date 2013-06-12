@@ -60,9 +60,9 @@ public class ClusterMinerItem extends ItemElectric
     				CoordTuple curr=list.get(0);
     				setJoules(this.getJoules(itemStack)-100000, itemStack);
     				ArrayList<CoordTuple> nearby=new ArrayList<CoordTuple>();
-    				int curX=curr.x;
-    				int curY=curr.y;
-    				int curZ=curr.z;
+    				int curX=(int)curr.x;
+    				int curY=(int)curr.y;
+    				int curZ=(int)curr.z;
     				list.remove(0);
     				world.destroyBlock(curX, curY, curZ, true);
     				nearby.add(new CoordTuple(curX+1,curY,curZ));

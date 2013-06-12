@@ -221,17 +221,17 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 			if(ComplexMachines.isProtected(xCoord, zCoord)){
 				return;
 			}
-		int targetX = target.x+direction.offsetX;
-		int targetY = target.y+direction.offsetY;
-		int targetZ = target.z+direction.offsetZ;
+		int targetX = (int)target.x+direction.offsetX;
+		int targetY = (int)target.y+direction.offsetY;
+		int targetZ = (int)target.z+direction.offsetZ;
 		
 		
 		
-		int meta=worldObj.getBlockMetadata(target.x,target.y,target.z);
+		int meta=worldObj.getBlockMetadata((int)target.x,(int)target.y,(int)target.z);
 		int targetId=worldObj.getBlockId(targetX, targetY, targetZ);
 			AirshipBlockRegistry.register(targetX, targetY, targetZ);
-			int materialId=worldObj.getBlockId(target.x, target.y, target.z);
-			TileEntity oldEntity=worldObj.getBlockTileEntity(target.x, target.y, target.z);
+			int materialId=worldObj.getBlockId((int)target.x, (int)target.y, (int)target.z);
+			TileEntity oldEntity=worldObj.getBlockTileEntity((int)target.x, (int)target.y, (int)target.z);
 			NBTTagList list=new NBTTagList();
 			NBTTagCompound data=new NBTTagCompound();
 			AirshipSpecialMoveData specialData=null;
@@ -241,14 +241,13 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 				if(oldEntity instanceof IAirshipSpecialMove){
 					specialData=((IAirshipSpecialMove)oldEntity).beforeMove(direction);
 				}
-				oldEntity.invalidate();
 			}
 			Block targetBlockType = this.blockType;
 			if(!(materialId==7)){
-				AirshipBlockRegistry.addBlock(new AirshipDelayedBlock(targetX,targetY,targetZ,materialId,meta,worldObj,list,target.x,target.y,target.z,specialData));
+				AirshipBlockRegistry.addBlock(new AirshipDelayedBlock(targetX,targetY,targetZ,materialId,meta,worldObj,list,(int)target.x,(int)target.y,(int)target.z,specialData));
 			}
 			if(needsSupport(materialId)){
-				worldObj.setBlock(target.x, target.y, target.z, 0);
+				worldObj.setBlock((int)target.x, (int)target.y, (int)target.z, 0);
 			}
 			
 		}

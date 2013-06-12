@@ -31,6 +31,9 @@ public class TripwireLaserBlock extends LaserBlock {
 
 	@Override
 	public String getName() {
+		
 		return "TripwireLaserBeam";
+		
 	}
+	
 }
