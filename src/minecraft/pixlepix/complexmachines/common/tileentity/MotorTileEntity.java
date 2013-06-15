@@ -31,9 +31,12 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldProvider;
+import net.minecraft.world.WorldProviderSurface;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.common.ForgeDirection;
@@ -178,15 +181,13 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 		ForgeDirection inputDirection = ForgeDirection.getOrientation(this.getBlockMetadata() + 2);
 		// System.out.println(getJoules());
 		if (!this.worldObj.isRemote) {
-			if(worldObj.getTotalWorldTime()%100==96){
+			if(MinecraftServer.getServer().worldServers[1].getTotalWorldTime()%100==99){
 				AirshipBlockRegistry.empty();
 			}
-			if(worldObj.getTotalWorldTime()%100==2){
-				AirshipBlockRegistry.placeDelayed();
-			}
+			
 
 				if (getJoules() > 10000) {
-					if (worldObj.getTotalWorldTime()%100==0) {
+					if(MinecraftServer.getServer().worldServers[1].getTotalWorldTime()%100==0){
 						
 						
 						if(getDirection()!=null){
@@ -341,10 +342,10 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 				for(int i=0;i<entities.size();i++){
 
 					Entity entity=entities.get(i);
-					entity.setPosition(entity.posX, entity.posY+3, entity.posZ);
+					entity.setPosition(entity.posX, entity.posY+1.5, entity.posZ);
 				}
 			}else{
-				List<Entity> entities=worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(xCoord-getRange(), yCoord-getRange(), zCoord-getRange(), xCoord+getRange(), yCoord+getRange(), zCoord+getRange()));
+				List<Entity> entities=worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(xCoord-getRange(), yCoord-getRange(), zCoord-getRange(), xCoord+getRange(), yCoord+getRange(), zCoord+getRange()));
 				for(int i=0;i<entities.size();i++){
 
 					Entity entity=entities.get(i);

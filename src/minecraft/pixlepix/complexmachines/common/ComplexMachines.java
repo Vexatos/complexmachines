@@ -30,6 +30,8 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import cpw.mods.fml.common.registry.TickRegistry;
+import cpw.mods.fml.relauncher.Side;
 
 @Mod(modid = "ComplexMachines", name = "Complex Machines", version = "0.3.3")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = { "Complex Machines" }, packetHandler = pixlepix.complexmachines.common.PacketHandler.class)
@@ -129,7 +131,7 @@ public class ComplexMachines {
 			System.out.println(dir.toString()+dir.ordinal());
 		}
 		*/
-		
+		TickRegistry.registerTickHandler(new AirshipBlockRegistry(), Side.SERVER);
 		FlagRegistry.registerFlag("ComplexMachines");
 		proxy.registerRenderers();
 		

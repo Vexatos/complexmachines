@@ -36,6 +36,7 @@ public class NodeTileEntity extends PowerConsumerComplexTileEntity {
 
 	@Override
 	public void initiate() {
+		
 	}
 
 	@Override
@@ -43,7 +44,8 @@ public class NodeTileEntity extends PowerConsumerComplexTileEntity {
 		super.updateEntity();
 
 		if (!this.worldObj.isRemote) {
-
+				links=new ArrayList<Link>();
+				links.add(new Link(new CoordTuple(0,60,0),0,new CoordTuple(10,60,10),0));
 				if (getJoules() > 4000) {
 					if(worldObj.getTotalWorldTime()%10==0){
 						Iterator<Link> iter=links.iterator();
@@ -59,6 +61,19 @@ public class NodeTileEntity extends PowerConsumerComplexTileEntity {
 									worldObj.spawnEntityInWorld(entityItem);
 								}
 						}	
+							Iterator<InTransit> iterItem=inTransit.iterator();
+							while(iterItem.hasNext()){
+								InTransit item=iterItem.next();
+								Link link=item.link;
+								CoordTuple originTuple=item.link.origin;
+
+								CoordTuple destTuple=item.link.destination;
+								Vector3 path=new Vector3(destTuple.x-originTuple.x,destTuple.y-originTuple.y,destTuple.z-originTuple.z);
+								path.normalize();
+								path.multiply(0.05);
+								EntityItem entity=item.stack;
+								entity.setVelocity(path.x, path.y, path.z);
+							}	
 					}
 					
 

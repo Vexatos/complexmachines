@@ -29,6 +29,8 @@ public class BetterLoader {
 		classes.add(ExtractorMachine.class);
 
 
+		//classes.add(NodeBlock.class);
+
 		classes.add(FocalPoint.class);
 
 		classes.add(FocalPointControlled.class);

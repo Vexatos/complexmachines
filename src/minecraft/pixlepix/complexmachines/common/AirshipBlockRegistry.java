@@ -2,15 +2,23 @@ package pixlepix.complexmachines.common;
 
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
+import java.util.EnumSet;
 import java.util.Iterator;
+
+import cpw.mods.fml.common.ITickHandler;
+import cpw.mods.fml.common.TickType;
 
 import pixlepix.complexmachines.api.IAirshipSpecialMove;
 import pixlepix.complexmachines.common.tileentity.MotorTileEntity;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.WorldManager;
+import net.minecraft.world.WorldProvider;
+import net.minecraft.world.WorldProviderSurface;
 
-public class AirshipBlockRegistry {
+public class AirshipBlockRegistry implements ITickHandler {
 	public static ArrayList<CoordTuple> moved=new ArrayList<CoordTuple>();
 	public static boolean delayedPlaced=false;
 	public static ArrayList<AirshipDelayedBlock> delayed=new ArrayList<AirshipDelayedBlock>();
@@ -20,6 +28,8 @@ public class AirshipBlockRegistry {
 	public static void empty(){
 		moved=new ArrayList<CoordTuple>();
 		delayed=new ArrayList<AirshipDelayedBlock>();
+
+		normal=new ArrayList<AirshipDelayedBlock>();
 		
 	}
 	public static boolean check(int x,int y, int z){
@@ -35,21 +45,7 @@ public class AirshipBlockRegistry {
 	public static void register(int x,int y, int z){
 		moved.add(new CoordTuple(x,y,z));
 	}
-	public static void fixEntities(){
-		
-
-        Iterator iterator = tileEntityError.iterator();
-		for(int i=0;i<tileEntityError.size();i++){
-			AirshipDelayedTileEntity data=tileEntityError.get(i);
-			try{
-				data.world.setBlockTileEntity(data.x, data.y, data.z, data.entity);
-				iterator.remove();
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-		}
-		
-	}
+	
 	public static void placeDelayed(){
 			for(int i=0;i<normal.size();i++){
 
@@ -83,21 +79,14 @@ public class AirshipBlockRegistry {
 							}
 						}
 						
-						//TODO Bad practice is fun!
-						try{
+						
 							toPlace.world.setBlockTileEntity(toPlace.x, toPlace.y, toPlace.z, newEntity);
-						}
-						catch(ConcurrentModificationException e){
-							tileEntityError.add(new AirshipDelayedTileEntity(toPlace.x, toPlace.y, toPlace.z, newEntity, toPlace.world));
-							
-							
-						}
+						
 						
 					}
 				}
 				}
 			}
-			fixEntities();
 			normal=new ArrayList<AirshipDelayedBlock>();
 			for(int i=0;i<delayed.size();i++){
 				
@@ -106,8 +95,6 @@ public class AirshipBlockRegistry {
 				toPlace.world.setBlock(toPlace.x, toPlace.y, toPlace.z, toPlace.id,toPlace.meta,3);
 				toPlace.world.setBlock(toPlace.oldX, toPlace.oldY, toPlace.oldZ, 0);
 			}
-
-			fixEntities();
 			delayed=new ArrayList<AirshipDelayedBlock>();
 		}
 		
@@ -118,6 +105,25 @@ public class AirshipBlockRegistry {
 	}
 	public static void addBlock(AirshipDelayedBlock block){
 		normal.add(block);
+	}
+	@Override
+	public void tickStart(EnumSet<TickType> type, Object... tickData) {
+		
+	}
+	@Override
+	public void tickEnd(EnumSet<TickType> type, Object... tickData) {
+		if(MinecraftServer.getServer().worldServers[1].getTotalWorldTime()%100==1){
+			placeDelayed();
+		}
+	}
+	@Override
+	public EnumSet<TickType> ticks() {
+		return EnumSet.of(TickType.WORLD);
+	}
+	@Override
+	public String getLabel() {
+		// TODO Auto-generated method stub
+		return "Airship Block Registry";
 	}
 	
 	

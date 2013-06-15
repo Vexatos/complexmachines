@@ -35,7 +35,7 @@ public class NodeBlock extends BasicComplexBlock {
 
 	static int blockIdIncrement=1;
 	public NodeBlock() {
-		super(1);
+		super(19);
 	}
 	String textureBase="ComplexMachines:";
 	public String textureSpecific="NodeFront";
