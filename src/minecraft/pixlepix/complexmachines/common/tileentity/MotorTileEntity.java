@@ -180,7 +180,7 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 
 		ForgeDirection inputDirection = ForgeDirection.getOrientation(this.getBlockMetadata() + 2);
 		// System.out.println(getJoules());
-		if (!this.worldObj.isRemote) {
+		
 			if(MinecraftServer.getServer().worldServers[1].getTotalWorldTime()%100==99){
 				AirshipBlockRegistry.empty();
 			}
@@ -200,25 +200,18 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 					}
 
 			
-			}else{
 			}
 
-		if (!this.worldObj.isRemote) {
-			if (this.ticks % 3 == 0 && this.playersUsing > 0) {
-//				PacketManager.sendPacketToClients(this.getDescriptionPacket(),
-	//					this.worldObj, new Vector3(this), 12);
-			}
-		}
+		
 
 		this.joulesStored = Math.min(this.joulesStored, this.getMaxJoules());
 		this.joulesStored = Math.max(this.joulesStored, 0d);
 
 		}
-	}
+	
 	
 	public void moveBlock(ForgeDirection direction, CoordTuple target, boolean center){
 		
-		if(!worldObj.isRemote){
 			if(ComplexMachines.isProtected(xCoord, zCoord)){
 				return;
 			}
@@ -253,7 +246,7 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 			
 		}
 		
-	}
+	
 	
 	public void move(ForgeDirection direction){
 			

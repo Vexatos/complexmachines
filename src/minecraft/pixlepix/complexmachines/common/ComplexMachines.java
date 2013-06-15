@@ -131,7 +131,10 @@ public class ComplexMachines {
 			System.out.println(dir.toString()+dir.ordinal());
 		}
 		*/
+		
 		TickRegistry.registerTickHandler(new AirshipBlockRegistry(), Side.SERVER);
+
+		TickRegistry.registerTickHandler(new AirshipBlockRegistry(), Side.CLIENT);
 		FlagRegistry.registerFlag("ComplexMachines");
 		proxy.registerRenderers();
 		
