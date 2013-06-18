@@ -10,6 +10,7 @@ import pixlepix.complexmachines.common.item.ClusterMinerItem;
 import pixlepix.complexmachines.common.item.CubeFormerItem;
 import pixlepix.complexmachines.common.item.FellerItem;
 import pixlepix.complexmachines.common.item.GeneticRandomizer;
+import pixlepix.complexmachines.common.item.LinkerItem;
 import pixlepix.complexmachines.common.item.RangeExtender;
 import pixlepix.complexmachines.common.item.RemoteItem;
 import pixlepix.complexmachines.common.mob.GeneticMob;
@@ -52,6 +53,8 @@ public class ComplexMachines {
 
 
 	public static Item rangeExtender;
+
+	public static Item linker;
 	
 	public static ModFlag flag;
 
@@ -88,6 +91,8 @@ public class ComplexMachines {
 	randomizer=new GeneticRandomizer(Config.itemStartingID+5);
 
 	rangeExtender=new RangeExtender(Config.itemStartingID+4);
+
+	linker=new LinkerItem(Config.itemStartingID+7);
 
 
 	BasicComponents.requestAll();
@@ -164,6 +169,7 @@ public class ComplexMachines {
 		LanguageRegistry.addName(rangeExtender, "Motor range extender upgrade");
 
 		LanguageRegistry.addName(clusterMiner, "Cluster Miner");
+		LanguageRegistry.addName(linker, "Link former");
 
 		
 		

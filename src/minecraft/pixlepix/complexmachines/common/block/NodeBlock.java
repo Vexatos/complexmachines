@@ -7,6 +7,7 @@ import pixlepix.complexmachines.common.ComplexMachines;
 import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.IBlock;
 import pixlepix.complexmachines.common.itemblock.FillerItemBlock;
+import pixlepix.complexmachines.common.itemblock.MotorItemBlock;
 import pixlepix.complexmachines.common.tileentity.FillerMachineTileEntity;
 import pixlepix.complexmachines.common.tileentity.NodeTileEntity;
 import universalelectricity.core.UniversalElectricity;
@@ -37,32 +38,41 @@ public class NodeBlock extends BasicComplexBlock {
 	public NodeBlock() {
 		super(19);
 	}
+	
+	@Override
+	public boolean onMachineActivated(World par1World, int x, int y, int z,
+			EntityPlayer par5EntityPlayer, int side, float hitX, float hitY,
+			float hitZ) {
+		if (!par1World.isRemote) {
+			par5EntityPlayer.openGui(ComplexMachines.instance, 4, par1World, x,
+					y, z);
+			return true;
+		}
+
+		return true;
+	}
 	String textureBase="ComplexMachines:";
-	public String textureSpecific="NodeFront";
+	public String textureSpecific="CapacitatorFront";
 
 	 
-	 public String textureSpecificTop="NodeTop";
+	 public String textureSpecificTop="CapacitatorFront";
 
-	public String textureSpecificConnector="NodeInput";
+	public String textureSpecificConnector="CapacitatorInput";
 	@Override
 	public String getFront() {
 		// TODO Auto-generated method stub
 		return textureSpecific;
 	}
 	@Override
-	public boolean hasModel(){
-		return true;
-	}
-	@Override
 	public String getTop() {
 		// TODO Auto-generated method stub
-		return textureSpecificTop;
+		return "CapacitatorFront";
 	}
 
 	@Override
 	public String getInput() {
 		// TODO Auto-generated method stub
-		 return textureSpecificConnector;
+		 return "CapacitaotrInput";
 	}
 	@Override
 	public Class getTileEntityClass() {
@@ -72,24 +82,15 @@ public class NodeBlock extends BasicComplexBlock {
 	@Override
 	public void addRecipe() {
 
-		GameRegistry.addRecipe(new ItemStack(ComplexMachines.loader.getBlock(NodeBlock.class)), "xyx", "yzy", "xyx", 'x', new ItemStack(stone), 'y',new ItemStack(Item.diamond), 'z', new ItemStack(Item.ingotIron));
+		GameRegistry.addRecipe(new ItemStack(ComplexMachines.loader.getBlock(NodeBlock.class)), "xyx", "yzy", "xyx", 'x', new ItemStack(stone), 'z',new ItemStack(Item.diamond), 'y', new ItemStack(Item.ingotIron));
 	}
 
 	@Override
 	public String getName() {
-		return "Linker Mode";
+		return "Linker Node";
 	}
 
-	@Override
-	public boolean hasItemBlock() {
-		return false;
-	}
-
-	@Override
-	public Class getItemBlock() {
-		return null;
-		
-	}
+	
 	@Override
 	public boolean threeSidedTextures(){
 		return true;
