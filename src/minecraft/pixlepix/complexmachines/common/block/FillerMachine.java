@@ -71,7 +71,7 @@ public class FillerMachine extends BasicComplexBlock {
 	@Override
 	public void addRecipe() {
 
-		GameRegistry.addRecipe(new ItemStack(ComplexMachines.loader.getBlock(FillerMachine.class)), "xyx", "yzy", "xyx", 'x', new ItemStack(stone), 'y',new ItemStack(Item.diamond), 'z', new ItemStack(Item.ingotIron));
+		GameRegistry.addRecipe(new ItemStack(ComplexMachines.loader.getBlock(FillerMachine.class)), "xyx", "yzy", "xyx", 'x', new ItemStack(stone), 'y',new ItemStack(Item.shovelIron), 'z', new ItemStack(Item.ingotIron));
 	}
 
 	@Override

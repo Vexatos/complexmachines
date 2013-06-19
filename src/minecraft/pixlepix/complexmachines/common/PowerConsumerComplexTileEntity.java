@@ -143,6 +143,7 @@ public class PowerConsumerComplexTileEntity extends BasicComplexTileEntity imple
 		return amount-energyTransfered;
 	}
 
+	
 	@Override
 	public boolean canReceiveEnergy(ForgeDirection side) {
 		// TODO Auto-generated method stub

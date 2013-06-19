@@ -78,7 +78,7 @@ public class Grinder extends BasicComplexBlock {
 
 	@Override
 	public void addRecipe() {
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ComplexMachines.loader.getBlock(Grinder.class)),true,new Object[]{"xxx", "xyx", "xxx", 'x', "plateSteel",'y', "circuitAdvanced"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ComplexMachines.loader.getBlock(Grinder.class)),true,new Object[]{"xxx", "xyx", "xxx", 'x', "plateSteel",'y', "ingotCopper"}));
 		
 	}
 

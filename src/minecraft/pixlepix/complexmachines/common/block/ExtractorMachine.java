@@ -84,7 +84,7 @@ public class ExtractorMachine extends BasicComplexBlock {
 
 		@Override
 		public void addRecipe() {
-			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ComplexMachines.loader.getBlock(ExtractorMachine.class)),true,new Object[]{"xyx", "xzx", "xxx", 'x', "plateSteel",'y', new ItemStack(Item.pickaxeDiamond), 'z', "circuitElite"}));
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ComplexMachines.loader.getBlock(ExtractorMachine.class)),true,new Object[]{"xyx", "xzx", "xxx", 'x', "plateSteel",'y', new ItemStack(Item.pickaxeDiamond), 'z', "circuitBasic"}));
 			
 		}
 

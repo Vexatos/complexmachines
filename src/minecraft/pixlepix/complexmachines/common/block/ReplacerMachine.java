@@ -63,7 +63,7 @@ public class ReplacerMachine extends BasicComplexBlock {
 
 	@Override
 	public void addRecipe() {
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ComplexMachines.loader.getBlock(ReplacerMachine.class)),true,new Object[]{"xxx", "yzy", "xxx", 'x',"plateSteel", 'y', new ItemStack(ComplexMachines.loader.getBlock(FillerMachine.class)), 'z', "circuitBasic"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ComplexMachines.loader.getBlock(ReplacerMachine.class)),true,new Object[]{"xxx", "yzy", "xxx", 'x',"plateSteel", 'y', new ItemStack(ComplexMachines.loader.getBlock(FillerMachine.class)), 'z', "ingotSteel"}));
 		
 	}
 
