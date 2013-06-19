@@ -47,7 +47,7 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 	public double joulesStored;
 	public int maxJoules=25000;
 	public int direction=0;
-	private ItemStack[] inventory = new ItemStack[1];
+	private ItemStack[] inventory = new ItemStack[0];
 	public int momentum;
 	public ForgeDirection momentumDirection;
 
@@ -181,13 +181,13 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 		ForgeDirection inputDirection = ForgeDirection.getOrientation(this.getBlockMetadata() + 2);
 		// System.out.println(getJoules());
 		
-			if(MinecraftServer.getServer().worldServers[1].getTotalWorldTime()%100==99){
+			if(MinecraftServer.getServer().worldServers[0].getTotalWorldTime()%100==99){
 				AirshipBlockRegistry.empty();
 			}
 			
 
 				if (getJoules() > 10000) {
-					if(MinecraftServer.getServer().worldServers[1].getTotalWorldTime()%100==0){
+					if(MinecraftServer.getServer().worldServers[0].getTotalWorldTime()%100==0){
 						
 						
 						if(getDirection()!=null){

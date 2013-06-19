@@ -112,7 +112,7 @@ public class AirshipBlockRegistry implements ITickHandler {
 	}
 	@Override
 	public void tickEnd(EnumSet<TickType> type, Object... tickData) {
-		if(MinecraftServer.getServer().worldServers[1].getTotalWorldTime()%100==1){
+		if(MinecraftServer.getServer().worldServers[0].getTotalWorldTime()%100==1){
 			placeDelayed();
 		}
 	}
