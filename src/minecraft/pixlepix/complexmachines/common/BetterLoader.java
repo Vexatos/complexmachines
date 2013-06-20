@@ -9,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraftforge.common.MinecraftForge;
 
 import pixlepix.complexmachines.common.block.*;
+import pixlepix.complexmachines.common.crops.BreederCrop;
 import pixlepix.complexmachines.common.itemblock.MotorItemBlock;
 import pixlepix.complexmachines.common.laser.LaserEmitter;
 import pixlepix.complexmachines.common.laser.block.*;
@@ -21,6 +22,8 @@ public class BetterLoader {
 	
 	public void populateClasses(){
 		classes.add(Controller.class);
+
+		classes.add(BreederCrop.class);
 		classes.add(FillerMachine.class);
 
 

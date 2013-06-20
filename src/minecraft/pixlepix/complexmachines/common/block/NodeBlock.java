@@ -72,7 +72,7 @@ public class NodeBlock extends BasicComplexBlock {
 	@Override
 	public String getInput() {
 		// TODO Auto-generated method stub
-		 return "CapacitaotrInput";
+		 return "CapacitatorInput";
 	}
 	@Override
 	public Class getTileEntityClass() {
