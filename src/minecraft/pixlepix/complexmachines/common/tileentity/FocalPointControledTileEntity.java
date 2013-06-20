@@ -48,6 +48,7 @@ public class FocalPointControledTileEntity extends PowerProducerComplexTileEntit
 
 	@Override
 	public void initiate() {
+		this.electricOutput=Config.focalPointOutput;
 		this.initialized = true;
 	}
 

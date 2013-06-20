@@ -61,6 +61,7 @@ public class GrinderTileEntity extends PowerProducerComplexTileEntity implements
 
 			if (ticksOfPowerRemaining != 0) {
 				ticksOfPowerRemaining--;
+				this.electricOutput=20000;
 				super.updateEntity();
 			} else {
 
@@ -72,7 +73,7 @@ public class GrinderTileEntity extends PowerProducerComplexTileEntity implements
 						} else {
 							inventory[i].stackSize--;
 						}
-						ticksOfPowerRemaining = 5;
+						ticksOfPowerRemaining += 5;
 
 					} else {
 

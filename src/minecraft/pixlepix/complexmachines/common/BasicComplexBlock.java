@@ -42,11 +42,19 @@ public abstract class BasicComplexBlock extends BlockAdvanced implements IBlock 
 		return false;
 	}
 	
+	public BasicComplexBlock(int increment, Material material) {
+		super(Config.blockStartingID+increment,material);
+
+		this.setUnlocalizedName(this.getName());
+		this.setCreativeTab(ComplexMachines.creativeTab);
+		
+	}
 	public BasicComplexBlock(int increment) {
 		super(Config.blockStartingID+increment, UniversalElectricity.machine);
 
 		this.setUnlocalizedName(this.getName());
 		this.setCreativeTab(ComplexMachines.creativeTab);
+		
 	}
 	
 	public boolean inCreativeTab(){
@@ -200,6 +208,9 @@ public abstract class BasicComplexBlock extends BlockAdvanced implements IBlock 
 	@Override
 	public Class<TileEntity> getTileEntityClass() {
 		return null;
+	}
+	public boolean isPlantMaterial() {
+		return false;
 	}
 
 }

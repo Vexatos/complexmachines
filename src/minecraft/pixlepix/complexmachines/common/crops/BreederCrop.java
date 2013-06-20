@@ -10,6 +10,8 @@ import pixlepix.complexmachines.common.Config;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.common.EnumPlantType;
+import net.minecraftforge.common.IPlantable;
 
 public class BreederCrop extends BasicCrop {
 
@@ -48,61 +50,52 @@ public class BreederCrop extends BasicCrop {
 	}
 
 	
-	public boolean areArraysComparable(ArrayList<Integer> first, ArrayList<Integer> second){
+	public boolean areArraysComparable(int[] first, int[] second){
 		int matches=0;
 		
-		Iterator<Integer> firstIter=first.iterator();
-		while(firstIter.hasNext()){
-			int searchingFor=firstIter.next();
-			Iterator<Integer> secondIter=second.iterator();
-			while(secondIter.hasNext()){
-				int testingFor=secondIter.next();
-				if(searchingFor==testingFor){
-					matches++;
-					secondIter.remove();
-				}
-				
-				
+		
+		Arrays.sort(first);
+		Arrays.sort(second);
+		System.out.println(first);
+		System.out.println(second);
+		for(int i=0;i<first.length;i++){
+			if(first[i]!=second[i]){
+				return false;
 			}
 		}
 		
-		if(matches>=4){
-			return true;
-		}
-		
-		return false;
-		
+		return true;
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public ArrayList[] getTiers(){
+	public int[][] getTiers(){
 		ArrayList[] list=new ArrayList[1];
 		
 		ArrayList newList=new ArrayList();
-		newList.add(59);
-		newList.add(141);
-		newList.add(142);
-		newList.add(83);
-		list[0]=newList;
 		
-		return list;
-		
+		int[][] tiers=new int[1][4];
+		tiers[0]=new int[]{59,141,142,83};
+		System.out.println(tiers);
+		return tiers;
 		
 	}
 	
 	public int findTierOfGrowth(World world, int x, int y, int z){
-		ArrayList<Integer> list=new ArrayList<Integer>();
-		list.add(world.getBlockId(x+1, y, z));
-		list.add(world.getBlockId(x-1, y, z));
-		list.add(world.getBlockId(x, y, z+1));
-		list.add(world.getBlockId(x, y, z-1));
-		ArrayList[] tiers=getTiers();
+		
+		int[] list={
+		world.getBlockId(x+1, y, z),
+		world.getBlockId(x-1, y, z),
+		world.getBlockId(x, y, z+1),
+		world.getBlockId(x, y, z-1),
+		};
+		int[][] tiers=getTiers();
 		for(int i=0;i<tiers.length;i++){
 			if(areArraysComparable(tiers[i],list)){
+				System.out.println("Found compatible array");
 				return i+1;
 			}
 		}
-		return 0;
+		return -1;
 	}
 	
 	public int isValidGrowth(World world, int x, int y, int z, Random random){
@@ -115,14 +108,19 @@ public class BreederCrop extends BasicCrop {
 		if(world.getBlockMetadata(x, y, z)==3){
 			
 			int tier=findTierOfGrowth(world,x,y,z);
-			if(tier!=0){
-				System.out.println("invalid Breeder Configuraton");
-			}else{
-				System.out.println("Breeder tier: "+tier);
+			if(tier==-1){
+				return;
 			}
+				int[][] tierList=getTiers();
+				if(tierList.length>tier){
+					
+				}
+			
 			
 		}
 	}
+
+	
 	
 
 }

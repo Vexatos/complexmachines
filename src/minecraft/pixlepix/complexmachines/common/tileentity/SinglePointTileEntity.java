@@ -70,6 +70,7 @@ public class SinglePointTileEntity extends PowerProducerComplexTileEntity{
 		
 		if (!this.worldObj.isRemote) {
 			if (atCorrectLocation()) {
+				this.electricOutput=500000;
 				super.updateEntity(); 
 				
 

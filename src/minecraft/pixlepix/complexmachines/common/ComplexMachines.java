@@ -60,6 +60,8 @@ public class ComplexMachines {
 	public static Item linker;
 
 	public static Item breederSeed;
+
+	public static Item cultivatorSeed;
 	
 	public static ModFlag flag;
 
@@ -104,7 +106,8 @@ public class ComplexMachines {
 
 	linker=new LinkerItem(Config.itemStartingID+7);
 
-	breederSeed=new BasicSeeds(Config.itemStartingID+8, Config.blockStartingID+31,60,"ComplexMachines:BreederSeeds");
+	breederSeed=new BasicSeeds(Config.itemStartingID+8, Config.blockStartingID+31,60,"ComplexMachines:BreederSeeds","BreederSeed");
+	cultivatorSeed=new BasicSeeds(Config.itemStartingID+9, Config.blockStartingID+32,2,"ComplexMachines:CultivatorSeeds","CultivatorSeed");
 
 	
 	
@@ -186,6 +189,8 @@ public class ComplexMachines {
 		
 
 		LanguageRegistry.addName(breederSeed, "Breeder Seed");
+
+		LanguageRegistry.addName(cultivatorSeed, "Cultivator Seed");
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(remote),true,new Object[]{"xyx", "xyx", 'x', "ingotCopper", 'y', "circuitBasic"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(linker),true,new Object[]{" y ", "yxy", " x ", 'x', "circuitBasic", 'y', new ItemStack(Item.arrow)}));

@@ -10,6 +10,7 @@ import net.minecraftforge.common.MinecraftForge;
 
 import pixlepix.complexmachines.common.block.*;
 import pixlepix.complexmachines.common.crops.BreederCrop;
+import pixlepix.complexmachines.common.crops.CultivatorCrop;
 import pixlepix.complexmachines.common.itemblock.MotorItemBlock;
 import pixlepix.complexmachines.common.laser.LaserEmitter;
 import pixlepix.complexmachines.common.laser.block.*;
@@ -24,6 +25,8 @@ public class BetterLoader {
 		classes.add(Controller.class);
 
 		classes.add(BreederCrop.class);
+
+		classes.add(CultivatorCrop.class);
 		classes.add(FillerMachine.class);
 
 

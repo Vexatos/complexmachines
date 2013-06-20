@@ -37,7 +37,6 @@ import cpw.mods.fml.common.Loader;
 public class OceanGeneratorTileEntity extends PowerProducerComplexTileEntity {
 	private double drawingTicks = 0;
 	private double joulesStored = 0;
-	public double electricOutput = 0;
 	public static double maxJoules = 2000000;
 	public int ticks = 1000;
 	/**
@@ -55,9 +54,8 @@ public class OceanGeneratorTileEntity extends PowerProducerComplexTileEntity {
 	public void updateEntity() {
 		// System.out.println("Focal Points have been spawned at "+"  "+xCoord+"  "+yCoord+"  "+zCoord);
 		super.updateEntity();
-		if(worldObj.getTotalWorldTime()%1000==0){
 			getOceanTiles();
-		}
+		
 		
 	}
 

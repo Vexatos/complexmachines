@@ -41,13 +41,14 @@ public class BasicSeeds extends Item implements IPlantable {
     /** BlockID of the block the seeds can be planted on. */
     private int soilBlockID;
 
-    public BasicSeeds(int par1, int par2, int par3, String texture)
+    public BasicSeeds(int par1, int par2, int par3, String texture, String name)
     {
         super(par1);
+        this.setUnlocalizedName(name);
         this.texture=texture;
         this.blockType = par2;
         this.soilBlockID = par3;
-        this.setCreativeTab(CreativeTabs.tabMaterials);
+        this.setCreativeTab(ComplexMachines.creativeTab);
 
 		id=Config.itemStartingID+par1;
     }
@@ -85,7 +86,8 @@ public class BasicSeeds extends Item implements IPlantable {
         {
             int i1 = par3World.getBlockId(par4, par5, par6);
             Block soil = Block.blocksList[i1];
-            if(crop instanceof BasicCrop && !((BasicCrop)crop).canPlantGrow(par3World, par4, par5, par6)){
+            if(Block.blocksList[blockType] instanceof BasicCrop && !((BasicCrop)Block.blocksList[blockType]).canPlantGrow(par3World, par4, par5, par6)){
+            	
             	return false;
             }
             if (soil != null && soil.canSustainPlant(par3World, par4, par5, par6, ForgeDirection.UP, this) && par3World.isAirBlock(par4, par5 + 1, par6))
@@ -94,10 +96,14 @@ public class BasicSeeds extends Item implements IPlantable {
                 --par1ItemStack.stackSize;
                 return true;
             }
-            else
-            {
-                return false;
+            if(((BasicCrop)Block.blocksList[blockType]).skipSustainCheck()){
+            	par3World.setBlock(par4, par5 + 1, par6, this.blockType);
+                --par1ItemStack.stackSize;
+                return true;
             }
+            
+                return false;
+            
         }
         else
         {
