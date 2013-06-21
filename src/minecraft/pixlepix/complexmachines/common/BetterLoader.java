@@ -21,6 +21,7 @@ import pixlepix.complexmachines.common.crops.CultivatorCrop;
 import pixlepix.complexmachines.common.crops.FertilizerCrop;
 import pixlepix.complexmachines.common.crops.HydratorCrop;
 import pixlepix.complexmachines.common.crops.ImprovedFarmland;
+import pixlepix.complexmachines.common.crops.MonsterweedCrop;
 import pixlepix.complexmachines.common.crops.ReplanterCrop;
 import pixlepix.complexmachines.common.laser.LaserEmitter;
 import pixlepix.complexmachines.common.laser.block.DebuffLaserBlock;
@@ -45,6 +46,8 @@ public class BetterLoader {
 		classes.add(BreederCrop.class);
 
 		classes.add(CultivatorCrop.class);
+
+		classes.add(MonsterweedCrop.class);
 
 		classes.add(ReplanterCrop.class);
 

@@ -8,7 +8,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import pixlepix.complexmachines.client.GuiHandler;
+import pixlepix.complexmachines.common.block.FillerMachine;
 import pixlepix.complexmachines.common.crops.BasicSeeds;
+import pixlepix.complexmachines.common.crops.Monsterweed;
 import pixlepix.complexmachines.common.item.ClusterMinerItem;
 import pixlepix.complexmachines.common.item.CubeFormerItem;
 import pixlepix.complexmachines.common.item.FellerItem;
@@ -68,6 +70,10 @@ public class ComplexMachines {
 	public static Item fertilizerSeed;
 
 	public static Item hydratorSeed;
+
+	public static Item monsterweed;
+
+	public static Item monsterweedSeed;
 	
 	public static ModFlag flag;
 
@@ -112,6 +118,8 @@ public class ComplexMachines {
 
 	linker=new LinkerItem(Config.itemStartingID+7);
 
+	monsterweed=new Monsterweed(Config.itemStartingID+14);
+
 	breederSeed=new BasicSeeds(Config.itemStartingID+8, Config.blockStartingID+31,60,"ComplexMachines:BreederSeeds","BreederSeed");
 	cultivatorSeed=new BasicSeeds(Config.itemStartingID+9, Config.blockStartingID+32,2,"ComplexMachines:CultivatorSeeds","CultivatorSeed");
 	fertilizerSeed=new BasicSeeds(Config.itemStartingID+10, Config.blockStartingID+33,2,"ComplexMachines:FertilizerSeeds","FertilizerSeed");
@@ -120,6 +128,7 @@ public class ComplexMachines {
 
 
 	replanterSeed=new BasicSeeds(Config.itemStartingID+12, Config.blockStartingID+36,2,"ComplexMachines:ReplanterSeeds","ReplanterSeed");
+	monsterweedSeed=new BasicSeeds(Config.itemStartingID+13, Config.blockStartingID+37,2,"ComplexMachines:MonsterweedSeeds","MonsterweedSeed");
 	
 	BasicComponents.requestAll();
 	
@@ -208,13 +217,26 @@ public class ComplexMachines {
 
 		LanguageRegistry.addName(replanterSeed, "Replanter Seed");
 
+		LanguageRegistry.addName(monsterweedSeed, "Monsterweed Seed");
+
+		LanguageRegistry.addName(monsterweed, "Monsterweed");
+
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(remote),true,new Object[]{"xyx", "xyx", 'x', "ingotCopper", 'y', "circuitBasic"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(linker),true,new Object[]{" y ", "yxy", " x ", 'x', "circuitBasic", 'y', new ItemStack(Item.arrow)}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(rangeExtender),true,new Object[]{" x ", " x ", " y ", 'x', "ingotSteel", 'y', "plateCopper"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cubeFormer),true,new Object[]{"xy", "yx", 'x', "plateSteel", 'y', "circuitBasic"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(feller),true,new Object[]{"xyx", " x ", " x ", 'x', new ItemStack(Item.stick), 'y', "circuitBasic"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(clusterMiner),true,new Object[]{"xyx", " x ", " x ", 'x', new ItemStack(Item.ingotIron), 'y', "circuitBasic"}));
-		
+		GameRegistry.addShapelessRecipe(new ItemStack(383,1,61), new ItemStack(monsterweed),new ItemStack(Item.blazePowder));
+		GameRegistry.addShapelessRecipe(new ItemStack(383,1,59), new ItemStack(monsterweed),new ItemStack(Item.spiderEye));
+		GameRegistry.addShapelessRecipe(new ItemStack(383,1,50), new ItemStack(monsterweed),new ItemStack(Item.gunpowder));
+		GameRegistry.addShapelessRecipe(new ItemStack(383,1,58), new ItemStack(monsterweed),new ItemStack(368,1,0));
+		GameRegistry.addShapelessRecipe(new ItemStack(383,1,56), new ItemStack(monsterweed),new ItemStack(Item.itemsList[370]));
+		GameRegistry.addShapelessRecipe(new ItemStack(383,1,62), new ItemStack(monsterweed),new ItemStack(Item.magmaCream));
+		GameRegistry.addShapelessRecipe(new ItemStack(383,1,51), new ItemStack(monsterweed),new ItemStack(Item.bone));
+		GameRegistry.addShapelessRecipe(new ItemStack(383,1,55), new ItemStack(monsterweed),new ItemStack(Item.itemsList[341]));
+		GameRegistry.addShapelessRecipe(new ItemStack(383,1,52), new ItemStack(monsterweed),new ItemStack(287,1,0));
+		GameRegistry.addShapelessRecipe(new ItemStack(383,1,54), new ItemStack(monsterweed),new ItemStack(367,1,0));
 		
 		MinecraftForge.addGrassSeed(new ItemStack(breederSeed), 10);
 		

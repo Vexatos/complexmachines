@@ -136,18 +136,23 @@ public class BasicSeeds extends Item implements IPlantable {
 			par3List.add(EnumColor.YELLOW+"Tier 0 plants are:");
 
 			par3List.add(EnumColor.YELLOW+"Wheat, Carrots, Potatoes, SugarCane");
+			break;
 		case 9:
 			par3List.add(EnumColor.ORANGE+"Turns grass into farmland");
 			par3List.add(EnumColor.PINK+"Tier 1");
+			break;
 		case 10:
 			par3List.add(EnumColor.ORANGE+"Speeds up nearby plant growth");
 			par3List.add(EnumColor.PINK+"Tier 1");
+			break;
 		case 11:
 			par3List.add(EnumColor.ORANGE+"Hydrates and improves nearby farmland");
 			par3List.add(EnumColor.PINK+"Tier 1");
+			break;
 		case 12:
 			par3List.add(EnumColor.ORANGE+"Replants nearby dropped seeds");
 			par3List.add(EnumColor.PINK+"Tier 1");
+			break;
 		}
 	}
 

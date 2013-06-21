@@ -75,11 +75,5 @@ public class HydratorCrop extends BasicCrop {
 	
 	
 	
-	public int getInfertileRate(){
-		return 1;
-	}
-	public int getFertileRate(){
-		return 1;
-	}
 
 }
