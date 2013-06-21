@@ -25,10 +25,10 @@ public class CultivatorCrop extends BasicCrop{
 	}
 	
 	public int getInfertileRate(){
-		return 1;
+		return 5;
 	}
 	public int getFertileRate(){
-		return 1;
+		return 5;
 	}
 	
 	@Override
@@ -52,7 +52,7 @@ public class CultivatorCrop extends BasicCrop{
 	@Override
 	public ArrayList<ItemStack> getHarvestDrop() {
 		ArrayList<ItemStack> list=new ArrayList<ItemStack>(); 
-		list.add(new ItemStack(seed,1,0));
+		list.add(new ItemStack(seed,2,0));
 		return list;
 	}
 
@@ -87,7 +87,7 @@ public class CultivatorCrop extends BasicCrop{
 				world.setBlock(targetX, targetY, targetZ, Config.blockStartingID+32);
 			}
 
-			world.setBlock(x, y-1, z, 60);
+			world.setBlock(x, y-1, z, Config.blockStartingID+35);
 			world.destroyBlock(x, y, z, true);
 		}
 	}

@@ -42,6 +42,9 @@ public class LaserBlock extends BasicComplexBlock {
 	public LaserBlock(int i) {
 		super(i);
 	}
+	public boolean inCreativeTab(){
+		return false;
+	}
 	
 	
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World,
@@ -52,10 +55,6 @@ public class LaserBlock extends BasicComplexBlock {
 	@Override
 	public Class getTileEntityClass() {
 		return LaserBeamTileEntity.class;
-	}
-	@Override
-	public boolean inCreativeTab(){
-		return false;
 	}
 
 	@Override

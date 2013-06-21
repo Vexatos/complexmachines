@@ -45,7 +45,7 @@ public class BreederCrop extends BasicCrop {
 	@Override
 	public ArrayList<ItemStack> getHarvestDrop() {
 		ArrayList<ItemStack> list=new ArrayList<ItemStack>(); 
-		list.add(new ItemStack(seed,1,0));
+		list.add(new ItemStack(seed,4,0));
 		return list;
 	}
 
@@ -56,8 +56,6 @@ public class BreederCrop extends BasicCrop {
 		
 		Arrays.sort(first);
 		Arrays.sort(second);
-		System.out.println(first);
-		System.out.println(second);
 		for(int i=0;i<first.length;i++){
 			if(first[i]!=second[i]){
 				return false;
@@ -73,9 +71,10 @@ public class BreederCrop extends BasicCrop {
 		
 		ArrayList newList=new ArrayList();
 		
-		int[][] tiers=new int[1][4];
+		int[][] tiers=new int[2][4];
 		tiers[0]=new int[]{59,141,142,83};
-		System.out.println(tiers);
+
+		tiers[1]=new int[]{Config.blockStartingID+32,Config.blockStartingID+33,Config.blockStartingID+34,Config.blockStartingID+36};
 		return tiers;
 		
 	}
@@ -91,7 +90,6 @@ public class BreederCrop extends BasicCrop {
 		int[][] tiers=getTiers();
 		for(int i=0;i<tiers.length;i++){
 			if(areArraysComparable(tiers[i],list)){
-				System.out.println("Found compatible array");
 				return i+1;
 			}
 		}
@@ -113,7 +111,13 @@ public class BreederCrop extends BasicCrop {
 			}
 				int[][] tierList=getTiers();
 				if(tierList.length>tier){
-					
+					int rand=new Random().nextInt(4);
+
+					world.setBlock(x+1, y, z, 0);
+					world.setBlock(x-1, y, z, 0);
+					world.setBlock(x, y, z+1, 0);
+					world.setBlock(x, y, z-1, 0);
+					world.setBlock(x, y, z, tierList[tier][rand]);
 				}
 			
 			

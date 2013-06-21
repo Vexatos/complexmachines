@@ -2,19 +2,37 @@ package pixlepix.complexmachines.common;
 
 import java.util.ArrayList;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
-
 import net.minecraft.block.Block;
 import net.minecraftforge.common.MinecraftForge;
-
-import pixlepix.complexmachines.common.block.*;
+import pixlepix.complexmachines.common.block.Controller;
+import pixlepix.complexmachines.common.block.ExtractorMachine;
+import pixlepix.complexmachines.common.block.FillerMachine;
+import pixlepix.complexmachines.common.block.Flux;
+import pixlepix.complexmachines.common.block.FocalPoint;
+import pixlepix.complexmachines.common.block.FocalPointControlled;
+import pixlepix.complexmachines.common.block.Grinder;
+import pixlepix.complexmachines.common.block.Motor;
+import pixlepix.complexmachines.common.block.NodeBlock;
+import pixlepix.complexmachines.common.block.OceanGenerator;
+import pixlepix.complexmachines.common.block.ReplacerMachine;
+import pixlepix.complexmachines.common.block.SinglePointGenerator;
 import pixlepix.complexmachines.common.crops.BreederCrop;
 import pixlepix.complexmachines.common.crops.CultivatorCrop;
-import pixlepix.complexmachines.common.itemblock.MotorItemBlock;
+import pixlepix.complexmachines.common.crops.FertilizerCrop;
+import pixlepix.complexmachines.common.crops.HydratorCrop;
+import pixlepix.complexmachines.common.crops.ImprovedFarmland;
+import pixlepix.complexmachines.common.crops.ReplanterCrop;
 import pixlepix.complexmachines.common.laser.LaserEmitter;
-import pixlepix.complexmachines.common.laser.block.*;
-import pixlepix.complexmachines.common.laser.tileentity.HarmingLaserBeamTileEntity;
+import pixlepix.complexmachines.common.laser.block.DebuffLaserBlock;
+import pixlepix.complexmachines.common.laser.block.ElecrtricLaserBlock;
+import pixlepix.complexmachines.common.laser.block.GlassLaserBlock;
+import pixlepix.complexmachines.common.laser.block.HarmingLaserBlock;
+import pixlepix.complexmachines.common.laser.block.LaserBlock;
+import pixlepix.complexmachines.common.laser.block.RedstoneLaserBlock;
+import pixlepix.complexmachines.common.laser.block.SuctionLaserBlock;
+import pixlepix.complexmachines.common.laser.block.TripwireLaserBlock;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class BetterLoader {
 
@@ -27,7 +45,16 @@ public class BetterLoader {
 		classes.add(BreederCrop.class);
 
 		classes.add(CultivatorCrop.class);
+
+		classes.add(ReplanterCrop.class);
+
+		classes.add(FertilizerCrop.class);
+		
+
+		classes.add(HydratorCrop.class);
 		classes.add(FillerMachine.class);
+
+		classes.add(ImprovedFarmland.class);
 
 
 		classes.add(Flux.class);

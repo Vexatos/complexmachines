@@ -62,6 +62,12 @@ public class ComplexMachines {
 	public static Item breederSeed;
 
 	public static Item cultivatorSeed;
+
+	public static Item replanterSeed;
+
+	public static Item fertilizerSeed;
+
+	public static Item hydratorSeed;
 	
 	public static ModFlag flag;
 
@@ -108,8 +114,12 @@ public class ComplexMachines {
 
 	breederSeed=new BasicSeeds(Config.itemStartingID+8, Config.blockStartingID+31,60,"ComplexMachines:BreederSeeds","BreederSeed");
 	cultivatorSeed=new BasicSeeds(Config.itemStartingID+9, Config.blockStartingID+32,2,"ComplexMachines:CultivatorSeeds","CultivatorSeed");
+	fertilizerSeed=new BasicSeeds(Config.itemStartingID+10, Config.blockStartingID+33,2,"ComplexMachines:FertilizerSeeds","FertilizerSeed");
 
-	
+	hydratorSeed=new BasicSeeds(Config.itemStartingID+11, Config.blockStartingID+34,2,"ComplexMachines:HydratorSeeds","HydratorSeed");
+
+
+	replanterSeed=new BasicSeeds(Config.itemStartingID+12, Config.blockStartingID+36,2,"ComplexMachines:ReplanterSeeds","ReplanterSeed");
 	
 	BasicComponents.requestAll();
 	
@@ -191,6 +201,12 @@ public class ComplexMachines {
 		LanguageRegistry.addName(breederSeed, "Breeder Seed");
 
 		LanguageRegistry.addName(cultivatorSeed, "Cultivator Seed");
+
+		LanguageRegistry.addName(fertilizerSeed, "Fertilizer Seed");
+
+		LanguageRegistry.addName(hydratorSeed, "Hydrator Seed");
+
+		LanguageRegistry.addName(replanterSeed, "Replanter Seed");
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(remote),true,new Object[]{"xyx", "xyx", 'x', "ingotCopper", 'y', "circuitBasic"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(linker),true,new Object[]{" y ", "yxy", " x ", 'x', "circuitBasic", 'y', new ItemStack(Item.arrow)}));

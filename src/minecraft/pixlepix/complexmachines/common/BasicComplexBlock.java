@@ -46,14 +46,12 @@ public abstract class BasicComplexBlock extends BlockAdvanced implements IBlock 
 		super(Config.blockStartingID+increment,material);
 
 		this.setUnlocalizedName(this.getName());
-		this.setCreativeTab(ComplexMachines.creativeTab);
 		
 	}
 	public BasicComplexBlock(int increment) {
 		super(Config.blockStartingID+increment, UniversalElectricity.machine);
 
 		this.setUnlocalizedName(this.getName());
-		this.setCreativeTab(ComplexMachines.creativeTab);
 		
 	}
 	

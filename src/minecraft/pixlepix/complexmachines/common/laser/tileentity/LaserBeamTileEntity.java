@@ -40,7 +40,7 @@ public class LaserBeamTileEntity extends BasicComplexTileEntity {
 			 return AxisAlignedBB.getBoundingBox(xCoord-.5, yCoord-.5, zCoord-20.5, xCoord+0.5, yCoord+.5, zCoord+.5);
 			 
 		}
-		return null;
+		return AxisAlignedBB.getBoundingBox(xCoord-.5, yCoord-.5, zCoord-20.5, xCoord+0.5, yCoord+.5, zCoord+.5);
 	}
 	
 	//Used for ElectricLaserBeam
@@ -68,7 +68,7 @@ public class LaserBeamTileEntity extends BasicComplexTileEntity {
 			 return AxisAlignedBB.getBoundingBox(xCoord-25.5, yCoord-25.5, zCoord-45.5, xCoord+25.5, yCoord+25.5, zCoord+25.5);
 			 
 		}
-		return null;
+		return AxisAlignedBB.getBoundingBox(xCoord-.5, yCoord-.5, zCoord-20.5, xCoord+0.5, yCoord+.5, zCoord+.5);
 	}
 	public LaserEmitterTileEntity entity;
 	public void setEntity(LaserEmitterTileEntity entity){
