@@ -47,7 +47,7 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 	public double joulesStored;
 	public int maxJoules=25000;
 	public int direction=0;
-	private ItemStack[] inventory = new ItemStack[0];
+	private ItemStack inventory;
 	public int momentum;
 	public ForgeDirection momentumDirection;
 
@@ -70,24 +70,24 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 	@Override
 	public ItemStack getStackInSlot(int i) {
 		// TODO Auto-generated method stub
-		return inventory[0];
+		return inventory;
 	}
 
 	@Override
 	public ItemStack decrStackSize(int par1, int par2) {
 
-		if (this.inventory[par1] != null) {
+		if (this.inventory != null) {
 			ItemStack var3;
 
-			if (this.inventory[par1].stackSize <= par2) {
-				var3 = this.inventory[par1];
-				this.inventory[par1] = null;
+			if (this.inventory.stackSize <= par2) {
+				var3 = this.inventory;
+				this.inventory = null;
 				return var3;
 			} else {
-				var3 = this.inventory[par1].splitStack(par2);
+				var3 = this.inventory.splitStack(par2);
 
-				if (this.inventory[par1].stackSize == 0) {
-					this.inventory[par1] = null;
+				if (this.inventory.stackSize == 0) {
+					this.inventory = null;
 				}
 
 				return var3;
@@ -99,9 +99,9 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int par1) {
-		if (this.inventory[par1] != null) {
-			ItemStack var2 = this.inventory[par1];
-			this.inventory[par1] = null;
+		if (this.inventory != null) {
+			ItemStack var2 = this.inventory;
+			this.inventory = null;
 			return var2;
 		} else
 			return null;
@@ -109,14 +109,14 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 
 	@Override
 	public void setInventorySlotContents(int par1, ItemStack par2ItemStack) {
-		if (par1 < inventory.length) {
-			this.inventory[par1] = par2ItemStack;
+		
+			this.inventory = par2ItemStack;
 
 			if (par2ItemStack != null
 					&& par2ItemStack.stackSize > this.getInventoryStackLimit()) {
 				par2ItemStack.stackSize = this.getInventoryStackLimit();
 			}
-		}
+		
 	}
 
 	@Override
@@ -399,7 +399,6 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 	@Override
 	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
 		super.readFromNBT(par1NBTTagCompound);
-		this.inventory = new ItemStack[this.getSizeInventory()];
 		try {
 			this.joulesStored = par1NBTTagCompound.getDouble("joulesStored");
 		} catch (Exception e) {
@@ -410,9 +409,8 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 			NBTTagCompound var4 = (NBTTagCompound) var2.tagAt(var3);
 			byte var5 = var4.getByte("Slot");
 
-			if (var5 >= 0 && var5 < this.inventory.length) {
-				this.inventory[var5] = ItemStack.loadItemStackFromNBT(var4);
-			}
+				this.inventory = ItemStack.loadItemStackFromNBT(var4);
+			
 		}
 
 		this.direction = par1NBTTagCompound.getInteger("direction");
@@ -428,11 +426,11 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 
 		NBTTagList var2 = new NBTTagList();
 
-		for (int var3 = 0; var3 < this.inventory.length; ++var3) {
-			if (this.inventory[var3] != null) {
+		for (int var3 = 0; var3 < 1; ++var3) {
+			if (this.inventory != null) {
 				NBTTagCompound var4 = new NBTTagCompound();
 				var4.setByte("Slot", (byte) var3);
-				this.inventory[var3].writeToNBT(var4);
+				this.inventory.writeToNBT(var4);
 				var2.appendTag(var4);
 			}
 		}
@@ -460,7 +458,7 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 	}
 
 	public int getRange(){
-		ItemStack upgrades=inventory[0];
+		ItemStack upgrades=inventory;
 		if(upgrades!=null&&upgrades.getItem() instanceof RangeExtender){
 			
 			return upgrades.stackSize+2;
