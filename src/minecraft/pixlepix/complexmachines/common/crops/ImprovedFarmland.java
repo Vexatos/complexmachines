@@ -10,6 +10,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
@@ -27,6 +28,8 @@ import pixlepix.complexmachines.common.tileentity.FillerMachineTileEntity;
 public class ImprovedFarmland extends BasicComplexBlock {
 	public ImprovedFarmland() {
 		super(35);
+
+        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.9375F, 1.0F);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -46,6 +49,13 @@ public class ImprovedFarmland extends BasicComplexBlock {
 	public boolean hasModel(){
 		return false;
 	}
+	
+	
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4)
+    {
+        return AxisAlignedBB.getAABBPool().getAABB((double)(par2 + 0), (double)(par3 + 0), (double)(par4 + 0), (double)(par2 + 1), (double)(par3 + 1), (double)(par4 + 1));
+    }
+	
 	@Override
 	public String getTop() {
 		// TODO Auto-generated method stub

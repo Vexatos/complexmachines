@@ -153,6 +153,26 @@ public class BasicSeeds extends Item implements IPlantable {
 			par3List.add(EnumColor.ORANGE+"Replants nearby dropped seeds");
 			par3List.add(EnumColor.PINK+"Tier 1");
 			break;
+		case 13:
+			par3List.add(EnumColor.ORANGE+"Grows monsterweed");
+			par3List.add(EnumColor.RED+"Spawns creepers when growing");
+			par3List.add(EnumColor.PINK+"Tier 2");
+			break;
+		case 15:
+			par3List.add(EnumColor.ORANGE+"Grows Blaze Powder");
+			par3List.add(EnumColor.RED+"Spawns fire when growing");
+			par3List.add(EnumColor.PINK+"Tier 2");
+			break;
+		case 16:
+			par3List.add(EnumColor.ORANGE+"Grows gunpowder");
+			par3List.add(EnumColor.RED+"Explodes when stepped on");
+			par3List.add(EnumColor.PINK+"Tier 2");
+			break;
+		case 17:
+			par3List.add(EnumColor.ORANGE+"Grows slimeballs");
+			par3List.add(EnumColor.RED+"Harmful status effects");
+			par3List.add(EnumColor.PINK+"Tier 2");
+			break;
 		}
 	}
 

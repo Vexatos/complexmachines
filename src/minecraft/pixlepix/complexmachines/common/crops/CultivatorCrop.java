@@ -25,10 +25,10 @@ public class CultivatorCrop extends BasicCrop{
 	}
 	
 	public int getInfertileRate(){
-		return 5;
+		return 1;
 	}
 	public int getFertileRate(){
-		return 5;
+		return 1;
 	}
 	
 	@Override

@@ -67,11 +67,17 @@ public class ComplexMachines {
 
 	public static Item replanterSeed;
 
+	public static Item powderweedSeed;
+
 	public static Item fertilizerSeed;
 
 	public static Item hydratorSeed;
 
 	public static Item monsterweed;
+
+	public static Item blazeweedSeed;
+
+	public static Item slimeweedSeed;
 
 	public static Item monsterweedSeed;
 	
@@ -129,6 +135,9 @@ public class ComplexMachines {
 
 	replanterSeed=new BasicSeeds(Config.itemStartingID+12, Config.blockStartingID+36,2,"ComplexMachines:ReplanterSeeds","ReplanterSeed");
 	monsterweedSeed=new BasicSeeds(Config.itemStartingID+13, Config.blockStartingID+37,2,"ComplexMachines:MonsterweedSeeds","MonsterweedSeed");
+	blazeweedSeed=new BasicSeeds(Config.itemStartingID+15, Config.blockStartingID+38,2,"ComplexMachines:BlazeweedSeeds","BlazeweedSeed");
+	powderweedSeed=new BasicSeeds(Config.itemStartingID+16, Config.blockStartingID+39,2,"ComplexMachines:PowderweedSeeds","PowderweedSeed");
+	slimeweedSeed=new BasicSeeds(Config.itemStartingID+17, Config.blockStartingID+40,2,"ComplexMachines:SlimeweedSeeds","SlimeweedSeed");
 	
 	BasicComponents.requestAll();
 	
@@ -188,8 +197,7 @@ public class ComplexMachines {
 
 		
 
-		LanguageRegistry.instance().addStringLocalization(
-				"itemGroup.tabComplexMachines", "Complex Machines");
+		LanguageRegistry.instance().addStringLocalization("itemGroup.tabComplexMachines", "Complex Machines");
 		
 
 		LanguageRegistry.addName(feller, "Feller");
@@ -217,9 +225,15 @@ public class ComplexMachines {
 
 		LanguageRegistry.addName(replanterSeed, "Replanter Seed");
 
+		LanguageRegistry.addName(blazeweedSeed, "Blazeweed Seed");
+
 		LanguageRegistry.addName(monsterweedSeed, "Monsterweed Seed");
 
 		LanguageRegistry.addName(monsterweed, "Monsterweed");
+
+		LanguageRegistry.addName(powderweedSeed, "Powderweed Seed");
+
+		LanguageRegistry.addName(slimeweedSeed, "Slimeweed Seed");
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(remote),true,new Object[]{"xyx", "xyx", 'x', "ingotCopper", 'y', "circuitBasic"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(linker),true,new Object[]{" y ", "yxy", " x ", 'x', "circuitBasic", 'y', new ItemStack(Item.arrow)}));

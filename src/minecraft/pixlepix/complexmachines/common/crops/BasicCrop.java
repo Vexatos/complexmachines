@@ -60,6 +60,7 @@ public abstract class BasicCrop extends BasicComplexBlock implements IPlantable 
 		this.seed=seed+256;
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
         setTickRandomly(true);
+        this.setBurnProperties(i, 60,100);
         
 	}
 
