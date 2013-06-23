@@ -80,6 +80,13 @@ public class ComplexMachines {
 	public static Item slimeweedSeed;
 
 	public static Item monsterweedSeed;
+	public static Item diamondgrainSeed;
+
+	public static Item irongrainSeed;
+
+	public static Item goldgrainSeed;
+
+	public static Item redgrainSeed;
 	
 	public static ModFlag flag;
 
@@ -138,6 +145,10 @@ public class ComplexMachines {
 	blazeweedSeed=new BasicSeeds(Config.itemStartingID+15, Config.blockStartingID+38,2,"ComplexMachines:BlazeweedSeeds","BlazeweedSeed");
 	powderweedSeed=new BasicSeeds(Config.itemStartingID+16, Config.blockStartingID+39,2,"ComplexMachines:PowderweedSeeds","PowderweedSeed");
 	slimeweedSeed=new BasicSeeds(Config.itemStartingID+17, Config.blockStartingID+40,2,"ComplexMachines:SlimeweedSeeds","SlimeweedSeed");
+	diamondgrainSeed=new BasicSeeds(Config.itemStartingID+18, Config.blockStartingID+41,2,"ComplexMachines:DiamondgrainSeeds","DiamondgrainSeed");
+	diamondgrainSeed=new BasicSeeds(Config.itemStartingID+19, Config.blockStartingID+42,2,"ComplexMachines:IrongrainSeeds","IrongrainSeed");
+	diamondgrainSeed=new BasicSeeds(Config.itemStartingID+20, Config.blockStartingID+43,2,"ComplexMachines:GoldgrainSeeds","GoldgrainSeed");
+	diamondgrainSeed=new BasicSeeds(Config.itemStartingID+21, Config.blockStartingID+44,2,"ComplexMachines:RedgrainSeeds","RedgrainSeed");
 	
 	BasicComponents.requestAll();
 	
@@ -234,6 +245,11 @@ public class ComplexMachines {
 		LanguageRegistry.addName(powderweedSeed, "Powderweed Seed");
 
 		LanguageRegistry.addName(slimeweedSeed, "Slimeweed Seed");
+
+		LanguageRegistry.addName(diamondgrainSeed, "Diamondgrain Seed");
+		LanguageRegistry.addName(irongrainSeed, "Irongrain Seed");
+		LanguageRegistry.addName(goldgrainSeed, "Goldgrain Seed");
+		LanguageRegistry.addName(redgrainSeed, "Redgrain Seed");
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(remote),true,new Object[]{"xyx", "xyx", 'x', "ingotCopper", 'y', "circuitBasic"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(linker),true,new Object[]{" y ", "yxy", " x ", 'x', "circuitBasic", 'y', new ItemStack(Item.arrow)}));

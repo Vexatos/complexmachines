@@ -16,16 +16,8 @@ import pixlepix.complexmachines.common.block.NodeBlock;
 import pixlepix.complexmachines.common.block.OceanGenerator;
 import pixlepix.complexmachines.common.block.ReplacerMachine;
 import pixlepix.complexmachines.common.block.SinglePointGenerator;
-import pixlepix.complexmachines.common.crops.BlazeweedCrop;
-import pixlepix.complexmachines.common.crops.BreederCrop;
-import pixlepix.complexmachines.common.crops.CultivatorCrop;
-import pixlepix.complexmachines.common.crops.FertilizerCrop;
-import pixlepix.complexmachines.common.crops.HydratorCrop;
-import pixlepix.complexmachines.common.crops.ImprovedFarmland;
-import pixlepix.complexmachines.common.crops.MonsterweedCrop;
-import pixlepix.complexmachines.common.crops.PowderweedCrop;
-import pixlepix.complexmachines.common.crops.ReplanterCrop;
-import pixlepix.complexmachines.common.crops.SlimeweedCrop;
+
+import pixlepix.complexmachines.common.crops.*;
 import pixlepix.complexmachines.common.laser.LaserEmitter;
 import pixlepix.complexmachines.common.laser.block.DebuffLaserBlock;
 import pixlepix.complexmachines.common.laser.block.ElecrtricLaserBlock;
@@ -61,6 +53,14 @@ public class BetterLoader {
 		classes.add(PowderweedCrop.class);
 
 		classes.add(SlimeweedCrop.class);
+
+		classes.add(DiamondgrainCrop.class);
+
+		classes.add(RedgrainCrop.class);
+
+		classes.add(IrongrainCrop.class);
+
+		classes.add(GoldgrainCrop.class);
 		
 
 		classes.add(HydratorCrop.class);
