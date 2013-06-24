@@ -1,6 +1,8 @@
 package pixlepix.complexmachines.common.crops;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -16,10 +18,13 @@ import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.IPlantable;
 import pixlepix.complexmachines.common.BasicComplexBlock;
 import pixlepix.complexmachines.common.Config;
+import powercrystals.minefactoryreloaded.api.FarmingRegistry;
+import powercrystals.minefactoryreloaded.api.HarvestType;
+import powercrystals.minefactoryreloaded.api.IFactoryHarvestable;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public abstract class BasicCrop extends BasicComplexBlock implements IPlantable {
+public abstract class BasicCrop extends BasicComplexBlock implements IPlantable, IFactoryHarvestable{
 
 	public Icon stage1;
 	public Icon stage2;
@@ -60,7 +65,9 @@ public abstract class BasicCrop extends BasicComplexBlock implements IPlantable 
 		this.seed=seed+256;
 		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
         setTickRandomly(true);
-        this.setBurnProperties(i, 60,100);
+        this.setBurnProperties(Config.blockStartingID+i, 60,100);
+
+		FarmingRegistry.registerHarvestable(this);
         
 	}
 
@@ -203,6 +210,58 @@ public abstract class BasicCrop extends BasicComplexBlock implements IPlantable 
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	
+	
+	@Override
+	public int getPlantId() {
+		// TODO Auto-generated method stub
+		return this.blockID;
+	}
+
+	@Override
+	public HarvestType getHarvestType() {
+		// TODO Auto-generated method stub
+		return HarvestType.Normal;
+	}
+
+	@Override
+	public boolean breakBlock() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean canBeHarvested(World world,
+			Map<String, Boolean> harvesterSettings, int x, int y, int z) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public List<ItemStack> getDrops(World world, Random rand,
+			Map<String, Boolean> harvesterSettings, int x, int y, int z) {
+		// TODO Auto-generated method stub
+		return this.getBlockDropped(world, x, y, z, world.getBlockMetadata(x,y,z), 0);
+	}
+
+	@Override
+	public void preHarvest(World world, int x, int y, int z) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void postHarvest(World world, int x, int y, int z) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	
+	
+	
 	
 	
 	

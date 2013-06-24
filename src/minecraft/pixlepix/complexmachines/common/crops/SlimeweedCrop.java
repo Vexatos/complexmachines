@@ -3,6 +3,7 @@ package pixlepix.complexmachines.common.crops;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import net.minecraft.entity.EntityLiving;
@@ -13,6 +14,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import pixlepix.complexmachines.common.Config;
+import powercrystals.minefactoryreloaded.api.HarvestType;
 
 public class SlimeweedCrop extends BasicCrop {
 	
@@ -85,6 +87,8 @@ public class SlimeweedCrop extends BasicCrop {
 			
 		
 	}
+
+	
 	
 	
 	
