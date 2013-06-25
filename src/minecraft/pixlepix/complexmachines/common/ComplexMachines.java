@@ -146,9 +146,9 @@ public class ComplexMachines {
 	powderweedSeed=new BasicSeeds(Config.itemStartingID+16, Config.blockStartingID+39,2,"ComplexMachines:PowderweedSeeds","PowderweedSeed");
 	slimeweedSeed=new BasicSeeds(Config.itemStartingID+17, Config.blockStartingID+40,2,"ComplexMachines:SlimeweedSeeds","SlimeweedSeed");
 	diamondgrainSeed=new BasicSeeds(Config.itemStartingID+18, Config.blockStartingID+41,2,"ComplexMachines:DiamondgrainSeeds","DiamondgrainSeed");
-	diamondgrainSeed=new BasicSeeds(Config.itemStartingID+19, Config.blockStartingID+42,2,"ComplexMachines:IrongrainSeeds","IrongrainSeed");
-	diamondgrainSeed=new BasicSeeds(Config.itemStartingID+20, Config.blockStartingID+43,2,"ComplexMachines:GoldgrainSeeds","GoldgrainSeed");
-	diamondgrainSeed=new BasicSeeds(Config.itemStartingID+21, Config.blockStartingID+44,2,"ComplexMachines:RedgrainSeeds","RedgrainSeed");
+	irongrainSeed=new BasicSeeds(Config.itemStartingID+19, Config.blockStartingID+42,2,"ComplexMachines:IrongrainSeeds","IrongrainSeed");
+	goldgrainSeed=new BasicSeeds(Config.itemStartingID+20, Config.blockStartingID+43,2,"ComplexMachines:GoldgrainSeeds","GoldgrainSeed");
+	redgrainSeed=new BasicSeeds(Config.itemStartingID+21, Config.blockStartingID+44,2,"ComplexMachines:RedgrainSeeds","RedgrainSeed");
 	
 	BasicComponents.requestAll();
 	
