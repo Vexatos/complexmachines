@@ -2,6 +2,7 @@ package basiccomponents.common;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import net.minecraft.block.Block;
@@ -19,6 +20,7 @@ import universalelectricity.prefab.TranslationHelper;
 import universalelectricity.prefab.ore.OreGenBase;
 import universalelectricity.prefab.ore.OreGenReplaceStone;
 import universalelectricity.prefab.ore.OreGenerator;
+import basiccomponents.client.RenderCopperWire;
 import basiccomponents.common.block.BlockBase;
 import basiccomponents.common.block.BlockBasicMachine;
 import basiccomponents.common.block.BlockCopperWire;
@@ -32,13 +34,15 @@ import basiccomponents.common.item.ItemPlate;
 import basiccomponents.common.item.ItemWrench;
 import basiccomponents.common.tileentity.TileEntityBatteryBox;
 import basiccomponents.common.tileentity.TileEntityCoalGenerator;
+import basiccomponents.common.tileentity.TileEntityCopperWire;
 import basiccomponents.common.tileentity.TileEntityElectricFurnace;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
+import cpw.mods.fml.relauncher.Side;
 
 /**
  * The main class for managing Basic Component items and blocks. Reference objects from this class
@@ -54,13 +58,12 @@ public class BasicComponents
 
 	public static final String RESOURCE_PATH = "/mods/basiccomponents/";
 
+	public static CommonProxy proxy;
+
 	/**
 	 * The Universal Electricity configuration file.
 	 */
 	public static final Configuration CONFIGURATION = new Configuration(new File(Loader.instance().getConfigDir(), "BasicComponents.cfg"));
-
-	@SidedProxy(clientSide = "basiccomponents.client.ClientProxy", serverSide = "basiccomponents.common.CommonProxy")
-	public static CommonProxy proxy;
 
 	public static final String TEXTURE_DIRECTORY = RESOURCE_PATH + "textures/";
 	public static final String GUI_DIRECTORY = TEXTURE_DIRECTORY + "gui/";
@@ -381,7 +384,24 @@ public class BasicComponents
 				{
 					field.set(null, new BlockCopperWire(id));
 					GameRegistry.registerBlock((Block) field.get(null), ItemBlockCopperWire.class, name);
-					proxy.registerCopperWireTileEntity();
+
+					if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
+					{
+						try
+						{
+							Class registry = Class.forName("cpw.mods.fml.client.registry.ClientRegistry");
+							Method m = registry.getMethod("bindTileEntitySpecialRenderer", Class.class, Class.forName("net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer"));
+							m.invoke(null, TileEntityCopperWire.class, new RenderCopperWire());
+						}
+						catch (Exception e)
+						{
+							FMLLog.severe("Basic Components copper wire registry error!");
+							e.printStackTrace();
+						}
+					}
+
+					GameRegistry.registerTileEntity(TileEntityCopperWire.class, "copperWire");
+					// proxy.registerCopperWireTileEntity();
 
 					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockCopperWire, 6), new Object[] { "WWW", "CCC", "WWW", 'W', Block.cloth, 'C', "ingotCopper" }));
 
@@ -453,7 +473,22 @@ public class BasicComponents
 		return requestItem("infiniteBattery", id);
 	}
 
+	/**
+	 * Kept for backwards compatibility
+	 */
+	@Deprecated
 	public static ItemStack requireMachines(int id)
+	{
+		return requireMachines(null, id);
+	}
+
+	/**
+	 * Require Battery Box, Coal Generator and Electric Furnace. Adds mod object to list of GUI
+	 * managers as well.
+	 * 
+	 * @param mod The object of the mod requiring machines
+	 */
+	public static ItemStack requireMachines(Object mod, int id)
 	{
 		if (blockMachine == null)
 		{
@@ -477,6 +512,12 @@ public class BasicComponents
 			BasicComponents.CONFIGURATION.save();
 		}
 
+		if (mod != null)
+		{
+			bcDependants.add(mod);
+			NetworkRegistry.instance().registerGuiHandler(mod, new BCGuiHandler());
+		}
+
 		return new ItemStack(blockMachine);
 	}
 
@@ -497,17 +538,20 @@ public class BasicComponents
 	}
 
 	/**
-	 * Called when all items are registered. Only call once per mod.
+	 * Kept for backwards compatibility
 	 */
+	@Deprecated
 	public static void register(Object mod, String channel)
 	{
-		bcDependants.add(mod);
-		CHANNEL = channel;
+		register(channel);
+	}
 
-		if (registeredTileEntities && blockMachine != null)
-		{
-			NetworkRegistry.instance().registerGuiHandler(mod, new BCGuiHandler());
-		}
+	/**
+	 * Called when all items are registered. Only call once per mod.
+	 */
+	public static void register(String channel)
+	{
+		CHANNEL = channel;
 
 		/**
 		 * Register Smelting Recipes
@@ -545,9 +589,20 @@ public class BasicComponents
 	}
 
 	/**
-	 * Requests all items in Basic Components
+	 * Kept for backwards compatibility
 	 */
+	@Deprecated
 	public static void requestAll()
+	{
+		requestAll(null);
+	}
+
+	/**
+	 * Requests all items in Basic Components
+	 * 
+	 * @param mod The object of the mod requiring components
+	 */
+	public static void requestAll(Object mod)
 	{
 		BasicComponents.requestItem("ingotCopper", 0);
 		BasicComponents.requestItem("ingotTin", 0);
@@ -579,7 +634,7 @@ public class BasicComponents
 		BasicComponents.requestItem("battery", 0);
 		BasicComponents.requestItem("infiniteBattery", 0);
 
-		requireMachines(0);
+		requireMachines(mod, 0);
 	}
 
 	public static Object getFirstDependant()
