@@ -220,7 +220,7 @@ public class ComplexMachines {
 		LanguageRegistry.addName(randomizer, "GeneticRandomizer");
 		
 		
-		LanguageRegistry.addName(rangeExtender, "Motor range extender upgrade");
+		LanguageRegistry.addName(rangeExtender, "Range extender upgrade");
 
 		LanguageRegistry.addName(clusterMiner, "Cluster Miner");
 		LanguageRegistry.addName(linker, "Link former");

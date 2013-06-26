@@ -46,7 +46,7 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 	private static final double TRANSFER_LIMIT = 25000;
 	public double joulesStored;
 	public int maxJoules=25000;
-	public int direction=0;
+	public int direction=1;
 	private ItemStack inventory;
 	public int momentum;
 	public ForgeDirection momentumDirection;
@@ -180,19 +180,22 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 
 		ForgeDirection inputDirection = ForgeDirection.getOrientation(this.getBlockMetadata() + 2);
 		// System.out.println(getJoules());
-		
+		System.out.println("1");
 			if(MinecraftServer.getServer().worldServers[0].getTotalWorldTime()%100==99){
 				AirshipBlockRegistry.empty();
+				System.out.println("2");
 			}
 			
-
+			System.out.println("3");
 				if (getJoules() > 10000) {
+					System.out.println("4");
 					if(MinecraftServer.getServer().worldServers[0].getTotalWorldTime()%100==0){
 						
-						
+						System.out.println(getDirection());
 						if(getDirection()!=null){
-
+							System.out.println("5");
 							setJoules(getJoules()-10000);
+							
 							move(getDirection());
 						}
 
@@ -442,20 +445,6 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 
 
 
-	@Override
-	public double getJoules() {
-		// TODO Auto-generated method stub
-		return joulesStored;
-	}
-
-
-
-
-	@Override
-	public void setJoules(double joules) {
-		// TODO Auto-generated method stub
-		this.joulesStored=joules;
-	}
 
 	public int getRange(){
 		ItemStack upgrades=inventory;
@@ -468,40 +457,13 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 	}
 
 	
-	@Override
-	public double getMaxJoules() {
-		// TODO Auto-generated method stub
-		return this.maxJoules;
-	}
+	
 
 	public void setDirection(int direction2) {
 		// TODO Auto-generated method stub
 		this.direction=direction2;
 	}
-	@Override
-	public double getEnergy() {
-		// TODO Auto-generated method stub
-		return this.getJoules();
-	}
-
-	@Override
-	public void setEnergy(double energy) {
-		this.setJoules(energy);
-		
-	}
-
-	@Override
-	public double getMaxEnergy() {
-		// TODO Auto-generated method stub
-		return this.getMaxJoules();
-	}
-
-	@Override
-	public double transferEnergyToAcceptor(double amount) {
-		double energyTransfered=Math.max(getMaxEnergy()-this.getEnergy(),amount );
-		this.setEnergy(this.getEnergy()+energyTransfered);
-		return amount-energyTransfered;
-	}
+	
 
 	@Override
 	public boolean canReceiveEnergy(ForgeDirection side) {

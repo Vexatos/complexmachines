@@ -16,6 +16,7 @@ import pixlepix.complexmachines.common.block.NodeBlock;
 import pixlepix.complexmachines.common.block.OceanGenerator;
 import pixlepix.complexmachines.common.block.ReplacerMachine;
 import pixlepix.complexmachines.common.block.SinglePointGenerator;
+import pixlepix.complexmachines.common.block.Terraformer;
 
 import pixlepix.complexmachines.common.crops.*;
 import pixlepix.complexmachines.common.laser.LaserEmitter;
@@ -67,6 +68,9 @@ public class BetterLoader {
 		classes.add(FillerMachine.class);
 
 		classes.add(ImprovedFarmland.class);
+
+
+		classes.add(Terraformer.class);
 
 
 		classes.add(Flux.class);

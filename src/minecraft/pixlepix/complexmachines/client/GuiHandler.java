@@ -5,10 +5,12 @@
 import pixlepix.complexmachines.common.container.ContainerExtractor;
 import pixlepix.complexmachines.common.container.ContainerGrinder;
 import pixlepix.complexmachines.common.container.ContainerNode;
+import pixlepix.complexmachines.common.container.ContainerTerraformer;
 import pixlepix.complexmachines.common.tileentity.ExtractorMachineTileEntity;
 import pixlepix.complexmachines.common.tileentity.GrinderTileEntity;
 import pixlepix.complexmachines.common.tileentity.MotorTileEntity;
 import pixlepix.complexmachines.common.tileentity.NodeTileEntity;
+import pixlepix.complexmachines.common.tileentity.TerraformerTileEntity;
 import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.src.*;
@@ -27,6 +29,9 @@ public class GuiHandler implements IGuiHandler{
 		TileEntity tile_entity = world.getBlockTileEntity(x, y, z);
 		if(tile_entity instanceof GrinderTileEntity){
 			return new ContainerGrinder(player.inventory,(GrinderTileEntity) tile_entity);
+		}
+		if(tile_entity instanceof TerraformerTileEntity){
+			return new ContainerTerraformer(player.inventory,(TerraformerTileEntity) tile_entity);
 		}
 		if(tile_entity instanceof MotorTileEntity){
 			return new ContainerAirship(player.inventory,(MotorTileEntity) tile_entity);
@@ -47,6 +52,9 @@ public class GuiHandler implements IGuiHandler{
 		TileEntity tile_entity = world.getBlockTileEntity(x, y, z);
 		if(tile_entity instanceof GrinderTileEntity){
 			return new GuiGrinder(player.inventory, (GrinderTileEntity) tile_entity);
+		}
+		if(tile_entity instanceof TerraformerTileEntity){
+			return new GuiTerraformer(player.inventory, (TerraformerTileEntity) tile_entity);
 		}
 		if(tile_entity instanceof MotorTileEntity){
 			return new GuiAirship(player.inventory,(MotorTileEntity) tile_entity);
