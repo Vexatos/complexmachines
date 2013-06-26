@@ -67,6 +67,15 @@ public class GuiTerraformer extends GuiContainer
         this.drawTexturedModalRect(this.containerWidth, this.containerHeight, 0, 0, this.xSize, this.ySize);
         
         
+        this.fontRenderer.drawString("x+", 25, 4, 4210752);
+        this.fontRenderer.drawString("x-", 25, 22, 4210752);
+        this.fontRenderer.drawString("z+", 25, 40, 4210752);
+        this.fontRenderer.drawString("z-", 25, 58, 4210752);
+
+        this.fontRenderer.drawString("y+", 65, 4, 4210752);
+
+        this.fontRenderer.drawString("y-", 65, 58, 4210752);
+        
         
         
     }

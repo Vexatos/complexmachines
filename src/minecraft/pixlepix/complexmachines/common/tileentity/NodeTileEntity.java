@@ -142,11 +142,12 @@ public class NodeTileEntity extends PowerConsumerComplexTileEntity implements II
 								
 								
 								
-								if(Math.abs(pathTuple.x)<1&&Math.abs(pathTuple.y)<1&&Math.abs(pathTuple.z)<1){
+								if(Math.abs(pathTuple.x)<1.2&&Math.abs(pathTuple.y)<1.2&&Math.abs(pathTuple.z)<1.2){
 									ItemStack leftovers=this.tryPlaceInPosition(entity.getEntityItem(), new Vector3(destTuple.x,destTuple.y,destTuple.z), ForgeDirection.VALID_DIRECTIONS[link.destinationSide]);
 									if (leftovers!=null)
 									worldObj.spawnEntityInWorld(new EntityItem(this.worldObj,destTuple.x,destTuple.y,destTuple.z,leftovers));
 									worldObj.removeEntity(entity);
+									iterItem.remove();
 								}
 	
 								

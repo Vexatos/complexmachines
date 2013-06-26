@@ -1,11 +1,13 @@
 package pixlepix.complexmachines.common.tileentity;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.ForgeDirection;
+import pixlepix.complexmachines.common.ComplexMachines;
 import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.PowerConsumerComplexTileEntity;
 
@@ -127,7 +129,26 @@ public class TerraformerTileEntity extends PowerConsumerComplexTileEntity implem
 
 			if (getJoules() > 10000) {
 				
-				
+			
+				if(state==0){
+					if (!isInCycle){
+						this.isInCycle=true;
+						this.xCycle=getXMax();
+						this.yCycle=getYMax();
+						this.zCycle=getZMax();
+					}
+						ItemStack drop=Block.blocksList[worldObj.getBlockId(xCycle, yCycle, zCycle)].getBlockDropped(worldObj, xCycle, yCycle, zCycle, worldObj.getBlockMetadata(xCycle, yCycle, zCycle), 0).get(0);
+						worldObj.destroyBlock(xCycle, yCycle, zCycle, false);
+						xCycle--;
+						if(xCycle<getXMin()){
+							this.xCycle=getXMax();
+							this.yCycle--;
+						}
+						if(yCycle<getYMin()){
+							this.yCycle=getYMax();
+							this.zCycle--;
+						}
+				}
 				
 				
 				
@@ -146,12 +167,35 @@ public class TerraformerTileEntity extends PowerConsumerComplexTileEntity implem
 		return direction.ordinal() == this.getBlockMetadata() + 2;
 	}
 
+	public int getXMax(){
+		return xCoord-getUpgradesInSlot(0);
+	}
 
-	//public int getXMin(){
-		
-	//}
+	public int getXMin(){
+		return xCoord-getUpgradesInSlot(1);
+	}
+	public int getZMax(){
+		return zCoord-getUpgradesInSlot(2);
+	}
+
+	public int getZMin(){
+		return zCoord-getUpgradesInSlot(3);
+	}
+	public int getYMax(){
+		return yCoord-getUpgradesInSlot(4);
+	}
+
+	public int getYMin(){
+		return yCoord-getUpgradesInSlot(5);
+	}
 	
-	
+	public int getUpgradesInSlot(int slot){
+		ItemStack stack=inventory[slot];
+		if(stack.getItem()==ComplexMachines.rangeExtender){
+			return stack.stackSize;
+		}
+		return 0;
+	}
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer) {
 
