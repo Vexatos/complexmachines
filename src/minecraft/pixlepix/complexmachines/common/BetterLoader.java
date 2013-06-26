@@ -37,7 +37,6 @@ public class BetterLoader {
 	public static ArrayList<Class> classes=new ArrayList<Class>();
 	
 	public void populateClasses(){
-		classes.add(Controller.class);
 
 		classes.add(BreederCrop.class);
 

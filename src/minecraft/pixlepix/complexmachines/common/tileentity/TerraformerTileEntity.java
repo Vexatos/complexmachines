@@ -18,7 +18,11 @@ public class TerraformerTileEntity extends PowerConsumerComplexTileEntity implem
 	private ItemStack[] inventory= new ItemStack[9];
 	public int momentum;
 	public ForgeDirection momentumDirection;
-
+	public int state=0;
+	public int xCycle;
+	public int yCycle;
+	public int zCycle;
+	public boolean isInCycle=false;
 	private int playersUsing;
 	
 	public void initiate() {
@@ -121,17 +125,13 @@ public class TerraformerTileEntity extends PowerConsumerComplexTileEntity implem
 	public void updateEntity(){
 		super.updateEntity();
 
-		
-			
-
-				if (getJoules() > 10000) {
-					
-
-			
+			if (getJoules() > 10000) {
+				
+				
+				
+				
+				
 			}
-
-		
-
 		this.joulesStored = Math.min(this.joulesStored, this.getMaxJoules());
 		this.joulesStored = Math.max(this.joulesStored, 0d);
 
@@ -147,6 +147,11 @@ public class TerraformerTileEntity extends PowerConsumerComplexTileEntity implem
 	}
 
 
+	//public int getXMin(){
+		
+	//}
+	
+	
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer) {
 

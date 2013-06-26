@@ -13,9 +13,9 @@ public class Terraformer extends BasicComplexBlock {
 	
 	
 	public Terraformer() {
-		super(45);
+		super(23);
 	}
-	static int blockIdIncrement=45;
+	static int blockIdIncrement=23;
 	String textureBase="ComplexMachines:";
 	public String textureSpecific="TerraformerFront";
 
