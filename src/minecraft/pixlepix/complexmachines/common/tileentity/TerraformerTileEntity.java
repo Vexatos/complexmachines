@@ -335,9 +335,9 @@ public class TerraformerTileEntity extends PowerConsumerComplexTileEntity implem
 	public int getUpgradesInSlot(int slot){
 		ItemStack stack=inventory[slot];
 		if(stack!=null&&stack.getItem()==ComplexMachines.rangeExtender){
-			return stack.stackSize+3;
+			return stack.stackSize+1;
 		}
-		return 3;
+		return 1;
 	}
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer par1EntityPlayer) {
