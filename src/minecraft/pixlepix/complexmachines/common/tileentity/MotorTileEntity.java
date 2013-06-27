@@ -180,20 +180,23 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 
 		ForgeDirection inputDirection = ForgeDirection.getOrientation(this.getBlockMetadata() + 2);
 		// System.out.println(getJoules());
-		System.out.println("1");
 			if(MinecraftServer.getServer().worldServers[0].getTotalWorldTime()%100==99){
 				AirshipBlockRegistry.empty();
-				System.out.println("2");
 			}
-			
-			System.out.println("3");
 				if (getJoules() > 10000) {
-					System.out.println("4");
 					if(MinecraftServer.getServer().worldServers[0].getTotalWorldTime()%100==0){
+						ForgeDirection direction=getDirection();
+						for(int i=0;i<(getRange()+2);i++){
+							if(worldObj.getBlockId(xCoord+(direction.offsetX*i), yCoord+(direction.offsetY*i),zCoord+(direction.offsetZ*i))==49)
+							{
+								return;
+							}
+						}
+						if(worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord)){
+							return;
+						}
 						
-						System.out.println(getDirection());
 						if(getDirection()!=null){
-							System.out.println("5");
 							setJoules(getJoules()-10000);
 							
 							move(getDirection());
@@ -240,6 +243,7 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 				}
 			}
 			Block targetBlockType = this.blockType;
+			
 			if(!(materialId==7)){
 				AirshipBlockRegistry.addBlock(new AirshipDelayedBlock(targetX,targetY,targetZ,materialId,meta,worldObj,list,(int)target.x,(int)target.y,(int)target.z,specialData));
 			}
@@ -469,6 +473,10 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 	public boolean canReceiveEnergy(ForgeDirection side) {
 		// TODO Auto-generated method stub
 		return this.canConnect(side);
+	}
+	@Override
+	public double getMaxJoules() {
+		return 11000;
 	}
 
 }

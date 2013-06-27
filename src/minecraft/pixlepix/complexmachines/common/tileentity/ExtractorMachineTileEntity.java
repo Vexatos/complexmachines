@@ -98,12 +98,12 @@ public class ExtractorMachineTileEntity extends PowerConsumerComplexTileEntity i
 		super.updateEntity();
 
 		if (!this.worldObj.isRemote) {
-			
+
 					boolean oreFound = false;
 					int tries=0;
 					while (!oreFound && getJoules() > 1000) {
 						tries++;
-						
+
 						if(tries>50){
 							return;
 						}
@@ -118,7 +118,7 @@ public class ExtractorMachineTileEntity extends PowerConsumerComplexTileEntity i
 
 						int targetY = rand.nextInt(15) + 5;
 
-						
+
 						int targetId = worldObj.getBlockId(targetX, targetY,
 								targetZ);
 						// System.out.println("X: "+targetX+"  Y:"+targetY+"   Z:"+targetZ+"   id:"+worldObj.getBlockId(targetX,targetY,targetZ));
@@ -146,11 +146,11 @@ public class ExtractorMachineTileEntity extends PowerConsumerComplexTileEntity i
 					}
 					// inputNetwork.stopRequesting(this);
 				}
-			
 
-		
 
-		
+
+
+
 
 		this.joulesStored = Math.min(this.joulesStored, this.getMaxJoules());
 		this.joulesStored = Math.max(this.joulesStored, 0d);
@@ -164,7 +164,7 @@ public class ExtractorMachineTileEntity extends PowerConsumerComplexTileEntity i
 		int posZ = zCoord;
 
 		TileEntityChest chestFound = findChest();
-		System.out.println(chestFound);
+
 
 		int shiftedMatchedSlot = matchedSlot - 3;
 		int firstSlot = shiftedMatchedSlot + 9;
@@ -435,5 +435,5 @@ public class ExtractorMachineTileEntity extends PowerConsumerComplexTileEntity i
 		par1NBTTagCompound.setTag("Items", var2);
 	}
 
-	
+
 }

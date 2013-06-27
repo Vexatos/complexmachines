@@ -17,7 +17,7 @@ public class Terraformer extends BasicComplexBlock {
 	}
 	static int blockIdIncrement=23;
 	String textureBase="ComplexMachines:";
-	public String textureSpecific="TerraformerFront";
+	public String textureSpecific="Terraformer";
 
 	@Override
 	public String getFront() {
@@ -36,7 +36,7 @@ public class Terraformer extends BasicComplexBlock {
 		// TODO Auto-generated method stub
 		 return textureSpecificConnector;
 	}
-	 public String textureSpecificTop="TerraformerTop";
+	 public String textureSpecificTop="Terraformer";
 
 	public String textureSpecificConnector="TerraformerInput";
 
