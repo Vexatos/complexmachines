@@ -2,6 +2,8 @@ package pixlepix.complexmachines.common.crops;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import mekanism.api.EnumColor;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -133,54 +135,62 @@ public class BasicSeeds extends Item implements IPlantable, IFactoryPlantable {
 	@SuppressWarnings("unchecked")
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
 		int mouseoverId=par1ItemStack.itemID-Config.itemStartingID;
-		switch(mouseoverId){
-		case 8:
-			par3List.add(EnumColor.ORANGE+"Merges plants to form higher tier seeds");
-			par3List.add(EnumColor.PURPLE+"Place all plants of a tier");
-			par3List.add(EnumColor.PURPLE+"Adjacent to the breeder");
-
-			par3List.add(EnumColor.YELLOW+"Tier 0 plants are:");
-
-			par3List.add(EnumColor.YELLOW+"Tier 0 plants are:");
-
-			par3List.add(EnumColor.YELLOW+"Wheat, Carrots, Potatoes, SugarCane");
-			break;
-		case 9:
-			par3List.add(EnumColor.ORANGE+"Turns grass into farmland");
-			par3List.add(EnumColor.PINK+"Tier 1");
-			break;
-		case 10:
-			par3List.add(EnumColor.ORANGE+"Speeds up nearby plant growth");
-			par3List.add(EnumColor.PINK+"Tier 1");
-			break;
-		case 11:
-			par3List.add(EnumColor.ORANGE+"Hydrates and improves nearby farmland");
-			par3List.add(EnumColor.PINK+"Tier 1");
-			break;
-		case 12:
-			par3List.add(EnumColor.ORANGE+"Replants nearby dropped seeds");
-			par3List.add(EnumColor.PINK+"Tier 1");
-			break;
-		case 13:
-			par3List.add(EnumColor.ORANGE+"Grows monsterweed");
-			par3List.add(EnumColor.RED+"Spawns creepers when growing");
-			par3List.add(EnumColor.PINK+"Tier 2");
-			break;
-		case 15:
-			par3List.add(EnumColor.ORANGE+"Grows Blaze Powder");
-			par3List.add(EnumColor.RED+"Spawns fire when growing");
-			par3List.add(EnumColor.PINK+"Tier 2");
-			break;
-		case 16:
-			par3List.add(EnumColor.ORANGE+"Grows gunpowder");
-			par3List.add(EnumColor.RED+"Explodes when stepped on");
-			par3List.add(EnumColor.PINK+"Tier 2");
-			break;
-		case 17:
-			par3List.add(EnumColor.ORANGE+"Grows slimeballs");
-			par3List.add(EnumColor.RED+"Harmful status effects");
-			par3List.add(EnumColor.PINK+"Tier 2");
-			break;
+		mouseoverId-=256;
+		if(!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+		{
+			par3List.add("Hold " + EnumColor.AQUA + "shift" + EnumColor.GREY + " for more details.");
+		}
+		else {
+		
+			switch(mouseoverId){
+			case 8:
+				par3List.add(EnumColor.ORANGE+"Merges plants to form higher tier seeds");
+				par3List.add(EnumColor.PURPLE+"Place all plants of a tier");
+				par3List.add(EnumColor.PURPLE+"Adjacent to the breeder");
+	
+				par3List.add(EnumColor.YELLOW+"Tier 0 plants are:");
+	
+				par3List.add(EnumColor.YELLOW+"Tier 0 plants are:");
+	
+				par3List.add(EnumColor.YELLOW+"Wheat, Carrots, Potatoes, SugarCane");
+				break;
+			case 9:
+				par3List.add(EnumColor.ORANGE+"Turns grass into farmland");
+				par3List.add(EnumColor.PINK+"Tier 1");
+				break;
+			case 10:
+				par3List.add(EnumColor.ORANGE+"Speeds up nearby plant growth");
+				par3List.add(EnumColor.PINK+"Tier 1");
+				break;
+			case 11:
+				par3List.add(EnumColor.ORANGE+"Hydrates and improves nearby farmland");
+				par3List.add(EnumColor.PINK+"Tier 1");
+				break;
+			case 12:
+				par3List.add(EnumColor.ORANGE+"Replants nearby dropped seeds");
+				par3List.add(EnumColor.PINK+"Tier 1");
+				break;
+			case 13:
+				par3List.add(EnumColor.ORANGE+"Grows monsterweed");
+				par3List.add(EnumColor.RED+"Spawns creepers when growing");
+				par3List.add(EnumColor.PINK+"Tier 2");
+				break;
+			case 15:
+				par3List.add(EnumColor.ORANGE+"Grows Blaze Powder");
+				par3List.add(EnumColor.RED+"Spawns fire when growing");
+				par3List.add(EnumColor.PINK+"Tier 2");
+				break;
+			case 16:
+				par3List.add(EnumColor.ORANGE+"Grows gunpowder");
+				par3List.add(EnumColor.RED+"Explodes when stepped on");
+				par3List.add(EnumColor.PINK+"Tier 2");
+				break;
+			case 17:
+				par3List.add(EnumColor.ORANGE+"Grows slimeballs");
+				par3List.add(EnumColor.RED+"Harmful status effects");
+				par3List.add(EnumColor.PINK+"Tier 2");
+				break;
+			}
 		}
 	}
 

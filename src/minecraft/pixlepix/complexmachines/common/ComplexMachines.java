@@ -253,7 +253,7 @@ public class ComplexMachines {
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(remote),true,new Object[]{"xyx", "xyx", 'x', "ingotCopper", 'y', "circuitBasic"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(linker),true,new Object[]{" y ", "yxy", " x ", 'x', "circuitBasic", 'y', new ItemStack(Item.arrow)}));
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(rangeExtender),true,new Object[]{" x ", " x ", " y ", 'x', "ingotSteel", 'y', "plateCopper"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(rangeExtender,10,0),true,new Object[]{" x ", " x ", " y ", 'x', "ingotSteel", 'y', "plateCopper"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(cubeFormer),true,new Object[]{"xy", "yx", 'x', "plateSteel", 'y', "circuitBasic"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(feller),true,new Object[]{"xyx", " x ", " x ", 'x', new ItemStack(Item.stick), 'y', "circuitBasic"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(clusterMiner),true,new Object[]{"xyx", " x ", " x ", 'x', new ItemStack(Item.ingotIron), 'y', "circuitBasic"}));

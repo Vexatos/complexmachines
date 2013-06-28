@@ -79,14 +79,15 @@ public class LinkerItem extends Item {
 						    		player.sendChatToPlayer(EnumColor.AQUA+"Link created");
 				    			}else{
 				    				player.sendChatToPlayer(EnumColor.RED+"You must include a node in the link");
-				    				compound.removeTag("x");
-				    				compound.removeTag("y");
-
-				    				compound.removeTag("z");
-
-				    				compound.removeTag("side");
+				    				
 				    				return false;
 				    			}
+				    			compound.removeTag("x");
+			    				compound.removeTag("y");
+
+			    				compound.removeTag("z");
+
+			    				compound.removeTag("side");
 			    			}
 			    		}else{
 				    		itemStack.stackTagCompound.setInteger("x", x);

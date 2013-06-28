@@ -36,7 +36,7 @@ public class TerraformerTileEntity extends PowerConsumerComplexTileEntity implem
 	public int state=0;
 	public int cycle;
 	private int playersUsing;
-	
+	String owner;
 	public void initiate() {
 		
 		
@@ -181,7 +181,7 @@ public class TerraformerTileEntity extends PowerConsumerComplexTileEntity implem
 										for(int k=getZMin();k<getZMax();k++){
 											if(worldObj.getBlockTileEntity(i,j,k)==null){
 
-												if(takeFromChest(id,metadata))
+												if(!ComplexMachines.isProtected(i,k)&&takeFromChest(id,metadata))
 												worldObj.setBlock(i, j, k, id, metadata, 3);
 											}
 										}
@@ -200,7 +200,7 @@ public class TerraformerTileEntity extends PowerConsumerComplexTileEntity implem
 										for(int k=getZMin();k<getZMax();k++){
 											if(worldObj.getBlockTileEntity(i,j,k)==null){
 
-												if(takeFromChest(id,metadata))
+												if(!ComplexMachines.isProtected(i,k)&&takeFromChest(id,metadata))
 												worldObj.setBlock(i, j, k, id, metadata, 3);
 											}
 										}
@@ -218,7 +218,7 @@ public class TerraformerTileEntity extends PowerConsumerComplexTileEntity implem
 									
 										for(int k=getZMin();k<getZMax();k++){
 											if(worldObj.getBlockTileEntity(i,j,k)==null){
-												if(takeFromChest(id,metadata))
+												if(!ComplexMachines.isProtected(i,k)&&takeFromChest(id,metadata))
 												worldObj.setBlock(i, j, k, id, metadata, 3);
 											}
 										}
@@ -229,7 +229,7 @@ public class TerraformerTileEntity extends PowerConsumerComplexTileEntity implem
 									
 										for(int k=getZMin();k<getZMax();k++){
 											if(worldObj.getBlockTileEntity(i,j,k)==null){
-												if(takeFromChest(id,metadata))
+												if(!ComplexMachines.isProtected(i,k)&&takeFromChest(id,metadata))
 												worldObj.setBlock(i, j, k, id, metadata, 3);
 											}
 										}
@@ -250,7 +250,7 @@ public class TerraformerTileEntity extends PowerConsumerComplexTileEntity implem
 									
 										for(i=getXMin();i<getXMax();i++){
 											if(worldObj.getBlockTileEntity(i,j,k)==null){
-												if(takeFromChest(id,metadata))
+												if(!ComplexMachines.isProtected(i,k)&&takeFromChest(id,metadata))
 												worldObj.setBlock(i, j, k, id, metadata, 3);
 											}
 										}
@@ -261,7 +261,7 @@ public class TerraformerTileEntity extends PowerConsumerComplexTileEntity implem
 									
 										for(i=getXMin();i<getXMax();i++){
 											if(worldObj.getBlockTileEntity(i,j,k)==null){
-												if(takeFromChest(id,metadata))
+												if(!ComplexMachines.isProtected(i,k)&&takeFromChest(id,metadata))
 												worldObj.setBlock(i, j, k, id, metadata, 3);
 											}
 										}

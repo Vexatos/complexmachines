@@ -338,20 +338,25 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 			moveBlock(direction, new CoordTuple(xCoord-2*direction.offsetX,yCoord-2*direction.offsetY,zCoord-2*direction.offsetZ),true);
 			//moveBlock(direction, new CoordTuple(xCoord-3*direction.offsetX,yCoord-3*direction.offsetY,zCoord-3*direction.offsetZ),true);
 			if(direction.offsetY==1){
-			List<Entity> entities=worldObj.getEntitiesWithinAABB(EntityLiving.class, AxisAlignedBB.getBoundingBox(xCoord-getRange(), yCoord-getRange(), zCoord-getRange(), xCoord+getRange(), yCoord+getRange(), zCoord+getRange()));
+			List<Entity> entities=worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(xCoord-getRange(), yCoord-getRange(), zCoord-getRange(), xCoord+getRange(), yCoord+getRange(), zCoord+getRange()));
 				for(int i=0;i<entities.size();i++){
 
 					Entity entity=entities.get(i);
-					entity.setPosition(entity.posX, entity.posY+1.5, entity.posZ);
+					entity.setDead();
+					entity.moveEntity(direction.offsetX, direction.offsetY, direction.offsetZ);
+					//entity.setPosition(entity.posX+direction.offsetX, entity.posY+direction.offsetY, entity.posZ+direction.offsetZ);
 				}
-			}else{
+			/*
+			 * }else{
 				List<Entity> entities=worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(xCoord-getRange(), yCoord-getRange(), zCoord-getRange(), xCoord+getRange(), yCoord+getRange(), zCoord+getRange()));
 				for(int i=0;i<entities.size();i++){
 
 					Entity entity=entities.get(i);
 					entity.setPosition(entity.posX+direction.offsetX, entity.posY+.2, entity.posZ+direction.offsetZ);
 				}
+				*/
 			}
+			
 
 		
 	}
