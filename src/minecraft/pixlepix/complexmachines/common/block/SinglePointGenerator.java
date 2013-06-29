@@ -71,7 +71,7 @@ public class SinglePointGenerator extends BasicComplexBlock {
 
 	@Override
 	public String getName() {
-		return "SinglePoint";
+		return "Single Point";
 	}
 
 	@Override

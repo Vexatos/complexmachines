@@ -54,7 +54,7 @@ public class ComplexMachines {
 	public static Item remote;
 	public static Item clusterMiner;
 	public static Item cubeFormer;
-	public static Item randomizer;
+	//public static Item randomizer;
 
 
 	public static Item rangeExtender;
@@ -125,7 +125,7 @@ public class ComplexMachines {
 
 	cubeFormer=new CubeFormerItem(Config.itemStartingID+3);
 
-	randomizer=new GeneticRandomizer(Config.itemStartingID+5);
+	
 
 	rangeExtender=new RangeExtender(Config.itemStartingID+4);
 
@@ -191,10 +191,11 @@ public class ComplexMachines {
 			System.out.println(dir.toString()+dir.ordinal());
 		}
 		*/
-		
+
+		TickRegistry.registerTickHandler(new AirshipBlockRegistry(), Side.SERVER);
 		TickRegistry.registerTickHandler(new AirshipBlockRegistry(), Side.SERVER);
 
-		TickRegistry.registerTickHandler(new AirshipBlockRegistry(), Side.CLIENT);
+		TickRegistry.registerTickHandler(new MinearRegistry(), Side.SERVER);
 		FlagRegistry.registerFlag("ComplexMachines");
 		proxy.registerRenderers();
 		
@@ -216,8 +217,6 @@ public class ComplexMachines {
 		LanguageRegistry.addName(remote, "Remote Interloper");
 
 		LanguageRegistry.addName(cubeFormer, "Cube Former");
-
-		LanguageRegistry.addName(randomizer, "GeneticRandomizer");
 		
 		
 		LanguageRegistry.addName(rangeExtender, "Range extender upgrade");

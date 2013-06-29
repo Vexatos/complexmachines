@@ -51,7 +51,7 @@ public class LaserEmitter extends BasicComplexBlock {
 
 	@Override
 	public String getName() {
-		return "LaserEmitter";
+		return "Laser Emitter";
 	}
 	@Override
 	public boolean hasModel(){

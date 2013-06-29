@@ -37,7 +37,7 @@ public class FluxTileEntity extends BasicComplexTileEntity {
 			for(int i=0;i<8;i++){
 				
 				if(worldObj.getBlockId(blocks[i][0], y, blocks[i][1])==0){
-					worldObj.setBlock(blocks[i][0], y, blocks[i][1], Config.blockStartingID+18);
+					worldObj.setBlock(blocks[i][0], y, blocks[i][1], Config.blockStartingID+17);
 					TileEntity targetTileEntity=worldObj.getBlockTileEntity(blocks[i][0], y, blocks[i][1]);
 				}
 			}

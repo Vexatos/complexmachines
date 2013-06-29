@@ -75,7 +75,7 @@ public class OceanGenerator extends BasicComplexBlock {
 
 	@Override
 	public String getName() {
-		return "OceanGenerator";
+		return "Ocean Generator";
 	}
 
 	@Override
