@@ -195,7 +195,7 @@ public class ComplexMachines {
 		TickRegistry.registerTickHandler(new AirshipBlockRegistry(), Side.SERVER);
 		TickRegistry.registerTickHandler(new AirshipBlockRegistry(), Side.SERVER);
 
-		TickRegistry.registerTickHandler(new MinearRegistry(), Side.SERVER);
+		//TickRegistry.registerTickHandler(new MinearRegistry(), Side.SERVER);
 		FlagRegistry.registerFlag("ComplexMachines");
 		proxy.registerRenderers();
 		

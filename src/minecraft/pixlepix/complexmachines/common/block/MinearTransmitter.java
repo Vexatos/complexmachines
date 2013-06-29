@@ -14,7 +14,7 @@ public class MinearTransmitter extends BasicComplexBlock {
 	
 	
 	public MinearTransmitter() {
-		super(44);
+		super(45);
 	}
 	static int blockIdIncrement=23;
 	String textureBase="ComplexMachines:";
