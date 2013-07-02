@@ -101,7 +101,7 @@ public class ExtractorMachineTileEntity extends PowerConsumerComplexTileEntity i
 
 					boolean oreFound = false;
 					int tries=0;
-					while (!oreFound && getJoules() > 1000) {
+					while (!oreFound && getJoules() > COST_ON_ORE) {
 						tries++;
 
 						if(tries>50){

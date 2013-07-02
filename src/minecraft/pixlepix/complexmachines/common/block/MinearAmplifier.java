@@ -10,15 +10,15 @@ import pixlepix.complexmachines.common.tileentity.MinearTransmitterTileEntity;
 import pixlepix.complexmachines.common.tileentity.TerraformerTileEntity;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class MinearTransmitter extends BasicComplexBlock {
+public class MinearAmplifier extends BasicComplexBlock {
 	
 	
-	public MinearTransmitter() {
-		super(45);
+	public MinearAmplifier() {
+		super(46);
 	}
 	static int blockIdIncrement=23;
 	String textureBase="ComplexMachines:";
-	public String textureSpecific="Transmitter";
+	public String textureSpecific="Amplifier";
 
 	@Override
 	public String getFront() {
@@ -37,37 +37,28 @@ public class MinearTransmitter extends BasicComplexBlock {
 		// TODO Auto-generated method stub
 		 return textureSpecificConnector;
 	}
-	 public String textureSpecificTop="Transmitter";
+	 public String textureSpecificTop="Amplifier";
 
-	public String textureSpecificConnector="TransmitterInput";
+	public String textureSpecificConnector="Amplifier";
 
 	@Override
 	public Class getTileEntityClass() {
-		return MinearTransmitterTileEntity.class;
+		return null;
 	}
 	
 	
-	public boolean onBlockActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY,float hitZ) {
-		super.onBlockActivated(par1World, x,  y, z, par5EntityPlayer,  side, hitX, hitY,hitZ);
-		
-		if(par1World.getBlockTileEntity(x, y, z)!=null&&par1World.getBlockTileEntity(x, y, z) instanceof MinearTransmitterTileEntity){
-			((MinearTransmitterTileEntity)par1World.getBlockTileEntity(x, y, z)).rightClick(par5EntityPlayer);
-		}
-		return true;
 	
-
-	}
 	
 
 	@Override
 	public void addRecipe() {
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ComplexMachines.loader.getBlock(MinearTransmitter.class)),true,new Object[]{"xyx", "xyx", "xyx", 'x', "ingotCopper", 'y', "ingotSteel"}));
+		//GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ComplexMachines.loader.getBlock(MinearAmplifier.class)),true,new Object[]{"xyx", "xyx", "xyx", 'x', "ingotCopper", 'y', "ingotSteel"}));
 		
 	}
 
 	@Override
 	public String getName() {
-		return "Transmitter";
+		return "Amplifier";
 	}
 
 	@Override

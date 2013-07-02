@@ -19,6 +19,7 @@ public class Config{
 	public static double singlePointGeneratorOutput = 500000;
 	public static double grinderOutput = 5000;
 	public static double focalPointOutput = 3000;
+	public static long minearRefreshRate = 25000;
 
 	public static void configure(FMLPreInitializationEvent event){
 		config = new Configuration(

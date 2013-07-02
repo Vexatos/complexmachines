@@ -1,6 +1,10 @@
 package pixlepix.complexmachines.common.tileentity;
 
+import java.util.ArrayList;
+
 import pixlepix.complexmachines.common.ComplexMachines;
+import pixlepix.complexmachines.common.Config;
+import pixlepix.complexmachines.common.CoordTuple;
 import pixlepix.complexmachines.common.EnumColor;
 import pixlepix.complexmachines.common.MinearRegistry;
 import pixlepix.complexmachines.common.PowerConsumerComplexTileEntity;
@@ -72,7 +76,53 @@ public class MinearTransmitterTileEntity extends PowerConsumerComplexTileEntity 
 	
 	
 	public int calculateStrength(){
-		return 1;
+		
+		System.out.println("Calculating Strength");
+		int strength=1;
+		
+		int targetId=Config.blockStartingID+46;
+		
+			ArrayList<CoordTuple> list=new ArrayList<CoordTuple>();
+
+			ArrayList<CoordTuple> found=new ArrayList<CoordTuple>();
+			list.add(new CoordTuple(xCoord,yCoord,zCoord));
+			while(list.size()>0){
+				CoordTuple curr=list.get(0);
+				ArrayList<CoordTuple> nearby=new ArrayList<CoordTuple>();
+				int curX=(int)curr.x;
+				int curY=(int)curr.y;
+				int curZ=(int)curr.z;
+				list.remove(0);
+				nearby.add(new CoordTuple(curX+1,curY,curZ));
+				nearby.add(new CoordTuple(curX-1,curY,curZ));
+				nearby.add(new CoordTuple(curX,curY+1,curZ));
+				nearby.add(new CoordTuple(curX,curY-1,curZ));
+				nearby.add(new CoordTuple(curX,curY,curZ+1));
+				nearby.add(new CoordTuple(curX,curY,curZ-1));
+				for(int i=0;i<nearby.size();i++){
+					if(nearby.get(i).getBlock(worldObj)==targetId){
+						boolean alreadyFound=false;
+						for(int j=0;j<found.size();j++){
+							CoordTuple foundTuple=found.get(j);
+							CoordTuple nearbyTuple=nearby.get(i);
+							if(	foundTuple.x==nearbyTuple.x&&foundTuple.y==nearbyTuple.y&&foundTuple.z==nearbyTuple.z){
+								alreadyFound=true;
+								break;
+								
+							}
+						}
+						if(!alreadyFound){
+							
+							list.add(nearby.get(i));
+							found.add(nearby.get(i));
+						}
+					}
+				
+			}
+			}
+		
+		return found.size();
+		
 	}
 
 
@@ -81,16 +131,28 @@ public class MinearTransmitterTileEntity extends PowerConsumerComplexTileEntity 
 		if(worldObj.isRemote){
 			return;
 		}
-		// TODO Auto-generated method stub
+
+		if(this.calculateStrength()>MinearRegistry.quadrantOneSecurity){
+			MinearRegistry.quadrantOneSecurity=this.calculateStrength();
+
+			player.sendChatToPlayer(EnumColor.DARK_GREEN+"Siezed control of minear");
+
+			
+		}
 		if(this.calculateStrength()==MinearRegistry.quadrantOneSecurity){
 			EntityPlayer targetPlayer=DimensionManager.getWorld(MinearRegistry.quadrantOneDimension).getPlayerEntityByName(MinearRegistry.quadrantOnePlayer);
 			if(targetPlayer !=null){
 				player.sendChatToPlayer(EnumColor.ORANGE+targetPlayer.username);
 				player.sendChatToPlayer(EnumColor.AQUA+"X: "+targetPlayer.posX+"Y: "+targetPlayer.posY+"Z: "+targetPlayer.posZ);
+			
 			}else{
-				player.sendChatToPlayer(EnumColor.RED+"You don't have minear control");
+				player.sendChatToPlayer(EnumColor.RED+"No Players Found");
 			}
-			}
+		}else{
+			player.sendChatToPlayer(EnumColor.RED+"You don't have minear control.");
+
+			player.sendChatToPlayer(EnumColor.RED+"Opposing force is "+MinearRegistry.quadrantOneSecurity);
+		}
 	}
 
 	

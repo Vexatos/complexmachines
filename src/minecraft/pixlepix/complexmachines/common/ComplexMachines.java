@@ -8,14 +8,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import pixlepix.complexmachines.client.GuiHandler;
-import pixlepix.complexmachines.common.block.FillerMachine;
 import pixlepix.complexmachines.common.crops.BasicSeeds;
 import pixlepix.complexmachines.common.crops.Monsterweed;
 import pixlepix.complexmachines.common.item.ClusterMinerItem;
 import pixlepix.complexmachines.common.item.CubeFormerItem;
 import pixlepix.complexmachines.common.item.FellerItem;
-import pixlepix.complexmachines.common.item.GeneticRandomizer;
 import pixlepix.complexmachines.common.item.LinkerItem;
+import pixlepix.complexmachines.common.item.MinearCloaker;
 import pixlepix.complexmachines.common.item.RangeExtender;
 import pixlepix.complexmachines.common.item.RemoteItem;
 import pixlepix.complexmachines.common.mob.GeneticMob;
@@ -57,6 +56,7 @@ public class ComplexMachines {
 	//public static Item randomizer;
 
 
+	public static Item minearCloaker;
 	public static Item rangeExtender;
 
 	public static Item linker;
@@ -149,7 +149,8 @@ public class ComplexMachines {
 	irongrainSeed=new BasicSeeds(Config.itemStartingID+19, Config.blockStartingID+42,2,"ComplexMachines:IrongrainSeeds","IrongrainSeed");
 	goldgrainSeed=new BasicSeeds(Config.itemStartingID+20, Config.blockStartingID+43,2,"ComplexMachines:GoldgrainSeeds","GoldgrainSeed");
 	redgrainSeed=new BasicSeeds(Config.itemStartingID+21, Config.blockStartingID+44,2,"ComplexMachines:RedgrainSeeds","RedgrainSeed");
-	
+
+	minearCloaker=new MinearCloaker(Config.itemStartingID+22);
 	BasicComponents.requestAll();
 	
 
@@ -163,6 +164,8 @@ public class ComplexMachines {
 	// Says where the client and server 'proxy' code is loaded.
 	@SidedProxy(clientSide = "pixlepix.complexmachines.client.ClientProxy", serverSide = "pixlepix.complexmachines.common.CommonProxy")
 	public static CommonProxy proxy;
+
+
 
 	
 	@PreInit
@@ -195,7 +198,7 @@ public class ComplexMachines {
 		TickRegistry.registerTickHandler(new AirshipBlockRegistry(), Side.SERVER);
 		TickRegistry.registerTickHandler(new AirshipBlockRegistry(), Side.SERVER);
 
-		//TickRegistry.registerTickHandler(new MinearRegistry(), Side.SERVER);
+		TickRegistry.registerTickHandler(new MinearRegistry(), Side.SERVER);
 		FlagRegistry.registerFlag("ComplexMachines");
 		proxy.registerRenderers();
 		
@@ -249,6 +252,8 @@ public class ComplexMachines {
 		LanguageRegistry.addName(irongrainSeed, "Irongrain Seed");
 		LanguageRegistry.addName(goldgrainSeed, "Goldgrain Seed");
 		LanguageRegistry.addName(redgrainSeed, "Redgrain Seed");
+
+		LanguageRegistry.addName(minearCloaker, "MinearCloaker");
 
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(remote),true,new Object[]{"xyx", "xyx", 'x', "ingotCopper", 'y', "circuitBasic"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(linker),true,new Object[]{" y ", "yxy", " x ", 'x', "circuitBasic", 'y', new ItemStack(Item.arrow)}));

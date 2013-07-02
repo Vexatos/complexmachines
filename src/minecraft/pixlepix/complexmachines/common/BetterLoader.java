@@ -11,6 +11,7 @@ import pixlepix.complexmachines.common.block.Flux;
 import pixlepix.complexmachines.common.block.FocalPoint;
 import pixlepix.complexmachines.common.block.FocalPointControlled;
 import pixlepix.complexmachines.common.block.Grinder;
+import pixlepix.complexmachines.common.block.MinearAmplifier;
 import pixlepix.complexmachines.common.block.MinearTransmitter;
 import pixlepix.complexmachines.common.block.Motor;
 import pixlepix.complexmachines.common.block.NodeBlock;
@@ -63,7 +64,9 @@ public class BetterLoader {
 
 		classes.add(GoldgrainCrop.class);
 
-		//classes.add(MinearTransmitter.class);
+		classes.add(MinearTransmitter.class);
+
+		classes.add(MinearAmplifier.class);
 		
 
 		classes.add(HydratorCrop.class);
