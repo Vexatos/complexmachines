@@ -45,7 +45,7 @@ public class LaserEmitter extends BasicComplexBlock {
 
 	@Override
 	public void addRecipe() {
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ComplexMachines.loader.getBlock(LaserEmitter.class)),true,new Object[]{"xyx", "yzy", "xyx", 'x', new ItemStack(Item.itemsList[264]), 'y', new ItemStack(Block.glowStone), 'z', "circuitElite"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ComplexMachines.loader.getBlock(LaserEmitter.class)),true,new Object[]{"xyx", "yzy", "xyx", 'x', new ItemStack(Item.itemsList[264]), 'y', new ItemStack(Block.glowStone), 'z', "ingotCopper"}));
 		
 	}
 
