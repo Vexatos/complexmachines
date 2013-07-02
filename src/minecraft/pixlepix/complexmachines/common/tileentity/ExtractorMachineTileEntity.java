@@ -45,7 +45,7 @@ public class ExtractorMachineTileEntity extends PowerConsumerComplexTileEntity i
 	private int drawingTicks = 0;
 	private double joulesStored = 0;
 	public static double maxJoules = 1000000;
-	public final int COST_ON_ORE = 1000000;
+	public final int COST_ON_ORE = 200000;
 	public final int COST_ON_MISS = 15000;
 	public int ticks;
 	/**
