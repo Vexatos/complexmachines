@@ -56,9 +56,9 @@ public class ClusterMinerItem extends ItemElectric
     		if(isOre(targetId)){
     			ArrayList<CoordTuple> list=new ArrayList<CoordTuple>();
     			list.add(new CoordTuple(x,y,z));
-    			while(list.size()>0&&getJoules(itemStack)>100000){
+    			while(list.size()>0&&getJoules(itemStack)>1000){
     				CoordTuple curr=list.get(0);
-    				setJoules(this.getJoules(itemStack)-100000, itemStack);
+    				setJoules(this.getJoules(itemStack)-1000, itemStack);
     				ArrayList<CoordTuple> nearby=new ArrayList<CoordTuple>();
     				int curX=(int)curr.x;
     				int curY=(int)curr.y;
