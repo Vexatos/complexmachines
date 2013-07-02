@@ -61,7 +61,7 @@ public class MinearTransmitter extends BasicComplexBlock {
 
 	@Override
 	public void addRecipe() {
-		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ComplexMachines.loader.getBlock(MinearTransmitter.class)),true,new Object[]{"xyx", "xyx", "xyx", 'x', "ingotCopper", 'y', "ingotSteel"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ComplexMachines.loader.getBlock(MinearTransmitter.class)),true,new Object[]{"xx", 'x', new ItemStack(ComplexMachines.loader.getBlock(MinearAmplifier.class))}));
 		
 	}
 

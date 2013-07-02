@@ -1,6 +1,7 @@
 package pixlepix.complexmachines.common.block;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -52,7 +53,7 @@ public class MinearAmplifier extends BasicComplexBlock {
 
 	@Override
 	public void addRecipe() {
-		//GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ComplexMachines.loader.getBlock(MinearAmplifier.class)),true,new Object[]{"xyx", "xyx", "xyx", 'x', "ingotCopper", 'y', "ingotSteel"}));
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ComplexMachines.loader.getBlock(MinearAmplifier.class)),true,new Object[]{"xyx", "yzy", "xyx", 'x', "ingotCopper", 'y', "ingotSteel", 'z', new ItemStack(Item.diamond)}));
 		
 	}
 

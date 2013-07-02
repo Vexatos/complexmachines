@@ -8,6 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import pixlepix.complexmachines.client.GuiHandler;
+import pixlepix.complexmachines.common.block.MinearAmplifier;
+import pixlepix.complexmachines.common.block.MinearTransmitter;
 import pixlepix.complexmachines.common.crops.BasicSeeds;
 import pixlepix.complexmachines.common.crops.Monsterweed;
 import pixlepix.complexmachines.common.item.ClusterMinerItem;
@@ -254,7 +256,7 @@ public class ComplexMachines {
 		LanguageRegistry.addName(redgrainSeed, "Redgrain Seed");
 
 		LanguageRegistry.addName(minearCloaker, "MinearCloaker");
-
+		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(remote),true,new Object[]{"xyx", "xyx", 'x', "ingotCopper", 'y', "circuitBasic"}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(linker),true,new Object[]{" y ", "yxy", " x ", 'x', "circuitBasic", 'y', new ItemStack(Item.arrow)}));
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(rangeExtender,10,0),true,new Object[]{" x ", " x ", " y ", 'x', "ingotSteel", 'y', "plateCopper"}));
@@ -271,6 +273,8 @@ public class ComplexMachines {
 		GameRegistry.addShapelessRecipe(new ItemStack(383,1,55), new ItemStack(monsterweed),new ItemStack(Item.itemsList[341]));
 		GameRegistry.addShapelessRecipe(new ItemStack(383,1,52), new ItemStack(monsterweed),new ItemStack(287,1,0));
 		GameRegistry.addShapelessRecipe(new ItemStack(383,1,54), new ItemStack(monsterweed),new ItemStack(367,1,0));
+
+		GameRegistry.addShapelessRecipe(new ItemStack(minearCloaker), new ItemStack(ComplexMachines.loader.getBlock(MinearAmplifier.class)),new ItemStack(Item.arrow));
 		
 		MinecraftForge.addGrassSeed(new ItemStack(breederSeed), 10);
 		
