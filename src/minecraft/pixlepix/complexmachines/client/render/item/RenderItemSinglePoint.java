@@ -58,7 +58,7 @@ public class RenderItemSinglePoint implements IItemRenderer {
                 break;
             }
             case INVENTORY: {
-                render(0.0F, 0.4F, 0.0F);
+                render(0.0F, 1.0F, 0.0F);
                 break;
             }
             default:
