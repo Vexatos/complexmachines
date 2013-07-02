@@ -77,7 +77,7 @@ public class MinearTransmitterTileEntity extends PowerConsumerComplexTileEntity 
 	
 	public int calculateStrength(){
 		
-		System.out.println("Calculating Strength");
+		//System.out.println("Calculating Strength");
 		int strength=1;
 		
 		int targetId=Config.blockStartingID+46;

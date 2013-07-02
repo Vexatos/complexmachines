@@ -23,6 +23,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.oredict.OreDictionary;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.block.IElectricityStorage;
 import universalelectricity.core.electricity.ElectricityNetworkHelper;
@@ -45,7 +46,7 @@ public class ExtractorMachineTileEntity extends PowerConsumerComplexTileEntity i
 	private int drawingTicks = 0;
 	private double joulesStored = 0;
 	public static double maxJoules = 1000000;
-	public final int COST_ON_ORE = 200000;
+	public final int COST_ON_ORE = 100000;
 	public final int COST_ON_MISS = 15000;
 	public int ticks;
 	/**
@@ -62,10 +63,10 @@ public class ExtractorMachineTileEntity extends PowerConsumerComplexTileEntity i
 			3002, 3880, 3970, 3989 };
 	private boolean initialized;
 
-	public int isOre(int id) {
+	public boolean isOre(int id) {
 
 		if (id == 0) {
-			return -1;
+			return false;
 		}
 
 		int[] targets = new int[9];
@@ -80,12 +81,17 @@ public class ExtractorMachineTileEntity extends PowerConsumerComplexTileEntity i
 				targets[i] = inventory[i - 3].itemID;
 			}
 		}
+		
 		for (int i = 0; i < 9; i++) {
 			if (targets[i] == id) {
-				return i;
+				return true;
 			}
 		}
-		return -1;
+		String name=OreDictionary.getOreName(id);
+		if(name.contains("ore")){
+			return false;
+		}
+		return false;
 	}
 
 	@Override
@@ -101,20 +107,20 @@ public class ExtractorMachineTileEntity extends PowerConsumerComplexTileEntity i
 
 					boolean oreFound = false;
 					int tries=0;
-					while (!oreFound && getJoules() > COST_ON_ORE) {
+					while (!oreFound && getJoules() > 500000) {
 						tries++;
 
-						if(tries>50){
+						if(tries>5){
 							return;
 						}
 						ticks = 0;
 
-						int targetX = xCoord - 400;
+						int targetX = xCoord - 150;
 
-						int targetZ = zCoord - 400;
+						int targetZ = zCoord - 150;
 
-						targetX += (rand.nextInt(800));
-						targetZ += (rand.nextInt(800));
+						targetX += (rand.nextInt(300));
+						targetZ += (rand.nextInt(300));
 
 						int targetY = rand.nextInt(15) + 5;
 
@@ -122,14 +128,13 @@ public class ExtractorMachineTileEntity extends PowerConsumerComplexTileEntity i
 						int targetId = worldObj.getBlockId(targetX, targetY,
 								targetZ);
 						// System.out.println("X: "+targetX+"  Y:"+targetY+"   Z:"+targetZ+"   id:"+worldObj.getBlockId(targetX,targetY,targetZ));
-						int matchedSlot = isOre(targetId);
+						boolean ore = isOre(targetId);
 						// System.out.println(targetId);
-						if (worldObj.getChunkFromBlockCoords(targetX, targetZ).isChunkLoaded&& matchedSlot != -1&&!ComplexMachines.isProtected(targetX, targetZ)) {
+						if (worldObj.getChunkFromBlockCoords(targetX, targetZ).isChunkLoaded&& ore&&!ComplexMachines.isProtected(targetX, targetZ)) {
 							oreFound = true;
-							setJoules(getJoules() - COST_ON_ORE);
+							setJoules(getJoules() - 500000);
 
-							ItemStack drop = Block.blocksList[targetId]
-									.getBlockDropped(
+							ItemStack drop = Block.blocksList[targetId].getBlockDropped(
 											worldObj,
 											targetX,
 											targetY,
@@ -138,7 +143,7 @@ public class ExtractorMachineTileEntity extends PowerConsumerComplexTileEntity i
 													targetY, targetZ), 0)
 									.get(0);
 							worldObj.setBlock(targetY, targetY, targetZ, 0);
-							dropItems(drop, matchedSlot);
+							dropItems(drop);
 
 						}
 						;
@@ -156,66 +161,58 @@ public class ExtractorMachineTileEntity extends PowerConsumerComplexTileEntity i
 		this.joulesStored = Math.max(this.joulesStored, 0d);
 	}
 
-	private void dropItems(ItemStack drop, int matchedSlot) {
-		// Find nearby chests
+	private void dropItems(ItemStack item) {
+		ItemStack itemStack=item;
 
-		int posX = xCoord;
-		int posY = yCoord;
-		int posZ = zCoord;
-
-		TileEntityChest chestFound = findChest();
-
-
-		int shiftedMatchedSlot = matchedSlot - 3;
-		int firstSlot = shiftedMatchedSlot + 9;
-		int secondSlot = shiftedMatchedSlot + 18;
-		if (inventory[firstSlot] != null) {
-			if (inventory[firstSlot].stackSize + drop.stackSize <= 64) {
-				inventory[firstSlot].stackSize += drop.stackSize;
+		for (int i=6;i<this.inventory.length;i++)
+		{
+			itemStack = this.addStackToInventory(i, this, itemStack);
+			if (itemStack == null)
+			{
 				return;
 			}
-		} else {
-			inventory[firstSlot] = drop;
-			return;
 		}
-
-		if (inventory[secondSlot] != null) {
-
-			if (inventory[secondSlot].stackSize + drop.stackSize <= 64) {
-				inventory[secondSlot].stackSize += drop.stackSize;
-				return;
-			}
-
-		} else {
-			inventory[firstSlot] = drop;
-			return;
-		}
-
-		/*
-		 * if(chestFound != null){
-		 * 
-		 * for(int i=0;i<chestFound.getSizeInventory();i++){
-		 * if(chestFound.isStackValidForSlot(i,drop)){
-		 * if(chestFound.getStackInSlot(i)!=null){ int
-		 * itemsToAdd=drop.stackSize; int
-		 * currentItems=chestFound.getStackInSlot(i).stackSize; int
-		 * newTotal=itemsToAdd+currentItems;
-		 * chestFound.setInventorySlotContents(i, new
-		 * ItemStack(chestFound.getStackInSlot(i).getItem(),newTotal)); }else{
-		 * 
-		 * chestFound.setInventorySlotContents(i, drop);
-		 * 
-		 * } break; } }
-		 * 
-		 * 
-		 * } else{
-		 * 
-		 * 
-		 * }
-		 */
 
 	}
 
+	
+	public ItemStack addStackToInventory(int slotIndex, IInventory inventory, ItemStack itemStack)
+	{
+		if (inventory.getSizeInventory() > slotIndex)
+		{
+			ItemStack stackInInventory = inventory.getStackInSlot(slotIndex);
+
+			if (stackInInventory == null)
+			{
+				inventory.setInventorySlotContents(slotIndex, itemStack);
+				if (inventory.getStackInSlot(slotIndex) == null)
+				{
+					return itemStack;
+				}
+				return null;
+			}
+			else if (stackInInventory.isItemEqual(itemStack) && stackInInventory.isStackable())
+			{
+				stackInInventory = stackInInventory.copy();
+				int stackLim = Math.min(inventory.getInventoryStackLimit(), itemStack.getMaxStackSize());
+				int rejectedAmount = Math.max((stackInInventory.stackSize + itemStack.stackSize) - stackLim, 0);
+				stackInInventory.stackSize = Math.min(Math.max((stackInInventory.stackSize + itemStack.stackSize - rejectedAmount), 0), inventory.getInventoryStackLimit());
+				itemStack.stackSize = rejectedAmount;
+				inventory.setInventorySlotContents(slotIndex, stackInInventory);
+			}
+		}
+
+		if (itemStack.stackSize <= 0)
+		{
+			return null;
+		}
+
+		return itemStack;
+	}
+	
+	
+	
+	
 	private TileEntityChest findChest() {
 
 		TileEntity entityBeingChecked = worldObj.getBlockTileEntity(xCoord,
