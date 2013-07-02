@@ -77,7 +77,9 @@ public class ImprovedFarmland extends BasicComplexBlock {
 
 		//GameRegistry.addRecipe(new ItemStack(ComplexMachines.loader.getBlock(FillerMachine.class)), "xyx", "yzy", "xyx", 'x', new ItemStack(stone), 'y',new ItemStack(Item.shovelIron), 'z', new ItemStack(Item.ingotIron));
 	}
-
+	public boolean inCreativeTab(){
+		return false;
+	}
 	@Override
 	public String getName() {
 		return "ImprovedFarmland";
