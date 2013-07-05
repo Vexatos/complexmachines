@@ -77,13 +77,15 @@ public class LaserEmitterTileEntity extends PowerConsumerComplexTileEntity {
 			if (worldObj.getBlockId(xCoord + laserDirection.offsetX * i, yCoord, zCoord + laserDirection.offsetZ * i) == 0||entity instanceof LaserBeamTileEntity||entity instanceof FluxTileEntity) {
 			
 				worldObj.setBlock(xCoord+ laserDirection.offsetX * i, yCoord,zCoord + laserDirection.offsetZ * i,laserBeamId,laserDirection.ordinal(),3);
-				if (entity instanceof LaserBeamTileEntity) {
-					LaserBeamTileEntity laserEntity = (LaserBeamTileEntity)entity;
-					((LaserBeamTileEntity) entity).setEntity(this);
+
+				TileEntity newEntity=worldObj.getBlockTileEntity(xCoord + laserDirection.offsetX*i, yCoord, zCoord + laserDirection.offsetZ * i);
+				if (newEntity instanceof LaserBeamTileEntity) {
+					LaserBeamTileEntity laserEntity = (LaserBeamTileEntity)newEntity;
+					laserEntity.setEntity(this);
 
 				}
-					if (entity instanceof SuctionLaserBeamTileEntity) {
-						SuctionLaserBeamTileEntity suctionEntity = (SuctionLaserBeamTileEntity)entity;
+					if (newEntity instanceof SuctionLaserBeamTileEntity) {
+						SuctionLaserBeamTileEntity suctionEntity = (SuctionLaserBeamTileEntity)newEntity;
 						suctionEntity.xDirection=-1*laserDirection.offsetX;
 						suctionEntity.zDirection=-1*laserDirection.offsetZ;
 					}
@@ -102,10 +104,12 @@ public class LaserEmitterTileEntity extends PowerConsumerComplexTileEntity {
 		case 276:
 			laserBeamId=Config.blockStartingID+11;
 			break;
-		case 20:
+		/*case 20:
 			laserBeamId=Config.blockStartingID+12;
 			//System.out.println("Laser of glass");
 			break;
+		*/
+			//TODO: Fix Tripwire
 		case 331:
 			laserBeamId=Config.blockStartingID+14;
 			//System.out.println("Laser of glass");

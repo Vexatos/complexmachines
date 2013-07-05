@@ -35,7 +35,7 @@ public class SinglePointGenerator extends BasicComplexBlock {
 		super(4);
 	}
 	String textureBase="ComplexMachines:";
-	public String textureSpecific="SingleModel";
+	public String textureSpecific="SinglePointGeneratorModel";
 
 	@Override
 	public String getFront() {

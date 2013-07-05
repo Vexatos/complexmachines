@@ -37,10 +37,14 @@ public class LaserBlock extends BasicComplexBlock {
 	public String textureSpecific="LaserBeam";
 	public LaserBlock() {
 		super(10);
+
+		setBlockBounds(0.0F, 0.0F, 0.0F, 0F, 0F, 0F);
 	}
 
 	public LaserBlock(int i) {
 		super(i);
+
+		setBlockBounds(0.0F, 0.0F, 0.0F, 0F, 0F, 0F);
 	}
 	public boolean inCreativeTab(){
 		return false;

@@ -56,21 +56,12 @@ public class ReplacerMachineTileEntity extends PowerConsumerComplexTileEntity {
 	public void initiate() {
 	}
 
-	public boolean chestsSetUp() {
-		if (worldObj.getBlockTileEntity(xCoord, yCoord - 1, zCoord) instanceof TileEntityChest
-				&& worldObj.getBlockTileEntity(xCoord, yCoord + 1, zCoord) instanceof TileEntityChest) {
-			return true;
-		}
-		return false;
-	}
-
 	public int getBlockFromChest(TileEntityChest chest) {
 
 		for (int i = 0; i < chest.getSizeInventory(); i++) {
 			if (chest.getStackInSlot(i) != null) {
 				int id = chest.getStackInSlot(i).itemID;
-				if (Block.blocksList.length > id
-						&& Block.blocksList[id] != null) {
+				if (Block.blocksList.length > id && Block.blocksList[id] != null) {
 					return chest.getStackInSlot(i).itemID;
 				}
 			}
@@ -90,6 +81,7 @@ public class ReplacerMachineTileEntity extends PowerConsumerComplexTileEntity {
 					} else {
 						chest.setInventorySlotContents(i, null);
 					}
+					return 1;
 				}
 			}
 		}

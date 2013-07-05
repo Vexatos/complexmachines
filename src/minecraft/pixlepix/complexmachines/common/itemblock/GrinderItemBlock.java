@@ -27,8 +27,7 @@ public class GrinderItemBlock extends ItemBlock {
 		}
 		else {
 			
-			list.add(EnumColor.AQUA + "This machine will grind blocks up to produce power");
-			list.add(EnumColor.RED + "500J per ore block grinded");
+			list.add(EnumColor.AQUA + "This machine will dispose of junk");
 		}
 	}
 

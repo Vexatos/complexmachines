@@ -57,13 +57,10 @@ public class GrinderTileEntity extends PowerProducerComplexTileEntity implements
 	@Override
 	public void updateEntity() {
 		// System.out.println(ticksOfPowerRemaining);
+
 		if (!this.worldObj.isRemote) {
 
-			if (ticksOfPowerRemaining != 0) {
-				ticksOfPowerRemaining--;
-				this.electricOutput=20000;
-				super.updateEntity();
-			} else {
+			
 
 				for (int i = 0; i < inventory.length; i++) {
 					ItemStack toGrind = inventory[i];
@@ -73,11 +70,12 @@ public class GrinderTileEntity extends PowerProducerComplexTileEntity implements
 						} else {
 							inventory[i].stackSize--;
 						}
-						ticksOfPowerRemaining += 5;
+						this.electricOutput=100000;
+						System.out.println(electricOutput);
+						super.updateEntity();
+						return;
 
-					} else {
-
-					}
+					} 
 				}
 			}
 
@@ -85,7 +83,7 @@ public class GrinderTileEntity extends PowerProducerComplexTileEntity implements
 
 		
 
-	}
+	
 
 	
 

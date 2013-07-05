@@ -38,8 +38,6 @@ public class LaserItemBlock extends ItemBlock {
 			list.add(EnumColor.ORANGE+"Water Bucket: "+EnumColor.PURPLE+"Electrifying laser");
 			list.add(EnumColor.ORANGE+"Seeds: "+EnumColor.PURPLE+"Flux");
 			list.add(EnumColor.ORANGE+"Minecart: "+EnumColor.PURPLE+"Suction laser");
-			list.add(EnumColor.ORANGE+"String: "+EnumColor.PURPLE+"Tripwire");
-			list.add(EnumColor.ORANGE+"Redstone torch: "+EnumColor.PURPLE+"Charger");
 			
 
 		}

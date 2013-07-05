@@ -33,10 +33,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 String laserTexture="/mods/ComplexMachines/textures/blocks/LaserBeam.png";
     	int laserId=(var1.worldObj.getBlockId(var1.xCoord, var1.yCoord, var1.zCoord))-Config.blockStartingID;
-    	
+    	boolean renderBeam=true;
     	switch(laserId){
     		case 20: 
     			laserTexture="/mods/ComplexMachines/textures/blocks/GlassLaser.png";
+    			renderBeam=false;
     			break;
     		case 19: 
     			laserTexture="/mods/ComplexMachines/textures/blocks/StoneBrick.png";
@@ -66,7 +67,7 @@ String laserTexture="/mods/ComplexMachines/textures/blocks/LaserBeam.png";
     			break;
     		case 12: 
     			laserTexture="/mods/ComplexMachines/textures/blocks/GlassLaser.png";
-
+    			renderBeam=false;
     			break;
 
     		case 11: 
@@ -78,6 +79,7 @@ String laserTexture="/mods/ComplexMachines/textures/blocks/LaserBeam.png";
     	    	
 
         this.bindTextureByName(laserTexture);
+        if(renderBeam){
     	        GL11.glPushMatrix();
     	        GL11.glTranslatef((float) var2 + 0.5F, (float) var3 + 1.5F, (float) var4 + 0.5F);
     	       
@@ -117,6 +119,7 @@ String laserTexture="/mods/ComplexMachines/textures/blocks/LaserBeam.png";
     	        this.model.render();
     	        GL11.glPopMatrix();
     	        
+    	    }
     	    }
     	    
     	}
