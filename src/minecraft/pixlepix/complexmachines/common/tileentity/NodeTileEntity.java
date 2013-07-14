@@ -16,11 +16,8 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
 import pixlepix.complexmachines.common.CoordTuple;
-import pixlepix.complexmachines.common.FakeEntityItem;
 import pixlepix.complexmachines.common.PowerConsumerComplexTileEntity;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.multiblock.TileEntityMulti;
-import buildcraft.api.transport.PipeManager;
 
 public class NodeTileEntity extends PowerConsumerComplexTileEntity implements IInventory {
 	public final double WATTS_PER_TICK = 5000;
@@ -194,17 +191,7 @@ public class NodeTileEntity extends PowerConsumerComplexTileEntity implements II
 			/**
 			 * Try to put items into a chest.
 			 */
-			if (tileEntity instanceof TileEntityMulti)
-			{
-				Vector3 mainBlockPosition = ((TileEntityMulti) tileEntity).mainBlockPosition;
-
-				if (mainBlockPosition != null)
-				{
-					if (!(mainBlockPosition.getTileEntity(this.worldObj) instanceof TileEntityMulti))
-						return tryPlaceInPosition(itemStack, mainBlockPosition, direction);
-				}
-			}
-			else if (tileEntity instanceof TileEntityChest)
+			if (tileEntity instanceof TileEntityChest)
 			{
 				TileEntityChest[] chests = { (TileEntityChest) tileEntity, null };
 
@@ -259,21 +246,6 @@ public class NodeTileEntity extends PowerConsumerComplexTileEntity implements II
 					}
 				}
 
-			}
-			else if (tileEntity instanceof net.minecraftforge.common.ISidedInventory)
-			{
-				net.minecraftforge.common.ISidedInventory inventory = (net.minecraftforge.common.ISidedInventory) tileEntity;
-
-				int startIndex = inventory.getStartInventorySide(direction.getOpposite());
-
-				for (int i = startIndex; i < startIndex + inventory.getSizeInventorySide(direction); i++)
-				{
-					itemStack = this.addStackToInventory(i, inventory, itemStack);
-					if (itemStack == null)
-					{
-						return null;
-					}
-				}
 			}
 			else if (tileEntity instanceof IInventory)
 			{
@@ -348,17 +320,7 @@ public class NodeTileEntity extends PowerConsumerComplexTileEntity implements II
 			/**
 			 * Try to put items into a chest.
 			 */
-			if (tileEntity instanceof TileEntityMulti)
-			{
-				Vector3 mainBlockPosition = ((TileEntityMulti) tileEntity).mainBlockPosition;
-
-				if (mainBlockPosition != null)
-				{
-					if (!(mainBlockPosition.getTileEntity(this.worldObj) instanceof TileEntityMulti))
-						return tryGrabFromPosition(mainBlockPosition, direction);
-				}
-			}
-			else if (tileEntity instanceof TileEntityChest)
+			if (tileEntity instanceof TileEntityChest)
 			{
 				TileEntityChest[] chests = { (TileEntityChest) tileEntity, null };
 
@@ -410,23 +372,6 @@ public class NodeTileEntity extends PowerConsumerComplexTileEntity implements II
 					int slot = slots[i];
 					ItemStack itemStack = this.removeStackFromInventory(i, inventory);
 					if (itemStack != null && inventory.canExtractItem(slot, itemStack, direction.ordinal()))
-					{
-						returnStack = itemStack;
-						break;
-					}
-				}
-			}
-			else if (tileEntity instanceof net.minecraftforge.common.ISidedInventory)
-			{
-				net.minecraftforge.common.ISidedInventory inventory = (net.minecraftforge.common.ISidedInventory) tileEntity;
-
-				int startIndex = inventory.getStartInventorySide(direction);
-
-				for (int i = startIndex; i < startIndex + inventory.getSizeInventorySide(direction); i++)
-				{
-					ItemStack itemStack = this.removeStackFromInventory(i, inventory);
-
-					if (itemStack != null)
 					{
 						returnStack = itemStack;
 						break;
@@ -564,12 +509,6 @@ public class NodeTileEntity extends PowerConsumerComplexTileEntity implements II
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
-		// TODO Auto-generated method stub
-		return true;
-	}
 	
 	
 	
@@ -676,6 +615,22 @@ public class NodeTileEntity extends PowerConsumerComplexTileEntity implements II
 		}
 		par1NBTTagCompound.setTag("InTransit", var2);
 		
+	}
+
+
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+
+	@Override
+	public double getMaxJoules() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	

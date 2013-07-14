@@ -155,7 +155,7 @@ public class TerraformerTileEntity extends PowerConsumerComplexTileEntity implem
 						if(worldObj.getTotalWorldTime()%500!=0){
 							return;
 						}
-						if(getEnergy()<getNeededJoules()){
+						if(getJoules()<getNeededJoules()){
 							return;
 						}
 						//System.out.println("X:"+xCycle+"Y:"+yCycle+"Z:"+zCycle);
@@ -333,6 +333,9 @@ public class TerraformerTileEntity extends PowerConsumerComplexTileEntity implem
 	}
 	
 	public int getUpgradesInSlot(int slot){
+		if(inventory==null){
+			return 0;
+		}
 		ItemStack stack=inventory[slot];
 		if(stack!=null&&stack.getItem()==ComplexMachines.rangeExtender){
 			return stack.stackSize+1;
@@ -356,11 +359,6 @@ public class TerraformerTileEntity extends PowerConsumerComplexTileEntity implem
 
 	@Override
 	public void closeChest() {
-	}
-
-	@Override
-	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
-		return itemstack.itemID==Config.itemStartingID+4;
 	}
 
 	@Override
@@ -473,6 +471,15 @@ public class TerraformerTileEntity extends PowerConsumerComplexTileEntity implem
 		{
 			e.printStackTrace();
 		}
+	}
+
+
+
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 }

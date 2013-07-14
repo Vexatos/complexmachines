@@ -1,5 +1,6 @@
 package pixlepix.complexmachines.common.block;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -45,10 +46,13 @@ public class Terraformer extends BasicComplexBlock {
 		return TerraformerTileEntity.class;
 	}
 	
-	
-	public boolean onBlockActivated(World par1World, int x, int y, int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY,float hitZ) {
+	@Override
+	public boolean onBlockActivated(World par1World, int x,int y,int z, EntityPlayer par5EntityPlayer, int side, float hitX, float hitY,float hitZ) {
 		super.onBlockActivated(par1World, x,  y, z, par5EntityPlayer,  side, hitX, hitY,hitZ);
-		par5EntityPlayer.openGui(ComplexMachines.instance, 4, par1World, x, y, z);
+		System.out.println("Terraformer GUI opened by "+par5EntityPlayer.username+"At X:"+x+" Y:"+y+" Z:"+z);
+		if(par5EntityPlayer instanceof EntityPlayer){
+			((EntityPlayer)par5EntityPlayer).openGui(ComplexMachines.instance, 4, par1World, x, y, z);
+		}
 		return true;
 	
 

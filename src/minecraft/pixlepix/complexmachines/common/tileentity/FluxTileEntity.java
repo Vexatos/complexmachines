@@ -6,6 +6,7 @@ import pixlepix.complexmachines.common.BasicComplexTileEntity;
 import pixlepix.complexmachines.common.Config;
 
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.ForgeDirection;
 
 public class FluxTileEntity extends BasicComplexTileEntity {
 	public int count;
@@ -82,6 +83,16 @@ public class FluxTileEntity extends BasicComplexTileEntity {
 			}
 		}
 			
+	}
+	@Override
+	public float getRequest(ForgeDirection direction) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public float getProvide(ForgeDirection direction) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
 

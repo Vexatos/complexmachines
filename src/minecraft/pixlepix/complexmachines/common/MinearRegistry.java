@@ -42,10 +42,10 @@ public class MinearRegistry implements ITickHandler {
 			EntityPlayer targetPlayer=players.get(new Random().nextInt(players.size()));
 			if(isProtected(quadrantOneSecurity,targetPlayer)){
 				quadrantOnePlayer=targetPlayer.username;
-				quadrantOneDimension=targetPlayer.worldObj.getWorldInfo().getDimension();
+				quadrantOneDimension=targetPlayer.worldObj.provider.dimensionId;
 				//targetPlayer.sendChatToPlayer(EnumColor.RED+"You are being tracked by minear");
 			}else{
-				targetPlayer.sendChatToPlayer(EnumColor.AQUA+"You have successfully avoided been tracked by minear");
+				targetPlayer.addChatMessage(EnumColor.AQUA+"You have successfully avoided been tracked by minear");
 			}
 			
 		}

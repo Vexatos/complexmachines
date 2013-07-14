@@ -1,12 +1,5 @@
 package pixlepix.complexmachines.common.item;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import pixlepix.complexmachines.common.ComplexMachines;
-import pixlepix.complexmachines.common.EnumColor;
-import pixlepix.complexmachines.common.FakePlayer;
-import pixlepix.complexmachines.common.tileentity.NodeTileEntity;
-import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -18,6 +11,11 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import pixlepix.complexmachines.common.ComplexMachines;
+import pixlepix.complexmachines.common.EnumColor;
+import pixlepix.complexmachines.common.tileentity.NodeTileEntity;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class LinkerItem extends Item {
 
@@ -57,7 +55,7 @@ public class LinkerItem extends Item {
 			    				NodeTileEntity nodeEntity=(NodeTileEntity)entity;
 			    				nodeEntity.formLink(oldX, oldY, oldZ, x, y, z, side, par7);
 
-					    		player.sendChatToPlayer(EnumColor.AQUA+"Link created");
+					    		player.addChatMessage(EnumColor.AQUA+"Link created");
 					    		compound.removeTag("x");
 			    				compound.removeTag("y");
 
@@ -76,9 +74,9 @@ public class LinkerItem extends Item {
 
 				    				nodeEntity.formLink(oldX, oldY, oldZ, x, y, z, side, par7);
 
-						    		player.sendChatToPlayer(EnumColor.AQUA+"Link created");
+						    		player.addChatMessage(EnumColor.AQUA+"Link created");
 				    			}else{
-				    				player.sendChatToPlayer(EnumColor.RED+"You must include a node in the link");
+				    				player.addChatMessage(EnumColor.RED+"You must include a node in the link");
 				    				
 				    				return false;
 				    			}
@@ -99,7 +97,7 @@ public class LinkerItem extends Item {
 
 				    		itemStack.stackTagCompound.setInteger("side", par7);
 				    		
-				    		player.sendChatToPlayer(EnumColor.ORANGE+"Click again to form a link");
+				    		player.addChatMessage(EnumColor.ORANGE+"Click again to form a link");
 			    		}
     			}
 		    		

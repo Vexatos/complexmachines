@@ -1,26 +1,20 @@
 package pixlepix.complexmachines.common.item;
 
-import java.util.Random;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import pixlepix.complexmachines.common.ComplexMachines;
-import pixlepix.complexmachines.common.Config;
-import pixlepix.complexmachines.common.EnumColor;
-import pixlepix.complexmachines.common.FakePlayer;
-import pixlepix.complexmachines.common.tileentity.NodeTileEntity;
-import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import pixlepix.complexmachines.common.ComplexMachines;
+import pixlepix.complexmachines.common.Config;
+import pixlepix.complexmachines.common.EnumColor;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class MinearCloaker extends Item {
 
@@ -47,9 +41,9 @@ public class MinearCloaker extends Item {
 	    				damage+=5;
 	    				itemStack.stackTagCompound.setInteger("Strength", damage);
 	    				//itemStack.setItemDamage(damage);
-	    				player.sendChatToPlayer(EnumColor.PINK+"Absorbed a Minear Amplifier");
+	    				player.addChatMessage(EnumColor.PINK+"Absorbed a Minear Amplifier");
 
-	    				player.sendChatToPlayer(EnumColor.PINK+"Strength is now: "+damage);
+	    				player.addChatMessage(EnumColor.PINK+"Strength is now: "+damage);
 	    			}
     			}
 		    		

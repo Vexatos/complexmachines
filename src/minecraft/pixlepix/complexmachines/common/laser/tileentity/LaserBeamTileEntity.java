@@ -87,4 +87,16 @@ public class LaserBeamTileEntity extends BasicComplexTileEntity {
 	public void initiate() {
 		this.initialized = true;
 	}
+
+	@Override
+	public float getRequest(ForgeDirection direction) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public float getProvide(ForgeDirection direction) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

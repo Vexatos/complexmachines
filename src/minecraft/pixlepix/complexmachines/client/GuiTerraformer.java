@@ -1,22 +1,13 @@
 package pixlepix.complexmachines.client;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.network.packet.Packet250CustomPayload;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import pixlepix.complexmachines.common.container.ContainerAirship;
-import pixlepix.complexmachines.common.container.ContainerExtractor;
 import pixlepix.complexmachines.common.container.ContainerTerraformer;
-import pixlepix.complexmachines.common.tileentity.ExtractorMachineTileEntity;
-import pixlepix.complexmachines.common.tileentity.MotorTileEntity;
 import pixlepix.complexmachines.common.tileentity.TerraformerTileEntity;
-import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
@@ -73,7 +64,7 @@ public class GuiTerraformer extends GuiContainer
         int cornerX = (this.width - this.xSize) / 2;
         int cornerY = (this.height - this.ySize) / 2;
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.renderEngine.bindTexture(GuiTerraformer.getTexture());
+        this.mc.renderEngine.func_110577_a(getTexture());
         this.containerWidth = (this.width - this.xSize) / 2;
         this.containerHeight = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(this.containerWidth, this.containerHeight, 0, 0, this.xSize, this.ySize);
@@ -87,9 +78,9 @@ public class GuiTerraformer extends GuiContainer
    
     
    
-    
-    public static String getTexture()
+    static ResourceLocation location=new ResourceLocation("complexmachines","/textures/gui/Terraformer.png");
+    public static ResourceLocation getTexture()
     {
-    	return "/mods/ComplexMachines/textures/gui/Terraformer.png";
+    	return location;
     }
 }

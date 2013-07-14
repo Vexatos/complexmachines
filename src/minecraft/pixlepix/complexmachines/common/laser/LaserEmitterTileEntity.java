@@ -1,18 +1,6 @@
 package pixlepix.complexmachines.common.laser;
 
-import java.util.Random;
-
-import pixlepix.complexmachines.common.Config;
-import pixlepix.complexmachines.common.CoordTuple;
-import pixlepix.complexmachines.common.PowerConsumerComplexTileEntity;
-import pixlepix.complexmachines.common.laser.tileentity.LaserBeamTileEntity;
-import pixlepix.complexmachines.common.laser.tileentity.SuctionLaserBeamTileEntity;
-import pixlepix.complexmachines.common.tileentity.FluxTileEntity;
-
-import mekanism.api.IStrictEnergyAcceptor;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -21,16 +9,11 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.UniversalElectricity;
-import universalelectricity.core.block.IElectricityStorage;
-import universalelectricity.core.electricity.ElectricityNetworkHelper;
-import universalelectricity.core.electricity.ElectricityPack;
-import universalelectricity.core.electricity.IElectricityNetwork;
-import universalelectricity.core.vector.Vector3;
-import universalelectricity.core.vector.VectorHelper;
-import universalelectricity.prefab.network.IPacketReceiver;
-import universalelectricity.prefab.network.PacketManager;
-import universalelectricity.prefab.tile.TileEntityElectricityRunnable;
+import pixlepix.complexmachines.common.Config;
+import pixlepix.complexmachines.common.PowerConsumerComplexTileEntity;
+import pixlepix.complexmachines.common.laser.tileentity.LaserBeamTileEntity;
+import pixlepix.complexmachines.common.laser.tileentity.SuctionLaserBeamTileEntity;
+import pixlepix.complexmachines.common.tileentity.FluxTileEntity;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -203,7 +186,6 @@ public class LaserEmitterTileEntity extends PowerConsumerComplexTileEntity {
 			ByteArrayDataInput dataStream) {
 		try {
 			this.drawingTicks = dataStream.readInt();
-			this.disabledTicks = dataStream.readInt();
 			this.joulesStored = dataStream.readDouble();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -271,6 +253,16 @@ public class LaserEmitterTileEntity extends PowerConsumerComplexTileEntity {
 	public void notifyTripwire() {
 		tripped=true;
 
+	}
+	@Override
+	public int getMaximumEnergy() {
+		// TODO Auto-generated method stub
+		return 25000;
+	}
+	@Override
+	public double getMaxJoules() {
+		// TODO Auto-generated method stub
+		return 25000;
 	}
 
 	

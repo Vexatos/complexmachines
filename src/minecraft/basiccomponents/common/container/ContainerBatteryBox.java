@@ -39,9 +39,9 @@ public class ContainerBatteryBox extends Container
 	}
 
 	@Override
-	public void onCraftGuiClosed(EntityPlayer entityplayer)
+	public void onContainerClosed(EntityPlayer entityplayer)
 	{
-		super.onCraftGuiClosed(entityplayer);
+		super.onContainerClosed(entityplayer);
 		tileEntity.playersUsing.remove(entityplayer);
 	}
 
@@ -69,7 +69,7 @@ public class ContainerBatteryBox extends Container
 			{
 				if (this.getSlot(0).isItemValid(itemStack))
 				{
-					if (((IItemElectric) itemStack.getItem()).getProvideRequest(itemStack).getWatts() > 0)
+					if (((IItemElectric) itemStack.getItem()).getElectricityStored(itemStack) > 0)
 					{
 						if (!this.mergeItemStack(itemStack, 1, 2, false))
 						{

@@ -74,7 +74,8 @@ public class CubeFormerItem extends ItemElectric
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player){
     	if(!world.isRemote){
-    	if(getJoules(itemStack)>=1000000){
+    		
+    	if(getElectricityStored(itemStack)>=1000000){
     		MovingObjectPosition position=getPlayerLookingSpot(player,false);
     		if(position!=null){
     			int centerX=position.blockX;
@@ -96,7 +97,7 @@ public class CubeFormerItem extends ItemElectric
     				for(int i=0;i<required;i++){
         				player.inventory.consumeInventoryItem(materialId);
         			}
-					setJoules(getJoules(itemStack)-1000000,itemStack);
+					this.setElectricity(itemStack,getElectricityStored(itemStack)-1000000);
 					
 					
 					
@@ -117,7 +118,7 @@ public class CubeFormerItem extends ItemElectric
 					
     				
     			}else{
-    				player.sendChatToPlayer(EnumColor.AQUA+"You don't have the materials");
+    				player.addChatMessage(EnumColor.AQUA+"You don't have the materials");
     				return itemStack;
     			}
     			
@@ -147,13 +148,13 @@ public class CubeFormerItem extends ItemElectric
 
     
     @Override
-    public double getMaxJoules(ItemStack itemStack)
-    {
-        return 20000000;
-    }
+	public float getMaxElectricityStored(ItemStack theItem) {
+		// TODO Auto-generated method stub
+		return 50000000;
+	}
     
     @Override
-    public double getVoltage(ItemStack itemStack)
+    public float getVoltage(ItemStack itemStack)
     {
         return 240;
     }

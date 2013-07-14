@@ -2,6 +2,7 @@ package pixlepix.complexmachines.client.render.item;
 
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
@@ -39,6 +40,12 @@ public class RenderItemLaserEmitter implements IItemRenderer {
         return true;
     }
 
+    static ResourceLocation location=new ResourceLocation("complexmachines","/textures/models/LaserEmitter.png");
+    public static ResourceLocation getTexture()
+    {
+    	return location;
+    }
+    
     @Override
     public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
 
@@ -68,7 +75,7 @@ public class RenderItemLaserEmitter implements IItemRenderer {
 
     private void render(float x, float y, float z) {
 
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture("/mods/ComplexMachines/textures/models/LaserEmitter.png");
+        FMLClientHandler.instance().getClient().renderEngine.func_110577_a(getTexture());
         GL11.glPushMatrix(); //start
         GL11.glTranslatef(x, y, z); //size
         GL11.glRotatef(180, 1, 0, 0);

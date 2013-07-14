@@ -3,6 +3,17 @@ package pixlepix.complexmachines.common.tileentity;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.common.ForgeDirection;
 import pixlepix.complexmachines.api.AirshipSpecialMoveData;
 import pixlepix.complexmachines.api.IAirshipSpecialMove;
 import pixlepix.complexmachines.common.AirshipBlockRegistry;
@@ -12,34 +23,6 @@ import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.CoordTuple;
 import pixlepix.complexmachines.common.PowerConsumerComplexTileEntity;
 import pixlepix.complexmachines.common.item.RangeExtender;
-import pixlepix.complexmachines.common.laser.LaserEmitterTileEntity;
-import universalelectricity.core.UniversalElectricity;
-import universalelectricity.core.block.IElectricityStorage;
-import universalelectricity.core.electricity.ElectricityNetworkHelper;
-import universalelectricity.core.electricity.ElectricityPack;
-import universalelectricity.core.electricity.IElectricityNetwork;
-import universalelectricity.core.vector.Vector3;
-import universalelectricity.core.vector.VectorHelper;
-import universalelectricity.prefab.network.PacketManager;
-import universalelectricity.prefab.tile.TileEntityElectricityRunnable;
-import mekanism.api.IStrictEnergyAcceptor;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldProvider;
-import net.minecraft.world.WorldProviderSurface;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
-import net.minecraftforge.common.ForgeDirection;
 
 public class MotorTileEntity extends PowerConsumerComplexTileEntity implements IInventory {
 	
@@ -403,10 +386,6 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 	public void closeChest() {
 	}
 
-	@Override
-	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
-		return itemstack.itemID==Config.itemStartingID+4;
-	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
@@ -474,14 +453,19 @@ public class MotorTileEntity extends PowerConsumerComplexTileEntity implements I
 	}
 	
 
-	@Override
-	public boolean canReceiveEnergy(ForgeDirection side) {
-		// TODO Auto-generated method stub
-		return this.canConnect(side);
-	}
+	
 	@Override
 	public double getMaxJoules() {
 		return 11000;
+	}
+
+
+
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 }

@@ -2,7 +2,6 @@ package basiccomponents.common.tileentity;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -14,27 +13,26 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.core.block.IElectrical;
 import universalelectricity.core.electricity.ElectricityPack;
 import universalelectricity.core.item.ElectricItemHelper;
 import universalelectricity.core.item.IItemElectric;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
-import universalelectricity.prefab.tile.TileEntityElectricityRunnable;
+import universalelectricity.prefab.tile.ElectricityHandler;
+import universalelectricity.prefab.tile.TileEntityElectrical;
 import basiccomponents.common.BasicComponents;
-import basiccomponents.common.block.BlockBasicMachine;
-
 import com.google.common.io.ByteArrayDataInput;
-
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-public class TileEntityElectricFurnace extends TileEntityElectricityRunnable implements IInventory, ISidedInventory, IPacketReceiver
+public class TileEntityElectricFurnace extends TileEntityElectrical implements IElectrical, IInventory, ISidedInventory, IPacketReceiver
 {
 	/**
 	 * The amount of watts required every TICK.
 	 */
-	public static final double WATTS_PER_TICK = 500;
+	public static final float WATTS_PER_TICK = 200;
 
 	/**
 	 * The amount of processing time required.
@@ -56,6 +54,11 @@ public class TileEntityElectricFurnace extends TileEntityElectricityRunnable imp
 	 */
 	public final Set<EntityPlayer> playersUsing = new HashSet<EntityPlayer>();
 
+	public TileEntityElectricFurnace()
+	{
+		this.electricityHandler = new ElectricityHandler(this, 1000);
+	}
+
 	@Override
 	public void updateEntity()
 	{
@@ -64,7 +67,10 @@ public class TileEntityElectricFurnace extends TileEntityElectricityRunnable imp
 		/**
 		 * Attempts to charge using batteries.
 		 */
-		this.wattsReceived += ElectricItemHelper.dechargeItem(this.containingItems[0], WATTS_PER_TICK, this.getVoltage());
+		if (this.getEnergyStored() < this.getMaxEnergyStored())
+		{
+			this.electricityHandler.receiveElectricity(ElectricityPack.getFromWatts(ElectricItemHelper.dischargeItem(this.containingItems[0], this.getRequest(ForgeDirection.UNKNOWN)), this.getVoltage()), true);
+		}
 
 		/**
 		 * Attempts to smelt an item.
@@ -73,11 +79,11 @@ public class TileEntityElectricFurnace extends TileEntityElectricityRunnable imp
 		{
 			if (this.canProcess())
 			{
-				if (this.wattsReceived >= TileEntityElectricFurnace.WATTS_PER_TICK)
+				if (this.getEnergyStored() >= WATTS_PER_TICK)
 				{
 					if (this.processTicks == 0)
 					{
-						this.processTicks = TileEntityElectricFurnace.PROCESS_TIME_REQUIRED;
+						this.processTicks = PROCESS_TIME_REQUIRED;
 					}
 					else if (this.processTicks > 0)
 					{
@@ -102,7 +108,7 @@ public class TileEntityElectricFurnace extends TileEntityElectricityRunnable imp
 					this.processTicks = 0;
 				}
 
-				this.wattsReceived = Math.max(this.wattsReceived - WATTS_PER_TICK / 4, 0);
+				this.setEnergyStored(this.getEnergyStored() - WATTS_PER_TICK);
 			}
 			else
 			{
@@ -122,26 +128,26 @@ public class TileEntityElectricFurnace extends TileEntityElectricityRunnable imp
 	@Override
 	public boolean canConnect(ForgeDirection direction)
 	{
-		return direction == ForgeDirection.getOrientation(this.getBlockMetadata() - BlockBasicMachine.ELECTRIC_FURNACE_METADATA + 2);
+		return true;
 	}
 
 	@Override
-	public ElectricityPack getRequest()
+	public float getRequest(ForgeDirection direction)
 	{
 		if (this.canProcess())
 		{
-			return new ElectricityPack(WATTS_PER_TICK / this.getVoltage(), this.getVoltage());
+			return WATTS_PER_TICK;
 		}
 		else
 		{
-			return new ElectricityPack();
+			return 0;
 		}
 	}
 
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(BasicComponents.CHANNEL, this, this.processTicks, this.disabledTicks);
+		return PacketManager.getPacket(BasicComponents.CHANNEL, this, this.processTicks);
 	}
 
 	@Override
@@ -150,7 +156,6 @@ public class TileEntityElectricFurnace extends TileEntityElectricityRunnable imp
 		try
 		{
 			this.processTicks = dataStream.readInt();
-			this.disabledTicks = dataStream.readInt();
 		}
 		catch (Exception e)
 		{
@@ -372,7 +377,7 @@ public class TileEntityElectricFurnace extends TileEntityElectricityRunnable imp
 	 * the given slot.
 	 */
 	@Override
-	public boolean isStackValidForSlot(int slotID, ItemStack itemStack)
+	public boolean isItemValidForSlot(int slotID, ItemStack itemStack)
 	{
 		return slotID == 1 ? FurnaceRecipes.smelting().getSmeltingResult(itemStack) != null : (slotID == 0 ? itemStack.getItem() instanceof IItemElectric : false);
 	}
@@ -389,12 +394,18 @@ public class TileEntityElectricFurnace extends TileEntityElectricityRunnable imp
 	@Override
 	public boolean canInsertItem(int slotID, ItemStack par2ItemStack, int par3)
 	{
-		return this.isStackValidForSlot(slotID, par2ItemStack);
+		return this.isItemValidForSlot(slotID, par2ItemStack);
 	}
 
 	@Override
 	public boolean canExtractItem(int slotID, ItemStack par2ItemStack, int par3)
 	{
 		return slotID == 2;
+	}
+
+	@Override
+	public float getProvide(ForgeDirection direction)
+	{
+		return 0;
 	}
 }

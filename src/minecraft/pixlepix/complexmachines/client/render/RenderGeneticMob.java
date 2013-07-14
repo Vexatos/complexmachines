@@ -5,6 +5,7 @@ import net.minecraft.client.model.ModelZombie;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.util.ResourceLocation;
 
 public class RenderGeneticMob extends RenderLiving {
 
@@ -32,6 +33,18 @@ public class RenderGeneticMob extends RenderLiving {
 	    {
 	        renderGeneticMob((GeneticMob)par1Entity, par2, par4, par6, par8, par9);
 	    }
+
+	 static ResourceLocation location=new ResourceLocation("complexmachines","/assets/ComplexMachines/textures/mobs/creeper.png");
+	    public static ResourceLocation getTexture()
+	    {
+	    	return location;
+	    } 
+	 
+	@Override
+	protected ResourceLocation func_110775_a(Entity entity) {
+		// TODO Auto-generated method stub
+		return getTexture();
+	}
 	}
 
 

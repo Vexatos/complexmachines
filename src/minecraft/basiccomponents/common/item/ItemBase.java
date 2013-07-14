@@ -18,6 +18,7 @@ public class ItemBase extends Item
 	{
 		super(BasicComponents.CONFIGURATION.getItem(name, id).getInt(id));
 		this.setUnlocalizedName(BasicComponents.TEXTURE_NAME_PREFIX + name);
+		this.func_111206_d(BasicComponents.TEXTURE_NAME_PREFIX + name);
 		this.setNoRepair();
 	}
 }

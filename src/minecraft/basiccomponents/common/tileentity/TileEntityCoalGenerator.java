@@ -2,7 +2,6 @@ package basiccomponents.common.tileentity;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -15,24 +14,24 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.block.IConductor;
-import universalelectricity.core.electricity.ElectricityNetworkHelper;
-import universalelectricity.core.electricity.IElectricityNetwork;
+import universalelectricity.core.block.IElectrical;
+import universalelectricity.core.electricity.ElectricalEventHandler;
+import universalelectricity.core.electricity.ElectricityPack;
+import universalelectricity.core.grid.IElectricityNetwork;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.core.vector.VectorHelper;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
+import universalelectricity.prefab.tile.ElectricityHandler;
 import universalelectricity.prefab.tile.TileEntityElectrical;
 import basiccomponents.common.BasicComponents;
 import basiccomponents.common.block.BlockBasicMachine;
-
 import com.google.common.io.ByteArrayDataInput;
-
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-public class TileEntityCoalGenerator extends TileEntityElectrical implements IInventory, ISidedInventory, IPacketReceiver
+public class TileEntityCoalGenerator extends TileEntityElectrical implements IElectrical, IInventory, ISidedInventory, IPacketReceiver
 {
 	/**
 	 * Maximum amount of energy needed to generate electricity
@@ -49,9 +48,8 @@ public class TileEntityCoalGenerator extends TileEntityElectrical implements IIn
 	/**
 	 * Per second
 	 */
-	public double prevGenerateWatts, generateWatts = 0;
+	public float prevGenerateWatts, generateWatts = 0;
 
-	public IConductor connectedElectricUnit = null;
 	/**
 	 * The number of ticks that a fresh copy of the currently-burning item would keep the furnace
 	 * burning for
@@ -64,10 +62,9 @@ public class TileEntityCoalGenerator extends TileEntityElectrical implements IIn
 
 	public final Set<EntityPlayer> playersUsing = new HashSet<EntityPlayer>();
 
-	@Override
-	public boolean canConnect(ForgeDirection direction)
+	public TileEntityCoalGenerator()
 	{
-		return direction == ForgeDirection.getOrientation(this.getBlockMetadata() - BlockBasicMachine.COAL_GENERATOR_METADATA + 2);
+		this.electricityHandler = new ElectricityHandler(this, MAX_GENERATE_WATTS);
 	}
 
 	@Override
@@ -83,64 +80,43 @@ public class TileEntityCoalGenerator extends TileEntityElectrical implements IIn
 			ForgeDirection outputDirection = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockBasicMachine.COAL_GENERATOR_METADATA + 2);
 			TileEntity outputTile = VectorHelper.getConnectorFromSide(this.worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), outputDirection);
 
-			IElectricityNetwork network = ElectricityNetworkHelper.getNetworkFromTileEntity(outputTile, outputDirection);
+			IElectricityNetwork network = ElectricalEventHandler.getNetworkFromTileEntity(outputTile, outputDirection);
 
-			if (network != null)
+			if (this.itemCookTime > 0)
 			{
-				if (network.getRequest().getWatts() > 0)
+				this.itemCookTime--;
+
+				if (this.getEnergyStored() < this.getMaxEnergyStored())
 				{
-					this.connectedElectricUnit = (IConductor) outputTile;
-				}
-				else
-				{
-					this.connectedElectricUnit = null;
+					this.generateWatts = Math.min(this.generateWatts + Math.min((this.generateWatts * 0.005F + BASE_ACCELERATION), 5), TileEntityCoalGenerator.MAX_GENERATE_WATTS);
 				}
 			}
-			else
+
+			if (this.containingItems[0] != null && this.getEnergyStored() < this.getMaxEnergyStored())
 			{
-				this.connectedElectricUnit = null;
+				if (this.containingItems[0].getItem().itemID == Item.coal.itemID)
+				{
+					if (this.itemCookTime <= 0)
+					{
+						this.itemCookTime = 320;
+						this.decrStackSize(0, 1);
+					}
+				}
 			}
 
-			if (!this.isDisabled())
+			if (this.getEnergyStored() >= this.getMaxEnergyStored() || this.itemCookTime <= 0)
 			{
-				if (this.itemCookTime > 0)
-				{
-					this.itemCookTime--;
+				this.generateWatts = Math.max(this.generateWatts - 8, 0);
+			}
 
-					if (this.connectedElectricUnit != null)
-					{
-						this.generateWatts = Math.min(this.generateWatts + Math.min((this.generateWatts * 0.005 + BASE_ACCELERATION), 5), TileEntityCoalGenerator.MAX_GENERATE_WATTS);
-					}
-				}
-
-				if (this.containingItems[0] != null && this.connectedElectricUnit != null)
-				{
-					if (this.containingItems[0].getItem().itemID == Item.coal.itemID)
-					{
-						if (this.itemCookTime <= 0)
-						{
-							this.itemCookTime = 320;
-							this.decrStackSize(0, 1);
-						}
-					}
-				}
-
-				if (this.connectedElectricUnit == null || this.itemCookTime <= 0)
-				{
-					this.generateWatts = Math.max(this.generateWatts - 8, 0);
-				}
-
-				if (this.connectedElectricUnit != null)
-				{
-					if (this.generateWatts > MIN_GENERATE_WATTS)
-					{
-						this.connectedElectricUnit.getNetwork().startProducing(this, (this.generateWatts / this.getVoltage()) / 20, this.getVoltage());
-					}
-					else
-					{
-						this.connectedElectricUnit.getNetwork().stopProducing(this);
-					}
-				}
+			if (this.generateWatts > MIN_GENERATE_WATTS)
+			{
+                if (network != null)
+                {
+                    ElectricityPack sendPack = ElectricityPack.getFromWatts(this.generateWatts / this.getVoltage(), this.getVoltage());
+                    float producedPower = network.produce(sendPack, this);
+                    this.setEnergyStored(this.getEnergyStored() - producedPower);
+                }
 			}
 
 			if (this.ticks % 3 == 0)
@@ -161,7 +137,7 @@ public class TileEntityCoalGenerator extends TileEntityElectrical implements IIn
 	@Override
 	public Packet getDescriptionPacket()
 	{
-		return PacketManager.getPacket(BasicComponents.CHANNEL, this, this.generateWatts, this.itemCookTime, this.disabledTicks);
+		return PacketManager.getPacket(BasicComponents.CHANNEL, this, this.generateWatts, this.itemCookTime);
 	}
 
 	@Override
@@ -171,9 +147,8 @@ public class TileEntityCoalGenerator extends TileEntityElectrical implements IIn
 		{
 			if (this.worldObj.isRemote)
 			{
-				this.generateWatts = dataStream.readDouble();
+				this.generateWatts = dataStream.readFloat();
 				this.itemCookTime = dataStream.readInt();
-				this.disabledTicks = dataStream.readInt();
 			}
 		}
 		catch (Exception e)
@@ -200,7 +175,7 @@ public class TileEntityCoalGenerator extends TileEntityElectrical implements IIn
 	{
 		super.readFromNBT(par1NBTTagCompound);
 		this.itemCookTime = par1NBTTagCompound.getInteger("itemCookTime");
-		this.generateWatts = par1NBTTagCompound.getDouble("generateRate");
+		this.generateWatts = par1NBTTagCompound.getFloat("generateRate");
 		NBTTagList var2 = par1NBTTagCompound.getTagList("Items");
 		this.containingItems = new ItemStack[this.getSizeInventory()];
 
@@ -224,7 +199,7 @@ public class TileEntityCoalGenerator extends TileEntityElectrical implements IIn
 	{
 		super.writeToNBT(par1NBTTagCompound);
 		par1NBTTagCompound.setInteger("itemCookTime", this.itemCookTime);
-		par1NBTTagCompound.setDouble("generateRate", this.generateWatts);
+		par1NBTTagCompound.setFloat("generateRate", this.generateWatts);
 		NBTTagList var2 = new NBTTagList();
 
 		for (int var3 = 0; var3 < this.containingItems.length; ++var3)
@@ -335,7 +310,7 @@ public class TileEntityCoalGenerator extends TileEntityElectrical implements IIn
 	}
 
 	@Override
-	public boolean isStackValidForSlot(int slotID, ItemStack itemstack)
+	public boolean isItemValidForSlot(int slotID, ItemStack itemstack)
 	{
 		return itemstack.itemID == Item.coal.itemID;
 	}
@@ -349,12 +324,30 @@ public class TileEntityCoalGenerator extends TileEntityElectrical implements IIn
 	@Override
 	public boolean canInsertItem(int slotID, ItemStack itemstack, int j)
 	{
-		return this.isStackValidForSlot(slotID, itemstack);
+		return this.isItemValidForSlot(slotID, itemstack);
 	}
 
 	@Override
 	public boolean canExtractItem(int slotID, ItemStack itemstack, int j)
 	{
 		return slotID == 0;
+	}
+
+	@Override
+	public float receiveElectricity(ForgeDirection from, ElectricityPack electricityPack, boolean doReceive)
+	{
+		return 0;
+	}
+
+	@Override
+	public float getRequest(ForgeDirection direction)
+	{
+		return 0;
+	}
+
+	@Override
+	public float getProvide(ForgeDirection direction)
+	{
+		return this.generateWatts;
 	}
 }

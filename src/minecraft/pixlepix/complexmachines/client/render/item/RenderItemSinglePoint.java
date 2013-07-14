@@ -2,6 +2,7 @@ package pixlepix.complexmachines.client.render.item;
 
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
@@ -33,6 +34,13 @@ public class RenderItemSinglePoint implements IItemRenderer {
         model = new SinglePointGeneratorModel();
     }
 
+    
+    static ResourceLocation location=new ResourceLocation("complexmachines","/textures/models/SinglePointGenerator.png");
+    public static ResourceLocation getTexture()
+    {
+    	return location;
+    }
+    
     @Override
     public boolean handleRenderType(ItemStack item, ItemRenderType type) {
 
@@ -68,7 +76,7 @@ public class RenderItemSinglePoint implements IItemRenderer {
 
     private void render(float x, float y, float z) {
 
-        FMLClientHandler.instance().getClient().renderEngine.bindTexture("/mods/ComplexMachines/textures/models/SinglePointGenerator.png");
+        FMLClientHandler.instance().getClient().renderEngine.func_110577_a(getTexture());
         GL11.glPushMatrix(); //start
         GL11.glTranslatef(x, y, z); //size
         GL11.glRotatef(180, 1, 0, 0);

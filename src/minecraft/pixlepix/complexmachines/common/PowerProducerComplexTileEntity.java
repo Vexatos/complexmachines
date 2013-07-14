@@ -5,27 +5,20 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import pixlepix.complexmachines.common.tileentity.FillerMachineTileEntity;
 import universalelectricity.core.block.IConductor;
-import universalelectricity.core.block.IElectricityStorage;
-import universalelectricity.core.electricity.ElectricityNetworkHelper;
-import universalelectricity.core.electricity.IElectricityNetwork;
-import universalelectricity.core.vector.Vector3;
-import universalelectricity.core.vector.VectorHelper;
 import universalelectricity.prefab.network.IPacketReceiver;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public class PowerProducerComplexTileEntity extends BasicComplexTileEntity  implements IPacketReceiver, IElectricityStorage, ICableOutputter {
+public  class PowerProducerComplexTileEntity extends BasicComplexTileEntity  implements IPacketReceiver, ICableOutputter {
 
 	
 	
 	
 	
 	
-	public double electricOutput=0;
+	public float electricOutput=0;
 	
 	private double joulesStored = 0;
 	public static double maxJoules = 2000000;
@@ -52,35 +45,8 @@ public class PowerProducerComplexTileEntity extends BasicComplexTileEntity  impl
 	public void updateEntity() {
 		super.updateEntity();
 		
-		if (!this.worldObj.isRemote) {
-				ForgeDirection outputDirection = ForgeDirection.getOrientation(this.getBlockMetadata() + 2);
-				TileEntity outputTile = VectorHelper.getConnectorFromSide(this.worldObj, new Vector3(this.xCoord, this.yCoord,this.zCoord), outputDirection);
-
-				IElectricityNetwork network = ElectricityNetworkHelper.getNetworkFromTileEntity(outputTile, outputDirection);
-
-				if (network != null) {
-					if (network.getRequest().getWatts() > 0) {
-						this.connectedElectricUnit = (IConductor) outputTile;
-					} else {
-						this.connectedElectricUnit = null;
-					}
-				} else {
-					this.connectedElectricUnit = null;
-				}
-
-
-					if (this.connectedElectricUnit != null) {
-
-						this.connectedElectricUnit.getNetwork().startProducing(
-								this, (electricOutput / this.getVoltage()) / 20,
-								this.getVoltage());
-
-					}
-				
-
-			
-
-		}
+		
+		
 		
 	}
 
@@ -99,25 +65,20 @@ public class PowerProducerComplexTileEntity extends BasicComplexTileEntity  impl
 	
 
 	@Override
-	public double getVoltage() {
+	public float getVoltage() {
 		return 120;
 	}
 
 	
-
-	@Override
 	public double getJoules() {
-		return this.joulesStored;
+		return this.electricityHandler.getEnergyStored();
 	}
 
-	@Override
 	public void setJoules(double joules) {
-		this.joulesStored = joules;
+		this.electricityHandler.setEnergyStored((float)joules);
 	}
-
-	@Override
 	public double getMaxJoules() {
-		return this.maxJoules;
+		return this.electricityHandler.getEnergyStored();
 	}
 
 	@Override
@@ -134,6 +95,18 @@ public class PowerProducerComplexTileEntity extends BasicComplexTileEntity  impl
 	public boolean canOutputTo(ForgeDirection side) {
 		// TODO Auto-generated method stub
 		return this.canConnect(side);
+	}
+
+	@Override
+	public float getRequest(ForgeDirection direction) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public float getProvide(ForgeDirection direction) {
+		// TODO Auto-generated method stub
+		return this.electricOutput;
 	}
 	
 	

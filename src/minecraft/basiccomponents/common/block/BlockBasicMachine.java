@@ -5,7 +5,7 @@ import java.util.Random;
 
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,13 +16,13 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.UniversalElectricity;
-import universalelectricity.prefab.block.BlockAdvanced;
+import universalelectricity.prefab.block.BlockTile;
 import basiccomponents.common.BasicComponents;
 import basiccomponents.common.tileentity.TileEntityBatteryBox;
 import basiccomponents.common.tileentity.TileEntityCoalGenerator;
 import basiccomponents.common.tileentity.TileEntityElectricFurnace;
 
-public class BlockBasicMachine extends BlockAdvanced
+public class BlockBasicMachine extends BlockTile
 {
 	public static final int COAL_GENERATOR_METADATA = 0;
 	public static final int BATTERY_BOX_METADATA = 4;
@@ -159,7 +159,7 @@ public class BlockBasicMachine extends BlockAdvanced
 	 * Called when the block is placed in the world.
 	 */
 	@Override
-	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLiving entityLiving, ItemStack itemStack)
+	public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack)
 	{
 		int metadata = world.getBlockMetadata(x, y, z);
 

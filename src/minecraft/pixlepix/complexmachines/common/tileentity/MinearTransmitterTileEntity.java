@@ -2,44 +2,14 @@ package pixlepix.complexmachines.common.tileentity;
 
 import java.util.ArrayList;
 
-import pixlepix.complexmachines.common.ComplexMachines;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.common.DimensionManager;
 import pixlepix.complexmachines.common.Config;
 import pixlepix.complexmachines.common.CoordTuple;
 import pixlepix.complexmachines.common.EnumColor;
 import pixlepix.complexmachines.common.MinearRegistry;
 import pixlepix.complexmachines.common.PowerConsumerComplexTileEntity;
-import mekanism.api.IStrictEnergyAcceptor;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.StatCollector;
-import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.common.ISidedInventory;
-import net.minecraftforge.common.MinecraftForge;
-import universalelectricity.core.UniversalElectricity;
-import universalelectricity.core.block.IElectricityStorage;
-import universalelectricity.core.electricity.ElectricityNetworkHelper;
-import universalelectricity.core.electricity.ElectricityPack;
-import universalelectricity.core.electricity.IElectricityNetwork;
-import universalelectricity.core.item.IItemElectric;
-import universalelectricity.core.vector.Vector3;
-import universalelectricity.core.vector.VectorHelper;
-import universalelectricity.prefab.network.IPacketReceiver;
-import universalelectricity.prefab.network.PacketManager;
-import universalelectricity.prefab.tile.TileEntityElectricityRunnable;
-
-import com.google.common.io.ByteArrayDataInput;
-
-import cpw.mods.fml.common.Loader;
 
 public class MinearTransmitterTileEntity extends PowerConsumerComplexTileEntity {
 	public final double WATTS_PER_TICK = 5000;
@@ -135,24 +105,32 @@ public class MinearTransmitterTileEntity extends PowerConsumerComplexTileEntity 
 		if(this.calculateStrength()>MinearRegistry.quadrantOneSecurity){
 			MinearRegistry.quadrantOneSecurity=this.calculateStrength();
 
-			player.sendChatToPlayer(EnumColor.DARK_GREEN+"Siezed control of minear");
+			player.addChatMessage(EnumColor.DARK_GREEN+"Siezed control of minear");
 
 			
 		}
 		if(this.calculateStrength()==MinearRegistry.quadrantOneSecurity){
 			EntityPlayer targetPlayer=DimensionManager.getWorld(MinearRegistry.quadrantOneDimension).getPlayerEntityByName(MinearRegistry.quadrantOnePlayer);
 			if(targetPlayer !=null){
-				player.sendChatToPlayer(EnumColor.ORANGE+targetPlayer.username);
-				player.sendChatToPlayer(EnumColor.AQUA+"X: "+targetPlayer.posX+"Y: "+targetPlayer.posY+"Z: "+targetPlayer.posZ);
+				player.addChatMessage(EnumColor.ORANGE+targetPlayer.username);
+				player.addChatMessage(EnumColor.AQUA+"X: "+targetPlayer.posX+"Y: "+targetPlayer.posY+"Z: "+targetPlayer.posZ);
 			
 			}else{
-				player.sendChatToPlayer(EnumColor.RED+"No Players Found");
+				player.addChatMessage(EnumColor.RED+"No Players Found");
 			}
 		}else{
-			player.sendChatToPlayer(EnumColor.RED+"You don't have minear control.");
+			player.addChatMessage(EnumColor.RED+"You don't have minear control.");
 
-			player.sendChatToPlayer(EnumColor.RED+"Opposing force is "+MinearRegistry.quadrantOneSecurity);
+			player.addChatMessage(EnumColor.RED+"Opposing force is "+MinearRegistry.quadrantOneSecurity);
 		}
+	}
+
+
+
+	@Override
+	public double getMaxJoules() {
+		// TODO Auto-generated method stub
+		return 2000000;
 	}
 
 	

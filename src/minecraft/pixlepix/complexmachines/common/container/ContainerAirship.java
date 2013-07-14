@@ -36,11 +36,6 @@ public class ContainerAirship extends Container {
 		tileEntity.openChest();
 	}
 
-	@Override
-	public void onCraftGuiClosed(EntityPlayer entityplayer) {
-		super.onCraftGuiClosed(entityplayer);
-		this.tileEntity.closeChest();
-	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer par1EntityPlayer) {

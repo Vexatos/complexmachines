@@ -2,6 +2,7 @@ package pixlepix.complexmachines.client;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -44,7 +45,7 @@ public class GuiNode extends GuiContainer
     protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.renderEngine.bindTexture(GuiNode.getTexture());
+        this.mc.renderEngine.func_110577_a(getTexture());
         this.containerWidth = (this.width - this.xSize) / 2;
         this.containerHeight = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(this.containerWidth, this.containerHeight, 0, 0, this.xSize, this.ySize);
@@ -54,8 +55,9 @@ public class GuiNode extends GuiContainer
         
     }
     
-    public static String getTexture()
+    static ResourceLocation location=new ResourceLocation("complexmachines","/textures/gui/Node.png");
+    public static ResourceLocation getTexture()
     {
-    	return "/mods/ComplexMachines/textures/gui/node.png";
+    	return location;
     }
 }

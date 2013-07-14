@@ -7,6 +7,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.network.packet.Packet250CustomPayload;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -66,7 +67,7 @@ public class GuiAirship extends GuiContainer
         buttonList.add(new GuiButton(6, cornerX+120, cornerY+ySize/4, 20, 20, "W"));
         buttonList.add(new GuiButton(0, cornerX+140, cornerY+ySize/4, 20, 20, "O"));
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.renderEngine.bindTexture(GuiAirship.getTexture());
+        this.mc.renderEngine.func_110577_a(getTexture());
         this.containerWidth = (this.width - this.xSize) / 2;
         this.containerHeight = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(this.containerWidth, this.containerHeight, 0, 0, this.xSize, this.ySize);
@@ -83,7 +84,7 @@ public class GuiAirship extends GuiContainer
         try
         {
             outputStream.writeByte(1);
-            outputStream.writeInt(tileEntity.worldObj.getWorldInfo().getDimension());
+            outputStream.writeInt(tileEntity.worldObj.provider.dimensionId);
             outputStream.writeInt(tileEntity.xCoord);
             outputStream.writeInt(tileEntity.yCoord);
             outputStream.writeInt(tileEntity.zCoord);
@@ -111,8 +112,9 @@ public class GuiAirship extends GuiContainer
        
     }
     
-    public static String getTexture()
+    static ResourceLocation location=new ResourceLocation("complexmachines","/textures/gui/Airship.png");
+    public static ResourceLocation getTexture()
     {
-    	return "/mods/ComplexMachines/textures/gui/Airship.png";
+    	return location;
     }
 }

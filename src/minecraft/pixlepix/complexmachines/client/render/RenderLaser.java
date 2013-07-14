@@ -3,16 +3,14 @@
 
     	import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeDirection;
 
-    	import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL11;
 
-    	import pixlepix.complexmachines.client.model.ExtractorModel;
 import pixlepix.complexmachines.client.model.LaserModel;
 import pixlepix.complexmachines.common.Config;
-
-    	import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
     	@SideOnly(Side.CLIENT)
@@ -25,7 +23,23 @@ import cpw.mods.fml.relauncher.SideOnly;
     	        this.model = new LaserModel();
     	    }
     	    
-    	   
+    	   public static final ResourceLocation[] laserTextures=new ResourceLocation[22];
+    	   public static void addTextures(int i,String modifier){
+    		   laserTextures[i]=new ResourceLocation("complexmachines","/textures/models/"+modifier+".png");
+    		  
+    	   }
+    	   public static void populateTextures(){
+    		   addTextures(0,"LaserBeam");
+    		   addTextures(20,"GlassLaser");
+    		   addTextures(19,"StoneBrick");
+    		   addTextures(18,"SuctionLaser");
+    		   addTextures(14,"RedstoneLaser");
+    		   addTextures(13,"DebuffLaser");
+    		   addTextures(21,"ChargingBeam");
+    		   addTextures(16,"ElectricLaser");
+    		   addTextures(12,"GlassLaser");
+    		   addTextures(11,"HarmingLaser");
+    	   }
     	    @Override
     	    public void renderTileEntityAt(TileEntity var1, double var2, double var3, double var4, float var5)
     	    {
@@ -34,8 +48,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 String laserTexture="/mods/ComplexMachines/textures/blocks/LaserBeam.png";
     	int laserId=(var1.worldObj.getBlockId(var1.xCoord, var1.yCoord, var1.zCoord))-Config.blockStartingID;
     	boolean renderBeam=true;
-    	switch(laserId){
-    		case 20: 
+    	//switch(laserId){
+    		/*case 20: 
     			laserTexture="/mods/ComplexMachines/textures/blocks/GlassLaser.png";
     			renderBeam=false;
     			break;
@@ -74,11 +88,18 @@ String laserTexture="/mods/ComplexMachines/textures/blocks/LaserBeam.png";
     			laserTexture="/mods/ComplexMachines/textures/blocks/HarmingLaser.png";
 
     			break;
-    			
+    		*/
+    	
+    	//}
+    	//1.5 System    	
+    	if(this.laserTextures[0]==null){
+    		populateTextures();
     	}
-    	    	
-
-        this.bindTextureByName(laserTexture);
+    	ResourceLocation resource=this.laserTextures[laserId];
+    	if(resource==null){
+    		resource=this.laserTextures[0];
+    	}
+        this.func_110628_a(resource);
         if(renderBeam){
     	        GL11.glPushMatrix();
     	        GL11.glTranslatef((float) var2 + 0.5F, (float) var3 + 1.5F, (float) var4 + 0.5F);

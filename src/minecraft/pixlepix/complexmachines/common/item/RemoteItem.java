@@ -1,27 +1,25 @@
 package pixlepix.complexmachines.common.item;
 
 
-import java.util.ArrayList;
 import java.util.List;
-
-import org.lwjgl.input.Keyboard;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import pixlepix.complexmachines.common.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+
+import org.lwjgl.input.Keyboard;
+
+import pixlepix.complexmachines.common.ComplexMachines;
+import pixlepix.complexmachines.common.EnumColor;
 import universalelectricity.core.item.ItemElectric;
-import universalelectricity.prefab.implement.IToolConfigurator;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 public class RemoteItem extends ItemElectric 
@@ -103,7 +101,7 @@ public class RemoteItem extends ItemElectric
 		    		itemStack.stackTagCompound.setInteger("y", y);
 		
 		    		itemStack.stackTagCompound.setInteger("z", z);
-		    		player.sendChatToPlayer(EnumColor.AQUA+"Linked remote to a block");
+		    		player.addChatMessage(EnumColor.AQUA+"Linked remote to a block");
     			}
 		    		
 		    	
@@ -118,14 +116,10 @@ public class RemoteItem extends ItemElectric
     			Block blockType=Block.blocksList[blockId];
     			if(blockType!=null){
     				//TODO get better values for these
-    				FakePlayer fakePlayer=new FakePlayer(world,player);
-    				fakePlayer.posX=blockX;
-    				fakePlayer.posY=blockY;
-    				fakePlayer.posZ=blockZ;
 
     		    	TileEntity entity=world.getBlockTileEntity(blockX,blockY,blockZ);	
     				
-    					blockType.onBlockActivated(world, blockX, blockY, blockZ, fakePlayer,1, 0.5F, 0.5F, 0.5F);
+    					blockType.onBlockActivated(world, blockX, blockY, blockZ, player,1, 0.5F, 0.5F, 0.5F);
     				
     			}
     		}
@@ -139,13 +133,13 @@ public class RemoteItem extends ItemElectric
 
     
     @Override
-    public double getMaxJoules(ItemStack itemStack)
+    public float getMaxElectricityStored(ItemStack itemStack)
     {
         return 100000;
     }
     
     @Override
-    public double getVoltage(ItemStack itemStack)
+    public float getVoltage(ItemStack itemStack)
     {
         return 240;
     }

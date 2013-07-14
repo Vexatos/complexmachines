@@ -2,7 +2,6 @@ package basiccomponents.common;
 
 import java.io.File;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import net.minecraft.block.Block;
@@ -16,6 +15,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.item.ElectricItemHelper;
+import universalelectricity.prefab.RecipeHelper;
 import universalelectricity.prefab.TranslationHelper;
 import universalelectricity.prefab.ore.OreGenBase;
 import universalelectricity.prefab.ore.OreGenReplaceStone;
@@ -36,6 +36,7 @@ import basiccomponents.common.tileentity.TileEntityBatteryBox;
 import basiccomponents.common.tileentity.TileEntityCoalGenerator;
 import basiccomponents.common.tileentity.TileEntityCopperWire;
 import basiccomponents.common.tileentity.TileEntityElectricFurnace;
+import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
@@ -43,6 +44,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * The main class for managing Basic Component items and blocks. Reference objects from this class
@@ -56,9 +58,7 @@ public class BasicComponents
 	public static final String NAME = "Basic Components";
 	public static String CHANNEL = "";
 
-	public static final String RESOURCE_PATH = "/mods/basiccomponents/";
-
-	public static CommonProxy proxy;
+	public static final String RESOURCE_PATH = "/assets/basiccomponents/";
 
 	/**
 	 * The Universal Electricity configuration file.
@@ -71,7 +71,8 @@ public class BasicComponents
 	public static final String ITEM_TEXTURE_DIRECTORY = TEXTURE_DIRECTORY + "items/";
 	public static final String MODEL_TEXTURE_DIRECTORY = TEXTURE_DIRECTORY + "models/";
 
-	public static final String TEXTURE_NAME_PREFIX = "basiccomponents:";
+	public static final String TEXTURE_DOMAIN = "basiccomponents";
+	public static final String TEXTURE_NAME_PREFIX = TEXTURE_DOMAIN + ":";
 
 	public static final String LANGUAGE_PATH = RESOURCE_PATH + "languages/";
 	private static final String[] LANGUAGES_SUPPORTED = new String[] { "en_US", "zh_CN", "es_ES", "it_IT", "nl_NL", "de_DE" };
@@ -165,9 +166,6 @@ public class BasicComponents
 
 	public static final ArrayList bcDependants = new ArrayList();
 
-	private static int NEXT_BLOCK_ID = BLOCK_ID_PREFIX;
-	private static int NEXT_ITEM_ID = ITEM_ID_PREFIX;
-
 	public static void init()
 	{
 		if (!INITIALIZED)
@@ -217,7 +215,7 @@ public class BasicComponents
 					Item item = (Item) field.get(null);
 
 					String ingotName = name.replaceAll("plate", "ingot");
-					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item), "!!", "!!", '!', ingotName));
+					RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(item), "!!", "!!", '!', ingotName), CONFIGURATION, true);
 
 					Item itemIngot = null;
 
@@ -237,7 +235,8 @@ public class BasicComponents
 
 					if (itemIngot != null)
 					{
-						GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(itemIngot, 4), item));
+						RecipeHelper.addRecipe(new ShapelessOreRecipe(new ItemStack(itemIngot, 4), item), CONFIGURATION, true);
+						RecipeHelper.addRecipe(new ShapelessOreRecipe(item, new ItemStack(itemIngot), new ItemStack(itemIngot), new ItemStack(itemIngot), new ItemStack(itemIngot)), CONFIGURATION, true);
 					}
 				}
 				else if (name.contains("dust"))
@@ -247,7 +246,7 @@ public class BasicComponents
 
 					if (name.equals("dustBronze"))
 					{
-						GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item), "!#!", '!', "ingotCopper", '#', "ingotTin"));
+						RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(item), "!#!", '!', "ingotCopper", '#', "ingotTin"), CONFIGURATION, true);
 
 						if (OreDictionary.getOres("ingotBronze").size() > 0)
 						{
@@ -256,7 +255,7 @@ public class BasicComponents
 					}
 					else if (name.equals("dustSteel"))
 					{
-						GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item), " C ", "CIC", " C ", 'I', Item.ingotIron, 'C', Item.coal));
+						RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(item), " C ", "CIC", " C ", 'I', Item.ingotIron, 'C', Item.coal), CONFIGURATION, true);
 
 						if (OreDictionary.getOres("ingotSteel").size() > 0)
 						{
@@ -271,17 +270,17 @@ public class BasicComponents
 
 					if (OreDictionary.getOres("ingotSteel").size() > 0)
 					{
-						GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item), " S ", " SS", "S  ", 'S', "ingotSteel"));
+						RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(item), " S ", " SS", "S  ", 'S', "ingotSteel"), CONFIGURATION, true);
 					}
 					else
 					{
-						GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item), " S ", " SS", "S  ", 'S', Item.ingotIron));
+						RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(item), " S ", " SS", "S  ", 'S', Item.ingotIron), CONFIGURATION, true);
 					}
 				}
 				else if (name.equals("battery"))
 				{
 					field.set(null, new ItemBattery(name, id));
-					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(itemBattery), " T ", "TRT", "TCT", 'T', "ingotTin", 'R', Item.redstone, 'C', Item.coal));
+					RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(itemBattery), " T ", "TRT", "TCT", 'T', "ingotTin", 'R', Item.redstone, 'C', Item.coal), CONFIGURATION, true);
 					OreDictionary.registerOre(name, ElectricItemHelper.getUncharged(BasicComponents.itemBattery));
 				}
 				else if (name.equals("infiniteBattery"))
@@ -299,32 +298,32 @@ public class BasicComponents
 					{
 						if (OreDictionary.getOres("copperWire").size() > 0)
 						{
-							GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item), "!#!", "#@#", "!#!", '@', "plateBronze", '#', Item.redstone, '!', "copperWire"));
-							GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item), "!#!", "#@#", "!#!", '@', "plateSteel", '#', Item.redstone, '!', "copperWire"));
+							RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(item), "!#!", "#@#", "!#!", '@', "plateBronze", '#', Item.redstone, '!', "copperWire"), CONFIGURATION, true);
+							RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(item), "!#!", "#@#", "!#!", '@', "plateSteel", '#', Item.redstone, '!', "copperWire"), CONFIGURATION, true);
 						}
 						else
 						{
-							GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item), "!#!", "#@#", "!#!", '@', "plateBronze", '#', Item.redstone, '!', Block.redstoneComparatorIdle));
-							GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item), "!#!", "#@#", "!#!", '@', "plateSteel", '#', Item.redstone, '!', Block.redstoneComparatorIdle));
+							RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(item), "!#!", "#@#", "!#!", '@', "plateBronze", '#', Item.redstone, '!', Block.redstoneComparatorIdle), CONFIGURATION, true);
+							RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(item), "!#!", "#@#", "!#!", '@', "plateSteel", '#', Item.redstone, '!', Block.redstoneComparatorIdle), CONFIGURATION, true);
 						}
 					}
 					else if (name.equals("circuitAdvanced"))
 					{
-						GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item), "@@@", "#?#", "@@@", '@', Item.redstone, '?', Item.diamond, '#', "circuitBasic"));
+						RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(item), "@@@", "#?#", "@@@", '@', Item.redstone, '?', Item.diamond, '#', "circuitBasic"), CONFIGURATION, true);
 					}
 					else if (name.equals("circuitElite"))
 					{
-						GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item), "@@@", "?#?", "@@@", '@', Item.ingotGold, '?', "circuitAdvanced", '#', Block.blockLapis));
+						RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(item), "@@@", "?#?", "@@@", '@', Item.ingotGold, '?', "circuitAdvanced", '#', Block.blockLapis), CONFIGURATION, true);
 					}
 					else if (name.equals("motor"))
 					{
 						if (OreDictionary.getOres("copperWire").size() > 0)
 						{
-							GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item), "@!@", "!#!", "@!@", '!', "ingotSteel", '#', Item.ingotIron, '@', "copperWire"));
+							RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(item), "@!@", "!#!", "@!@", '!', "ingotSteel", '#', Item.ingotIron, '@', "copperWire"), CONFIGURATION, true);
 						}
 						else
 						{
-							GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(item), "@!@", "!#!", "@!@", '!', "ingotSteel", '#', Item.ingotIron, '@', Block.redstoneComparatorIdle));
+							RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(item), "@!@", "!#!", "@!@", '!', "ingotSteel", '#', Item.ingotIron, '@', Block.redstoneComparatorIdle), CONFIGURATION, true);
 						}
 					}
 				}
@@ -389,9 +388,7 @@ public class BasicComponents
 					{
 						try
 						{
-							Class registry = Class.forName("cpw.mods.fml.client.registry.ClientRegistry");
-							Method m = registry.getMethod("bindTileEntitySpecialRenderer", Class.class, Class.forName("net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer"));
-							m.invoke(null, TileEntityCopperWire.class, new RenderCopperWire());
+							registerCopperWireRenderer();
 						}
 						catch (Exception e)
 						{
@@ -403,7 +400,7 @@ public class BasicComponents
 					GameRegistry.registerTileEntity(TileEntityCopperWire.class, "copperWire");
 					// proxy.registerCopperWireTileEntity();
 
-					GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockCopperWire, 6), new Object[] { "WWW", "CCC", "WWW", 'W', Block.cloth, 'C', "ingotCopper" }));
+					RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(blockCopperWire, 6), new Object[] { "WWW", "CCC", "WWW", 'W', Block.cloth, 'C', "ingotCopper" }), CONFIGURATION, true);
 
 					UniversalElectricity.isNetworkActive = true;
 				}
@@ -442,6 +439,12 @@ public class BasicComponents
 		}
 
 		return null;
+	}
+
+	@SideOnly(Side.CLIENT)
+	private static void registerCopperWireRenderer() throws Exception
+	{
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCopperWire.class, new RenderCopperWire());
 	}
 
 	public static Block requestBlock(String name, int id)
@@ -502,12 +505,12 @@ public class BasicComponents
 			OreDictionary.registerOre("electricFurnace", ((BlockBasicMachine) BasicComponents.blockMachine).getElectricFurnace());
 
 			// Battery Box
-			GameRegistry.addRecipe(new ShapedOreRecipe(OreDictionary.getOres("batteryBox").get(0), new Object[] { "SSS", "BBB", "SSS", 'B', "battery", 'S', "ingotSteel" }));
+			RecipeHelper.addRecipe(new ShapedOreRecipe(OreDictionary.getOres("batteryBox").get(0), new Object[] { "SSS", "BBB", "SSS", 'B', "battery", 'S', "ingotSteel" }), CONFIGURATION, true);
 			// Coal Generator
-			GameRegistry.addRecipe(new ShapedOreRecipe(OreDictionary.getOres("coalGenerator").get(0), new Object[] { "MMM", "MOM", "MCM", 'M', "ingotSteel", 'C', "motor", 'O', Block.furnaceIdle }));
-			GameRegistry.addRecipe(new ShapedOreRecipe(OreDictionary.getOres("coalGenerator").get(0), new Object[] { "MMM", "MOM", "MCM", 'M', "ingotBronze", 'C', "motor", 'O', Block.furnaceIdle }));
+			RecipeHelper.addRecipe(new ShapedOreRecipe(OreDictionary.getOres("coalGenerator").get(0), new Object[] { "MMM", "MOM", "MCM", 'M', "ingotSteel", 'C', "motor", 'O', Block.furnaceIdle }), CONFIGURATION, true);
+			RecipeHelper.addRecipe(new ShapedOreRecipe(OreDictionary.getOres("coalGenerator").get(0), new Object[] { "MMM", "MOM", "MCM", 'M', "ingotBronze", 'C', "motor", 'O', Block.furnaceIdle }), CONFIGURATION, true);
 			// Electric Furnace
-			GameRegistry.addRecipe(new ShapedOreRecipe(OreDictionary.getOres("electricFurnace").get(0), new Object[] { "SSS", "SCS", "SMS", 'S', "ingotSteel", 'C', "circuitAdvanced", 'M', "motor" }));
+			RecipeHelper.addRecipe(new ShapedOreRecipe(OreDictionary.getOres("electricFurnace").get(0), new Object[] { "SSS", "SCS", "SMS", 'S', "ingotSteel", 'C', "circuitAdvanced", 'M', "motor" }), CONFIGURATION, true);
 
 			BasicComponents.CONFIGURATION.save();
 		}
@@ -535,15 +538,6 @@ public class BasicComponents
 			GameRegistry.registerTileEntity(TileEntityElectricFurnace.class, "UEElectricFurnace");
 			registeredTileEntities = true;
 		}
-	}
-
-	/**
-	 * Kept for backwards compatibility
-	 */
-	@Deprecated
-	public static void register(Object mod, String channel)
-	{
-		register(channel);
 	}
 
 	/**
@@ -589,15 +583,6 @@ public class BasicComponents
 	}
 
 	/**
-	 * Kept for backwards compatibility
-	 */
-	@Deprecated
-	public static void requestAll()
-	{
-		requestAll(null);
-	}
-
-	/**
 	 * Requests all items in Basic Components
 	 * 
 	 * @param mod The object of the mod requiring components
@@ -635,6 +620,7 @@ public class BasicComponents
 		BasicComponents.requestItem("infiniteBattery", 0);
 
 		requireMachines(mod, 0);
+		registerTileEntities();
 	}
 
 	public static Object getFirstDependant()

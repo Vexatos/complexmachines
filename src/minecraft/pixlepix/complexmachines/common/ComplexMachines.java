@@ -9,7 +9,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import pixlepix.complexmachines.client.GuiHandler;
 import pixlepix.complexmachines.common.block.MinearAmplifier;
-import pixlepix.complexmachines.common.block.MinearTransmitter;
 import pixlepix.complexmachines.common.crops.BasicSeeds;
 import pixlepix.complexmachines.common.crops.Monsterweed;
 import pixlepix.complexmachines.common.item.ClusterMinerItem;
@@ -20,11 +19,9 @@ import pixlepix.complexmachines.common.item.MinearCloaker;
 import pixlepix.complexmachines.common.item.RangeExtender;
 import pixlepix.complexmachines.common.item.RemoteItem;
 import pixlepix.complexmachines.common.mob.GeneticMob;
-import universalelectricity.prefab.flag.FlagRegistry;
-import universalelectricity.prefab.flag.ModFlag;
 import basiccomponents.common.BasicComponents;
 import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.Init;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.PostInit;
 import cpw.mods.fml.common.Mod.PreInit;
@@ -40,7 +37,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 
-@Mod(modid = "ComplexMachines", name = "Complex Machines", version = "0.3.3")
+@Mod(modid = "complexmachines", name = "Complex Machines", version = "0.3.3")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = { "Complex Machines" }, packetHandler = pixlepix.complexmachines.common.PacketHandler.class)
 public class ComplexMachines {
 	private GuiHandler guiHandler = new GuiHandler();
@@ -90,7 +87,6 @@ public class ComplexMachines {
 
 	public static Item redgrainSeed;
 	
-	public static ModFlag flag;
 
 	public static boolean worldGen;
 	
@@ -153,14 +149,14 @@ public class ComplexMachines {
 	redgrainSeed=new BasicSeeds(Config.itemStartingID+21, Config.blockStartingID+44,2,"ComplexMachines:RedgrainSeeds","RedgrainSeed");
 
 	minearCloaker=new MinearCloaker(Config.itemStartingID+22);
-	BasicComponents.requestAll();
+	BasicComponents.register("Complex Machines");
 	
 
 	
 	}
 	
 	// The instance of your mod that Forge uses.
-	@Instance("ComplexMachines")
+	@Instance("complexmachines")
 	public static ComplexMachines instance;
 	public static ComplexMachinesWorldGen generator = new ComplexMachinesWorldGen();
 	// Says where the client and server 'proxy' code is loaded.
@@ -170,7 +166,7 @@ public class ComplexMachines {
 
 
 	
-	@PreInit
+	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		Config.configure(event);
 		loader=new BetterLoader();
@@ -188,7 +184,7 @@ public class ComplexMachines {
 	
 	
 	
-	@Init
+	@EventHandler
 	public void load(FMLInitializationEvent event) {
 
 		/*
@@ -201,7 +197,6 @@ public class ComplexMachines {
 		TickRegistry.registerTickHandler(new AirshipBlockRegistry(), Side.SERVER);
 
 		TickRegistry.registerTickHandler(new MinearRegistry(), Side.SERVER);
-		FlagRegistry.registerFlag("ComplexMachines");
 		proxy.registerRenderers();
 		
 		loader.mainload();

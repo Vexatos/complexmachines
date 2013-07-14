@@ -1,12 +1,7 @@
 package pixlepix.complexmachines.common.tileentity;
 
-import java.util.ArrayList;
 import java.util.Random;
 
-import pixlepix.complexmachines.common.ComplexMachines;
-import pixlepix.complexmachines.common.PowerConsumerComplexTileEntity;
-
-import mekanism.api.IStrictEnergyAcceptor;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -14,33 +9,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.Direction;
-import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.common.ISidedInventory;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
-import universalelectricity.core.UniversalElectricity;
-import universalelectricity.core.block.IElectricityStorage;
-import universalelectricity.core.electricity.ElectricityNetworkHelper;
-import universalelectricity.core.electricity.ElectricityPack;
-import universalelectricity.core.electricity.IElectricityNetwork;
-import universalelectricity.core.item.IItemElectric;
-import universalelectricity.core.vector.Vector3;
-import universalelectricity.core.vector.VectorHelper;
+import pixlepix.complexmachines.common.ComplexMachines;
+import pixlepix.complexmachines.common.PowerConsumerComplexTileEntity;
 import universalelectricity.prefab.network.IPacketReceiver;
-import universalelectricity.prefab.network.PacketManager;
-import universalelectricity.prefab.tile.TileEntityElectricityRunnable;
 
 import com.google.common.io.ByteArrayDataInput;
 
-import cpw.mods.fml.common.Loader;
-
-public class ExtractorMachineTileEntity extends PowerConsumerComplexTileEntity implements IPacketReceiver, IElectricityStorage, IInventory {
+public class ExtractorMachineTileEntity extends PowerConsumerComplexTileEntity implements IPacketReceiver, IInventory {
 	public final double WATTS_PER_TICK = 5000;
 	public final double TRANSFER_LIMIT = 125000;
 	private int drawingTicks = 0;
@@ -256,7 +236,7 @@ public class ExtractorMachineTileEntity extends PowerConsumerComplexTileEntity i
 	}
 
 	@Override
-	public double getVoltage() {
+	public float getVoltage() {
 		return 480;
 	}
 
@@ -383,10 +363,6 @@ public class ExtractorMachineTileEntity extends PowerConsumerComplexTileEntity i
 
 	}
 
-	@Override
-	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
-		return false;
-	}
 
 	/**
 	 * Reads a tile entity from NBT.
@@ -430,6 +406,18 @@ public class ExtractorMachineTileEntity extends PowerConsumerComplexTileEntity i
 			}
 		}
 		par1NBTTagCompound.setTag("Items", var2);
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int getMaximumEnergy() {
+		// TODO Auto-generated method stub
+		return (int) getMaxJoules();
 	}
 
 

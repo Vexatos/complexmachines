@@ -4,7 +4,7 @@ import universalelectricity.prefab.tile.TileEntityElectrical;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 
-public class BasicComplexTileEntity extends TileEntityElectrical {
+public abstract class BasicComplexTileEntity extends TileEntityElectrical {
 
 	public void initiate() {
 		

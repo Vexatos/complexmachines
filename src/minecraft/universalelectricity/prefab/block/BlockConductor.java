@@ -25,7 +25,7 @@ public abstract class BlockConductor extends BlockContainer
 
 		if (tileEntity instanceof IConductor)
 		{
-			((IConductor) tileEntity).updateAdjacentConnections();
+			((IConductor) tileEntity).refresh();
 		}
 	}
 
@@ -40,7 +40,7 @@ public abstract class BlockConductor extends BlockContainer
 
 		if (tileEntity instanceof IConductor)
 		{
-			((IConductor) tileEntity).updateAdjacentConnections();
+			((IConductor) tileEntity).refresh();
 		}
 	}
 }

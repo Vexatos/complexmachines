@@ -1,29 +1,24 @@
 package pixlepix.complexmachines.common;
 
+import mekanism.api.IStrictEnergyAcceptor;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import pixlepix.complexmachines.common.tileentity.FillerMachineTileEntity;
-
-import buildcraft.api.power.PowerFramework;
-import buildcraft.api.power.PowerProvider;
-
-import com.google.common.io.ByteArrayDataInput;
-
-import mekanism.api.IStrictEnergyAcceptor;
 import universalelectricity.core.UniversalElectricity;
-import universalelectricity.core.block.IElectricityStorage;
-import universalelectricity.core.electricity.ElectricityNetworkHelper;
+import universalelectricity.core.block.IElectrical;
+import universalelectricity.core.block.IElectricalStorage;
 import universalelectricity.core.electricity.ElectricityPack;
-import universalelectricity.core.electricity.IElectricityNetwork;
+import universalelectricity.core.grid.IElectricityNetwork;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.core.vector.VectorHelper;
 import universalelectricity.prefab.network.IPacketReceiver;
+import universalelectricity.prefab.tile.ElectricityHandler;
 
-public class PowerConsumerComplexTileEntity extends BasicComplexTileEntity implements IPacketReceiver, IElectricityStorage, IStrictEnergyAcceptor {
+import com.google.common.io.ByteArrayDataInput;
+
+public abstract class PowerConsumerComplexTileEntity extends BasicComplexTileEntity implements IPacketReceiver,IElectrical, IElectricalStorage {
 
 	public final double WATTS_PER_TICK = 5000;
 	public final double TRANSFER_LIMIT = 12500;
@@ -33,12 +28,18 @@ public class PowerConsumerComplexTileEntity extends BasicComplexTileEntity imple
 
 	private int playersUsing = 0;
 	public int orientation;
+	public PowerConsumerComplexTileEntity()
+	{
+		this.electricityHandler = new ElectricityHandler(this, getMaximumEnergy());
+	}
 	
-
+	public int getMaximumEnergy(){
+			return (int) this.getMaxJoules();
+}
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-
+/*
 		if (!this.worldObj.isRemote) {
 
 			ForgeDirection inputDirection = ForgeDirection.getOrientation(this
@@ -49,7 +50,6 @@ public class PowerConsumerComplexTileEntity extends BasicComplexTileEntity imple
 			IElectricityNetwork inputNetwork = ElectricityNetworkHelper
 					.getNetworkFromTileEntity(inputTile,
 							inputDirection.getOpposite());
-
 			if (inputNetwork != null) {
 				if (this.joulesStored < getMaxJoules()) {
 					inputNetwork.startRequesting(this,Math.min(this.getMaxJoules() - this.getJoules(),this.TRANSFER_LIMIT) / this.getVoltage(),this.getVoltage());
@@ -74,7 +74,7 @@ public class PowerConsumerComplexTileEntity extends BasicComplexTileEntity imple
 
 		this.joulesStored = Math.min(this.joulesStored, this.getMaxJoules());
 		this.joulesStored = Math.max(this.joulesStored, 0d);
-	}
+	*/}
 
 	@Override
 	public void handlePacketData(INetworkManager inputNetwork, int type,
@@ -89,7 +89,7 @@ public class PowerConsumerComplexTileEntity extends BasicComplexTileEntity imple
 
 
 	@Override
-	public double getVoltage() {
+	public float getVoltage() {
 		return 480;
 	}
 
@@ -99,38 +99,23 @@ public class PowerConsumerComplexTileEntity extends BasicComplexTileEntity imple
 
 	
 
-	@Override
 	public double getJoules() {
-		return this.joulesStored;
+		return this.getEnergyStored();
 	}
-
-	@Override
+ 
 	public void setJoules(double joules) {
-		this.joulesStored = joules;
+		this.setEnergyStored((float)joules);
 	}
 
-	@Override
-	public double getMaxJoules() {
-		return maxJoules;
-	}
+	public abstract double getMaxJoules();
 
 	@Override
 	public boolean canConnect(ForgeDirection direction) {
 		return direction.ordinal() == this.getBlockMetadata() + 2;
 	}
-	@Override
-	public double getEnergy() {
-		// TODO Auto-generated method stub
-		return this.getJoules();
-	}
+	
 
-	@Override
-	public void setEnergy(double energy) {
-		this.setJoules(energy);
-		
-	}
-
-	@Override
+	/*@Override
 	public double getMaxEnergy() {
 		// TODO Auto-generated method stub
 		return this.getMaxJoules();
@@ -148,6 +133,18 @@ public class PowerConsumerComplexTileEntity extends BasicComplexTileEntity imple
 	public boolean canReceiveEnergy(ForgeDirection side) {
 		// TODO Auto-generated method stub
 		return this.canConnect(side);
+	}
+*/
+	@Override
+	public float getRequest(ForgeDirection direction) {
+		// TODO Auto-generated method stub
+		return 10000;
+	}
+
+	@Override
+	public float getProvide(ForgeDirection direction) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 }

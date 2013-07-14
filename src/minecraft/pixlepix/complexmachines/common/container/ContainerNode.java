@@ -48,12 +48,6 @@ public class ContainerNode extends Container {
 	}
 
 	@Override
-	public void onCraftGuiClosed(EntityPlayer entityplayer) {
-		super.onCraftGuiClosed(entityplayer);
-		this.tileEntity.closeChest();
-	}
-
-	@Override
 	public boolean canInteractWith(EntityPlayer par1EntityPlayer) {
 		return this.tileEntity.isUseableByPlayer(par1EntityPlayer);
 	}

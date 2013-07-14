@@ -56,9 +56,9 @@ public class ClusterMinerItem extends ItemElectric
     		if(isOre(targetId)){
     			ArrayList<CoordTuple> list=new ArrayList<CoordTuple>();
     			list.add(new CoordTuple(x,y,z));
-    			while(list.size()>0&&getJoules(itemStack)>1000){
+    			while(list.size()>0&&getElectricityStored(itemStack)>1000){
     				CoordTuple curr=list.get(0);
-    				setJoules(this.getJoules(itemStack)-1000, itemStack);
+    				this.setElectricity(itemStack,this.getElectricityStored(itemStack)-1000);
     				ArrayList<CoordTuple> nearby=new ArrayList<CoordTuple>();
     				int curX=(int)curr.x;
     				int curY=(int)curr.y;
@@ -89,14 +89,9 @@ public class ClusterMinerItem extends ItemElectric
     }
 
     
-    @Override
-    public double getMaxJoules(ItemStack itemStack)
-    {
-        return 20000000;
-    }
     
     @Override
-    public double getVoltage(ItemStack itemStack)
+    public float getVoltage(ItemStack itemStack)
     {
         return 240;
     }
@@ -107,4 +102,9 @@ public class ClusterMinerItem extends ItemElectric
     {
         this.itemIcon = par1IconRegister.registerIcon("ComplexMachines:ClusterMiner");
     }
+	@Override
+	public float getMaxElectricityStored(ItemStack theItem) {
+		// TODO Auto-generated method stub
+		return 50000000;
+	}
 }

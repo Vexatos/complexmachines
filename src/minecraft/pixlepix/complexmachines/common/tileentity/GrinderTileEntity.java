@@ -1,42 +1,13 @@
 package pixlepix.complexmachines.common.tileentity;
 
-import java.util.HashMap;
-
-import pixlepix.complexmachines.common.GrinderFuelData;
-import pixlepix.complexmachines.common.Config;
-import pixlepix.complexmachines.common.PowerProducerComplexTileEntity;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.StatCollector;
-import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.common.ISidedInventory;
-import net.minecraftforge.common.MinecraftForge;
-import universalelectricity.core.UniversalElectricity;
+import pixlepix.complexmachines.common.Config;
+import pixlepix.complexmachines.common.PowerProducerComplexTileEntity;
 import universalelectricity.core.block.IConductor;
-import universalelectricity.core.block.IElectricityStorage;
-import universalelectricity.core.electricity.ElectricityNetworkHelper;
-import universalelectricity.core.electricity.ElectricityPack;
-import universalelectricity.core.electricity.IElectricityNetwork;
-import universalelectricity.core.item.IItemElectric;
-import universalelectricity.core.vector.Vector3;
-import universalelectricity.core.vector.VectorHelper;
-import universalelectricity.prefab.network.IPacketReceiver;
-import universalelectricity.prefab.network.PacketManager;
-import universalelectricity.prefab.tile.TileEntityElectricityRunnable;
-
-import com.google.common.io.ByteArrayDataInput;
-
-import cpw.mods.fml.common.Loader;
 
 
 
@@ -88,7 +59,7 @@ public class GrinderTileEntity extends PowerProducerComplexTileEntity implements
 	
 
 	@Override
-	public double getVoltage() {
+	public float getVoltage() {
 		return 120;
 	}
 
@@ -190,11 +161,6 @@ public class GrinderTileEntity extends PowerProducerComplexTileEntity implements
 	public void closeChest() {
 	}
 
-	@Override
-	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
-		return false;
-	}
-
 	/**
 	 * Reads a tile entity from NBT.
 	 */
@@ -237,6 +203,18 @@ public class GrinderTileEntity extends PowerProducerComplexTileEntity implements
 			}
 		}
 		par1NBTTagCompound.setTag("Items", var2);
+	}
+
+
+
+
+
+
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

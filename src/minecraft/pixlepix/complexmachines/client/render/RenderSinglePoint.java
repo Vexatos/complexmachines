@@ -2,6 +2,7 @@ package pixlepix.complexmachines.client.render;
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -21,11 +22,16 @@ public class RenderSinglePoint extends TileEntitySpecialRenderer
         this.model = new SinglePointGeneratorModel();
     }
     
-   
+    static ResourceLocation location=new ResourceLocation("complexmachines","/textures/blocks/SinglePointGenerator.png");
+    public static ResourceLocation getTexture()
+    {
+    	return location;
+    } 
     @Override
     public void renderTileEntityAt(TileEntity var1, double var2, double var3, double var4, float var5)
     {
-        this.bindTextureByName("/mods/ComplexMachines/textures/models/SinglePointGenerator.png");
+        
+        this.func_110628_a(getTexture());
         GL11.glPushMatrix();
         GL11.glTranslatef((float) var2 + 0.5F, (float) var3 + 1.5F, (float) var4 + 0.5F);
         switch (var1.worldObj.getBlockMetadata(var1.xCoord, var1.yCoord, var1.zCoord))

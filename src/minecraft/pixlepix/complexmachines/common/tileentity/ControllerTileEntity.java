@@ -1,31 +1,9 @@
 package pixlepix.complexmachines.common.tileentity;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import net.minecraftforge.common.ForgeDirection;
 import pixlepix.complexmachines.common.AirshipBlockRegistry;
 import pixlepix.complexmachines.common.ComplexMachines;
 import pixlepix.complexmachines.common.PowerConsumerComplexTileEntity;
-
-import com.google.common.io.ByteArrayDataInput;
-
-import universalelectricity.core.UniversalElectricity;
-import universalelectricity.core.block.IElectricityStorage;
-import universalelectricity.core.electricity.ElectricityNetworkHelper;
-import universalelectricity.core.electricity.ElectricityPack;
-import universalelectricity.core.electricity.IElectricityNetwork;
-import universalelectricity.core.vector.Vector3;
-import universalelectricity.core.vector.VectorHelper;
-import universalelectricity.prefab.network.IPacketReceiver;
-import universalelectricity.prefab.tile.TileEntityElectricityRunnable;
-
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraftforge.common.ForgeDirection;
 
 public class ControllerTileEntity extends PowerConsumerComplexTileEntity{
 
@@ -127,6 +105,20 @@ public class ControllerTileEntity extends PowerConsumerComplexTileEntity{
 					}
 				
 				
+			}
+
+
+			@Override
+			public int getMaximumEnergy() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+
+			@Override
+			public double getMaxJoules() {
+				// TODO Auto-generated method stub
+				return 0;
 			}
 
 

@@ -23,7 +23,7 @@ public class LaserModel extends ModelBase
     
     public LaserModel()
     {
-        modelTutBox = AdvancedModelLoader.loadModel("/mods/ComplexMachines/models/beam.obj");
+        modelTutBox = AdvancedModelLoader.loadModel("/assets/complexmachines/models/beam.obj");
     }
     public void render()
     {
