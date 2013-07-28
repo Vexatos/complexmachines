@@ -1,7 +1,9 @@
 package basiccomponents.common.tileentity;
 
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
@@ -10,36 +12,25 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.electricity.ElectricalEventHandler;
-import universalelectricity.core.electricity.ElectricityPack;
-import universalelectricity.core.grid.IElectricityNetwork;
-import universalelectricity.core.item.ElectricItemHelper;
+import universalelectricity.compatibility.TileEntityUniversalElectrical;
 import universalelectricity.core.item.IItemElectric;
-import universalelectricity.core.vector.Vector3;
-import universalelectricity.core.vector.VectorHelper;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
-import universalelectricity.prefab.tile.ElectricityHandler;
-import universalelectricity.prefab.tile.TileEntityElectrical;
 import basiccomponents.common.BasicComponents;
 import basiccomponents.common.block.BlockBasicMachine;
+
 import com.google.common.io.ByteArrayDataInput;
+
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-public class TileEntityBatteryBox extends TileEntityElectrical implements IPacketReceiver, ISidedInventory
+public class TileEntityBatteryBox extends TileEntityUniversalElectrical implements IPacketReceiver, ISidedInventory
 {
 	private ItemStack[] containingItems = new ItemStack[2];
 
 	public final Set<EntityPlayer> playersUsing = new HashSet<EntityPlayer>();
-
-	public TileEntityBatteryBox()
-	{
-		this.electricityHandler = new ElectricityHandler(this, 5000000);
-	}
 
 	@Override
 	public void updateEntity()
@@ -48,31 +39,8 @@ public class TileEntityBatteryBox extends TileEntityElectrical implements IPacke
 
 		if (!this.worldObj.isRemote)
 		{
-			/**
-			 * Recharges electric item.
-			 */
-			this.setEnergyStored(this.getEnergyStored() - ElectricItemHelper.chargeItem(this.containingItems[0], this.getEnergyStored()));
-
-			/**
-			 * Decharge electric item.
-			 */
-			this.setEnergyStored(this.getEnergyStored() + ElectricItemHelper.dischargeItem(this.containingItems[1], this.getMaxEnergyStored() - this.getEnergyStored()));
-
-			ForgeDirection outputDirection = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockBasicMachine.BATTERY_BOX_METADATA + 2);
-			TileEntity outputTile = VectorHelper.getConnectorFromSide(this.worldObj, new Vector3(this), outputDirection);
-			IElectricityNetwork outputNetwork = ElectricalEventHandler.getNetworkFromTileEntity(outputTile, outputDirection);
-
-			if (outputNetwork != null)
-			{
-				ElectricityPack powerRequest = outputNetwork.getRequest(this);
-
-				if (powerRequest.getWatts() > 0)
-				{
-					ElectricityPack sendPack = ElectricityPack.min(ElectricityPack.getFromWatts(this.getEnergyStored(), this.getVoltage()), ElectricityPack.getFromWatts(2500, this.getVoltage()));
-					float rejectedPower = outputNetwork.produce(sendPack, this);
-					this.setEnergyStored(this.getEnergyStored() - (sendPack.getWatts() - rejectedPower));
-				}
-			}
+			this.recharge(this.containingItems[0]);
+			this.discharge(this.containingItems[1]);
 		}
 
 		/**
@@ -90,22 +58,6 @@ public class TileEntityBatteryBox extends TileEntityElectrical implements IPacke
 				}
 			}
 		}
-	}
-
-	public ForgeDirection getInput()
-	{
-		return ForgeDirection.getOrientation(this.getBlockMetadata() - BlockBasicMachine.BATTERY_BOX_METADATA + 2);
-	}
-
-	public ForgeDirection getOutput()
-	{
-		return ForgeDirection.getOrientation(this.getBlockMetadata() - BlockBasicMachine.BATTERY_BOX_METADATA + 2).getOpposite();
-	}
-
-	@Override
-	public boolean canConnect(ForgeDirection direction)
-	{
-		return direction == this.getInput() || direction == this.getOutput();
 	}
 
 	@Override
@@ -316,7 +268,7 @@ public class TileEntityBatteryBox extends TileEntityElectrical implements IPacke
 			}
 			else if (slotID == 1)
 			{
-				return ((IItemElectric) itemstack.getItem()).getElectricityStored(itemstack) <= 0;
+				return ((IItemElectric) itemstack.getItem()).getElectricityStored(itemstack) <= 0 || this.getEnergyStored() >= this.getMaxEnergyStored();
 			}
 		}
 
@@ -327,12 +279,30 @@ public class TileEntityBatteryBox extends TileEntityElectrical implements IPacke
 	@Override
 	public float getRequest(ForgeDirection direction)
 	{
-		return this.getMaxEnergyStored() - this.getEnergyStored();
+		return getInputDirections().contains(direction) ? this.getMaxEnergyStored() - this.getEnergyStored() : 0;
 	}
 
 	@Override
 	public float getProvide(ForgeDirection direction)
 	{
-		return this.getEnergyStored();
+		return getInputDirections().contains(direction) ? 1300 : 0;
+	}
+
+	@Override
+	public EnumSet<ForgeDirection> getInputDirections()
+	{
+		return EnumSet.of(ForgeDirection.getOrientation(this.getBlockMetadata() - BlockBasicMachine.BATTERY_BOX_METADATA + 2));
+	}
+
+	@Override
+	public EnumSet<ForgeDirection> getOutputDirections()
+	{
+		return EnumSet.of(ForgeDirection.getOrientation(this.getBlockMetadata() - BlockBasicMachine.BATTERY_BOX_METADATA + 2).getOpposite());
+	}
+
+	@Override
+	public float getMaxEnergyStored()
+	{
+		return 5000;
 	}
 }

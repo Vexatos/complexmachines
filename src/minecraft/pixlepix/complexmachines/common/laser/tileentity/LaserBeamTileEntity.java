@@ -16,6 +16,12 @@ public class LaserBeamTileEntity extends BasicComplexTileEntity {
 	int ordinalEast=ForgeDirection.EAST.ordinal();
 
 	int ordinalWest=ForgeDirection.WEST.ordinal();
+	@Override
+	public float getMaxEnergyStored() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	
 	public AxisAlignedBB getLaserAABB(){
 

@@ -1,8 +1,5 @@
 package universalelectricity.prefab.tile;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.ForgeDirection;
@@ -25,6 +22,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 public abstract class TileEntityConductor extends TileEntityAdvanced implements IConductor
 {
 	private IElectricityNetwork network;
+
+	public TileEntity[] adjacentConnections = null;
 
 	@Override
 	public void invalidate()
@@ -65,6 +64,8 @@ public abstract class TileEntityConductor extends TileEntityAdvanced implements 
 	{
 		if (!this.worldObj.isRemote)
 		{
+			this.adjacentConnections = null;
+
 			for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS)
 			{
 				TileEntity tileEntity = VectorHelper.getConnectorFromSide(this.worldObj, new Vector3(this), side);
@@ -85,23 +86,29 @@ public abstract class TileEntityConductor extends TileEntityAdvanced implements 
 	@Override
 	public TileEntity[] getAdjacentConnections()
 	{
-		List<TileEntity> adjecentConnections = new ArrayList<TileEntity>();
-
-		for (byte i = 0; i < 6; i++)
+		/**
+		 * Cache the adjacentConnections.
+		 */
+		if (this.adjacentConnections == null)
 		{
-			ForgeDirection side = ForgeDirection.getOrientation(i);
-			TileEntity tileEntity = VectorHelper.getConnectorFromSide(this.worldObj, new Vector3(this), side);
+			this.adjacentConnections = new TileEntity[6];
 
-			if (tileEntity instanceof IConnector)
+			for (byte i = 0; i < 6; i++)
 			{
-				if (((IConnector) tileEntity).canConnect(side.getOpposite()))
+				ForgeDirection side = ForgeDirection.getOrientation(i);
+				TileEntity tileEntity = VectorHelper.getConnectorFromSide(this.worldObj, new Vector3(this), side);
+
+				if (tileEntity instanceof IConnector)
 				{
-					adjecentConnections.add(tileEntity);
+					if (((IConnector) tileEntity).canConnect(side.getOpposite()))
+					{
+						this.adjacentConnections[i] = tileEntity;
+					}
 				}
 			}
 		}
 
-		return adjecentConnections.toArray(new TileEntity[0]);
+		return this.adjacentConnections;
 	}
 
 	@Override

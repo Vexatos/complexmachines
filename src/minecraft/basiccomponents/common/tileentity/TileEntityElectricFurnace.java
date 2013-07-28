@@ -2,6 +2,7 @@ package basiccomponents.common.tileentity;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -13,26 +14,25 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.compatibility.TileEntityUniversalElectrical;
 import universalelectricity.core.block.IElectrical;
-import universalelectricity.core.electricity.ElectricityPack;
-import universalelectricity.core.item.ElectricItemHelper;
 import universalelectricity.core.item.IItemElectric;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
-import universalelectricity.prefab.tile.ElectricityHandler;
-import universalelectricity.prefab.tile.TileEntityElectrical;
 import basiccomponents.common.BasicComponents;
+
 import com.google.common.io.ByteArrayDataInput;
+
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-public class TileEntityElectricFurnace extends TileEntityElectrical implements IElectrical, IInventory, ISidedInventory, IPacketReceiver
+public class TileEntityElectricFurnace extends TileEntityUniversalElectrical implements IElectrical, IInventory, ISidedInventory, IPacketReceiver
 {
 	/**
 	 * The amount of watts required every TICK.
 	 */
-	public static final float WATTS_PER_TICK = 200;
+	public static final float WATTS_PER_TICK = 10;
 
 	/**
 	 * The amount of processing time required.
@@ -54,23 +54,12 @@ public class TileEntityElectricFurnace extends TileEntityElectrical implements I
 	 */
 	public final Set<EntityPlayer> playersUsing = new HashSet<EntityPlayer>();
 
-	public TileEntityElectricFurnace()
-	{
-		this.electricityHandler = new ElectricityHandler(this, 1000);
-	}
-
 	@Override
 	public void updateEntity()
 	{
 		super.updateEntity();
 
-		/**
-		 * Attempts to charge using batteries.
-		 */
-		if (this.getEnergyStored() < this.getMaxEnergyStored())
-		{
-			this.electricityHandler.receiveElectricity(ElectricityPack.getFromWatts(ElectricItemHelper.dischargeItem(this.containingItems[0], this.getRequest(ForgeDirection.UNKNOWN)), this.getVoltage()), true);
-		}
+		this.discharge(this.containingItems[0]);
 
 		/**
 		 * Attempts to smelt an item.
@@ -123,12 +112,6 @@ public class TileEntityElectricFurnace extends TileEntityElectrical implements I
 				}
 			}
 		}
-	}
-
-	@Override
-	public boolean canConnect(ForgeDirection direction)
-	{
-		return true;
 	}
 
 	@Override
@@ -407,5 +390,11 @@ public class TileEntityElectricFurnace extends TileEntityElectrical implements I
 	public float getProvide(ForgeDirection direction)
 	{
 		return 0;
+	}
+
+	@Override
+	public float getMaxEnergyStored()
+	{
+		return WATTS_PER_TICK;
 	}
 }

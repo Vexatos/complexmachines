@@ -1,5 +1,12 @@
 package basiccomponents.client;
 
+import ic2.api.Direction;
+import ic2.api.energy.tile.IEnergyAcceptor;
+import ic2.api.energy.tile.IEnergyTile;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -7,11 +14,13 @@ import net.minecraftforge.common.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
+import universalelectricity.compatibility.Compatibility;
 import universalelectricity.core.block.IConnector;
 import universalelectricity.core.vector.Vector3;
 import universalelectricity.core.vector.VectorHelper;
 import basiccomponents.common.BasicComponents;
 import basiccomponents.common.tileentity.TileEntityCopperWire;
+import buildcraft.api.power.IPowerReceptor;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -31,47 +40,78 @@ public class RenderCopperWire extends TileEntitySpecialRenderer
 		GL11.glTranslatef((float) d + 0.5F, (float) d1 + 1.5F, (float) d2 + 0.5F);
 		GL11.glScalef(1.0F, -1F, -1F);
 
-		boolean[] connectable = new boolean[] { false, false, false, false, false, false };
+		List<TileEntity> adjecentConnections = new ArrayList<TileEntity>();
 
-		for (ForgeDirection side : ForgeDirection.VALID_DIRECTIONS)
+		for (byte i = 0; i < 6; i++)
 		{
-			TileEntity sideTile = VectorHelper.getTileEntityFromSide(tileEntity.worldObj, new Vector3(tileEntity), side);
+			ForgeDirection side = ForgeDirection.getOrientation(i);
+			TileEntity adjacentTile = VectorHelper.getTileEntityFromSide(tileEntity.worldObj, new Vector3(tileEntity), side);
 
-			if (sideTile instanceof IConnector)
+			if (adjacentTile instanceof IConnector)
 			{
-				if (((IConnector) sideTile).canConnect(side.getOpposite()))
+				if (((IConnector) adjacentTile).canConnect(side.getOpposite()))
 				{
-					connectable[side.ordinal()] = true;
+					adjecentConnections.add(adjacentTile);
 				}
+				else
+				{
+					adjecentConnections.add(null);
+				}
+			}
+			else if (Compatibility.isIndustrialCraft2Loaded() && adjacentTile instanceof IEnergyTile)
+			{
+				if (adjacentTile instanceof IEnergyAcceptor)
+				{
+					if (((IEnergyAcceptor) adjacentTile).acceptsEnergyFrom(tileEntity, Direction.values()[(i + 2) % 6].getInverse()))
+					{
+						adjecentConnections.add(adjacentTile);
+					}
+					else
+					{
+						adjecentConnections.add(null);
+					}
+				}
+				else
+				{
+					adjecentConnections.add(adjacentTile);
+				}
+			}
+			else if (Compatibility.isBuildcraftLoaded() && adjacentTile instanceof IPowerReceptor)
+			{
+				adjecentConnections.add(adjacentTile);
+			}
+			else
+			{
+				adjecentConnections.add(null);
 			}
 		}
 
-		if (connectable[0])
+		if (adjecentConnections.toArray()[0] != null)
 		{
 			model.renderBottom();
 		}
 
-		if (connectable[1])
+		if (adjecentConnections.toArray()[1] != null)
 		{
 			model.renderTop();
 		}
 
-		if (connectable[2])
+		if (adjecentConnections.toArray()[2] != null)
 		{
 			model.renderBack();
 		}
 
-		if (connectable[3])
+		if (adjecentConnections.toArray()[3] != null)
 		{
 			model.renderFront();
 		}
 
-		if (connectable[4])
+		if (adjecentConnections.toArray()[4] != null)
 		{
 			model.renderLeft();
 		}
 
-		if (connectable[5])
+		if (adjecentConnections.toArray()[5] != null)
 		{
 			model.renderRight();
 		}

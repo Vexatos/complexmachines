@@ -2,9 +2,6 @@ package pixlepix.complexmachines.common.crops;
 
 import java.util.List;
 
-import org.lwjgl.input.Keyboard;
-
-import mekanism.api.EnumColor;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,8 +11,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.IPlantable;
+
+import org.lwjgl.input.Keyboard;
+
 import pixlepix.complexmachines.common.ComplexMachines;
 import pixlepix.complexmachines.common.Config;
+import pixlepix.complexmachines.common.EnumColor;
 import powercrystals.minefactoryreloaded.api.FarmingRegistry;
 import powercrystals.minefactoryreloaded.api.IFactoryPlantable;
 import cpw.mods.fml.relauncher.Side;
@@ -147,8 +148,6 @@ public class BasicSeeds extends Item implements IPlantable, IFactoryPlantable {
 				par3List.add(EnumColor.ORANGE+"Merges plants to form higher tier seeds");
 				par3List.add(EnumColor.PURPLE+"Place all plants of a tier");
 				par3List.add(EnumColor.PURPLE+"Adjacent to the breeder");
-	
-				par3List.add(EnumColor.YELLOW+"Tier 0 plants are:");
 	
 				par3List.add(EnumColor.YELLOW+"Tier 0 plants are:");
 	

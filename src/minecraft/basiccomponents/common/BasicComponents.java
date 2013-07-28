@@ -13,8 +13,10 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import universalelectricity.compatibility.Compatibility;
 import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.item.ElectricItemHelper;
+import universalelectricity.prefab.ConductorChunkInitiate;
 import universalelectricity.prefab.RecipeHelper;
 import universalelectricity.prefab.TranslationHelper;
 import universalelectricity.prefab.ore.OreGenBase;
@@ -215,7 +217,6 @@ public class BasicComponents
 					Item item = (Item) field.get(null);
 
 					String ingotName = name.replaceAll("plate", "ingot");
-					RecipeHelper.addRecipe(new ShapedOreRecipe(new ItemStack(item), "!!", "!!", '!', ingotName), CONFIGURATION, true);
 
 					Item itemIngot = null;
 
@@ -236,7 +237,7 @@ public class BasicComponents
 					if (itemIngot != null)
 					{
 						RecipeHelper.addRecipe(new ShapelessOreRecipe(new ItemStack(itemIngot, 4), item), CONFIGURATION, true);
-						RecipeHelper.addRecipe(new ShapelessOreRecipe(item, new ItemStack(itemIngot), new ItemStack(itemIngot), new ItemStack(itemIngot), new ItemStack(itemIngot)), CONFIGURATION, true);
+						RecipeHelper.addRecipe(new ShapedOreRecipe(item, "II", "II", 'I', itemIngot), CONFIGURATION, true);
 					}
 				}
 				else if (name.contains("dust"))
@@ -384,6 +385,8 @@ public class BasicComponents
 					field.set(null, new BlockCopperWire(id));
 					GameRegistry.registerBlock((Block) field.get(null), ItemBlockCopperWire.class, name);
 
+					ConductorChunkInitiate.register();
+
 					if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 					{
 						try
@@ -495,6 +498,8 @@ public class BasicComponents
 	{
 		if (blockMachine == null)
 		{
+			Compatibility.initiate();
+
 			id = id <= 0 ? idMachine : id;
 			BasicComponents.CONFIGURATION.load();
 			BasicComponents.blockMachine = new BlockBasicMachine(BasicComponents.CONFIGURATION.getBlock("Basic Machine", id).getInt(id), 0);
@@ -589,38 +594,41 @@ public class BasicComponents
 	 */
 	public static void requestAll(Object mod)
 	{
-		BasicComponents.requestItem("ingotCopper", 0);
-		BasicComponents.requestItem("ingotTin", 0);
+		if (CONFIGURATION.get(Configuration.CATEGORY_GENERAL, "Allow full registry", true).getBoolean(true))
+		{
+			BasicComponents.requestItem("ingotCopper", 0);
+			BasicComponents.requestItem("ingotTin", 0);
 
-		BasicComponents.requestBlock("oreCopper", 0);
-		BasicComponents.requestBlock("oreTin", 0);
+			BasicComponents.requestBlock("oreCopper", 0);
+			BasicComponents.requestBlock("oreTin", 0);
 
-		BasicComponents.requestItem("ingotSteel", 0);
-		BasicComponents.requestItem("dustSteel", 0);
-		BasicComponents.requestItem("plateSteel", 0);
+			BasicComponents.requestItem("ingotSteel", 0);
+			BasicComponents.requestItem("dustSteel", 0);
+			BasicComponents.requestItem("plateSteel", 0);
 
-		BasicComponents.requestItem("ingotBronze", 0);
-		BasicComponents.requestItem("dustBronze", 0);
-		BasicComponents.requestItem("plateBronze", 0);
+			BasicComponents.requestItem("ingotBronze", 0);
+			BasicComponents.requestItem("dustBronze", 0);
+			BasicComponents.requestItem("plateBronze", 0);
 
-		BasicComponents.requestItem("plateCopper", 0);
-		BasicComponents.requestItem("plateTin", 0);
-		BasicComponents.requestItem("plateIron", 0);
-		BasicComponents.requestItem("plateGold", 0);
+			BasicComponents.requestItem("plateCopper", 0);
+			BasicComponents.requestItem("plateTin", 0);
+			BasicComponents.requestItem("plateIron", 0);
+			BasicComponents.requestItem("plateGold", 0);
 
-		BasicComponents.requestBlock("copperWire", 0);
+			BasicComponents.requestBlock("copperWire", 0);
 
-		BasicComponents.requestItem("circuitBasic", 0);
-		BasicComponents.requestItem("circuitAdvanced", 0);
-		BasicComponents.requestItem("circuitElite", 0);
+			BasicComponents.requestItem("circuitBasic", 0);
+			BasicComponents.requestItem("circuitAdvanced", 0);
+			BasicComponents.requestItem("circuitElite", 0);
 
-		BasicComponents.requestItem("motor", 0);
-		BasicComponents.requestItem("wrench", 0);
-		BasicComponents.requestItem("battery", 0);
-		BasicComponents.requestItem("infiniteBattery", 0);
+			BasicComponents.requestItem("motor", 0);
+			BasicComponents.requestItem("wrench", 0);
+			BasicComponents.requestItem("battery", 0);
+			BasicComponents.requestItem("infiniteBattery", 0);
 
-		requireMachines(mod, 0);
-		registerTileEntities();
+			requireMachines(mod, 0);
+			registerTileEntities();
+		}
 	}
 
 	public static Object getFirstDependant()

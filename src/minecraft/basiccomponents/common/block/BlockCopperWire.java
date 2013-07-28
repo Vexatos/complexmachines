@@ -10,6 +10,11 @@ import universalelectricity.prefab.block.BlockConductor;
 import basiccomponents.common.BasicComponents;
 import basiccomponents.common.tileentity.TileEntityCopperWire;
 
+/**
+ * A copper wire block that can change its collision bounds based on the connection.
+ * 
+ * @author Calclavia, Aidancbrady
+ */
 public class BlockCopperWire extends BlockConductor
 {
 	public BlockCopperWire(int id)
@@ -19,7 +24,7 @@ public class BlockCopperWire extends BlockConductor
 		this.setStepSound(soundClothFootstep);
 		this.setResistance(0.2F);
 		this.setHardness(0.1f);
-		this.setBlockBounds(0.30F, 0.30F, 0.30F, 0.70F, 0.70F, 0.70F);
+		this.setBlockBounds(0.3f, 0.3f, 0.3f, 0.7f, 0.7f, 0.7f);
 		this.setCreativeTab(CreativeTabs.tabRedstone);
 		Block.setBurnProperties(this.blockID, 30, 60);
 	}

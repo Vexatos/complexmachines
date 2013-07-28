@@ -1,7 +1,9 @@
 package basiccomponents.common.tileentity;
 
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -12,31 +14,26 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.compatibility.TileEntityUniversalElectrical;
 import universalelectricity.core.block.IElectrical;
-import universalelectricity.core.electricity.ElectricalEventHandler;
 import universalelectricity.core.electricity.ElectricityPack;
-import universalelectricity.core.grid.IElectricityNetwork;
-import universalelectricity.core.vector.Vector3;
-import universalelectricity.core.vector.VectorHelper;
 import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
-import universalelectricity.prefab.tile.ElectricityHandler;
-import universalelectricity.prefab.tile.TileEntityElectrical;
 import basiccomponents.common.BasicComponents;
-import basiccomponents.common.block.BlockBasicMachine;
+
 import com.google.common.io.ByteArrayDataInput;
+
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-public class TileEntityCoalGenerator extends TileEntityElectrical implements IElectrical, IInventory, ISidedInventory, IPacketReceiver
+public class TileEntityCoalGenerator extends TileEntityUniversalElectrical implements IElectrical, IInventory, ISidedInventory, IPacketReceiver
 {
 	/**
 	 * Maximum amount of energy needed to generate electricity
 	 */
-	public static final int MAX_GENERATE_WATTS = 10000;
+	public static final int MAX_GENERATE_WATTS = 10;
 
 	/**
 	 * Amount of heat the coal generator needs before generating electricity.
@@ -62,25 +59,16 @@ public class TileEntityCoalGenerator extends TileEntityElectrical implements IEl
 
 	public final Set<EntityPlayer> playersUsing = new HashSet<EntityPlayer>();
 
-	public TileEntityCoalGenerator()
-	{
-		this.electricityHandler = new ElectricityHandler(this, MAX_GENERATE_WATTS);
-	}
-
 	@Override
 	public void updateEntity()
 	{
+		this.setEnergyStored(this.generateWatts);
+
 		super.updateEntity();
 
 		if (!this.worldObj.isRemote)
 		{
 			this.prevGenerateWatts = this.generateWatts;
-
-			// Check nearby blocks and see if the conductor is full. If so, then it is connected
-			ForgeDirection outputDirection = ForgeDirection.getOrientation(this.getBlockMetadata() - BlockBasicMachine.COAL_GENERATOR_METADATA + 2);
-			TileEntity outputTile = VectorHelper.getConnectorFromSide(this.worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), outputDirection);
-
-			IElectricityNetwork network = ElectricalEventHandler.getNetworkFromTileEntity(outputTile, outputDirection);
 
 			if (this.itemCookTime > 0)
 			{
@@ -107,16 +95,6 @@ public class TileEntityCoalGenerator extends TileEntityElectrical implements IEl
 			if (this.getEnergyStored() >= this.getMaxEnergyStored() || this.itemCookTime <= 0)
 			{
 				this.generateWatts = Math.max(this.generateWatts - 8, 0);
-			}
-
-			if (this.generateWatts > MIN_GENERATE_WATTS)
-			{
-                if (network != null)
-                {
-                    ElectricityPack sendPack = ElectricityPack.getFromWatts(this.generateWatts / this.getVoltage(), this.getVoltage());
-                    float producedPower = network.produce(sendPack, this);
-                    this.setEnergyStored(this.getEnergyStored() - producedPower);
-                }
 			}
 
 			if (this.ticks % 3 == 0)
@@ -348,6 +326,24 @@ public class TileEntityCoalGenerator extends TileEntityElectrical implements IEl
 	@Override
 	public float getProvide(ForgeDirection direction)
 	{
-		return this.generateWatts;
+		return this.generateWatts < TileEntityCoalGenerator.MIN_GENERATE_WATTS ? 0 : this.generateWatts;
+	}
+
+	@Override
+	public EnumSet<ForgeDirection> getInputDirections()
+	{
+		return EnumSet.noneOf(ForgeDirection.class);
+	}
+
+	@Override
+	public EnumSet<ForgeDirection> getOutputDirections()
+	{
+		return EnumSet.allOf(ForgeDirection.class);
+	}
+
+	@Override
+	public float getMaxEnergyStored()
+	{
+		return MAX_GENERATE_WATTS;
 	}
 }

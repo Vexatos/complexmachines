@@ -1,20 +1,12 @@
 package pixlepix.complexmachines.common;
 
-import mekanism.api.IStrictEnergyAcceptor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.core.UniversalElectricity;
 import universalelectricity.core.block.IElectrical;
 import universalelectricity.core.block.IElectricalStorage;
-import universalelectricity.core.electricity.ElectricityPack;
-import universalelectricity.core.grid.IElectricityNetwork;
-import universalelectricity.core.vector.Vector3;
-import universalelectricity.core.vector.VectorHelper;
 import universalelectricity.prefab.network.IPacketReceiver;
-import universalelectricity.prefab.tile.ElectricityHandler;
 
 import com.google.common.io.ByteArrayDataInput;
 
@@ -28,10 +20,13 @@ public abstract class PowerConsumerComplexTileEntity extends BasicComplexTileEnt
 
 	private int playersUsing = 0;
 	public int orientation;
-	public PowerConsumerComplexTileEntity()
-	{
-		this.electricityHandler = new ElectricityHandler(this, getMaximumEnergy());
+	
+	@Override
+	public float getMaxEnergyStored() {
+		// TODO Auto-generated method stub
+		return getMaximumEnergy();
 	}
+
 	
 	public int getMaximumEnergy(){
 			return (int) this.getMaxJoules();

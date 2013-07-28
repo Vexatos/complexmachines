@@ -1,6 +1,5 @@
 package pixlepix.complexmachines.common;
 
-import mekanism.api.ICableOutputter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.INetworkManager;
@@ -11,7 +10,7 @@ import universalelectricity.prefab.network.IPacketReceiver;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public  class PowerProducerComplexTileEntity extends BasicComplexTileEntity  implements IPacketReceiver, ICableOutputter {
+public  class PowerProducerComplexTileEntity extends BasicComplexTileEntity  implements IPacketReceiver{
 
 	
 	
@@ -70,16 +69,6 @@ public  class PowerProducerComplexTileEntity extends BasicComplexTileEntity  imp
 	}
 
 	
-	public double getJoules() {
-		return this.electricityHandler.getEnergyStored();
-	}
-
-	public void setJoules(double joules) {
-		this.electricityHandler.setEnergyStored((float)joules);
-	}
-	public double getMaxJoules() {
-		return this.electricityHandler.getEnergyStored();
-	}
 
 	@Override
 	public boolean canConnect(ForgeDirection direction) {
@@ -92,12 +81,6 @@ public  class PowerProducerComplexTileEntity extends BasicComplexTileEntity  imp
 	
 
 	@Override
-	public boolean canOutputTo(ForgeDirection side) {
-		// TODO Auto-generated method stub
-		return this.canConnect(side);
-	}
-
-	@Override
 	public float getRequest(ForgeDirection direction) {
 		// TODO Auto-generated method stub
 		return 0;
@@ -107,6 +90,12 @@ public  class PowerProducerComplexTileEntity extends BasicComplexTileEntity  imp
 	public float getProvide(ForgeDirection direction) {
 		// TODO Auto-generated method stub
 		return this.electricOutput;
+	}
+
+	@Override
+	public float getMaxEnergyStored() {
+		// TODO Auto-generated method stub
+		return 100000;
 	}
 	
 	

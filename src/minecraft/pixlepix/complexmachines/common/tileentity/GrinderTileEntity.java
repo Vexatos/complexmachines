@@ -169,7 +169,7 @@ public class GrinderTileEntity extends PowerProducerComplexTileEntity implements
 		super.readFromNBT(par1NBTTagCompound);
 		this.inventory = new ItemStack[this.getSizeInventory()];
 		try {
-			this.setJoules(par1NBTTagCompound.getDouble("joulesStored"));
+			this.setEnergyStored((float)par1NBTTagCompound.getDouble("joulesStored"));
 		} catch (Exception e) {
 		}
 
@@ -190,7 +190,7 @@ public class GrinderTileEntity extends PowerProducerComplexTileEntity implements
 	@Override
 	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
 		super.writeToNBT(par1NBTTagCompound);
-		par1NBTTagCompound.setDouble("joulesStored", this.getJoules());
+		par1NBTTagCompound.setDouble("joulesStored", this.getEnergyStored());
 
 		NBTTagList var2 = new NBTTagList();
 

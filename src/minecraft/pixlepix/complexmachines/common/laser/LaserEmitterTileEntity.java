@@ -264,6 +264,11 @@ public class LaserEmitterTileEntity extends PowerConsumerComplexTileEntity {
 		// TODO Auto-generated method stub
 		return 25000;
 	}
+	@Override
+	public float getMaxEnergyStored() {
+		// TODO Auto-generated method stub
+		return getMaximumEnergy();
+	}
 
 	
 	
