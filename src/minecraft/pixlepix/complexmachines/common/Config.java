@@ -22,8 +22,7 @@ public class Config{
 	public static long minearRefreshRate = 25000;
 
 	public static void configure(FMLPreInitializationEvent event){
-		config = new Configuration(
-			event.getSuggestedConfigurationFile());
+		config = new Configuration(event.getSuggestedConfigurationFile());
 		config.load();
 
 		vanillaRecipies = getGeneralConfig("Vanilla (Easy) Recipies Enabled", vanillaRecipies).getBoolean(true);
