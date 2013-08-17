@@ -22,7 +22,7 @@ public class RenderLaserEmitter extends TileEntitySpecialRenderer
         this.model = new LaserEmitterModel();
     }
     
-    static ResourceLocation location=new ResourceLocation("complexmachines","/textures/models/LaserEmitter.png");
+    static ResourceLocation location=new ResourceLocation("complexmachines","textures/models/LaserEmitter.png");
     public static ResourceLocation getTexture()
     {
     	return location;

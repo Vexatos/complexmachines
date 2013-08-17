@@ -61,7 +61,7 @@ public class GuiExtractor extends GuiContainer
         
     }
     
-    static ResourceLocation location=new ResourceLocation("complexmachines","/textures/gui/Extractor.png");
+    static ResourceLocation location=new ResourceLocation("complexmachines","textures/gui/Extractor.png");
     public static ResourceLocation getTexture()
     {
     	return location;

@@ -36,7 +36,7 @@ public class RenderItemSinglePoint implements IItemRenderer {
     }
 
     
-    static ResourceLocation location=new ResourceLocation("complexmachines","/textures/models/SinglePointGenerator.png");
+    static ResourceLocation location=new ResourceLocation("complexmachines","textures/models/SinglePointGenerator.png");
     public static ResourceLocation getTexture()
     {
     	return location;

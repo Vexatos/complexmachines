@@ -41,7 +41,7 @@ public class RenderItemLaserEmitter implements IItemRenderer {
         return true;
     }
 
-    static ResourceLocation location=new ResourceLocation("complexmachines","/textures/models/LaserEmitter.png");
+    static ResourceLocation location=new ResourceLocation("complexmachines","textures/models/LaserEmitter.png");
     public static ResourceLocation getTexture()
     {
     	return location;

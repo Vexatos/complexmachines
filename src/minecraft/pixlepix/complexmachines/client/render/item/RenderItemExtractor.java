@@ -32,7 +32,7 @@ public class RenderItemExtractor implements IItemRenderer {
 
     
     
-    static ResourceLocation location=new ResourceLocation("complexmachines","/textures/models/Extractor.png");
+    static ResourceLocation location=new ResourceLocation("complexmachines","textures/models/Extractor.png");
     public static ResourceLocation getTexture()
     {
     	return location;

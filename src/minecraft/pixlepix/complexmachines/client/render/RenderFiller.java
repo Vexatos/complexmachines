@@ -22,7 +22,7 @@ public class RenderFiller extends TileEntitySpecialRenderer
         this.model = new FillerModel();
     }
     
-    static ResourceLocation location=new ResourceLocation("complexmachines","/textures/models/Filler.png");
+    static ResourceLocation location=new ResourceLocation("complexmachines","textures/models/Filler.png");
     public static ResourceLocation getTexture()
     {
     	return location;

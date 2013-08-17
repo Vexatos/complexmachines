@@ -22,7 +22,7 @@ public class RenderSinglePoint extends TileEntitySpecialRenderer
         this.model = new SinglePointGeneratorModel();
     }
     
-    static ResourceLocation location=new ResourceLocation("complexmachines","/textures/blocks/SinglePointGenerator.png");
+    static ResourceLocation location=new ResourceLocation("complexmachines","textures/blocks/SinglePointGenerator.png");
     public static ResourceLocation getTexture()
     {
     	return location;

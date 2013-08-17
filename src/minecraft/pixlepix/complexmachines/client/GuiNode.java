@@ -55,7 +55,7 @@ public class GuiNode extends GuiContainer
         
     }
     
-    static ResourceLocation location=new ResourceLocation("complexmachines","/textures/gui/Node.png");
+    static ResourceLocation location=new ResourceLocation("complexmachines","textures/gui/Node.png");
     public static ResourceLocation getTexture()
     {
     	return location;

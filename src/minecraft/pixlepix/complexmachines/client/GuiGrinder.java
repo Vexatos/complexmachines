@@ -57,7 +57,7 @@ public class GuiGrinder extends GuiContainer
         
     }
     
-    static ResourceLocation location=new ResourceLocation("complexmachines","/textures/gui/Grinder.png");
+    static ResourceLocation location=new ResourceLocation("complexmachines","textures/gui/Grinder.png");
     public static ResourceLocation getTexture()
     {
     	return location;

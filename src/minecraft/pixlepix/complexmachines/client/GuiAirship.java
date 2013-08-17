@@ -112,7 +112,7 @@ public class GuiAirship extends GuiContainer
        
     }
     
-    static ResourceLocation location=new ResourceLocation("complexmachines","/textures/gui/Airship.png");
+    static ResourceLocation location=new ResourceLocation("complexmachines","textures/gui/Airship.png");
     public static ResourceLocation getTexture()
     {
     	return location;

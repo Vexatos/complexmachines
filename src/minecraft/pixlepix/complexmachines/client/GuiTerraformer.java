@@ -78,7 +78,7 @@ public class GuiTerraformer extends GuiContainer
    
     
    
-    static ResourceLocation location=new ResourceLocation("complexmachines","/textures/gui/Terraformer.png");
+    static ResourceLocation location=new ResourceLocation("complexmachines","textures/gui/Terraformer.png");
     public static ResourceLocation getTexture()
     {
     	return location;

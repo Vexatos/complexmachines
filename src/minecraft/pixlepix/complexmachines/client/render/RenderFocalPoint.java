@@ -22,7 +22,7 @@ public class RenderFocalPoint extends TileEntitySpecialRenderer
         this.model = new FocalPointModel();
     }
     
-    static ResourceLocation location=new ResourceLocation("complexmachines","/textures/models/FocalPointControlled.png");
+    static ResourceLocation location=new ResourceLocation("complexmachines","textures/models/FocalPointControlled.png");
     public static ResourceLocation getTexture()
     {
     	return location;

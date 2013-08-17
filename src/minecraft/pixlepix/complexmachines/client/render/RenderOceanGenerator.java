@@ -21,7 +21,7 @@ public class RenderOceanGenerator extends TileEntitySpecialRenderer
     {
         this.model = new OceanGeneratorModel();
     }
-    static ResourceLocation location=new ResourceLocation("complexmachines","/textures/models/OceanGenerator.png");
+    static ResourceLocation location=new ResourceLocation("complexmachines","textures/models/OceanGenerator.png");
     public static ResourceLocation getTexture()
     {
     	return location;

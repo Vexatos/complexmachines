@@ -25,7 +25,7 @@ public class RenderHandler implements ISimpleBlockRenderingHandler {
 	public FocalPointModel focalPoint=new FocalPointModel();
 	public LaserEmitterModel laser=new LaserEmitterModel();
 	public OceanGeneratorModel oceanGenerator=new OceanGeneratorModel();
-	static ResourceLocation location=new ResourceLocation("complexmachines","/textures/models/Extractor.png");
+	static ResourceLocation location=new ResourceLocation("complexmachines","textures/models/Extractor.png");
     public static ResourceLocation getTexture()
     {
     	return location;

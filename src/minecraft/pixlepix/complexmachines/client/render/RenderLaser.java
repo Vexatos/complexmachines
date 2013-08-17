@@ -25,7 +25,7 @@ import cpw.mods.fml.relauncher.SideOnly;
     	    
     	   public static final ResourceLocation[] laserTextures=new ResourceLocation[22];
     	   public static void addTextures(int i,String modifier){
-    		   laserTextures[i]=new ResourceLocation("complexmachines","/textures/models/"+modifier+".png");
+    		   laserTextures[i]=new ResourceLocation("complexmachines","textures/models/"+modifier+".png");
     		  
     	   }
     	   public static void populateTextures(){
