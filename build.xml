@@ -17,7 +17,7 @@
 
 	<target name="prep">
 		<copy todir="${build.dir.development}\mcp\src\minecraft">
-			<fileset dir="${build.dir.development}\source\complexmachines" />
+			<fileset dir="${build.dir.development}" />
 		</copy>
 	</target>
 
@@ -62,7 +62,7 @@
 		<jar destfile="${build.dir.release}\${build.release.minecraft.version}\${build.release.mod.version}\ComplexMachines-${build.release.mod.version}-${build_number.build_number}.jar">
 			<fileset dir="${build.dir.development}\mcp\src\minecraft\" includes="mcmod.info" />
 			<fileset dir="${build.dir.development}\mcp\reobf\minecraft" />
-			<fileset dir="${build.dir.development}\source\complexmachines\resources" excludes="**/xcf/**" />
+			<fileset dir="${build.dir.development}\resources" excludes="**/xcf/**" />
 		</jar>
 
 		<!-- Clean up the MCP source now that we are done -->
@@ -83,7 +83,7 @@
 		<jar destfile="${build.dir.release}\${build.release.minecraft.version}\${build.release.mod.version}\Complex Machines-${build.release.mod.version}-${build_number.build_number}.jar">
 			<fileset dir="${build.dir.development}\mcp\src\minecraft\" includes="mcmod.info" />
 			<fileset dir="${build.dir.development}\mcp\reobf\minecraft" />
-			<fileset dir="${build.dir.development}\source\complexmachines\resources" excludes="**/xcf/**" />
+			<fileset dir="${build.dir.development}\resources" excludes="**/xcf/**" />
 		</jar>
 
 		<!-- Sign the finished jar -->
