@@ -1,5 +1,6 @@
 package pixlepix.complexmachines.client.render.item;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -81,6 +82,8 @@ public class RenderItemSinglePoint implements IItemRenderer {
         GL11.glTranslatef(x, y, z); //size
         GL11.glRotatef(180, 1, 0, 0);
         GL11.glRotatef(-90, 0, 1, 0);
+        Minecraft.getMinecraft().renderEngine.func_110577_a(getTexture());
+
         model.render(null, 0, 0, 0, 0, 0, 0.0625F);
         GL11.glPopMatrix(); //end
     }

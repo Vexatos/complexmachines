@@ -22,7 +22,7 @@ public class RenderFocalPoint extends TileEntitySpecialRenderer
         this.model = new FocalPointModel();
     }
     
-    static ResourceLocation location=new ResourceLocation("complexmachines","/textures/models/FocalPoint.png");
+    static ResourceLocation location=new ResourceLocation("complexmachines","/textures/models/FocalPointControlled.png");
     public static ResourceLocation getTexture()
     {
     	return location;
@@ -50,6 +50,8 @@ public class RenderFocalPoint extends TileEntitySpecialRenderer
         }
         
         GL11.glScalef(1.0F, -1F, -1F);
+
+        this.func_110628_a(getTexture());
         this.model.render(null, 0, 0, 0, 0, 0, 0.0625F);
         GL11.glPopMatrix();
         

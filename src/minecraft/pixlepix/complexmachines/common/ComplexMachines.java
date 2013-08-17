@@ -149,6 +149,7 @@ public class ComplexMachines {
 	redgrainSeed=new BasicSeeds(Config.itemStartingID+21, Config.blockStartingID+44,2,"ComplexMachines:RedgrainSeeds","RedgrainSeed");
 
 	minearCloaker=new MinearCloaker(Config.itemStartingID+22);
+	BasicComponents.requestAll(this);
 	BasicComponents.register("Complex Machines");
 	
 

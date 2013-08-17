@@ -51,6 +51,8 @@ public class RenderFiller extends TileEntitySpecialRenderer
 
         GL11.glRotatef(270, 0.0F, 1.0F, 0.0F);
         GL11.glScalef(1.0F, -1F, -1F);
+
+        this.func_110628_a(getTexture());
         this.model.render(null, 0, 0, 0, 0, 0, 0.0625F);
         GL11.glPopMatrix();
         

@@ -22,7 +22,7 @@ public class RenderExtractor extends TileEntitySpecialRenderer
     }
     
     
-    static ResourceLocation location=new ResourceLocation("complexmachines","/textures/blocks/Extractor.png");
+    static ResourceLocation location=new ResourceLocation("complexmachines","/textures/models/Extractor.png");
     public static ResourceLocation getTexture()
     {
     	return location;
@@ -52,6 +52,7 @@ public class RenderExtractor extends TileEntitySpecialRenderer
         }
         
         GL11.glScalef(1.0F, -1F, -1F);
+        this.func_110628_a(getTexture());
         this.model.render(null, 0, 0, 0, 0, 0, 0.0625F);
         GL11.glPopMatrix();
         

@@ -50,6 +50,7 @@ public class RenderLaserEmitter extends TileEntitySpecialRenderer
         }
         
         GL11.glScalef(1.0F, -1F, -1F);
+        this.func_110628_a(getTexture());
         this.model.render(null, 0, 0, 0, 0, 0, 0.0625F);
         GL11.glPopMatrix();
         
