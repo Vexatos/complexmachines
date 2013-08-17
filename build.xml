@@ -210,11 +210,7 @@
 		</condition>
 
 		<jar destfile="${jar.file.name}" basedir="${classes.dir}"/>
-		<copy todir="${jar.dir}/changelog">
-			<fileset dir="${resources.dir}/changelog">
-				<include name="*" />
-			</fileset>
-		</copy>
+		
 
 	</target>
 
