@@ -12,7 +12,7 @@ import archadia.complexmachines.common.helper.MechRecipes.Recipe;
  * @author Archadia
  *
  */
-public class TileEntityAlloyFabricator extends TileEntityBasicContainer {
+public class TileEntityAlloyFabricator extends TileEntityBasicMachine {
 	
 	public TileEntityAlloyFabricator() {
 		inventory = new ItemStack[5];
@@ -35,39 +35,9 @@ public class TileEntityAlloyFabricator extends TileEntityBasicContainer {
 					ArchHelper.println("Node 2!");
 					nullSlot(0);
 					nullSlot(1);
-					setOutput(new ItemStack(ComplexMachines.C194), 2);
+					setOutput(new ItemStack(ComplexMachines.C194), 4, 2);
 				}
 			}
-		}
-	}
-	
-	public boolean canProcess() {
-		return false;
-	}
-	
-	public void nullSlot(int slot) {
-		inventory[slot] = null;
-	}
-	
-	public void splitSlot(int slot, int amt) {
-		if(inventory[slot] != null) {
-			if(inventory[slot].stackSize <= 1) {
-				inventory[slot] = null;
-			}
-			if(inventory[slot].stackSize > 1) {
-				inventory[slot].splitStack(amt);
-			}
-		}
-	}
-	
-	public void setOutput(ItemStack input, int amt) {
-		ItemStack item = new ItemStack(ComplexMachines.C194);
-		if(inventory[4] != null) {
-			inventory[4].stackSize += amt;
-		}
-		if(inventory[4] == null) {
-			inventory[4] = item;
-			inventory[4].stackSize = amt;
 		}
 	}
 }
