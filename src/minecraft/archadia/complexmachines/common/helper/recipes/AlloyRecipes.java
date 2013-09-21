@@ -1,7 +1,7 @@
 package archadia.complexmachines.common.helper.recipes;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
+import archadia.complexmachines.common.helper.ArchHelper;
 import archadia.complexmachines.common.helper.map.DualMap;
 
 /**
@@ -12,19 +12,19 @@ public class AlloyRecipes {
 	
     private static final AlloyRecipes alloyBase = new AlloyRecipes();
 	
-    public static final AlloyRecipes alloy()
-    {
+    public static final AlloyRecipes alloy() {
         return alloyBase;
     }
     
-    public ItemStack getSmeltingResult(int id, int id2)
-    {
-        return (ItemStack)this.alloyRecipes.get(Integer.valueOf(id), Integer.valueOf(id2));
+    public ItemStack getResult(ItemStack input1, ItemStack input2) {
+    	ItemStack item = (ItemStack) this.alloyRecipes.get(input1, input2);
+    	ArchHelper.println("" + item);
+        return (ItemStack)this.alloyRecipes.get(input1, input2);
     }
     
-	public DualMap<Integer, Integer, ItemStack> alloyRecipes = new DualMap<Integer, Integer, ItemStack>();
+	public DualMap<ItemStack, ItemStack, ItemStack> alloyRecipes = new DualMap<ItemStack, ItemStack, ItemStack>();
 	
-	public void addAlloyRecipe(int id, int id2, ItemStack itemstack) {
+	public void addAlloyRecipe(ItemStack id, ItemStack id2, ItemStack itemstack) {
 		alloyRecipes.put(id, id2, itemstack);
 	}
 }

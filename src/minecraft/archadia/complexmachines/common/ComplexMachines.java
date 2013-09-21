@@ -5,6 +5,7 @@ import java.io.File;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import universalelectricity.prefab.network.PacketManager;
@@ -12,6 +13,7 @@ import archadia.complexmachines.common.block.BlockAlloyFabricator;
 import archadia.complexmachines.common.block.BlockExcavator;
 import archadia.complexmachines.common.block.BlockModOre;
 import archadia.complexmachines.common.helper.ArchLoader;
+import archadia.complexmachines.common.helper.recipes.AlloyRecipes;
 import archadia.complexmachines.common.item.ItemAlloy;
 import archadia.complexmachines.common.item.ItemIngot;
 import archadia.complexmachines.common.proxy.CommonProxy;
@@ -86,5 +88,7 @@ public class ComplexMachines {
 		
 		OreDictionary.registerOre("ingotCopper", ingotCopper);
 		OreDictionary.registerOre("oreCopper", oreCopper);
+		
+		AlloyRecipes.alloy().addAlloyRecipe(new ItemStack(ingotCopper), new ItemStack(Item.ingotIron), new ItemStack(C194));
 	}
 }

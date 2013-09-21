@@ -27,7 +27,7 @@ public class GuiAlloyFabricator extends GuiContainer {
 	    protected void drawGuiContainerForegroundLayer(int par1, int par2) {
 	        String s = this.tileINV.isInvNameLocalized() ? this.tileINV.getInvName() : I18n.func_135053_a(this.tileINV.getInvName());
 	        this.fontRenderer.drawString(s, this.xSize / 2, 72, 4210752);
-	        this.fontRenderer.drawString("Processing: ", this.xSize / 2, 72, 4210752);
+	        this.fontRenderer.drawString("Legierungsfab", this.xSize / 2, 72, 4210752);
 	    }
 
 	    protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {

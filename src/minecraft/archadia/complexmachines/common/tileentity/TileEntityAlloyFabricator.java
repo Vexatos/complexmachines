@@ -2,7 +2,10 @@ package archadia.complexmachines.common.tileentity;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import archadia.complexmachines.common.ComplexMachines;
+import archadia.complexmachines.common.helper.ArchHelper;
+import archadia.complexmachines.common.helper.recipes.AlloyRecipes;
 
 /**
  * @author Archadia
@@ -17,15 +20,59 @@ public class TileEntityAlloyFabricator extends TileEntityBasicMachine {
 	}
 	
 	public void updateEntity() {
-		if(!worldObj.isRemote) {
-			if(inventory[0] != null) {
-				if(checkInput(0, ComplexMachines.ingotCopper, 9) && checkInput(1, Item.ingotIron, 1)) {
-					helper.println("Node 1!");
-					setOutput(4, new ItemStack(ComplexMachines.C194), 2);
-					decrStackSize(0, 9);
-					decrStackSize(1, 1);
-				}
-			}
+		mixAlloy();
+	}
+	
+	private boolean canMix() {
+		if (inventory[0] == null || inventory[1] == null) {
+        	return false;
+        } else {
+            ItemStack itemstack =  AlloyRecipes.alloy().getResult(inventory[0], inventory[1]);
+            if (itemstack == null) {
+            	//ArchHelper.println("XXX1!");
+            	return false;
+            }
+            if (inventory[4] == null) {
+            	//ArchHelper.println("XXX2!");
+            	return true;
+            }
+            if (!inventory[4].isItemEqual(itemstack)) { 
+            	//ArchHelper.println("XXX3!");
+            	return false;
+            }
+            //ArchHelper.println("XXX4!");
+            int result = inventory[4].stackSize + itemstack.stackSize;
+            return (result <= getInventoryStackLimit() && result <= itemstack.getMaxStackSize());
+        }
+    }
+	
+	public void mixAlloy() {
+		if(canMix()) {
+			ArchHelper.println("NODE 1!");
+			ItemStack itemstack = AlloyRecipes.alloy().getResult(inventory[0], inventory[1]);
+	
+	        if (inventory[4] == null)
+	        {
+	        	inventory[4] = itemstack.copy();
+	        }
+	        else if (inventory[4].isItemEqual(itemstack))
+	        {
+	        	inventory[4].stackSize += itemstack.stackSize;
+	        }
+	
+	        --inventory[0].stackSize;
+	
+	        if (inventory[0].stackSize <= 0)
+	        {
+	            inventory[0] = null;
+	        }
+	        
+	        --inventory[1].stackSize;
+	
+	        if (inventory[1].stackSize <= 0)
+	        {
+	            inventory[1] = null;
+	        }
 		}
 	}
 }
