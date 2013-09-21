@@ -20,14 +20,6 @@ public class TileEntityBasicMachine extends TileEntityBasicContainer {
 		inventory[slot] = null;
 	}
 	
-	public void splitSlot(int slot, int amt) {
-		if(!worldObj.isRemote) {
-			if(inventory[slot] != null) {
-				inventory[slot].splitStack(amt);
-			}
-		}
-	}
-	
 	public boolean checkInput(int slot, Item item, int size) {
 		if(inventory[slot] != null) {
 			if(inventory[slot].itemID == item.itemID) {

@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import archadia.complexmachines.common.helper.ArchHelper;
 
 /**
  * @author Archadia
@@ -11,6 +12,8 @@ import net.minecraft.tileentity.TileEntity;
  */
 public class TileEntityBasicContainer extends TileEntity implements IInventory {
 
+	protected ArchHelper helper = new ArchHelper();
+	
 	protected ItemStack[] inventory;
     
 	public static int playersUsing;
@@ -26,10 +29,15 @@ public class TileEntityBasicContainer extends TileEntity implements IInventory {
 	}
 
 	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		return null;
-	}
-
+    public ItemStack decrStackSize(int slot, int amount) {
+        if (slot >= 0 && slot < inventory.length) {
+            ItemStack itemstack = inventory[slot];
+            inventory[slot] = null;
+            return itemstack;
+        } else {
+            return null;
+        }
+    }
 	@Override
 	public ItemStack getStackInSlotOnClosing(int i) {
 		if (this.inventory[i] != null) {

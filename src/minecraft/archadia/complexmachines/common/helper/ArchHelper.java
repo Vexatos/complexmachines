@@ -8,7 +8,7 @@ import net.minecraft.block.Block;
  *
  */
 public class ArchHelper {
-	
+		
 	/**
 	 * Input unlocalized name, and it turns it into a name the loader can use.
 	 * @param unloc
@@ -31,4 +31,6 @@ public class ArchHelper {
 			System.out.println(str);
 		}
 	}
+	
+	
 }
