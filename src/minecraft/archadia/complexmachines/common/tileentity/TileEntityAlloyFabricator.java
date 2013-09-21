@@ -1,89 +1,74 @@
 package archadia.complexmachines.common.tileentity;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
+import java.util.Map;
+
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
+import archadia.complexmachines.common.ComplexMachines;
+import archadia.complexmachines.common.helper.ArchHelper;
+import archadia.complexmachines.common.helper.MechRecipes.Recipe;
 
 /**
  * @author Archadia
  *
  */
-public class TileEntityAlloyFabricator extends TileEntity implements IInventory {
-
-    private ItemStack[] inventory = new ItemStack[5];
-    
-	public static int playersUsing;
+public class TileEntityAlloyFabricator extends TileEntityBasicContainer {
+	
+	public TileEntityAlloyFabricator() {
+		inventory = new ItemStack[5];
+	}
 	
 	@Override
-	public int getSizeInventory() {
-		return inventory.length;
-	}
-
-	@Override
-	public ItemStack getStackInSlot(int i) {
-		return this.inventory[i];
-	}
-
-	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		return null;
-	}
-
-	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		if (this.inventory[i] != null) {
-            ItemStack itemstack = this.inventory[i];
-            this.inventory[i] = null;
-            return itemstack;
-        } else {
-            return null;
-        }
-	}
-
-	@Override
-	public void setInventorySlotContents(int i, ItemStack itemstack) {
-		 this.inventory[i] = itemstack;
-
-	        if (itemstack != null && itemstack.stackSize > this.getInventoryStackLimit())
-	        {
-	        	itemstack.stackSize = this.getInventoryStackLimit();
-	        }
-	}
-
-	@Override
 	public String getInvName() {
-		return "InvAlloyFabricator";
+        return null;
 	}
-
-	@Override
+	
 	public boolean isInvNameLocalized() {
-		return false;
-	}
-
-	@Override
-	public int getInventoryStackLimit() {
-		return 64;
-	}
-
-	@Override
-	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
 		return true;
 	}
-
-	@Override
-	public void openChest() {
-		playersUsing++;
+	
+	public void updateEntity() {
+		if(!worldObj.isRemote) {
+			if(inventory[0] != null) {
+				ArchHelper.println("Node 1!");
+				if(inventory[0].itemID == ComplexMachines.ingotCopper.itemID && inventory[0].stackSize == 9) {
+					ArchHelper.println("Node 2!");
+					nullSlot(0);
+					nullSlot(1);
+					setOutput(new ItemStack(ComplexMachines.C194), 2);
+				}
+			}
+		}
 	}
-
-	@Override
-	public void closeChest() {
-		playersUsing--;
-	}
-
-	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+	
+	public boolean canProcess() {
 		return false;
 	}
-
+	
+	public void nullSlot(int slot) {
+		inventory[slot] = null;
+	}
+	
+	public void splitSlot(int slot, int amt) {
+		if(inventory[slot] != null) {
+			if(inventory[slot].stackSize <= 1) {
+				inventory[slot] = null;
+			}
+			if(inventory[slot].stackSize > 1) {
+				inventory[slot].splitStack(amt);
+			}
+		}
+	}
+	
+	public void setOutput(ItemStack input, int amt) {
+		ItemStack item = new ItemStack(ComplexMachines.C194);
+		if(inventory[4] != null) {
+			inventory[4].stackSize += amt;
+		}
+		if(inventory[4] == null) {
+			inventory[4] = item;
+			inventory[4].stackSize = amt;
+		}
+	}
 }
+  

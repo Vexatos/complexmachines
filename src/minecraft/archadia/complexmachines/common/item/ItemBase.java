@@ -17,6 +17,6 @@ public class ItemBase extends Item {
 	}
 
 	public void registerIcons(IconRegister ir) {
-		itemIcon = ir.registerIcon("modech:"+itemname);
+		itemIcon = ir.registerIcon("complexmachines:"+itemname);
 	}
 }

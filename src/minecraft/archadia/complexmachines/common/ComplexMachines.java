@@ -13,7 +13,7 @@ import archadia.complexmachines.common.block.BlockAlloyFabricator;
 import archadia.complexmachines.common.block.BlockExcavator;
 import archadia.complexmachines.common.block.BlockModOre;
 import archadia.complexmachines.common.helper.ArchLoader;
-import archadia.complexmachines.common.helper.recipes.MachineryRecipes;
+import archadia.complexmachines.common.helper.MechRecipes;
 import archadia.complexmachines.common.item.ItemAlloy;
 import archadia.complexmachines.common.item.ItemIngot;
 import archadia.complexmachines.common.proxy.CommonProxy;
@@ -29,7 +29,6 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 /**
  * @author Archadia
@@ -48,9 +47,8 @@ public class ComplexMachines {
 	public static CommonProxy proxy;
 	
 	public static ComplexMachinesTab tabComplexMachines = new ComplexMachinesTab();
-	
-	public static MachineryRecipes recipes = new MachineryRecipes();
-	
+		
+	public static MechRecipes recipes = new MechRecipes();
 	public static ArchLoader loader = new ArchLoader();
 	public static final Configuration config = new Configuration(new File(Loader.instance().getConfigDir() + "Modech.cfg"));
 	
@@ -85,9 +83,6 @@ public class ComplexMachines {
 		
 		loader.loadBlocks();
 		
-		/*LanguageRegistry.instance().addNameForObject(ingotCopper, "en_US", "Copper Ingot");
-		LanguageRegistry.instance().addNameForObject(C194, "en_US", "Iron-Copper Alloy (C194)");*/
-		
 		GameRegistry.registerTileEntity(TileEntityAlloyFabricator.class, "tileEntityAlloyFabricator");
 		GameRegistry.registerTileEntity(TileEntityExcavator.class, "tileEntityExcavator");
 		NetworkRegistry.instance().registerGuiHandler(instance, proxy);
@@ -95,12 +90,6 @@ public class ComplexMachines {
 		OreDictionary.registerOre("ingotCopper", ingotCopper);
 		OreDictionary.registerOre("oreCopper", oreCopper);
 		
-		recipes.addAlloyRecipe2P(new ItemStack(ingotCopper), new ItemStack(Item.ingotIron), new ItemStack(C194));
-	}
-	
-	public static void println(String str) {
-		if(debug) {
-			System.out.println(str);
-		}
+		recipes.addAlloyRecipe(new ItemStack(ingotCopper), new ItemStack(C194));
 	}
 }

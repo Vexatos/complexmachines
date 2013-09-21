@@ -1,5 +1,6 @@
 package archadia.complexmachines.common.helper;
 
+import archadia.complexmachines.common.ComplexMachines;
 import net.minecraft.block.Block;
 
 /**
@@ -23,5 +24,11 @@ public class ArchHelper {
 			return replaced;
 		}
 		return null;
+	}
+	
+	public static void println(String str) {
+		if(ComplexMachines.debug) {
+			System.out.println(str);
+		}
 	}
 }
