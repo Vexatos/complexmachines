@@ -5,7 +5,6 @@ import java.io.File;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import universalelectricity.prefab.network.PacketManager;
@@ -13,7 +12,6 @@ import archadia.complexmachines.common.block.BlockAlloyFabricator;
 import archadia.complexmachines.common.block.BlockExcavator;
 import archadia.complexmachines.common.block.BlockModOre;
 import archadia.complexmachines.common.helper.ArchLoader;
-import archadia.complexmachines.common.helper.MechRecipes;
 import archadia.complexmachines.common.item.ItemAlloy;
 import archadia.complexmachines.common.item.ItemIngot;
 import archadia.complexmachines.common.proxy.CommonProxy;
@@ -48,7 +46,6 @@ public class ComplexMachines {
 	
 	public static ComplexMachinesTab tabComplexMachines = new ComplexMachinesTab();
 		
-	public static MechRecipes recipes = new MechRecipes();
 	public static ArchLoader loader = new ArchLoader();
 	public static final Configuration config = new Configuration(new File(Loader.instance().getConfigDir() + "Modech.cfg"));
 	
@@ -89,7 +86,5 @@ public class ComplexMachines {
 		
 		OreDictionary.registerOre("ingotCopper", ingotCopper);
 		OreDictionary.registerOre("oreCopper", oreCopper);
-		
-		recipes.addAlloyRecipe(new ItemStack(ingotCopper), new ItemStack(C194));
 	}
 }
