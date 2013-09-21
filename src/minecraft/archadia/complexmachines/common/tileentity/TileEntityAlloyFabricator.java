@@ -18,24 +18,13 @@ public class TileEntityAlloyFabricator extends TileEntityBasicMachine {
 		inventory = new ItemStack[5];
 	}
 	
-	@Override
-	public String getInvName() {
-        return null;
-	}
-	
-	public boolean isInvNameLocalized() {
-		return true;
-	}
-	
 	public void updateEntity() {
 		if(!worldObj.isRemote) {
 			if(inventory[0] != null) {
-				ArchHelper.println("Node 1!");
-				if(inventory[0].itemID == ComplexMachines.ingotCopper.itemID && inventory[0].stackSize == 9) {
-					ArchHelper.println("Node 2!");
+				if(checkInput(0, ComplexMachines.ingotCopper, 9) && checkInput(1, Item.ingotIron, 1)) {
 					nullSlot(0);
 					nullSlot(1);
-					setOutput(new ItemStack(ComplexMachines.C194), 4, 2);
+					setOutput(4, new ItemStack(ComplexMachines.C194), 2);
 				}
 			}
 		}
