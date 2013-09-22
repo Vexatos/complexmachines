@@ -1,12 +1,13 @@
 package archadia.complexmachines.common.block;
 
-import archadia.complexmachines.common.ComplexMachines;
-import archadia.complexmachines.common.tileentity.TileEntityAlloyFabricator;
-import archadia.complexmachines.common.tileentity.TileEntityWireMill;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import archadia.complexmachines.common.ComplexMachines;
+import archadia.complexmachines.common.tileentity.TileEntityWireMill;
 
 /**
  * @author Archadia
@@ -19,6 +20,7 @@ public class BlockWireMill extends BlockBase {
 		setCreativeTab(ComplexMachines.tabComplexMachines);
 		setHardness(2F);
 		setUnlocalizedName(name);
+		setIconMax(6);
 	}
 
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9) {
@@ -36,5 +38,15 @@ public class BlockWireMill extends BlockBase {
 	
 	public TileEntity createTileEntity(World world, int metadata) {
 		return new TileEntityWireMill();
+	}
+	
+	public Icon getIcon(int side, int meta)
+	{
+		return icons[side];
+	}
+	
+	public void registerIcons(IconRegister ir) {
+		icons[0] = ir.registerIcon("complexmachines:wiremill_32x");
+		icons[1] = ir.registerIcon("complexmachines:wiremill_top_32x");
 	}
 }

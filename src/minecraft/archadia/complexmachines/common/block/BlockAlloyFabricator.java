@@ -1,8 +1,10 @@
 package archadia.complexmachines.common.block;
 
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import archadia.complexmachines.common.ComplexMachines;
 import archadia.complexmachines.common.tileentity.TileEntityAlloyFabricator;
@@ -18,6 +20,7 @@ public class BlockAlloyFabricator extends BlockBase {
 		setCreativeTab(ComplexMachines.tabComplexMachines);
 		setHardness(2F);
 		setUnlocalizedName(name);
+		setIconMax(6);
 	}
 
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9) {
@@ -35,5 +38,17 @@ public class BlockAlloyFabricator extends BlockBase {
 	
 	public TileEntity createTileEntity(World world, int metadata) {
 		return new TileEntityAlloyFabricator();
+	}
+	
+	public Icon getIcon(int side, int meta)
+	{
+		if(side == 1 || side == 6) return icons[1];
+		if(side > 1 && side != 6) return icons[0];
+		return null;
+	}
+	
+	public void registerIcons(IconRegister ir) {
+		icons[0] = ir.registerIcon("complexmachines:alloyfab_side_off_32x");
+		icons[1] = ir.registerIcon("complexmachines:alloyfab_top_off_32x");
 	}
 }
