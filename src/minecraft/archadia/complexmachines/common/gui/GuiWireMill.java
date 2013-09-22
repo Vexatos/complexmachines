@@ -17,12 +17,11 @@ import archadia.complexmachines.common.tileentity.TileEntityWireMill;
  */
 public class GuiWireMill extends GuiContainer {
 	
-    private TileEntityWireMill tileINV;
+    private static TileEntityWireMill tileINV = new TileEntityWireMill();
     private ArchHelper helper = new ArchHelper();
 
     public GuiWireMill(InventoryPlayer par1InventoryPlayer, TileEntityWireMill tile) {
         super(new ContainerWireMill(par1InventoryPlayer, tile));
-        this.tileINV = tile;
     }
 
     protected void drawGuiContainerForegroundLayer(int par1, int par2) {
@@ -40,6 +39,6 @@ public class GuiWireMill extends GuiContainer {
         int i1;
 
         i1 = tileINV.getProcessProgressScaled(24);
-        this.drawTexturedModalRect(k + 77, l + 43, 176, 0, i1, 16);
+        this.drawTexturedModalRect(k + 77, l + 43, 176, 0, i1 + 1, 16);
     }
 }

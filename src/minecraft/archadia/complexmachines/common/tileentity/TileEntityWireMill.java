@@ -23,18 +23,6 @@ public class TileEntityWireMill extends TileEntityBasicMachine {
 	public final static TileEntityWireMill instance() {
 		return tileEntityBase;
 	}
-	
-	public void addProcessTime(int par1) {
-		processTime += par1;
-	}
-	
-	public void setProcessTime(int par1) {
-		processTime = par1;
-	}
-	 
-	public int getProcessTime() {
-		 return processTime;
-	}
 	 
 	public TileEntityWireMill() {
 		inventory = new ItemStack[2];
@@ -46,17 +34,17 @@ public class TileEntityWireMill extends TileEntityBasicMachine {
         {
             if (this.canProcess())
             {
-                ArchHelper.println(""+getProcessTime());
-                addProcessTime(1);
+                ArchHelper.println(""+processTime);
+                ++processTime;
 
-                if (getProcessTime() == 200)
+                if (processTime == 200)
                 {
-                	setProcessTime(0);
+                	processTime = 0;
                     processItems();
                     flag1 = true;
                 }
             } else {
-            	setProcessTime(0);
+            	processTime = 0;
             }
         }
         
@@ -68,10 +56,7 @@ public class TileEntityWireMill extends TileEntityBasicMachine {
 	}
 	
     public int getProcessProgressScaled(int par1) {
-    	if(!worldObj.isRemote) {	
-    		return getProcessTime() * par1 / 200;
-    	}
-		return 0;
+    	return processTime * par1 / 200;
     }
 	
 	public String getInvName() {

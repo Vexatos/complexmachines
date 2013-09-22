@@ -1,7 +1,8 @@
 package archadia.complexmachines.common.tileentity;
 
-import archadia.complexmachines.common.helper.ArchHelper;
-import net.minecraft.item.Item;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -16,20 +17,7 @@ public class TileEntityBasicMachine extends TileEntityBasicContainer {
 		return false;
 	}
 	
-	public void nullSlot(int slot) {
-		inventory[slot] = null;
-	}
-	
-	public boolean checkInput(int slot, Item item, int size) {
-		if(inventory[slot] != null) {
-			if(inventory[slot].itemID == item.itemID) {
-				if(inventory[slot].stackSize == size) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}	
+	protected ArrayList<Integer> machineValues = new ArrayList<Integer>();
 	
 	public void readFromNBT(NBTTagCompound par1NBTTagCompound)
     {
@@ -67,21 +55,6 @@ public class TileEntityBasicMachine extends TileEntityBasicContainer {
                 nbttaglist.appendTag(nbttagcompound1);
             }
         }
-
         par1NBTTagCompound.setTag("Items", nbttaglist);
     }
-
-	
-	public void setOutput(int slot, ItemStack input, int amt) {
-		if(!worldObj.isRemote) {
-			if(inventory[slot] != null) {
-				inventory[slot].stackSize += amt;
-			}
-			if(inventory[slot] == null) {
-				inventory[slot] = input;
-				inventory[slot].stackSize = amt;
-			}
-		}
-	}
-	
 }
