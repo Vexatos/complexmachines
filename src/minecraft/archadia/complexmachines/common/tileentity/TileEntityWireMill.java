@@ -5,6 +5,7 @@ import java.util.Map;
 
 import net.minecraft.block.BlockFurnace;
 import net.minecraft.item.ItemStack;
+import archadia.complexmachines.common.helper.ArchHelper;
 import archadia.complexmachines.common.helper.recipes.WiremillRecipes;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -17,37 +18,48 @@ public class TileEntityWireMill extends TileEntityBasicMachine {
 	
 	public int processTime;
 	
-	 private final static TileEntityWireMill tileEntityBase = new TileEntityWireMill();   
+	private final static TileEntityWireMill tileEntityBase = new TileEntityWireMill();   
 	 
-	 public final static TileEntityWireMill instance() {
-		 return tileEntityBase;
-	 }
+	public final static TileEntityWireMill instance() {
+		return tileEntityBase;
+	}
 	
+	public void addProcessTime(int par1) {
+		processTime += par1;
+	}
+	
+	public void setProcessTime(int par1) {
+		processTime = par1;
+	}
+	 
+	public int getProcessTime() {
+		 return processTime;
+	}
+	 
 	public TileEntityWireMill() {
 		inventory = new ItemStack[2];
 	}
 	
 	public void updateEntity() {
         boolean flag1 = false;
-
         if (!this.worldObj.isRemote)
         {
             if (this.canProcess())
             {
-                ++this.processTime;
+                ArchHelper.println(""+getProcessTime());
+                addProcessTime(1);
 
-                if (this.processTime == 200)
+                if (getProcessTime() == 200)
                 {
-                    this.processTime = 0;
-                    this.processItems();
+                	setProcessTime(0);
+                    processItems();
                     flag1 = true;
                 }
-            }
-            else
-            {
-                this.processTime = 0;
+            } else {
+            	setProcessTime(0);
             }
         }
+        
 
         if (flag1)
         {
@@ -56,7 +68,10 @@ public class TileEntityWireMill extends TileEntityBasicMachine {
 	}
 	
     public int getProcessProgressScaled(int par1) {
-        return this.processTime * par1 / 200;
+    	if(!worldObj.isRemote) {	
+    		return getProcessTime() * par1 / 200;
+    	}
+		return 0;
     }
 	
 	public String getInvName() {
