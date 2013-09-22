@@ -12,6 +12,7 @@ import universalelectricity.prefab.network.PacketManager;
 import archadia.complexmachines.common.block.BlockAlloyFabricator;
 import archadia.complexmachines.common.block.BlockExcavator;
 import archadia.complexmachines.common.block.BlockModOre;
+import archadia.complexmachines.common.block.BlockWireMill;
 import archadia.complexmachines.common.helper.ArchLoader;
 import archadia.complexmachines.common.helper.recipes.AlloyRecipes;
 import archadia.complexmachines.common.item.ItemAlloy;
@@ -19,6 +20,7 @@ import archadia.complexmachines.common.item.ItemIngot;
 import archadia.complexmachines.common.proxy.CommonProxy;
 import archadia.complexmachines.common.tileentity.TileEntityAlloyFabricator;
 import archadia.complexmachines.common.tileentity.TileEntityExcavator;
+import archadia.complexmachines.common.tileentity.TileEntityWireMill;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -51,7 +53,7 @@ public class ComplexMachines {
 	public static ArchLoader loader = new ArchLoader();
 	public static final Configuration config = new Configuration(new File(Loader.instance().getConfigDir() + "Modech.cfg"));
 	
-	public static Block excavator;
+	public static Block wireMill;
 	public static Block alloyFabricator;
 	public static Block oreCopper;
 	
@@ -65,7 +67,7 @@ public class ComplexMachines {
 	
 	@EventHandler
 	public void PreInit(FMLPreInitializationEvent event) {
-		excavator = new BlockExcavator(2389, Material.iron, "excavator").setHardness(2F);
+		wireMill = new BlockWireMill(2389, Material.iron, "wireMill").setHardness(2F);
 		alloyFabricator = new BlockAlloyFabricator(2390, Material.iron, "alloyFabricator").setHardness(2F);;
 		oreCopper = new BlockModOre(2391, Material.rock, "oreCopper").setHardness(2F);
 		
@@ -75,7 +77,7 @@ public class ComplexMachines {
 	
 	@EventHandler
 	public void Init(FMLInitializationEvent event) {
-		loader.addBlock(excavator);
+		loader.addBlock(wireMill);
 		loader.addBlock(alloyFabricator);
 		loader.addBlock(oreCopper);
 		loader.loadLangauges("/assets/complexmachines/lang/", languages);
@@ -83,12 +85,12 @@ public class ComplexMachines {
 		loader.loadBlocks();
 		
 		GameRegistry.registerTileEntity(TileEntityAlloyFabricator.class, "tileEntityAlloyFabricator");
-		GameRegistry.registerTileEntity(TileEntityExcavator.class, "tileEntityExcavator");
+		GameRegistry.registerTileEntity(TileEntityWireMill.class, "tileEntityWireMill");
 		NetworkRegistry.instance().registerGuiHandler(instance, proxy);
 		
 		OreDictionary.registerOre("ingotCopper", ingotCopper);
 		OreDictionary.registerOre("oreCopper", oreCopper);
-		
-		AlloyRecipes.alloy().addAlloyRecipe(new ItemStack(ingotCopper), new ItemStack(Item.ingotIron), new ItemStack(C194));
+
+		AlloyRecipes.alloy().addAlloyRecipe(ComplexMachines.ingotCopper.itemID, Item.ingotIron.itemID, new ItemStack(ComplexMachines.C194));
 	}
 }

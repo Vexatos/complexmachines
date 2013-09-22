@@ -12,11 +12,13 @@ import archadia.complexmachines.common.helper.recipes.AlloyRecipes;
  *
  */
 public class TileEntityAlloyFabricator extends TileEntityBasicMachine {
-	
-	public int waitingTime;
-	
+		
 	public TileEntityAlloyFabricator() {
 		inventory = new ItemStack[5];
+	}
+	
+	public boolean isInvNameLocalized() {
+		return true;
 	}
 	
 	public void updateEntity() {
@@ -27,20 +29,16 @@ public class TileEntityAlloyFabricator extends TileEntityBasicMachine {
 		if (inventory[0] == null || inventory[1] == null) {
         	return false;
         } else {
-            ItemStack itemstack =  AlloyRecipes.alloy().getResult(inventory[0], inventory[1]);
+            ItemStack itemstack =  AlloyRecipes.alloy().getResult(inventory[0].itemID, inventory[1].itemID);
             if (itemstack == null) {
-            	//ArchHelper.println("XXX1!");
             	return false;
             }
             if (inventory[4] == null) {
-            	//ArchHelper.println("XXX2!");
             	return true;
             }
             if (!inventory[4].isItemEqual(itemstack)) { 
-            	//ArchHelper.println("XXX3!");
             	return false;
             }
-            //ArchHelper.println("XXX4!");
             int result = inventory[4].stackSize + itemstack.stackSize;
             return (result <= getInventoryStackLimit() && result <= itemstack.getMaxStackSize());
         }
@@ -48,8 +46,7 @@ public class TileEntityAlloyFabricator extends TileEntityBasicMachine {
 	
 	public void mixAlloy() {
 		if(canMix()) {
-			ArchHelper.println("NODE 1!");
-			ItemStack itemstack = AlloyRecipes.alloy().getResult(inventory[0], inventory[1]);
+			ItemStack itemstack = AlloyRecipes.alloy().getResult(inventory[0].itemID, inventory[1].itemID);
 	
 	        if (inventory[4] == null)
 	        {

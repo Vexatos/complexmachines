@@ -15,6 +15,6 @@ public class ComplexMachinesTab extends CreativeTabs {
 	
 	@Override
 	public ItemStack getIconItemStack() {
-		return new ItemStack(ComplexMachines.excavator);
+		return new ItemStack(ComplexMachines.C194);
 	}
 }
