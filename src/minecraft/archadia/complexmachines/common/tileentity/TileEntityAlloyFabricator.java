@@ -29,6 +29,10 @@ public class TileEntityAlloyFabricator extends TileEntityBasicMachine {
 		}
 	}
 	
+	public String getInvName() {
+		return "Alloy Fab";
+	}
+	
 	private boolean canMix() {
 		if (inventory[0] == null || inventory[1] == null) {
         	return false;

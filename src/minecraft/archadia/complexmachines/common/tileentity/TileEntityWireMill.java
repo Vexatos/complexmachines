@@ -23,6 +23,10 @@ public class TileEntityWireMill extends TileEntityBasicMachine {
 		}
 	}
 	
+	public String getInvName() {
+		return "Wire Mill";
+	}
+	
 	public boolean canProcess() {
 		if (inventory[0] == null) {
         	return false;

@@ -12,6 +12,7 @@ import universalelectricity.prefab.network.PacketManager;
 import archadia.complexmachines.common.block.BlockAlloyFabricator;
 import archadia.complexmachines.common.block.BlockModOre;
 import archadia.complexmachines.common.block.BlockWireMill;
+import archadia.complexmachines.common.block.ItemWire;
 import archadia.complexmachines.common.helper.ArchLoader;
 import archadia.complexmachines.common.helper.recipes.AlloyRecipes;
 import archadia.complexmachines.common.helper.recipes.WiremillRecipes;
@@ -56,9 +57,13 @@ public class ComplexMachines {
 	public static Block wireMill;
 	public static Block alloyFabricator;
 	public static Block oreCopper;
+	public static Block oreTin;
 	
 	public static Item ingotCopper;
-	public static Item wiring;
+	public static Item ingotTin;
+	public static Item wiring1;
+	public static Item wiring2;
+	public static Item wiring3;
 	public static Item C194;
 	
 	public int BLOCK_ID = 2389;
@@ -71,15 +76,20 @@ public class ComplexMachines {
 		wireMill = new BlockWireMill(2389, Material.iron, "wireMill").setHardness(2F);
 		alloyFabricator = new BlockAlloyFabricator(2390, Material.iron, "alloyFabricator").setHardness(2F);;
 		oreCopper = new BlockModOre(2391, Material.rock, "oreCopper").setHardness(2F);
+		oreTin = new BlockModOre(2392, Material.rock, "oreTin").setHardness(2F);
 		
+		ingotTin = new ItemIngot(8930, "ingotTin");
 		ingotCopper = new ItemIngot(8931, "ingotCopper");
 		C194 = new ItemAlloy(8932, "C194");
-		wiring = new ItemBase(8933, "wiring");
+		wiring1 = new ItemWire(8933, "c194-wiring");
+		wiring2 = new ItemWire(8934, "tin-wiring");
+		wiring3 = new ItemWire(8935, "gold-wiring");
 	}
 	
 	@EventHandler
 	public void Init(FMLInitializationEvent event) {
 		loader.addBlock(wireMill);
+		loader.addBlock(oreTin);
 		loader.addBlock(alloyFabricator);
 		loader.addBlock(oreCopper);
 		loader.loadLangauges("/assets/complexmachines/lang/", languages);
@@ -92,8 +102,12 @@ public class ComplexMachines {
 		
 		OreDictionary.registerOre("ingotCopper", ingotCopper);
 		OreDictionary.registerOre("oreCopper", oreCopper);
-
-		WiremillRecipes.recipes().addWireMillRecipes(C194.itemID, new ItemStack(wiring));
+		OreDictionary.registerOre("ingotTin", ingotTin);
+		OreDictionary.registerOre("oreTin", oreTin);
+		
+		WiremillRecipes.recipes().addWireMillRecipes(Item.ingotGold.itemID, new ItemStack(wiring3));
+		WiremillRecipes.recipes().addWireMillRecipes(ingotTin.itemID, new ItemStack(wiring2));
+		WiremillRecipes.recipes().addWireMillRecipes(C194.itemID, new ItemStack(wiring1));
 		AlloyRecipes.alloy().addAlloyRecipe(ingotCopper.itemID, Item.ingotIron.itemID, new ItemStack(C194));
 	}
 }
