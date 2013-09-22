@@ -10,16 +10,16 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import universalelectricity.prefab.network.PacketManager;
 import archadia.complexmachines.common.block.BlockAlloyFabricator;
-import archadia.complexmachines.common.block.BlockExcavator;
 import archadia.complexmachines.common.block.BlockModOre;
 import archadia.complexmachines.common.block.BlockWireMill;
 import archadia.complexmachines.common.helper.ArchLoader;
 import archadia.complexmachines.common.helper.recipes.AlloyRecipes;
+import archadia.complexmachines.common.helper.recipes.WiremillRecipes;
 import archadia.complexmachines.common.item.ItemAlloy;
+import archadia.complexmachines.common.item.ItemBase;
 import archadia.complexmachines.common.item.ItemIngot;
 import archadia.complexmachines.common.proxy.CommonProxy;
 import archadia.complexmachines.common.tileentity.TileEntityAlloyFabricator;
-import archadia.complexmachines.common.tileentity.TileEntityExcavator;
 import archadia.complexmachines.common.tileentity.TileEntityWireMill;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
@@ -58,6 +58,7 @@ public class ComplexMachines {
 	public static Block oreCopper;
 	
 	public static Item ingotCopper;
+	public static Item wiring;
 	public static Item C194;
 	
 	public int BLOCK_ID = 2389;
@@ -73,6 +74,7 @@ public class ComplexMachines {
 		
 		ingotCopper = new ItemIngot(8931, "ingotCopper");
 		C194 = new ItemAlloy(8932, "C194");
+		wiring = new ItemBase(8933, "wiring");
 	}
 	
 	@EventHandler
@@ -91,6 +93,7 @@ public class ComplexMachines {
 		OreDictionary.registerOre("ingotCopper", ingotCopper);
 		OreDictionary.registerOre("oreCopper", oreCopper);
 
-		AlloyRecipes.alloy().addAlloyRecipe(ComplexMachines.ingotCopper.itemID, Item.ingotIron.itemID, new ItemStack(ComplexMachines.C194));
+		WiremillRecipes.recipes().addWireMillRecipes(C194.itemID, new ItemStack(wiring));
+		AlloyRecipes.alloy().addAlloyRecipe(ingotCopper.itemID, Item.ingotIron.itemID, new ItemStack(C194));
 	}
 }

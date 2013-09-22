@@ -49,6 +49,6 @@ public class BlockAlloyFabricator extends BlockBase {
 	
 	public void registerIcons(IconRegister ir) {
 		icons[0] = ir.registerIcon("complexmachines:alloyfab_side_off_32x");
-		icons[1] = ir.registerIcon("complexmachines:alloyfab_top_off_32x");
+		icons[1] = ir.registerIcon("complexmachines:basic_top_off_32x");
 	}
 }

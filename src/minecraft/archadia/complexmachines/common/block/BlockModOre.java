@@ -15,5 +15,4 @@ public class BlockModOre extends BlockBase {
 		setUnlocalizedName(name);
 		setCreativeTab(ComplexMachines.tabComplexMachines);
 	}
-
 }

@@ -22,7 +22,11 @@ public class TileEntityAlloyFabricator extends TileEntityBasicMachine {
 	}
 	
 	public void updateEntity() {
-		mixAlloy();
+		if(!worldObj.isRemote) {
+			if(canMix()) {
+				mixAlloy();
+			}
+		}
 	}
 	
 	private boolean canMix() {

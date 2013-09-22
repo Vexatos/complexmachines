@@ -42,11 +42,13 @@ public class BlockWireMill extends BlockBase {
 	
 	public Icon getIcon(int side, int meta)
 	{
-		return icons[side];
+		if(side == 1 || side == 6) return icons[1];
+		if(side > 1 && side != 6) return icons[0];
+		return null;
 	}
-	
+
 	public void registerIcons(IconRegister ir) {
-		icons[0] = ir.registerIcon("complexmachines:wiremill_32x");
-		icons[1] = ir.registerIcon("complexmachines:wiremill_top_32x");
+		icons[0] = ir.registerIcon("complexmachines:wiremill_side_off_32x");
+		icons[1] = ir.registerIcon("complexmachines:basic_top_off_32x");
 	}
 }

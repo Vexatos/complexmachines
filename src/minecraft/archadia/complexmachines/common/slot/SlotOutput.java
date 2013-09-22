@@ -8,9 +8,9 @@ import net.minecraft.item.ItemStack;
  * @author Archadia
  *
  */
-public class SlotAlloyOutput extends Slot {
+public class SlotOutput extends Slot {
 
-	public SlotAlloyOutput(IInventory inv, int i, int j, int k) {
+	public SlotOutput(IInventory inv, int i, int j, int k) {
         super(inv, i, j, k);
 	}
 	public int getSlotStackLimit()

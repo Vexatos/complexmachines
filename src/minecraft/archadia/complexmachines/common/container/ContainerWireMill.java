@@ -5,7 +5,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import archadia.complexmachines.common.slot.SlotAlloyOutput;
+import archadia.complexmachines.common.slot.SlotOutput;
 import archadia.complexmachines.common.tileentity.TileEntityWireMill;
 
 /**
@@ -20,7 +20,7 @@ public class ContainerWireMill extends Container {
         this.fabricator = tileEnt;
         
         addSlotToContainer(new Slot(tileEnt, 0, 55, 37));
-        addSlotToContainer(new Slot(tileEnt, 1, 105, 37));
+        addSlotToContainer(new SlotOutput(tileEnt, 1, 105, 37));
         
         int i;
 
