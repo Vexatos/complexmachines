@@ -1,9 +1,13 @@
 package archadia.complexmachines.common.tileentity;
 
-import archadia.complexmachines.common.helper.recipes.AlloyRecipes;
-import archadia.complexmachines.common.helper.recipes.WiremillRecipes;
+import java.util.HashMap;
+import java.util.Map;
+
+import net.minecraft.block.BlockFurnace;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
+import archadia.complexmachines.common.helper.recipes.WiremillRecipes;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * @author Archadia
@@ -13,24 +17,45 @@ public class TileEntityWireMill extends TileEntityBasicMachine {
 	
 	public int processTime;
 	
+	 private final static TileEntityWireMill tileEntityBase = new TileEntityWireMill();   
+	 
+	 public final static TileEntityWireMill instance() {
+		 return tileEntityBase;
+	 }
+	
 	public TileEntityWireMill() {
 		inventory = new ItemStack[2];
 	}
 	
 	public void updateEntity() {
-		if(!worldObj.isRemote) {
-			if(canProcess()) {
-                ++processTime;
-                if (processTime == 200) {
-                	processTime = 0;
-    				processItems();
+        boolean flag1 = false;
+
+        if (!this.worldObj.isRemote)
+        {
+            if (this.canProcess())
+            {
+                ++this.processTime;
+
+                if (this.processTime == 200)
+                {
+                    this.processTime = 0;
+                    this.processItems();
+                    flag1 = true;
                 }
-			}
-		}
+            }
+            else
+            {
+                this.processTime = 0;
+            }
+        }
+
+        if (flag1)
+        {
+            this.onInventoryChanged();
+        }
 	}
 	
-    public int getProcessProgressScaled(int par1)
-    {
+    public int getProcessProgressScaled(int par1) {
         return this.processTime * par1 / 200;
     }
 	

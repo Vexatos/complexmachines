@@ -39,8 +39,7 @@ public class GuiWireMill extends GuiContainer {
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
         int i1;
 
-        i1 = this.tileINV.getProcessProgressScaled(24);
-        ArchHelper.println(""+i1);
+        i1 = tileINV.getProcessProgressScaled(24);
         this.drawTexturedModalRect(k + 77, l + 43, 176, 0, i1, 16);
     }
 }
