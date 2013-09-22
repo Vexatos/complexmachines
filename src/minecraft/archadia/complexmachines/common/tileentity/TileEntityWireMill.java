@@ -11,6 +11,8 @@ import net.minecraft.tileentity.TileEntity;
  */
 public class TileEntityWireMill extends TileEntityBasicMachine {
 	
+	public int processTime;
+	
 	public TileEntityWireMill() {
 		inventory = new ItemStack[2];
 	}
@@ -18,10 +20,19 @@ public class TileEntityWireMill extends TileEntityBasicMachine {
 	public void updateEntity() {
 		if(!worldObj.isRemote) {
 			if(canProcess()) {
-				processItems();
+                ++processTime;
+                if (processTime == 200) {
+                	processTime = 0;
+    				processItems();
+                }
 			}
 		}
 	}
+	
+    public int getProcessProgressScaled(int par1)
+    {
+        return this.processTime * par1 / 200;
+    }
 	
 	public String getInvName() {
 		return "Wire Mill";
