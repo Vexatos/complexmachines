@@ -1,41 +1,52 @@
 package archadia.complexmachines.common.tileentity;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
 
-import net.minecraft.block.BlockFurnace;
+import universalelectricity.core.vector.Vector3;
+import universalelectricity.prefab.network.IPacketReceiver;
+import universalelectricity.prefab.network.PacketManager;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet250CustomPayload;
+import net.minecraftforge.fluids.FluidStack;
 import archadia.complexmachines.common.helper.ArchHelper;
 import archadia.complexmachines.common.helper.recipes.WiremillRecipes;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+
+import com.google.common.io.ByteArrayDataInput;
+
+import cpw.mods.fml.common.network.IPacketHandler;
 
 /**
  * @author Archadia
  *
  */
-public class TileEntityWireMill extends TileEntityBasicMachine {
+public class TileEntityWireMill extends TileEntityBasicMachine implements IPacketReceiver {
 	
-	public int processTime;
+	public static int processTime;
 	
 	private final static TileEntityWireMill tileEntityBase = new TileEntityWireMill();   
 	 
 	public final static TileEntityWireMill instance() {
 		return tileEntityBase;
+		
 	}
 	 
 	public TileEntityWireMill() {
 		inventory = new ItemStack[2];
+        ArchHelper.println(""+processTime);
 	}
 	
 	public void updateEntity() {
-        boolean flag1 = false;
+		boolean flag1 = false;
         if (!this.worldObj.isRemote)
         {
             if (this.canProcess())
             {
-                ArchHelper.println(""+processTime);
                 ++processTime;
+    			PacketManager.sendPacketToClients(PacketManager.getPacket("ComplexMachines", this, processTime), this.worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), 12);
 
                 if (processTime == 200)
                 {
@@ -47,8 +58,6 @@ public class TileEntityWireMill extends TileEntityBasicMachine {
             	processTime = 0;
             }
         }
-        
-
         if (flag1)
         {
             this.onInventoryChanged();
@@ -102,5 +111,17 @@ public class TileEntityWireMill extends TileEntityBasicMachine {
 	            inventory[0] = null;
 	        }
 		}
+	}
+
+	@Override
+	public void handlePacketData(INetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream) {		
+		if(!worldObj.isRemote) {
+			processTime = dataStream.readInt();
+		}
+	}
+	
+	@Override
+	public Packet getDescriptionPacket() {
+		return PacketManager.getPacket("ComplexMachines", this, this.processTime);
 	}
 }
