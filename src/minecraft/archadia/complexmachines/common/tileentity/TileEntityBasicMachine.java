@@ -12,13 +12,7 @@ import net.minecraft.nbt.NBTTagList;
  *
  */
 public class TileEntityBasicMachine extends TileEntityBasicContainer {
-
-	public boolean canProcess() {
-		return false;
-	}
-	
-	protected ArrayList<Integer> machineValues = new ArrayList<Integer>();
-	
+			
 	public void readFromNBT(NBTTagCompound par1NBTTagCompound)
     {
         super.readFromNBT(par1NBTTagCompound);

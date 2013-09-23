@@ -1,11 +1,10 @@
-package archadia.complexmachines.common.block;
+package archadia.complexmachines.common.item;
 
 import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import archadia.complexmachines.common.ComplexMachines;
-import archadia.complexmachines.common.item.ItemBase;
 
 /**
  * @author Archadia

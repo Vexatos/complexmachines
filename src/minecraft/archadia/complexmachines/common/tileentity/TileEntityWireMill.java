@@ -24,11 +24,11 @@ import cpw.mods.fml.common.network.IPacketHandler;
  *
  */
 public class TileEntityWireMill extends TileEntityBasicMachine implements IPacketReceiver {
-	
-	public static int processTime;
-	
+		
 	private final static TileEntityWireMill tileEntityBase = new TileEntityWireMill();   
 	 
+	private static int processTicks;
+	
 	public final static TileEntityWireMill instance() {
 		return tileEntityBase;
 		
@@ -36,7 +36,6 @@ public class TileEntityWireMill extends TileEntityBasicMachine implements IPacke
 	 
 	public TileEntityWireMill() {
 		inventory = new ItemStack[2];
-        ArchHelper.println(""+processTime);
 	}
 	
 	public void updateEntity() {
@@ -45,17 +44,18 @@ public class TileEntityWireMill extends TileEntityBasicMachine implements IPacke
         {
             if (this.canProcess())
             {
-                ++processTime;
-    			PacketManager.sendPacketToClients(PacketManager.getPacket("ComplexMachines", this, processTime), this.worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), 12);
+                ++processTicks;
+    			PacketManager.sendPacketToClients(getDescriptionPacket(), this.worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), 12);
 
-                if (processTime == 200)
+                if (processTicks == 200)
                 {
-                	processTime = 0;
+                	processTicks = 0;
+        			PacketManager.sendPacketToClients(getDescriptionPacket(), this.worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), 12);
                     processItems();
                     flag1 = true;
                 }
             } else {
-            	processTime = 0;
+            	processTicks = 0;
             }
         }
         if (flag1)
@@ -64,8 +64,8 @@ public class TileEntityWireMill extends TileEntityBasicMachine implements IPacke
         }
 	}
 	
-    public int getProcessProgressScaled(int par1) {
-    	return processTime * par1 / 200;
+    public int getProcessProgressScaled(int par1) {    	
+    	return processTicks * par1 / 200;
     }
 	
 	public String getInvName() {
@@ -116,12 +116,12 @@ public class TileEntityWireMill extends TileEntityBasicMachine implements IPacke
 	@Override
 	public void handlePacketData(INetworkManager network, int packetType, Packet250CustomPayload packet, EntityPlayer player, ByteArrayDataInput dataStream) {		
 		if(!worldObj.isRemote) {
-			processTime = dataStream.readInt();
+			processTicks = dataStream.readInt();
 		}
 	}
 	
 	@Override
 	public Packet getDescriptionPacket() {
-		return PacketManager.getPacket("ComplexMachines", this, this.processTime);
+		return PacketManager.getPacket("ComplexMachines", this, this.processTicks);
 	}
 }

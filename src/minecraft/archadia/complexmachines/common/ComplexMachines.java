@@ -10,17 +10,18 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import universalelectricity.prefab.network.PacketManager;
 import archadia.complexmachines.common.block.BlockAlloyFabricator;
+import archadia.complexmachines.common.block.BlockGrinder;
 import archadia.complexmachines.common.block.BlockModOre;
 import archadia.complexmachines.common.block.BlockWireMill;
-import archadia.complexmachines.common.block.ItemWire;
 import archadia.complexmachines.common.helper.ArchLoader;
 import archadia.complexmachines.common.helper.recipes.AlloyRecipes;
 import archadia.complexmachines.common.helper.recipes.WiremillRecipes;
 import archadia.complexmachines.common.item.ItemAlloy;
-import archadia.complexmachines.common.item.ItemBase;
 import archadia.complexmachines.common.item.ItemIngot;
+import archadia.complexmachines.common.item.ItemWire;
 import archadia.complexmachines.common.proxy.CommonProxy;
 import archadia.complexmachines.common.tileentity.TileEntityAlloyFabricator;
+import archadia.complexmachines.common.tileentity.TileEntityGrinder;
 import archadia.complexmachines.common.tileentity.TileEntityWireMill;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
@@ -58,6 +59,7 @@ public class ComplexMachines {
 	public static Block alloyFabricator;
 	public static Block oreCopper;
 	public static Block oreTin;
+	public static Block grinder;
 	
 	public static Item ingotCopper;
 	public static Item ingotTin;
@@ -77,6 +79,7 @@ public class ComplexMachines {
 		alloyFabricator = new BlockAlloyFabricator(2390, Material.iron, "alloyFabricator").setHardness(2F);;
 		oreCopper = new BlockModOre(2391, Material.rock, "oreCopper").setHardness(2F);
 		oreTin = new BlockModOre(2392, Material.rock, "oreTin").setHardness(2F);
+		grinder = new BlockGrinder(2393, Material.iron, "grinder").setHardness(2F);
 		
 		ingotTin = new ItemIngot(8930, "ingotTin");
 		ingotCopper = new ItemIngot(8931, "ingotCopper");
@@ -91,12 +94,14 @@ public class ComplexMachines {
 		loader.addBlock(wireMill);
 		loader.addBlock(oreTin);
 		loader.addBlock(alloyFabricator);
+		loader.addBlock(grinder);
 		loader.addBlock(oreCopper);
 		loader.loadLangauges("/assets/complexmachines/lang/", languages);
 		
 		loader.loadBlocks();
 		
 		GameRegistry.registerTileEntity(TileEntityAlloyFabricator.class, "tileEntityAlloyFabricator");
+		GameRegistry.registerTileEntity(TileEntityGrinder.class, "tileEntityGrinder");
 		GameRegistry.registerTileEntity(TileEntityWireMill.class, "tileEntityWireMill");
 		NetworkRegistry.instance().registerGuiHandler(instance, proxy);
 		
