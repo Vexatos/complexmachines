@@ -34,20 +34,17 @@ public class TileEntityGrinder extends TileEntityBasicMachine implements IPacket
 		boolean flag1 = false;
         if (!this.worldObj.isRemote)
         {
-            if (this.canProcess())
-            {
-                ++processTicks;
-    			PacketManager.sendPacketToClients(getDescriptionPacket(), this.worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), 12);
-
-                if (processTicks == 200) {
-                	processTicks = 0;
-        			PacketManager.sendPacketToClients(getDescriptionPacket(), this.worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), 12);
-                    processItems();
-                    flag1 = true;
-                }
-            } else {
-            	processTicks = 0;
-            }
+        	if(isProcessing()) {
+	            ++processTicks;
+				PacketManager.sendPacketToClients(getDescriptionPacket(), this.worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), 12);
+	
+	            if (processTicks == 200) {
+	            	processTicks = 0;
+	    			PacketManager.sendPacketToClients(getDescriptionPacket(), this.worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), 12);
+	                processItems();
+	                flag1 = true;
+	            }
+        	}
         }
         if (flag1)
         {
@@ -59,38 +56,53 @@ public class TileEntityGrinder extends TileEntityBasicMachine implements IPacket
 		return processTicks * par1 / 200;
 	}
 	
+	public int getEnergyCapacityScaled(int par1) {
+		return 0;
+	}
+	
 	public String getInvName() {
 		return "Grinder";
 	}
 	
-	public boolean canProcess() {
-		if (inventory[0] == null && inventory[1] == null && inventory[2] == null) {
-        	return false;
-        } else {
-        	return true;
-        }
-    }
+	public boolean isProcessing() {
+		if(inventory[0] == null && inventory[1] == null && inventory[2] == null) {
+			return false;
+		}
+		if(inventory[0] != null) {
+			return true;
+		}
+		if(inventory[1] != null) {
+			return true;
+		}
+		if(inventory[2] != null) {
+			return true;
+		}
+		return false;
+	}
 	
 	public void processItems() {
-		if(canProcess()) {		
-	        if (inventory[0] != null) {
-	            --inventory[0].stackSize;
+		if(inventory[0] != null) {
+			--inventory[0].stackSize;
+	    	
+	        if (inventory[0].stackSize <= 0)
+	        {
+	            inventory[0] = null;
 	        }
-	        if(inventory[1] != null) {
-		        --inventory[1].stackSize;
-	        }	    	
-	        if(inventory[2] != null) {
-		        --inventory[2].stackSize;
+		}
+		if(inventory[1] != null) {
+			--inventory[1].stackSize;
+	    	
+	        if (inventory[1].stackSize <= 0)
+	        {
+	            inventory[1] = null;
 	        }
-	        
-	        if(inventory[0].stackSize == 1) {
-	        	inventory[0] = null;
-	        }
-	        if(inventory[1].stackSize == 1) {
-	        	inventory[1] = null;
-	        }
-	        if(inventory[2].stackSize == 1) {
-	        	inventory[2] = null;
+		}
+		if(inventory[2] != null) {
+			--inventory[2].stackSize;
+	    	
+	        if (inventory[2].stackSize <= 0)
+	        {
+	            inventory[2] = null;
 	        }
 		}
 	}
