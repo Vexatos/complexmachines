@@ -28,7 +28,6 @@ public class TileEntityWireMill extends TileEntityAdvancedMachine {
 	public TileEntityWireMill() {
 		setInventorySize(2);
 		setMaxTicks(200);
-    	System.out.println("OUTSIDE UPDATEENTITY() 2: " + getTicks());
 	}
 	
 	public void updateEntity() {
@@ -39,8 +38,15 @@ public class TileEntityWireMill extends TileEntityAdvancedMachine {
             {
             	this.processTicks++;
     			PacketManager.sendPacketToClients(getDescriptionPacket(this.processTicks), this.worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), 12);
-    	    	System.out.println("UPDATEENTITY(): " + getTicks());
-
+    	    	
+    			if(!worldObj.isRemote) {
+    			System.out.println("UPDATEENTITY(): SERVER" + getTicks());
+    			}
+    			
+    	    	if(worldObj.isRemote) {
+        	    	System.out.println("UPDATEENTITY() CLIENT: " + getTicks());
+    	    	}
+    	    	
                 if (this.processTicks == processMaxTicks)
                 {
                 	this.processTicks = 0;
