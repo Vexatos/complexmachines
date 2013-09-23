@@ -37,19 +37,19 @@ public class TileEntityWireMill extends TileEntityAdvancedMachine {
         {
             if (this.canProcess())
             {
-                ++processTicks;
+            	this.processTicks++;
     			PacketManager.sendPacketToClients(getDescriptionPacket(this.processTicks), this.worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), 12);
     	    	System.out.println("UPDATEENTITY(): " + getTicks());
 
-                if (processTicks == processMaxTicks)
+                if (this.processTicks == processMaxTicks)
                 {
-                	processTicks = 0;
+                	this.processTicks = 0;
         			PacketManager.sendPacketToClients(getDescriptionPacket(this.processTicks), this.worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), 12);
                     processItems();
                     flag1 = true;
                 }
             } else {
-            	processTicks = 0;
+            	this.processTicks = 0;
             }
         }
         if (flag1)
@@ -60,7 +60,7 @@ public class TileEntityWireMill extends TileEntityAdvancedMachine {
 	
     public int getProcessProgressScaled(int par1) {   
     	System.out.println("OUTSIDE UPDATEENTITY() 1: " + getTicks());
-    	return processTicks * par1 / 200;
+    	return this.processTicks * par1 / 200;
     }
 	
 	public String getInvName() {

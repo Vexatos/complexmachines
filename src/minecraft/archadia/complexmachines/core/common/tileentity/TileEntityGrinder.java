@@ -38,11 +38,11 @@ public class TileEntityGrinder extends TileEntityAdvancedMachine{
         if (!this.worldObj.isRemote)
         {
         	if(isProcessing()) {
-	            ++processTicks;
+	            this.processTicks++;
 				PacketManager.sendPacketToClients(getDescriptionPacket(this.processTicks), this.worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), 12);
 				
-	            if (processTicks == processMaxTicks) {
-	            	processTicks = 0;
+	            if (this.processTicks == processMaxTicks) {
+	            	this.processTicks = 0;
 	    			PacketManager.sendPacketToClients(getDescriptionPacket(this.processTicks), this.worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), 12);
 	                processItems();
 	                flag1 = true;
@@ -56,7 +56,7 @@ public class TileEntityGrinder extends TileEntityAdvancedMachine{
 	}
 	
 	public int getProcessProgressScaled(int par1) {		
-		return processTicks * par1 / 200;
+		return this.processTicks * par1 / 200;
 	}
 	
 	public int getEnergyCapacityScaled(int par1) {
