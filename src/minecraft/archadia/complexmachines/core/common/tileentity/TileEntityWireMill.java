@@ -40,7 +40,7 @@ public class TileEntityWireMill extends TileEntityAdvancedMachine {
     			PacketManager.sendPacketToClients(getDescriptionPacket(this.processTicks), this.worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), 12);
     	    	
     			if(!worldObj.isRemote) {
-    			System.out.println("UPDATEENTITY(): SERVER" + getTicks());
+    			System.out.println("UPDATEENTITY() SERVER: " + getTicks());
     			}
     			
     	    	if(worldObj.isRemote) {
@@ -65,7 +65,6 @@ public class TileEntityWireMill extends TileEntityAdvancedMachine {
 	}
 	
     public int getProcessProgressScaled(int par1) {   
-    	System.out.println("OUTSIDE UPDATEENTITY() 1: " + getTicks());
     	return this.processTicks * par1 / 200;
     }
 	

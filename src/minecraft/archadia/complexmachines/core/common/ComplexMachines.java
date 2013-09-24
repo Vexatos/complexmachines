@@ -65,6 +65,7 @@ public class ComplexMachines {
 	public static Block oreCopper;
 	public static Block oreTin;
 	public static Block grinder;
+	public static Block extractor;
 	
 	public static Item ingotCopper;
 	public static Item ingotTin;
@@ -80,11 +81,12 @@ public class ComplexMachines {
 	
 	@EventHandler
 	public void PreInit(FMLPreInitializationEvent event) {
-		wireMill = new BlockWireMill(2389, Material.iron, "wireMill").setHardness(2F);
-		alloyFabricator = new BlockAlloyFabricator(2390, Material.iron, "alloyFabricator").setHardness(2F);;
-		oreCopper = new BlockModOre(2391, Material.rock, "oreCopper").setHardness(2F);
-		oreTin = new BlockModOre(2392, Material.rock, "oreTin").setHardness(2F);
+		oreCopper = new BlockModOre(2389, Material.rock, "oreCopper").setHardness(2F);
+		oreTin = new BlockModOre(2390, Material.rock, "oreTin").setHardness(2F);
+		wireMill = new BlockWireMill(2391, Material.iron, "wireMill").setHardness(2F);
+		alloyFabricator = new BlockAlloyFabricator(2392, Material.iron, "alloyFabricator").setHardness(2F);;
 		grinder = new BlockGrinder(2393, Material.iron, "grinder").setHardness(2F);
+		extractor = new BlockGrinder(2394, Material.iron, "extractor").setHardness(2F);
 		
 		ingotTin = new ItemIngot(8930, "ingotTin");
 		ingotCopper = new ItemIngot(8931, "ingotCopper");
@@ -101,6 +103,7 @@ public class ComplexMachines {
 		loader.addBlock(alloyFabricator);
 		loader.addBlock(grinder);
 		loader.addBlock(oreCopper);
+		loader.addBlock(extractor);
 		loader.loadLanguages("/assets/complexmachines/lang/", languages);
 		
 		loader.loadBlocks();
@@ -108,6 +111,7 @@ public class ComplexMachines {
 		GameRegistry.registerTileEntity(TileEntityAlloyFabricator.class, "tileEntityAlloyFabricator");
 		GameRegistry.registerTileEntity(TileEntityGrinder.class, "tileEntityGrinder");
 		GameRegistry.registerTileEntity(TileEntityWireMill.class, "tileEntityWireMill");
+		GameRegistry.registerTileEntity(TileEntityExtractor.class, "tileEntityExtractor");
 		NetworkRegistry.instance().registerGuiHandler(instance, proxy);
 		
 		OreDictionary.registerOre("ingotCopper", ingotCopper);
