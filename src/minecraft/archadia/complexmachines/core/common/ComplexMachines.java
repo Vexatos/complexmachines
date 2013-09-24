@@ -124,5 +124,9 @@ public class ComplexMachines {
 		WiremillRecipes.recipes().addWireMillRecipes(Item.ingotGold.itemID, new ItemStack(wiring3));
 		WiremillRecipes.recipes().addWireMillRecipes(ingotTin.itemID, new ItemStack(wiring2));
 		WiremillRecipes.recipes().addWireMillRecipes(C194.itemID, new ItemStack(wiring1));
+	
+		TileEntityExtractor.instance().addExtractorVanillaOre();
+		TileEntityExtractor.instance().addExtractorValidOre(OreDictionary.getOreID("oreCopper"));
+		TileEntityExtractor.instance().addExtractorValidOre(OreDictionary.getOreID("oreTin"));
 	}
 }
