@@ -11,7 +11,7 @@ import archadia.complexmachines.prefab.tileentity.TileEntityAdvancedMachine;
 public class TileEntityAlloyFabricator extends TileEntityAdvancedMachine {
 		
 	public TileEntityAlloyFabricator() {
-		setInventorySize(4);
+		setInventorySize(5);
 		setMaxTicks(200);
 	}
 	

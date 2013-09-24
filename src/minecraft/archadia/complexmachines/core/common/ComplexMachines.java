@@ -10,6 +10,7 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import universalelectricity.prefab.network.PacketManager;
 import archadia.complexmachines.core.common.block.BlockAlloyFabricator;
+import archadia.complexmachines.core.common.block.BlockExtractor;
 import archadia.complexmachines.core.common.block.BlockGrinder;
 import archadia.complexmachines.core.common.block.BlockWireMill;
 import archadia.complexmachines.core.common.item.ItemAlloy;
@@ -17,6 +18,7 @@ import archadia.complexmachines.core.common.item.ItemIngot;
 import archadia.complexmachines.core.common.item.ItemWire;
 import archadia.complexmachines.core.common.proxy.CommonProxy;
 import archadia.complexmachines.core.common.tileentity.TileEntityAlloyFabricator;
+import archadia.complexmachines.core.common.tileentity.TileEntityExtractor;
 import archadia.complexmachines.core.common.tileentity.TileEntityGrinder;
 import archadia.complexmachines.core.common.tileentity.TileEntityWireMill;
 import archadia.complexmachines.helper.ArchLoader;
@@ -86,7 +88,7 @@ public class ComplexMachines {
 		wireMill = new BlockWireMill(2391, Material.iron, "wireMill").setHardness(2F);
 		alloyFabricator = new BlockAlloyFabricator(2392, Material.iron, "alloyFabricator").setHardness(2F);;
 		grinder = new BlockGrinder(2393, Material.iron, "grinder").setHardness(2F);
-		extractor = new BlockGrinder(2394, Material.iron, "extractor").setHardness(2F);
+		extractor = new BlockExtractor(2394, Material.iron, "extractor").setHardness(2F);
 		
 		ingotTin = new ItemIngot(8930, "ingotTin");
 		ingotCopper = new ItemIngot(8931, "ingotCopper");

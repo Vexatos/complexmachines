@@ -7,6 +7,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import archadia.complexmachines.core.common.ComplexMachines;
+import archadia.complexmachines.core.common.tileentity.TileEntityExtractor;
 import archadia.complexmachines.core.common.tileentity.TileEntityWireMill;
 import archadia.complexmachines.prefab.block.BlockBase;
 
@@ -26,8 +27,8 @@ public class BlockExtractor extends BlockBase {
 
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9) {
 		TileEntity te = world.getBlockTileEntity(x, y, z);
-		if(te instanceof TileEntityWireMill && !player.isSneaking()) {
-			player.openGui(ComplexMachines.instance, 1, world, x, y, z);
+		if(te instanceof TileEntityExtractor && !player.isSneaking()) {
+			player.openGui(ComplexMachines.instance, 3, world, x, y, z);
 			return true;
 		}
 		return false;
@@ -38,7 +39,7 @@ public class BlockExtractor extends BlockBase {
 	}
 	
 	public TileEntity createTileEntity(World world, int metadata) {
-		return new TileEntityWireMill();
+		return new TileEntityExtractor();
 	}
 	
 	public Icon getIcon(int side, int meta)

@@ -4,12 +4,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import archadia.complexmachines.core.client.gui.GuiAlloyFabricator;
+import archadia.complexmachines.core.client.gui.GuiExtractor;
 import archadia.complexmachines.core.client.gui.GuiGrinder;
 import archadia.complexmachines.core.client.gui.GuiWireMill;
 import archadia.complexmachines.core.common.container.ContainerAlloyFabricator;
+import archadia.complexmachines.core.common.container.ContainerExtractor;
 import archadia.complexmachines.core.common.container.ContainerGrinder;
 import archadia.complexmachines.core.common.container.ContainerWireMill;
 import archadia.complexmachines.core.common.tileentity.TileEntityAlloyFabricator;
+import archadia.complexmachines.core.common.tileentity.TileEntityExtractor;
 import archadia.complexmachines.core.common.tileentity.TileEntityGrinder;
 import archadia.complexmachines.core.common.tileentity.TileEntityWireMill;
 import cpw.mods.fml.common.network.IGuiHandler;
@@ -30,6 +33,8 @@ public class CommonProxy implements IGuiHandler {
 				return new ContainerWireMill(player.inventory, (TileEntityWireMill) tile_entity);
 			case 2:
 				return new ContainerGrinder(player.inventory, (TileEntityGrinder) tile_entity);
+			case 3:
+				return new ContainerExtractor(player.inventory, (TileEntityExtractor) tile_entity);
 		}
 		return null;
 	}
@@ -44,6 +49,8 @@ public class CommonProxy implements IGuiHandler {
 				return new GuiWireMill(player.inventory, (TileEntityWireMill) tile_entity);
 			case 2:
 				return new GuiGrinder(player.inventory, (TileEntityGrinder) tile_entity);
+			case 3:
+				return new GuiExtractor(player.inventory, (TileEntityExtractor) tile_entity);
 		}
 		return null;
 	}
