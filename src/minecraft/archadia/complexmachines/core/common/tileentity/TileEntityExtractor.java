@@ -1,13 +1,14 @@
 package archadia.complexmachines.core.common.tileentity;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
+import archadia.complexmachines.api.ExtractorHelper;
 import archadia.complexmachines.core.common.ComplexMachines;
 import archadia.complexmachines.prefab.tileentity.TileEntityAdvancedMachine;
 
@@ -20,19 +21,13 @@ public class TileEntityExtractor extends TileEntityAdvancedMachine {
 	private final static TileEntityExtractor tileEntityBase = new TileEntityExtractor();   
  	
 	private Random rand = new Random();
-	
-	private ArrayList<Integer> validOre = new ArrayList<Integer>();
-	
-	public void addExtractorValidOre(int blockID) {
-		validOre.add(blockID);
-	}
-	
+		
 	public void addExtractorVanillaOre() {
-		addExtractorValidOre(Block.oreCoal.blockID);
-		addExtractorValidOre(Block.oreIron.blockID);
-		addExtractorValidOre(Block.oreGold.blockID);
-		addExtractorValidOre(Block.oreRedstone.blockID);
-		addExtractorValidOre(Block.oreLapis.blockID);
+		ExtractorHelper.instance().addExtractorValidOre(Block.oreCoal.blockID);
+		ExtractorHelper.instance().addExtractorValidOre(Block.oreIron.blockID);
+		ExtractorHelper.instance().addExtractorValidOre(Block.oreGold.blockID);
+		ExtractorHelper.instance().addExtractorValidOre(Block.oreRedstone.blockID);
+		ExtractorHelper.instance().addExtractorValidOre(Block.oreLapis.blockID);
 	}
 	
 	public final static TileEntityExtractor instance() {
@@ -40,7 +35,7 @@ public class TileEntityExtractor extends TileEntityAdvancedMachine {
 	}
 	 
 	public TileEntityExtractor() {
-		setInventorySize(6);
+		setInventorySize(8);
 		setMaxTicks(200);
 		addExtractorVanillaOre();
 	}
@@ -49,10 +44,14 @@ public class TileEntityExtractor extends TileEntityAdvancedMachine {
 		super.updateEntity();
 
 		if(!worldObj.isRemote) {
-			if(ComplexMachines.oldExtractorMode) {
-				findOre();
-			} else {
-				if(worldObj.getWorldTime()%20 == 0) findOre();
+			if(inventory[7] != null) {
+				if(inventory[7].itemID == Item.pickaxeDiamond.itemID) {
+					if(ComplexMachines.oldExtractorMode) {
+						findOre();
+					} else {
+						if(worldObj.getWorldTime()%20 == 0) findOre();
+					}
+				}
 			}
 		}
 	}
@@ -80,7 +79,7 @@ public class TileEntityExtractor extends TileEntityAdvancedMachine {
 			
 			if (worldObj.getChunkFromBlockCoords(targetX, targetZ).isChunkLoaded && ore) {
 				oreFound = true;
-	
+				inventory[7].setItemDamage(inventory[7].getItemDamage() + 10);
 				ItemStack drop = Block.blocksList[targetId].getBlockDropped(worldObj, targetX, targetY , targetZ, worldObj.getBlockMetadata(targetX, targetY, targetZ), 0).get(0);
 				worldObj.setBlock(targetY, targetY, targetZ, 0);
 				dropItems(drop);
@@ -89,7 +88,7 @@ public class TileEntityExtractor extends TileEntityAdvancedMachine {
 	}
 	
 	private boolean isOre(int id) {
-		for(int oreID : validOre) {
+		for(int oreID : ExtractorHelper.instance().getValidOres()) {
 			if(id == oreID) {
 				return true;
 			}
@@ -133,7 +132,11 @@ public class TileEntityExtractor extends TileEntityAdvancedMachine {
 
 		if(itemStack != null) {
 			for (int i = 0; i < this.inventory.length;i++) {
-				itemStack = this.addStackToInventory(i, this, itemStack);
+				if(findChest() == null) {
+					itemStack = this.addStackToInventory(i, this, itemStack);
+				} else {
+					itemStack = this.addStackToInventory(i, findChest(), itemStack);
+				}
 			}
 		}
 

@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import universalelectricity.prefab.network.PacketManager;
+import archadia.complexmachines.api.ExtractorHelper;
 import archadia.complexmachines.core.common.block.BlockAlloyFabricator;
 import archadia.complexmachines.core.common.block.BlockCookieMaker;
 import archadia.complexmachines.core.common.block.BlockExtractor;
@@ -16,6 +17,7 @@ import archadia.complexmachines.core.common.block.BlockGrinder;
 import archadia.complexmachines.core.common.block.BlockWireMill;
 import archadia.complexmachines.core.common.gen.OreGenerator;
 import archadia.complexmachines.core.common.item.ItemAlloy;
+import archadia.complexmachines.core.common.item.ItemBat;
 import archadia.complexmachines.core.common.item.ItemIngot;
 import archadia.complexmachines.core.common.item.ItemWire;
 import archadia.complexmachines.core.common.proxy.CommonProxy;
@@ -52,7 +54,7 @@ public class ComplexMachines {
 	public static final String CHANNEL = "ComplexMachines";
 	public static final String MOD_ID = "complexmachines";
 	public static final String NAME = "Complex Machines";
-	public static final String VERSION = "0.3.3";
+	public static final String VERSION = "0.1.0";
 	
 	@Instance("complexmachines")
 	public static ComplexMachines instance;
@@ -81,6 +83,7 @@ public class ComplexMachines {
 	public static Item wiring2;
 	public static Item wiring3;
 	public static Item C194;
+	public static Item bat;
 	
 	public int BLOCK_ID = 2389;
 	public int ITEM_ID = 8932;
@@ -103,6 +106,7 @@ public class ComplexMachines {
 		wiring1 = new ItemWire(8933, "c194-wiring");
 		wiring2 = new ItemWire(8934, "tin-wiring");
 		wiring3 = new ItemWire(8935, "gold-wiring");
+		bat = new ItemBat(8936, "battery");
 		
 		config.load();
 		
@@ -113,7 +117,6 @@ public class ComplexMachines {
 	
 	@EventHandler
 	public void Init(FMLInitializationEvent event) {
-		ArchHelper.println(""+oldExtractorMode);
 		loader.addBlock(wireMill);
 		loader.addBlock(oreTin);
 		loader.addBlock(alloyFabricator);
@@ -141,8 +144,8 @@ public class ComplexMachines {
 		WiremillRecipes.recipes().addWireMillRecipes(ingotTin.itemID, new ItemStack(wiring2));
 		WiremillRecipes.recipes().addWireMillRecipes(C194.itemID, new ItemStack(wiring1));
 	
-		TileEntityExtractor.instance().addExtractorValidOre(oreTin.blockID);
-		TileEntityExtractor.instance().addExtractorValidOre(oreCopper.blockID);
+		ExtractorHelper.instance().addExtractorValidOre(oreTin.blockID);
+		ExtractorHelper.instance().addExtractorValidOre(oreCopper.blockID);
 		
 		GameRegistry.registerWorldGenerator(new OreGenerator());
 	}

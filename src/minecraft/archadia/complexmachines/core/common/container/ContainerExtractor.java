@@ -24,6 +24,7 @@ public class ContainerExtractor extends ContainerBasicMachine {
     	for(int i = 0; i < 6; i++) {
         	addSlotToContainer(new Slot(tile2, i, 8 + i * 22, 8));
     	}
+    	addSlotToContainer(new Slot(tile2, 7, 142, 45));
     }
 	
 }
