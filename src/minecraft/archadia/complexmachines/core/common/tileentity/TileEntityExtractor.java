@@ -57,7 +57,6 @@ public class TileEntityExtractor extends TileEntityAdvancedMachine {
 		int tries = 0;
 		while(!oreFound) {
 			tries++;
-			System.out.println("ORE FOUND! 1");
 			
 			if(tries > 5) {
 				return;

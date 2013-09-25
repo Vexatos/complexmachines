@@ -50,7 +50,10 @@ public class ArchLoader {
 	 * @return code name
 	 */
 	public String getCodeName(Block block) {
-		String name = ArchHelper.getUsableNames(block.getUnlocalizedName());
-		return name;
+		if(block != null) {
+			String name = ArchHelper.getUsableNames(block.getUnlocalizedName());
+			return name;
+		}
+		return null;
 	}
 }

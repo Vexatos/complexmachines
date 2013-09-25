@@ -1,4 +1,4 @@
-package archadia.complexmachines.core.common.proxy;
+package archadia.complexmachines.core.client.gui;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
@@ -7,6 +7,7 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
+import archadia.complexmachines.core.common.container.ContainerCookieMaker;
 import archadia.complexmachines.core.common.container.ContainerWireMill;
 import archadia.complexmachines.core.common.tileentity.TileEntityCookieMaker;
 import archadia.complexmachines.core.common.tileentity.TileEntityWireMill;

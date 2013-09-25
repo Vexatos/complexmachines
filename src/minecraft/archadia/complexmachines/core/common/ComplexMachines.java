@@ -92,7 +92,7 @@ public class ComplexMachines {
 		alloyFabricator = new BlockAlloyFabricator(2392, Material.iron, "alloyFabricator").setHardness(2F);;
 		grinder = new BlockGrinder(2393, Material.iron, "grinder").setHardness(2F);
 		extractor = new BlockExtractor(2394, Material.iron, "extractor").setHardness(2F);
-		extractor = new BlockCookieMaker(2395, Material.iron, "cookieMaker").setHardness(2F);
+		cookieMaker = new BlockCookieMaker(2395, Material.iron, "cookieMaker").setHardness(2F);
 
 		ingotTin = new ItemIngot(8930, "ingotTin");
 		ingotCopper = new ItemIngot(8931, "ingotCopper");
