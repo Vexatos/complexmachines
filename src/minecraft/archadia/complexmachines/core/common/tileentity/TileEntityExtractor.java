@@ -8,6 +8,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
+import archadia.complexmachines.core.common.ComplexMachines;
 import archadia.complexmachines.prefab.tileentity.TileEntityAdvancedMachine;
 
 /**
@@ -48,7 +49,11 @@ public class TileEntityExtractor extends TileEntityAdvancedMachine {
 		super.updateEntity();
 
 		if(!worldObj.isRemote) {
-			if(worldObj.getWorldTime()%20 == 0) findOre();
+			if(ComplexMachines.oldExtractorMode) {
+				findOre();
+			} else {
+				if(worldObj.getWorldTime()%20 == 0) findOre();
+			}
 		}
 	}
 	

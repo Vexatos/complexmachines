@@ -14,6 +14,7 @@ import archadia.complexmachines.core.common.block.BlockCookieMaker;
 import archadia.complexmachines.core.common.block.BlockExtractor;
 import archadia.complexmachines.core.common.block.BlockGrinder;
 import archadia.complexmachines.core.common.block.BlockWireMill;
+import archadia.complexmachines.core.common.gen.OreGenerator;
 import archadia.complexmachines.core.common.item.ItemAlloy;
 import archadia.complexmachines.core.common.item.ItemIngot;
 import archadia.complexmachines.core.common.item.ItemWire;
@@ -23,8 +24,8 @@ import archadia.complexmachines.core.common.tileentity.TileEntityCookieMaker;
 import archadia.complexmachines.core.common.tileentity.TileEntityExtractor;
 import archadia.complexmachines.core.common.tileentity.TileEntityGrinder;
 import archadia.complexmachines.core.common.tileentity.TileEntityWireMill;
+import archadia.complexmachines.helper.ArchHelper;
 import archadia.complexmachines.helper.ArchLoader;
-import archadia.complexmachines.helper.recipes.AlloyRecipes;
 import archadia.complexmachines.helper.recipes.WiremillRecipes;
 import archadia.complexmachines.prefab.block.BlockModOre;
 import cpw.mods.fml.common.Loader;
@@ -62,7 +63,9 @@ public class ComplexMachines {
 	public static ComplexMachinesTab tabComplexMachines = new ComplexMachinesTab();
 		
 	public static ArchLoader loader = new ArchLoader();
-	public static final Configuration config = new Configuration(new File(Loader.instance().getConfigDir() + "Modech.cfg"));
+	public static final Configuration config = new Configuration(new File(Loader.instance().getConfigDir() + "/Modech.cfg"));
+	
+	public static boolean oldExtractorMode = false;
 	
 	public static Block wireMill;
 	public static Block alloyFabricator;
@@ -100,10 +103,17 @@ public class ComplexMachines {
 		wiring1 = new ItemWire(8933, "c194-wiring");
 		wiring2 = new ItemWire(8934, "tin-wiring");
 		wiring3 = new ItemWire(8935, "gold-wiring");
+		
+		config.load();
+		
+		oldExtractorMode = config.get(config.CATEGORY_GENERAL, "Old Extractor Mode", false).getBoolean(false);
+		
+		config.save();
 	}
 	
 	@EventHandler
 	public void Init(FMLInitializationEvent event) {
+		ArchHelper.println(""+oldExtractorMode);
 		loader.addBlock(wireMill);
 		loader.addBlock(oreTin);
 		loader.addBlock(alloyFabricator);
@@ -133,5 +143,7 @@ public class ComplexMachines {
 	
 		TileEntityExtractor.instance().addExtractorValidOre(oreTin.blockID);
 		TileEntityExtractor.instance().addExtractorValidOre(oreCopper.blockID);
+		
+		GameRegistry.registerWorldGenerator(new OreGenerator());
 	}
 }
