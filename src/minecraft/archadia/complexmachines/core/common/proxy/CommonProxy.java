@@ -12,6 +12,7 @@ import archadia.complexmachines.core.common.container.ContainerExtractor;
 import archadia.complexmachines.core.common.container.ContainerGrinder;
 import archadia.complexmachines.core.common.container.ContainerWireMill;
 import archadia.complexmachines.core.common.tileentity.TileEntityAlloyFabricator;
+import archadia.complexmachines.core.common.tileentity.TileEntityCookieMaker;
 import archadia.complexmachines.core.common.tileentity.TileEntityExtractor;
 import archadia.complexmachines.core.common.tileentity.TileEntityGrinder;
 import archadia.complexmachines.core.common.tileentity.TileEntityWireMill;
@@ -35,6 +36,8 @@ public class CommonProxy implements IGuiHandler {
 				return new ContainerGrinder(player.inventory, (TileEntityGrinder) tile_entity);
 			case 3:
 				return new ContainerExtractor(player.inventory, (TileEntityExtractor) tile_entity);
+			case 4:
+				return new ContainerCookieMaker(player.inventory, (TileEntityCookieMaker) tile_entity);
 		}
 		return null;
 	}
@@ -51,6 +54,8 @@ public class CommonProxy implements IGuiHandler {
 				return new GuiGrinder(player.inventory, (TileEntityGrinder) tile_entity);
 			case 3:
 				return new GuiExtractor(player.inventory, (TileEntityExtractor) tile_entity);
+			case 4:
+				return new GuiCookieMaker(player.inventory, (TileEntityCookieMaker) tile_entity);
 		}
 		return null;
 	}

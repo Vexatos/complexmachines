@@ -1,5 +1,6 @@
 package archadia.complexmachines.core.client.gui;
 
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -9,8 +10,8 @@ import org.lwjgl.opengl.GL11;
 
 import archadia.complexmachines.core.common.container.ContainerExtractor;
 import archadia.complexmachines.core.common.tileentity.TileEntityExtractor;
-import archadia.complexmachines.core.common.tileentity.TileEntityWireMill;
 import archadia.complexmachines.helper.ArchHelper;
+import archadia.complexmachines.prefab.tileentity.TileEntityAdvancedMachine;
 
 /**
  * @author Archadia
@@ -18,16 +19,22 @@ import archadia.complexmachines.helper.ArchHelper;
  */
 public class GuiExtractor extends GuiContainer {
 	
-    private static TileEntityExtractor tileINV = new TileEntityExtractor();
+    private static TileEntityExtractor tileINV;
     private ArchHelper helper = new ArchHelper();
 
-    public GuiExtractor(InventoryPlayer par1InventoryPlayer, TileEntityExtractor tile) {
+    public GuiExtractor(InventoryPlayer par1InventoryPlayer, TileEntityAdvancedMachine tile) {
         super(new ContainerExtractor(par1InventoryPlayer, tile));
+        tileINV = (TileEntityExtractor) tile;
     }
 
     protected void drawGuiContainerForegroundLayer(int par1, int par2) {
         String s = this.tileINV.isInvNameLocalized() ? this.tileINV.getInvName() : I18n.func_135053_a(this.tileINV.getInvName());
-        this.fontRenderer.drawString(s, this.xSize / 2 + 44, 7, 4210752);
+        this.fontRenderer.drawString(s, this.xSize / 2 + 33, 72, 4210752);
+        int k = (this.width - this.xSize) / 2;
+        int l = (this.height - this.ySize) / 2;
+        
+        buttonList.clear();
+        buttonList.add(new GuiButton(0, k +147, l + 6, 20, 20, "M"));
     }
 
     protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
@@ -36,5 +43,21 @@ public class GuiExtractor extends GuiContainer {
         int k = (this.width - this.xSize) / 2;
         int l = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
+    }
+    
+    public void actionPerformed(GuiButton button) {
+    	switch(button.id) {
+	    	case 0:
+	    		if(tileINV.getStatusMode() == false) {
+	    			tileINV.setStatusMode(true);
+		    		System.out.println("FROM GUI: " + tileINV.getStatusMode());
+	    			return;
+	    		}
+	    		if(tileINV.getStatusMode() == true) {
+	    			tileINV.setStatusMode(false);
+		    		System.out.println("FROM GUI: " + tileINV.getStatusMode());
+	    			return;
+	    		}
+    	}
     }
 }

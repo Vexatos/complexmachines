@@ -102,7 +102,7 @@ public class TileEntityWireMill extends TileEntityAdvancedMachine {
 	        else if (inventory[1].isItemEqual(itemstack))
 	        {
 	        	inventory[1].stackSize += itemstack.stackSize;
-	        }
+	        } 
 	
 	        --inventory[0].stackSize;
 	

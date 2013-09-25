@@ -20,6 +20,7 @@ public class TileEntityAdvancedMachine extends TileEntityBasicMachine implements
 	
 	protected int processTicks;
 	protected static int processMaxTicks;
+	protected boolean canOperate = false;
 	
 	public void setMaxTicks(int amt) {
 		processMaxTicks = amt;
@@ -33,6 +34,13 @@ public class TileEntityAdvancedMachine extends TileEntityBasicMachine implements
 		return processTicks;
 	}
 	
+	public void setStatusMode(boolean bool) {
+		canOperate = bool;
+	}
+	
+	public boolean getStatusMode() {
+		return canOperate;
+	}
 	
 	public void setInventorySize(int amt) {
 		inventory = new ItemStack[amt];

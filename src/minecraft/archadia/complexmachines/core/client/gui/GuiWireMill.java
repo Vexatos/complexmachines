@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 import archadia.complexmachines.core.common.container.ContainerWireMill;
 import archadia.complexmachines.core.common.tileentity.TileEntityWireMill;
 import archadia.complexmachines.helper.ArchHelper;
+import archadia.complexmachines.prefab.tileentity.TileEntityAdvancedMachine;
 
 /**
  * @author Archadia
@@ -20,7 +21,7 @@ public class GuiWireMill extends GuiContainer {
     private static TileEntityWireMill tileINV = new TileEntityWireMill();
     private ArchHelper helper = new ArchHelper();
 
-    public GuiWireMill(InventoryPlayer par1InventoryPlayer, TileEntityWireMill tile) {
+    public GuiWireMill(InventoryPlayer par1InventoryPlayer, TileEntityAdvancedMachine tile) {
         super(new ContainerWireMill(par1InventoryPlayer, tile));
     }
 

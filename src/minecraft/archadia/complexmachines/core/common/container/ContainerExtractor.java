@@ -6,6 +6,7 @@ import archadia.complexmachines.core.common.slot.SlotOutput;
 import archadia.complexmachines.core.common.tileentity.TileEntityExtractor;
 import archadia.complexmachines.core.common.tileentity.TileEntityWireMill;
 import archadia.complexmachines.prefab.container.ContainerBasicMachine;
+import archadia.complexmachines.prefab.tileentity.TileEntityAdvancedMachine;
 
 /**
  * @author Archadia
@@ -15,10 +16,14 @@ public class ContainerExtractor extends ContainerBasicMachine {
 
 	private TileEntityExtractor tile;
 	
-	public ContainerExtractor(InventoryPlayer par1InventoryPlayer, TileEntityExtractor tileEnt) {
+	public ContainerExtractor(InventoryPlayer par1InventoryPlayer, TileEntityAdvancedMachine tile2) {
         super.bindPlayerInventory(par1InventoryPlayer);
     	
-    	this.tile = tileEnt;
+    	this.tile = (TileEntityExtractor) tile2;
+    	
+    	for(int i = 0; i < 6; i++) {
+        	addSlotToContainer(new Slot(tile2, i, 8 + i * 22, 8));
+    	}
     }
 	
 }
