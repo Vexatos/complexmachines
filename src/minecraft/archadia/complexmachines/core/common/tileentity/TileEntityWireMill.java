@@ -25,7 +25,13 @@ public class TileEntityWireMill extends ConductorConsumerTileEntity {
 	
 	public void updateEntity() {
 		boolean flag1 = false;
-        if (!this.worldObj.isRemote)
+      
+    	if(worldObj.isRemote) {
+    		if(this.canProcess()) {
+    			System.out.println("UPDATEENTITY() CLIENT: " + getTicks());
+    		}
+    	}
+		if (!this.worldObj.isRemote)
         {
             if (this.canProcess())
             {
@@ -33,12 +39,8 @@ public class TileEntityWireMill extends ConductorConsumerTileEntity {
     			PacketManager.sendPacketToClients(getDescriptionPacket(this.processTicks), this.worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), 12);
     	    	
     			if(!worldObj.isRemote) {
-    			System.out.println("UPDATEENTITY() SERVER: " + getTicks());
+    				System.out.println("UPDATEENTITY() SERVER: " + getTicks());
     			}
-    			
-    	    	if(worldObj.isRemote) {
-        	    	System.out.println("UPDATEENTITY() CLIENT: " + getTicks());
-    	    	}
     	    	
                 if (this.processTicks == processMaxTicks)
                 {
