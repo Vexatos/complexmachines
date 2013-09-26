@@ -10,7 +10,7 @@ import universalelectricity.prefab.network.IPacketReceiver;
 
 import com.google.common.io.ByteArrayDataInput;
 
-public abstract class ConductorConsumerTileEntity extends AdvancedConductorTileEntity implements IPacketReceiver,IElectrical, IElectricalStorage {
+public abstract class ConductorConsumerTileEntity extends AdvancedConductorTileEntity implements IElectrical, IElectricalStorage {
 
 	public final double WATTS_PER_TICK = 5000;
 	public final double TRANSFER_LIMIT = 12500;
@@ -34,18 +34,6 @@ public abstract class ConductorConsumerTileEntity extends AdvancedConductorTileE
 	public void updateEntity() {
 		super.updateEntity();
 	}
-
-	@Override
-	public void handlePacketData(INetworkManager inputNetwork, int type,
-			Packet250CustomPayload packet, EntityPlayer player,
-			ByteArrayDataInput dataStream) {
-		try {
-			this.joulesStored = dataStream.readDouble();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 
 	@Override
 	public float getVoltage() {

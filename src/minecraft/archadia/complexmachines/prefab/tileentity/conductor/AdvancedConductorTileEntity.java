@@ -15,7 +15,7 @@ import com.google.common.io.ByteArrayDataInput;
  * @author Archadia
  *
  */
-public abstract class AdvancedConductorTileEntity extends ConductorContainerTileEntity implements IPacketReceiver {
+public abstract class AdvancedConductorTileEntity extends ConductorContainerTileEntity {
 	
 	protected int processTicks;
 	protected static int processMaxTicks;
@@ -43,15 +43,5 @@ public abstract class AdvancedConductorTileEntity extends ConductorContainerTile
 	
 	public void setInventorySize(int amt) {
 		inventory = new ItemStack[amt];
-	}
-	
-	public void handlePacketData(INetworkManager inputNetwork, int type,
-			Packet250CustomPayload packet, EntityPlayer player,
-			ByteArrayDataInput dataStream) {
-		processTicks = dataStream.readInt();
-	}
-	
-	public Packet getDescriptionPacket(Object... obj) {
-		return PacketManager.getPacket(ComplexMachines.CHANNEL, this, obj);
 	}
 }
