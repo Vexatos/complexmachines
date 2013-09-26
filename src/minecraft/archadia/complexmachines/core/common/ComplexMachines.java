@@ -17,7 +17,6 @@ import archadia.complexmachines.core.common.block.BlockGrinder;
 import archadia.complexmachines.core.common.block.BlockWireMill;
 import archadia.complexmachines.core.common.gen.OreGenerator;
 import archadia.complexmachines.core.common.item.ItemAlloy;
-import archadia.complexmachines.core.common.item.ItemBat;
 import archadia.complexmachines.core.common.item.ItemIngot;
 import archadia.complexmachines.core.common.item.ItemWire;
 import archadia.complexmachines.core.common.proxy.CommonProxy;
@@ -26,7 +25,6 @@ import archadia.complexmachines.core.common.tileentity.TileEntityCookieMaker;
 import archadia.complexmachines.core.common.tileentity.TileEntityExtractor;
 import archadia.complexmachines.core.common.tileentity.TileEntityGrinder;
 import archadia.complexmachines.core.common.tileentity.TileEntityWireMill;
-import archadia.complexmachines.helper.ArchHelper;
 import archadia.complexmachines.helper.ArchLoader;
 import archadia.complexmachines.helper.recipes.WiremillRecipes;
 import archadia.complexmachines.prefab.block.BlockModOre;
@@ -83,12 +81,12 @@ public class ComplexMachines {
 	public static Item wiring2;
 	public static Item wiring3;
 	public static Item C194;
-	public static Item bat;
 	
 	public int BLOCK_ID = 2389;
 	public int ITEM_ID = 8932;
 	
 	public static boolean debug = true;
+	public static int extractorPickDegradeRate = 10;
 	
 	@EventHandler
 	public void PreInit(FMLPreInitializationEvent event) {
@@ -106,11 +104,11 @@ public class ComplexMachines {
 		wiring1 = new ItemWire(8933, "c194-wiring");
 		wiring2 = new ItemWire(8934, "tin-wiring");
 		wiring3 = new ItemWire(8935, "gold-wiring");
-		bat = new ItemBat(8936, "battery");
 		
 		config.load();
 		
 		oldExtractorMode = config.get(config.CATEGORY_GENERAL, "Old Extractor Mode", false).getBoolean(false);
+		extractorPickDegradeRate = config.get(config.CATEGORY_GENERAL, "Extractor Pickaxe Degrading Rate", 6).getInt();
 		
 		config.save();
 	}

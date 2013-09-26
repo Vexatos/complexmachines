@@ -10,13 +10,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import archadia.complexmachines.api.ExtractorHelper;
 import archadia.complexmachines.core.common.ComplexMachines;
-import archadia.complexmachines.prefab.tileentity.TileEntityAdvancedMachine;
+import archadia.complexmachines.prefab.tileentity.conductor.ConductorConsumerTileEntity;
 
 /**
  * @author Archadia
  *
  */
-public class TileEntityExtractor extends TileEntityAdvancedMachine {
+public class TileEntityExtractor extends ConductorConsumerTileEntity {
 	
 	private final static TileEntityExtractor tileEntityBase = new TileEntityExtractor();   
  	
@@ -79,7 +79,12 @@ public class TileEntityExtractor extends TileEntityAdvancedMachine {
 			
 			if (worldObj.getChunkFromBlockCoords(targetX, targetZ).isChunkLoaded && ore) {
 				oreFound = true;
-				inventory[7].setItemDamage(inventory[7].getItemDamage() + 10);
+				
+				inventory[7].setItemDamage(inventory[7].getItemDamage() + ComplexMachines.extractorPickDegradeRate);
+				if(inventory[7].getItemDamage() == inventory[7].getMaxDamage()) {
+					inventory[7] = null;
+				}
+				
 				ItemStack drop = Block.blocksList[targetId].getBlockDropped(worldObj, targetX, targetY , targetZ, worldObj.getBlockMetadata(targetX, targetY, targetZ), 0).get(0);
 				worldObj.setBlock(targetY, targetY, targetZ, 0);
 				dropItems(drop);
@@ -180,5 +185,10 @@ public class TileEntityExtractor extends TileEntityAdvancedMachine {
 
 	public String getInvName() {
 		return "Extractor";
+	}
+
+	@Override
+	public double getMaxJoules() {
+		return 0;
 	}
 }
