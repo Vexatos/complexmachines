@@ -1,25 +1,19 @@
-package archadia.complexmachines.prefab.tileentity.conductor;
+package archadia.complexmachines.prefab.tileentity;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.block.IElectrical;
 import universalelectricity.core.block.IElectricalStorage;
-import universalelectricity.prefab.network.IPacketReceiver;
 
-import com.google.common.io.ByteArrayDataInput;
-
-public abstract class ConductorConsumerTileEntity extends AdvancedConductorTileEntity implements IElectrical, IElectricalStorage {
+/**
+ * @author Archadia
+ *
+ */
+public class ElectricConsumerMachine extends ElectricContainer implements IElectrical, IElectricalStorage {
 
 	public final double WATTS_PER_TICK = 5000;
 	public final double TRANSFER_LIMIT = 12500;
 	private double joulesStored = 0;
 	public static double maxJoules = 2000000;
-	public int ticks = 0;
-
-	private int playersUsing = 0;
-	public int orientation;
 	
 	@Override
 	public float getMaxEnergyStored() {
@@ -30,6 +24,10 @@ public abstract class ConductorConsumerTileEntity extends AdvancedConductorTileE
 			return (int) this.getMaxJoules();
 	}
 	
+	private double getMaxJoules() {
+		return maxJoules;
+	}
+
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
@@ -48,8 +46,6 @@ public abstract class ConductorConsumerTileEntity extends AdvancedConductorTileE
 		this.setEnergyStored((float)joules);
 	}
 
-	public abstract double getMaxJoules();
-
 	@Override
 	public boolean canConnect(ForgeDirection direction) {
 		return direction.ordinal() == this.getBlockMetadata() + 2;
@@ -64,5 +60,4 @@ public abstract class ConductorConsumerTileEntity extends AdvancedConductorTileE
 	public float getProvide(ForgeDirection direction) {
 		return 0;
 	}
-	
 }

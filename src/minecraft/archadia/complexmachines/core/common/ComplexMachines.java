@@ -8,7 +8,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
-import universalelectricity.prefab.network.PacketManager;
 import archadia.complexmachines.api.ExtractorHelper;
 import archadia.complexmachines.core.common.block.BlockAlloyFabricator;
 import archadia.complexmachines.core.common.block.BlockCookieMaker;
@@ -26,7 +25,8 @@ import archadia.complexmachines.core.common.tileentity.TileEntityExtractor;
 import archadia.complexmachines.core.common.tileentity.TileEntityGrinder;
 import archadia.complexmachines.core.common.tileentity.TileEntityWireMill;
 import archadia.complexmachines.helper.ArchLoader;
-import archadia.complexmachines.helper.recipes.WiremillRecipes;
+import archadia.complexmachines.helper.recipes.MachineRecipes;
+import archadia.complexmachines.network.PacketHandler;
 import archadia.complexmachines.prefab.block.BlockModOre;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
@@ -44,7 +44,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
  * Originally by Pixlepix, renamed to Modech, now owned by Archadia(Me)
  */
 @Mod(modid = ComplexMachines.MOD_ID, name = ComplexMachines.NAME, version = ComplexMachines.VERSION)
-@NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {ComplexMachines.CHANNEL}, packetHandler = PacketManager.class)
+@NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {ComplexMachines.CHANNEL}, packetHandler = PacketHandler.class)
 public class ComplexMachines {
 
 	public static final String[] languages = new String[] {"en_US", "de_DE"};
@@ -138,9 +138,9 @@ public class ComplexMachines {
 		OreDictionary.registerOre("ingotTin", ingotTin);
 		OreDictionary.registerOre("oreTin", oreTin);
 		
-		WiremillRecipes.recipes().addWireMillRecipes(Item.ingotGold.itemID, new ItemStack(wiring3));
-		WiremillRecipes.recipes().addWireMillRecipes(ingotTin.itemID, new ItemStack(wiring2));
-		WiremillRecipes.recipes().addWireMillRecipes(C194.itemID, new ItemStack(wiring1));
+		MachineRecipes.instance().addWireMillRecipes(Item.ingotGold.itemID, new ItemStack(wiring3));
+		MachineRecipes.instance().addWireMillRecipes(ingotTin.itemID, new ItemStack(wiring2));
+		MachineRecipes.instance().addWireMillRecipes(C194.itemID, new ItemStack(wiring1));
 	
 		ExtractorHelper.instance().addExtractorValidOre(oreTin.blockID);
 		ExtractorHelper.instance().addExtractorValidOre(oreCopper.blockID);

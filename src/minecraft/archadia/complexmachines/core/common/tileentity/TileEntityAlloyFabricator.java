@@ -1,12 +1,13 @@
 package archadia.complexmachines.core.common.tileentity;
 
-import archadia.complexmachines.prefab.tileentity.insulator.AdvancedInsulatorTileEntity;
+import archadia.complexmachines.prefab.tileentity.ElectricConsumerMachine;
+
 
 /**
  * @author Archadia
  *
  */
-public class TileEntityAlloyFabricator extends AdvancedInsulatorTileEntity {
+public class TileEntityAlloyFabricator extends ElectricConsumerMachine {
 		
 	public TileEntityAlloyFabricator() {
 		setInventorySize(5);

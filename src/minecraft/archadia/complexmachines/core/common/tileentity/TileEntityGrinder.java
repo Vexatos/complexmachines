@@ -1,14 +1,12 @@
 package archadia.complexmachines.core.common.tileentity;
 
-import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.network.PacketManager;
-import archadia.complexmachines.prefab.tileentity.conductor.ConductorConsumerTileEntity;
+import archadia.complexmachines.prefab.tileentity.ElectricConsumerMachine;
 
 /**
  * @author Archadia
  * 
  */
-public class TileEntityGrinder extends ConductorConsumerTileEntity {
+public class TileEntityGrinder extends ElectricConsumerMachine {
 	
 	private final static TileEntityGrinder tileEntityBase = new TileEntityGrinder();   
 	
@@ -29,11 +27,9 @@ public class TileEntityGrinder extends ConductorConsumerTileEntity {
         {
         	if(isProcessing()) {
 	            this.processTicks++;
-				PacketManager.sendPacketToClients(getDescriptionPacket(this.processTicks), this.worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), 12);
 				
-	            if (this.processTicks == processMaxTicks) {
+	            if (this.processTicks == getMaxTicks()) {
 	            	this.processTicks = 0;
-	    			PacketManager.sendPacketToClients(getDescriptionPacket(this.processTicks), this.worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), 12);
 	                processItems();
 	                flag1 = true;
 	            }
@@ -98,10 +94,5 @@ public class TileEntityGrinder extends ConductorConsumerTileEntity {
 	            inventory[2] = null;
 	        }
 		}
-	}
-
-	@Override
-	public double getMaxJoules() {
-		return 0;
 	}
 }

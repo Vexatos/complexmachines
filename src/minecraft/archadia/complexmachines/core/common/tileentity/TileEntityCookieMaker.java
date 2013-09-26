@@ -2,13 +2,13 @@ package archadia.complexmachines.core.common.tileentity;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import archadia.complexmachines.prefab.tileentity.insulator.AdvancedInsulatorTileEntity;
+import archadia.complexmachines.prefab.tileentity.ElectricConsumerMachine;
 
 /**
  * @author Archadia
  *
  */
-public class TileEntityCookieMaker extends AdvancedInsulatorTileEntity {
+public class TileEntityCookieMaker extends ElectricConsumerMachine {
 	
 	private final static TileEntityCookieMaker tileEntityBase = new TileEntityCookieMaker();   
 	 	
@@ -29,7 +29,7 @@ public class TileEntityCookieMaker extends AdvancedInsulatorTileEntity {
             {
             	this.processTicks++;
     	    	
-                if (this.processTicks == processMaxTicks)
+                if (this.processTicks == getMaxTicks())
                 {
                 	this.processTicks = 0;
                     processItems();

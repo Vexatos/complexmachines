@@ -1,25 +1,20 @@
-package archadia.complexmachines.prefab.tileentity.conductor;
+package archadia.complexmachines.prefab.tileentity;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.core.block.IConductor;
-import universalelectricity.prefab.network.IPacketReceiver;
 
-import com.google.common.io.ByteArrayDataInput;
-
-public  class ConductorProducerTileEntity extends AdvancedConductorTileEntity {
-
+/**
+ * @author Archadia
+ *
+ */
+public class ElectricProducerMachine extends ElectricContainer {
+	
 	public float electricOutput=0;
 	
 	private double joulesStored = 0;
 	public static double maxJoules = 2000000;
 	public int ticks = 10000;
 
-	private int playersUsing = 0;
-	public int orientation;
 	private int targetID = 0;
 	private int targetMeta = 0;
 
@@ -47,20 +42,16 @@ public  class ConductorProducerTileEntity extends AdvancedConductorTileEntity {
 	
 	@Override
 	public float getRequest(ForgeDirection direction) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public float getProvide(ForgeDirection direction) {
-		// TODO Auto-generated method stub
 		return this.electricOutput;
 	}
 
 	@Override
 	public float getMaxEnergyStored() {
-		// TODO Auto-generated method stub
 		return 100000;
 	}
-	
 }

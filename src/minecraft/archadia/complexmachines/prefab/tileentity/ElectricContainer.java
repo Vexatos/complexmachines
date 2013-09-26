@@ -1,28 +1,27 @@
-package archadia.complexmachines.prefab.tileentity.insulator;
+package archadia.complexmachines.prefab.tileentity;
 
+import archadia.complexmachines.api.IComplexAdvancedMachine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
-import archadia.complexmachines.helper.ArchHelper;
+import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.prefab.tile.TileEntityElectrical;
 
 /**
  * @author Archadia
  *
  */
-public class InsulatorContainerTileEntity extends TileEntity implements IInventory {
-
-	public void initiate() {
-		
-	}
-
-	protected ArchHelper helper = new ArchHelper();
+public class ElectricContainer extends TileEntityElectrical implements IInventory, IComplexAdvancedMachine {
 	
 	protected ItemStack[] inventory;
     
 	public static int playersUsing;
+	
+	public int processTicks;
+	
+	public static int maxProcessTicks;
 	
 	@Override
 	public int getSizeInventory() {
@@ -138,6 +137,49 @@ public class InsulatorContainerTileEntity extends TileEntity implements IInvento
         }
         par1NBTTagCompound.setTag("Items", nbttaglist);
     }
-    
-    
+
+	@Override
+	public float getRequest(ForgeDirection direction) {
+		return 0;
+	}
+
+	@Override
+	public float getProvide(ForgeDirection direction) {
+		return 0;
+	}
+
+	@Override
+	public float getMaxEnergyStored() {
+		return 0;
+	}
+	
+	@Override
+	public boolean canConnect(ForgeDirection direction) {
+		return direction.ordinal() == this.getBlockMetadata() + 2;
+	}
+
+	@Override
+	public void setMaxTicks(int amt) {
+		maxProcessTicks = amt;
+	}
+
+	@Override
+	public int getMaxTicks() {
+		return maxProcessTicks;
+	}
+
+	@Override
+	public void setTicks(int ticks) {
+		processTicks = ticks;
+	}
+
+	@Override
+	public int getTicks() {
+		return processTicks;
+	}
+
+	@Override
+	public void setInventorySize(int amt) {
+		inventory = new ItemStack[amt];
+	}
 }

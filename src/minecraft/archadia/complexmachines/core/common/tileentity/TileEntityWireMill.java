@@ -1,17 +1,20 @@
 package archadia.complexmachines.core.common.tileentity;
 
 import net.minecraft.item.ItemStack;
-import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.network.PacketManager;
-import archadia.complexmachines.helper.recipes.WiremillRecipes;
-import archadia.complexmachines.prefab.tileentity.conductor.ConductorConsumerTileEntity;
+import archadia.complexmachines.helper.recipes.MachineRecipes;
+import archadia.complexmachines.network.PacketHandler;
+import archadia.complexmachines.network.packet.PacketWireMill;
+import archadia.complexmachines.prefab.tileentity.ElectricConsumerMachine;
 
 /**
  * @author Archadia
  *
  */
-public class TileEntityWireMill extends ConductorConsumerTileEntity {
+public class TileEntityWireMill extends ElectricConsumerMachine {
 		
+	public final static int[] input = { 0 };
+	public final static int[] output = { 1 };
+	
 	private final static TileEntityWireMill tileEntityBase = new TileEntityWireMill();   
 	 	
 	public final static TileEntityWireMill instance() {
@@ -31,15 +34,18 @@ public class TileEntityWireMill extends ConductorConsumerTileEntity {
             if (this.canProcess())
             {
             	this.processTicks++;
-    	    	
-                if (this.processTicks == processMaxTicks)
+            	sendUpdatePacket();
+            	
+                if (this.processTicks == getMaxTicks())
                 {
                 	this.processTicks = 0;
+                	sendUpdatePacket();
                     processItems();
                     flag1 = true;
                 }
             } else {
             	this.processTicks = 0;
+            	sendUpdatePacket();
             }
         }
         if (flag1)
@@ -60,7 +66,7 @@ public class TileEntityWireMill extends ConductorConsumerTileEntity {
 		if (inventory[0] == null) {
         	return false;
         } else {
-            ItemStack itemstack =  WiremillRecipes.recipes().getResult(inventory[0].itemID);
+            ItemStack itemstack = MachineRecipes.Recipe.WIREMILL.getResult(inventory[0].itemID);
             if (itemstack == null) {
             	return false;
             }
@@ -75,9 +81,15 @@ public class TileEntityWireMill extends ConductorConsumerTileEntity {
         }
     }
 	
+    public void sendUpdatePacket() {
+        PacketWireMill packet = new PacketWireMill(this);
+        int dimensionID = worldObj.provider.dimensionId;
+        PacketHandler.instance().wiremillUpdateHandler.sendToAllPlayersInDimension(packet, dimensionID);
+    }
+	
 	public void processItems() {
 		if(canProcess()) {
-            ItemStack itemstack =  WiremillRecipes.recipes().getResult(inventory[0].itemID);
+            ItemStack itemstack = MachineRecipes.Recipe.WIREMILL.getResult(inventory[0].itemID);
 	
 	        if (inventory[1] == null)
 	        {
@@ -96,9 +108,14 @@ public class TileEntityWireMill extends ConductorConsumerTileEntity {
 	        }
 		}
 	}
-
-	@Override
-	public double getMaxJoules() {
-		return 0;
+	
+	public int[] getAccessibleSlotsFromSide(int var1) {
+		if(var1==1){
+			return this.input;
+		}
+		if(var1==0){
+			return this.output;
+		}
+		return this.input;
 	}
 }

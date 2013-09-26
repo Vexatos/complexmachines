@@ -10,13 +10,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import archadia.complexmachines.api.ExtractorHelper;
 import archadia.complexmachines.core.common.ComplexMachines;
-import archadia.complexmachines.prefab.tileentity.conductor.ConductorConsumerTileEntity;
+import archadia.complexmachines.prefab.tileentity.ElectricConsumerMachine;
 
 /**
  * @author Archadia
  *
  */
-public class TileEntityExtractor extends ConductorConsumerTileEntity {
+public class TileEntityExtractor extends ElectricConsumerMachine {
 	
 	private final static TileEntityExtractor tileEntityBase = new TileEntityExtractor();   
  	
@@ -185,10 +185,5 @@ public class TileEntityExtractor extends ConductorConsumerTileEntity {
 
 	public String getInvName() {
 		return "Extractor";
-	}
-
-	@Override
-	public double getMaxJoules() {
-		return 0;
 	}
 }

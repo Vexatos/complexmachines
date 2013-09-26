@@ -47,16 +47,7 @@ public class GuiExtractor extends GuiContainer {
     public void actionPerformed(GuiButton button) {
     	switch(button.id) {
 	    	case 0:
-	    		if(tileINV.getStatusMode() == false) {
-	    			tileINV.setStatusMode(true);
-		    		System.out.println("FROM GUI: " + tileINV.getStatusMode());
-	    			return;
-	    		}
-	    		if(tileINV.getStatusMode() == true) {
-	    			tileINV.setStatusMode(false);
-		    		System.out.println("FROM GUI: " + tileINV.getStatusMode());
-	    			return;
-	    		}
+	    	
     	}
     }
 }
