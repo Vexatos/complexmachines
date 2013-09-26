@@ -8,11 +8,9 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import archadia.complexmachines.core.common.container.ContainerCookieMaker;
-import archadia.complexmachines.core.common.container.ContainerWireMill;
 import archadia.complexmachines.core.common.tileentity.TileEntityCookieMaker;
 import archadia.complexmachines.core.common.tileentity.TileEntityWireMill;
 import archadia.complexmachines.helper.ArchHelper;
-import archadia.complexmachines.prefab.tileentity.TileEntityAdvancedMachine;
 
 /**
  * @author Archadia
@@ -23,7 +21,7 @@ public class GuiCookieMaker extends GuiContainer {
     private static TileEntityCookieMaker tileINV = new TileEntityCookieMaker();
     private ArchHelper helper = new ArchHelper();
 
-    public GuiCookieMaker(InventoryPlayer par1InventoryPlayer, TileEntityAdvancedMachine tile) {
+    public GuiCookieMaker(InventoryPlayer par1InventoryPlayer, TileEntityCookieMaker tile) {
         super(new ContainerCookieMaker(par1InventoryPlayer, tile));
     }
 

@@ -11,7 +11,6 @@ import org.lwjgl.opengl.GL11;
 import archadia.complexmachines.core.common.container.ContainerExtractor;
 import archadia.complexmachines.core.common.tileentity.TileEntityExtractor;
 import archadia.complexmachines.helper.ArchHelper;
-import archadia.complexmachines.prefab.tileentity.TileEntityAdvancedMachine;
 
 /**
  * @author Archadia
@@ -22,7 +21,7 @@ public class GuiExtractor extends GuiContainer {
     private static TileEntityExtractor tileINV;
     private ArchHelper helper = new ArchHelper();
 
-    public GuiExtractor(InventoryPlayer par1InventoryPlayer, TileEntityAdvancedMachine tile) {
+    public GuiExtractor(InventoryPlayer par1InventoryPlayer, TileEntityExtractor tile) {
         super(new ContainerExtractor(par1InventoryPlayer, tile));
         tileINV = (TileEntityExtractor) tile;
     }

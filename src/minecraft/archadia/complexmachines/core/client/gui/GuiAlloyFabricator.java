@@ -1,7 +1,6 @@
 package archadia.complexmachines.core.client.gui;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
@@ -10,7 +9,6 @@ import org.lwjgl.opengl.GL11;
 import archadia.complexmachines.core.common.container.ContainerAlloyFabricator;
 import archadia.complexmachines.core.common.tileentity.TileEntityAlloyFabricator;
 import archadia.complexmachines.helper.ArchHelper;
-import archadia.complexmachines.prefab.tileentity.TileEntityAdvancedMachine;
 
 /**
  * @author Archadia
@@ -21,7 +19,7 @@ public class GuiAlloyFabricator extends GuiContainer {
 		private TileEntityAlloyFabricator tileINV;
 	    private ArchHelper helper = new ArchHelper();
 
-	    public GuiAlloyFabricator(InventoryPlayer par1InventoryPlayer, TileEntityAdvancedMachine tile) {
+	    public GuiAlloyFabricator(InventoryPlayer par1InventoryPlayer, TileEntityAlloyFabricator tile) {
 	        super(new ContainerAlloyFabricator(par1InventoryPlayer, tile));
 	    }
 

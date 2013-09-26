@@ -9,9 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import archadia.complexmachines.core.common.container.ContainerGrinder;
 import archadia.complexmachines.core.common.tileentity.TileEntityGrinder;
-import archadia.complexmachines.core.common.tileentity.TileEntityWireMill;
 import archadia.complexmachines.helper.ArchHelper;
-import archadia.complexmachines.prefab.tileentity.TileEntityAdvancedMachine;
 
 /**
  * @author Archadia
@@ -22,7 +20,7 @@ public class GuiGrinder extends GuiContainer {
     private static TileEntityGrinder tileINV = new TileEntityGrinder();
     private ArchHelper helper = new ArchHelper();
 
-    public GuiGrinder(InventoryPlayer par1InventoryPlayer, TileEntityAdvancedMachine tile) {
+    public GuiGrinder(InventoryPlayer par1InventoryPlayer, TileEntityGrinder tile) {
         super(new ContainerGrinder(par1InventoryPlayer, tile));
     }
 

@@ -1,14 +1,12 @@
 package archadia.complexmachines.core.common.tileentity;
 
-import net.minecraft.item.ItemStack;
-import archadia.complexmachines.helper.recipes.AlloyRecipes;
-import archadia.complexmachines.prefab.tileentity.TileEntityAdvancedMachine;
+import archadia.complexmachines.prefab.tileentity.insulator.AdvancedInsulatorTileEntity;
 
 /**
  * @author Archadia
  *
  */
-public class TileEntityAlloyFabricator extends TileEntityAdvancedMachine {
+public class TileEntityAlloyFabricator extends AdvancedInsulatorTileEntity {
 		
 	public TileEntityAlloyFabricator() {
 		setInventorySize(5);

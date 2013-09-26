@@ -1,24 +1,14 @@
 package archadia.complexmachines.core.common.tileentity;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet250CustomPayload;
 import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.network.IPacketReceiver;
 import universalelectricity.prefab.network.PacketManager;
-import archadia.complexmachines.helper.recipes.WiremillRecipes;
-import archadia.complexmachines.prefab.tileentity.TileEntityAdvancedMachine;
-import archadia.complexmachines.prefab.tileentity.TileEntityBasicMachine;
-
-import com.google.common.io.ByteArrayDataInput;
+import archadia.complexmachines.prefab.tileentity.conductor.ConductorConsumerTileEntity;
 
 /**
  * @author Archadia
  * 
  */
-public class TileEntityGrinder extends TileEntityAdvancedMachine{
+public class TileEntityGrinder extends ConductorConsumerTileEntity {
 	
 	private final static TileEntityGrinder tileEntityBase = new TileEntityGrinder();   
 	
@@ -108,5 +98,10 @@ public class TileEntityGrinder extends TileEntityAdvancedMachine{
 	            inventory[2] = null;
 	        }
 		}
+	}
+
+	@Override
+	public double getMaxJoules() {
+		return 0;
 	}
 }

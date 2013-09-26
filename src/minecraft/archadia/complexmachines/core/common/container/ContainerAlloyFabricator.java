@@ -1,14 +1,10 @@
 package archadia.complexmachines.core.common.container;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
 import archadia.complexmachines.core.common.slot.SlotOutput;
 import archadia.complexmachines.core.common.tileentity.TileEntityAlloyFabricator;
 import archadia.complexmachines.prefab.container.ContainerBasicMachine;
-import archadia.complexmachines.prefab.tileentity.TileEntityAdvancedMachine;
 
 /**
  * @author Archadia
@@ -17,7 +13,7 @@ import archadia.complexmachines.prefab.tileentity.TileEntityAdvancedMachine;
 public class ContainerAlloyFabricator extends ContainerBasicMachine {
     private TileEntityAlloyFabricator fabricator;
 
-    public ContainerAlloyFabricator(InventoryPlayer par1InventoryPlayer, TileEntityAdvancedMachine tile) {
+    public ContainerAlloyFabricator(InventoryPlayer par1InventoryPlayer, TileEntityAlloyFabricator tile) {
         super.bindPlayerInventory(par1InventoryPlayer);
     	
     	this.fabricator = (TileEntityAlloyFabricator) tile;

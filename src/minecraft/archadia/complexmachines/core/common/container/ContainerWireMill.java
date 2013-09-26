@@ -5,7 +5,6 @@ import net.minecraft.inventory.Slot;
 import archadia.complexmachines.core.common.slot.SlotOutput;
 import archadia.complexmachines.core.common.tileentity.TileEntityWireMill;
 import archadia.complexmachines.prefab.container.ContainerBasicMachine;
-import archadia.complexmachines.prefab.tileentity.TileEntityAdvancedMachine;
 
 /**
  * @author Archadia
@@ -15,7 +14,7 @@ public class ContainerWireMill extends ContainerBasicMachine {
 	
 	private TileEntityWireMill tileEnt;
 
-    public ContainerWireMill(InventoryPlayer par1InventoryPlayer, TileEntityAdvancedMachine tile) {
+    public ContainerWireMill(InventoryPlayer par1InventoryPlayer, TileEntityWireMill tile) {
         super.bindPlayerInventory(par1InventoryPlayer);
     	
     	this.tileEnt = (TileEntityWireMill) tile;

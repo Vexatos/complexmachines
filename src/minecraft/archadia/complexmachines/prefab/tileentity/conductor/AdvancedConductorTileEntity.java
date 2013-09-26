@@ -1,22 +1,21 @@
-package archadia.complexmachines.prefab.tileentity;
+package archadia.complexmachines.prefab.tileentity.conductor;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
+import universalelectricity.prefab.network.IPacketReceiver;
+import universalelectricity.prefab.network.PacketManager;
 import archadia.complexmachines.core.common.ComplexMachines;
 
 import com.google.common.io.ByteArrayDataInput;
-
-import universalelectricity.prefab.network.IPacketReceiver;
-import universalelectricity.prefab.network.PacketManager;
 
 /**
  * @author Archadia
  *
  */
-public class TileEntityAdvancedMachine extends TileEntityBasicMachine implements IPacketReceiver {
+public abstract class AdvancedConductorTileEntity extends ConductorContainerTileEntity implements IPacketReceiver {
 	
 	protected int processTicks;
 	protected static int processMaxTicks;
@@ -46,14 +45,13 @@ public class TileEntityAdvancedMachine extends TileEntityBasicMachine implements
 		inventory = new ItemStack[amt];
 	}
 	
-	public Packet getDescriptionPacket(Object... obj) {
-		return PacketManager.getPacket(ComplexMachines.CHANNEL, this, obj);
-	}
-
-	@Override
-	public void handlePacketData(INetworkManager network, int packetType,
+	public void handlePacketData(INetworkManager inputNetwork, int type,
 			Packet250CustomPayload packet, EntityPlayer player,
 			ByteArrayDataInput dataStream) {
 		processTicks = dataStream.readInt();
+	}
+	
+	public Packet getDescriptionPacket(Object... obj) {
+		return PacketManager.getPacket(ComplexMachines.CHANNEL, this, obj);
 	}
 }

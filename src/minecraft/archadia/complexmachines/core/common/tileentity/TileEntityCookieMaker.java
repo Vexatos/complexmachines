@@ -2,17 +2,13 @@ package archadia.complexmachines.core.common.tileentity;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import universalelectricity.core.vector.Vector3;
-import universalelectricity.prefab.network.PacketManager;
-import archadia.complexmachines.helper.ArchHelper;
-import archadia.complexmachines.helper.recipes.WiremillRecipes;
-import archadia.complexmachines.prefab.tileentity.TileEntityAdvancedMachine;
+import archadia.complexmachines.prefab.tileentity.insulator.AdvancedInsulatorTileEntity;
 
 /**
  * @author Archadia
  *
  */
-public class TileEntityCookieMaker extends TileEntityAdvancedMachine {
+public class TileEntityCookieMaker extends AdvancedInsulatorTileEntity {
 	
 	private final static TileEntityCookieMaker tileEntityBase = new TileEntityCookieMaker();   
 	 	
@@ -32,12 +28,10 @@ public class TileEntityCookieMaker extends TileEntityAdvancedMachine {
             if (this.canProcess())
             {
             	this.processTicks++;
-    			PacketManager.sendPacketToClients(getDescriptionPacket(this.processTicks), this.worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), 12);
     	    	
                 if (this.processTicks == processMaxTicks)
                 {
                 	this.processTicks = 0;
-        			PacketManager.sendPacketToClients(getDescriptionPacket(this.processTicks), this.worldObj, new Vector3(this.xCoord, this.yCoord, this.zCoord), 12);
                     processItems();
                     flag1 = true;
                 }
