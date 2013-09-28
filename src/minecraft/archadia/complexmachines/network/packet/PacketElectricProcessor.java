@@ -9,19 +9,23 @@ import cpw.mods.fml.common.network.Player;
  * @author Archadia
  *
  */
-public class PacketProcessor extends PacketTileEntity {
+public class PacketElectricProcessor extends PacketTileEntity {
 
 	 protected ElectricContainer tile;
 
 	 @EasyPacketData
 	 int processTicks;
+	 
+	 @EasyPacketData
+	 double currentJoules;
 
-	 public PacketProcessor(ElectricContainer tileEntity) {
+	 public PacketElectricProcessor(ElectricContainer tileEntity) {
 		 super(tileEntity);
 		 processTicks = tileEntity.processTicks;
+		 currentJoules = tileEntity.getEnergyStored();
 	 }
 	 
-	 public PacketProcessor() {
+	 public PacketElectricProcessor() {
 		 super();
 	 }
 
@@ -36,6 +40,8 @@ public class PacketProcessor extends PacketTileEntity {
 		 if (this.tileEntity instanceof ElectricContainer) {
 			 this.tile = (ElectricContainer) this.tileEntity;
 			 this.tile.setTicks(this.processTicks);
+			 
+			 this.tile.setEnergyStored((float) currentJoules);
 		 }
 	 }    
 }

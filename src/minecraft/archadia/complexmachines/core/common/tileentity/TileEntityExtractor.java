@@ -10,6 +10,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import archadia.complexmachines.api.ExtractorHelper;
 import archadia.complexmachines.core.common.ComplexMachines;
+import archadia.complexmachines.core.common.item.ItemInfoPacket;
+import archadia.complexmachines.network.PacketHandler;
+import archadia.complexmachines.network.packet.PacketExtractor;
 import archadia.complexmachines.prefab.tileentity.ElectricConsumerMachine;
 
 /**
@@ -35,10 +38,16 @@ public class TileEntityExtractor extends ElectricConsumerMachine {
 	}
 	 
 	public TileEntityExtractor() {
-		setInventorySize(8);
+		setInventorySize(10);
 		setMaxTicks(200);
 		addExtractorVanillaOre();
 	}
+	
+    public void sendUpdatePacket() {
+        PacketExtractor packet = new PacketExtractor(this);
+        int dimensionID = worldObj.provider.dimensionId;
+        PacketHandler.instance().extractorUpdateHandler.sendToAllPlayersInDimension(packet, dimensionID);
+    }
 	
 	public void updateEntity() {
 		super.updateEntity();
@@ -49,7 +58,10 @@ public class TileEntityExtractor extends ElectricConsumerMachine {
 					if(ComplexMachines.oldExtractorMode) {
 						findOre();
 					} else {
-						if(worldObj.getWorldTime()%20 == 0) findOre();
+						if(worldObj.getWorldTime()%20 == 0) {
+							findOre();
+			            	sendUpdatePacket();
+						}
 					}
 				}
 			}
@@ -59,7 +71,7 @@ public class TileEntityExtractor extends ElectricConsumerMachine {
 	private void findOre() {
 		boolean oreFound = false;
 		int tries = 0;
-		while(!oreFound) {
+		while (!oreFound && getJoules() > 100000) {
 			tries++;
 			
 			if(tries > 5) {
@@ -79,6 +91,7 @@ public class TileEntityExtractor extends ElectricConsumerMachine {
 			
 			if (worldObj.getChunkFromBlockCoords(targetX, targetZ).isChunkLoaded && ore) {
 				oreFound = true;
+				setJoules(getJoules() - 100000);
 				
 				inventory[7].setItemDamage(inventory[7].getItemDamage() + ComplexMachines.extractorPickDegradeRate);
 				if(inventory[7].getItemDamage() == inventory[7].getMaxDamage()) {
@@ -93,11 +106,18 @@ public class TileEntityExtractor extends ElectricConsumerMachine {
 	}
 	
 	private boolean isOre(int id) {
+		Item item = ComplexMachines.infoPacketExtractor;
+		if(inventory[8] != null) {
+			if(inventory[8].itemID == item.itemID) {
+				
+			}
+		}
 		for(int oreID : ExtractorHelper.instance().getValidOres()) {
 			if(id == oreID) {
 				return true;
 			}
 		}
+		
 		return false;
 	}
 	

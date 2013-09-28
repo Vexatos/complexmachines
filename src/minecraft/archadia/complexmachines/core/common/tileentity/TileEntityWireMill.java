@@ -1,6 +1,7 @@
 package archadia.complexmachines.core.common.tileentity;
 
 import net.minecraft.item.ItemStack;
+import archadia.complexmachines.helper.ArchHelper;
 import archadia.complexmachines.helper.recipes.MachineRecipes;
 import archadia.complexmachines.network.PacketHandler;
 import archadia.complexmachines.network.packet.PacketWireMill;
@@ -33,6 +34,7 @@ public class TileEntityWireMill extends ElectricConsumerMachine {
         {
             if (this.canProcess())
             {
+            	ArchHelper.println("Joules = " + getEnergyStored());
             	this.processTicks++;
             	sendUpdatePacket();
             	

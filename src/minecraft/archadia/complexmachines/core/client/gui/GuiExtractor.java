@@ -29,6 +29,7 @@ public class GuiExtractor extends GuiContainer {
     protected void drawGuiContainerForegroundLayer(int par1, int par2) {
         String s = this.tileINV.isInvNameLocalized() ? this.tileINV.getInvName() : I18n.func_135053_a(this.tileINV.getInvName());
         this.fontRenderer.drawString(s, this.xSize / 2 + 33, 72, 4210752);
+        this.fontRenderer.drawString(tileINV.getEnergyStored() + " Joules", this.xSize / 2 - 70, 72, 4210752);
         int k = (this.width - this.xSize) / 2;
         int l = (this.height - this.ySize) / 2;
         

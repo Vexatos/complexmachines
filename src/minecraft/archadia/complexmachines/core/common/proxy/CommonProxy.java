@@ -7,16 +7,19 @@ import archadia.complexmachines.core.client.gui.GuiAlloyFabricator;
 import archadia.complexmachines.core.client.gui.GuiCookieMaker;
 import archadia.complexmachines.core.client.gui.GuiExtractor;
 import archadia.complexmachines.core.client.gui.GuiGrinder;
+import archadia.complexmachines.core.client.gui.GuiIronClad;
 import archadia.complexmachines.core.client.gui.GuiWireMill;
 import archadia.complexmachines.core.common.container.ContainerAlloyFabricator;
 import archadia.complexmachines.core.common.container.ContainerCookieMaker;
 import archadia.complexmachines.core.common.container.ContainerExtractor;
 import archadia.complexmachines.core.common.container.ContainerGrinder;
+import archadia.complexmachines.core.common.container.ContainerIronClad;
 import archadia.complexmachines.core.common.container.ContainerWireMill;
 import archadia.complexmachines.core.common.tileentity.TileEntityAlloyFabricator;
 import archadia.complexmachines.core.common.tileentity.TileEntityCookieMaker;
 import archadia.complexmachines.core.common.tileentity.TileEntityExtractor;
 import archadia.complexmachines.core.common.tileentity.TileEntityGrinder;
+import archadia.complexmachines.core.common.tileentity.TileEntityIronClad;
 import archadia.complexmachines.core.common.tileentity.TileEntityWireMill;
 import cpw.mods.fml.common.network.IGuiHandler;
 
@@ -40,6 +43,8 @@ public class CommonProxy implements IGuiHandler {
 				return new ContainerExtractor(player.inventory, (TileEntityExtractor) tile_entity);
 			case 4:
 				return new ContainerCookieMaker(player.inventory, (TileEntityCookieMaker) tile_entity);
+			case 5:
+				return new ContainerIronClad(player.inventory, (TileEntityIronClad) tile_entity);
 		}
 		return null;
 	}
@@ -58,6 +63,8 @@ public class CommonProxy implements IGuiHandler {
 				return new GuiExtractor(player.inventory, (TileEntityExtractor) tile_entity);
 			case 4:
 				return new GuiCookieMaker(player.inventory, (TileEntityCookieMaker) tile_entity);
+			case 5:
+				return new GuiIronClad(player.inventory, (TileEntityIronClad) tile_entity);
 		}
 		return null;
 	}

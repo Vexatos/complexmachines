@@ -13,9 +13,11 @@ import archadia.complexmachines.core.common.block.BlockAlloyFabricator;
 import archadia.complexmachines.core.common.block.BlockCookieMaker;
 import archadia.complexmachines.core.common.block.BlockExtractor;
 import archadia.complexmachines.core.common.block.BlockGrinder;
+import archadia.complexmachines.core.common.block.BlockIronClad;
 import archadia.complexmachines.core.common.block.BlockWireMill;
 import archadia.complexmachines.core.common.gen.OreGenerator;
 import archadia.complexmachines.core.common.item.ItemAlloy;
+import archadia.complexmachines.core.common.item.ItemInfoPacket;
 import archadia.complexmachines.core.common.item.ItemIngot;
 import archadia.complexmachines.core.common.item.ItemWire;
 import archadia.complexmachines.core.common.proxy.CommonProxy;
@@ -23,6 +25,7 @@ import archadia.complexmachines.core.common.tileentity.TileEntityAlloyFabricator
 import archadia.complexmachines.core.common.tileentity.TileEntityCookieMaker;
 import archadia.complexmachines.core.common.tileentity.TileEntityExtractor;
 import archadia.complexmachines.core.common.tileentity.TileEntityGrinder;
+import archadia.complexmachines.core.common.tileentity.TileEntityIronClad;
 import archadia.complexmachines.core.common.tileentity.TileEntityWireMill;
 import archadia.complexmachines.helper.ArchLoader;
 import archadia.complexmachines.helper.recipes.MachineRecipes;
@@ -74,6 +77,7 @@ public class ComplexMachines {
 	public static Block grinder;
 	public static Block extractor;
 	public static Block cookieMaker;
+	public static Block ironClad;
 	
 	public static Item ingotCopper;
 	public static Item ingotTin;
@@ -81,6 +85,7 @@ public class ComplexMachines {
 	public static Item wiring2;
 	public static Item wiring3;
 	public static Item C194;
+	public static Item infoPacketExtractor;
 	
 	public int BLOCK_ID = 2389;
 	public int ITEM_ID = 8932;
@@ -97,13 +102,15 @@ public class ComplexMachines {
 		grinder = new BlockGrinder(2393, Material.iron, "grinder").setHardness(2F);
 		extractor = new BlockExtractor(2394, Material.iron, "extractor").setHardness(2F);
 		cookieMaker = new BlockCookieMaker(2395, Material.iron, "cookieMaker").setHardness(2F);
-
+		ironClad = new BlockIronClad(2396, Material.iron, "ironClad").setHardness(2F);
+		
 		ingotTin = new ItemIngot(8930, "ingotTin");
 		ingotCopper = new ItemIngot(8931, "ingotCopper");
 		C194 = new ItemAlloy(8932, "C194");
 		wiring1 = new ItemWire(8933, "c194-wiring");
 		wiring2 = new ItemWire(8934, "tin-wiring");
 		wiring3 = new ItemWire(8935, "gold-wiring");
+		infoPacketExtractor = new ItemInfoPacket(8936, "iPacketExtractor", 3, new TileEntityExtractor());
 		
 		config.load();
 		
@@ -122,6 +129,7 @@ public class ComplexMachines {
 		loader.addBlock(oreCopper);
 		loader.addBlock(extractor);
 		loader.addBlock(cookieMaker);
+		loader.addBlock(ironClad);
 		loader.loadLanguages("/assets/complexmachines/lang/", languages);
 		
 		loader.loadBlocks();
@@ -131,6 +139,7 @@ public class ComplexMachines {
 		GameRegistry.registerTileEntity(TileEntityWireMill.class, "tileEntityWireMill");
 		GameRegistry.registerTileEntity(TileEntityExtractor.class, "tileEntityExtractor");
 		GameRegistry.registerTileEntity(TileEntityCookieMaker.class, "tileEntityCookieMaker");
+		GameRegistry.registerTileEntity(TileEntityIronClad.class, "tileEntityIron");
 		NetworkRegistry.instance().registerGuiHandler(instance, proxy);
 		
 		OreDictionary.registerOre("ingotCopper", ingotCopper);
