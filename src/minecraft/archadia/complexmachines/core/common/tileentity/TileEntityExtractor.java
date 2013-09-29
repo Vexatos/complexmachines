@@ -10,7 +10,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import archadia.complexmachines.api.ExtractorHelper;
 import archadia.complexmachines.core.common.ComplexMachines;
-import archadia.complexmachines.core.common.item.ItemInfoPacket;
 import archadia.complexmachines.network.PacketHandler;
 import archadia.complexmachines.network.packet.PacketExtractor;
 import archadia.complexmachines.prefab.tileentity.ElectricConsumerMachine;
@@ -22,7 +21,7 @@ import archadia.complexmachines.prefab.tileentity.ElectricConsumerMachine;
 public class TileEntityExtractor extends ElectricConsumerMachine {
 	
 	private final static TileEntityExtractor tileEntityBase = new TileEntityExtractor();   
- 	
+ 		
 	private Random rand = new Random();
 		
 	public void addExtractorVanillaOre() {
@@ -106,12 +105,6 @@ public class TileEntityExtractor extends ElectricConsumerMachine {
 	}
 	
 	private boolean isOre(int id) {
-		Item item = ComplexMachines.infoPacketExtractor;
-		if(inventory[8] != null) {
-			if(inventory[8].itemID == item.itemID) {
-				
-			}
-		}
 		for(int oreID : ExtractorHelper.instance().getValidOres()) {
 			if(id == oreID) {
 				return true;

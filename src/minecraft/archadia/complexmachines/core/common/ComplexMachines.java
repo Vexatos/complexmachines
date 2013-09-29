@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import archadia.complexmachines.api.ExtractorHelper;
@@ -17,6 +18,7 @@ import archadia.complexmachines.core.common.block.BlockIronClad;
 import archadia.complexmachines.core.common.block.BlockWireMill;
 import archadia.complexmachines.core.common.gen.OreGenerator;
 import archadia.complexmachines.core.common.item.ItemAlloy;
+import archadia.complexmachines.core.common.item.ItemFoodBase;
 import archadia.complexmachines.core.common.item.ItemInfoPacket;
 import archadia.complexmachines.core.common.item.ItemIngot;
 import archadia.complexmachines.core.common.item.ItemWire;
@@ -50,7 +52,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {ComplexMachines.CHANNEL}, packetHandler = PacketHandler.class)
 public class ComplexMachines {
 
-	public static final String[] languages = new String[] {"en_US", "de_DE"};
+	public static final String[] languages = new String[] {"en_US", "de_DE", "ru_RU"};
 	
 	public static final String CHANNEL = "ComplexMachines";
 	public static final String MOD_ID = "complexmachines";
@@ -86,6 +88,8 @@ public class ComplexMachines {
 	public static Item wiring3;
 	public static Item C194;
 	public static Item infoPacketExtractor;
+	public static Item russianCandy;
+	public static Item polishCandy;
 	
 	public int BLOCK_ID = 2389;
 	public int ITEM_ID = 8932;
@@ -110,7 +114,9 @@ public class ComplexMachines {
 		wiring1 = new ItemWire(8933, "c194-wiring");
 		wiring2 = new ItemWire(8934, "tin-wiring");
 		wiring3 = new ItemWire(8935, "gold-wiring");
-		infoPacketExtractor = new ItemInfoPacket(8936, "iPacketExtractor", 3, new TileEntityExtractor());
+		infoPacketExtractor = new ItemInfoPacket(8936, "iPacketExtractor");
+		russianCandy = new ItemFoodBase(8937, 5, 5, false, "ruCandy");
+		polishCandy = new ItemFoodBase(8938, 5, 5, false, "poCandy");
 		
 		config.load();
 		
@@ -146,6 +152,9 @@ public class ComplexMachines {
 		OreDictionary.registerOre("oreCopper", oreCopper);
 		OreDictionary.registerOre("ingotTin", ingotTin);
 		OreDictionary.registerOre("oreTin", oreTin);
+		
+		FurnaceRecipes.smelting().addSmelting(oreCopper.blockID, new ItemStack(ingotCopper), 5);
+		FurnaceRecipes.smelting().addSmelting(oreTin.blockID, new ItemStack(ingotTin), 5);
 		
 		MachineRecipes.instance().addWireMillRecipes(Item.ingotGold.itemID, new ItemStack(wiring3));
 		MachineRecipes.instance().addWireMillRecipes(ingotTin.itemID, new ItemStack(wiring2));

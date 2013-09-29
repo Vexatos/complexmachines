@@ -28,7 +28,23 @@ public class TileEntityIronClad extends ElectricProducerMachine {
 	}
 	
 	public void updateEntity() {
+		if(worldObj.getWorldTime()%20==0) {
+		   worldObj.spawnParticle("smoke", this.xCoord + 0.25, this.yCoord + 1.2, this.zCoord + 0.25, 0.0D, 0.05D, 0.0D);
+		   worldObj.spawnParticle("smoke", this.xCoord + 0.25, this.yCoord + 1.2, this.zCoord + 0.25, 0.0D, 0.05D, 0.0D);
+		   worldObj.spawnParticle("smoke", this.xCoord + 0.25, this.yCoord + 1.2, this.zCoord + 0.25, 0.0D, 0.05D, 0.0D);
+		   
+		   worldObj.spawnParticle("smoke", this.xCoord + 0.75, this.yCoord + 1.2, this.zCoord + 0.25, 0.0D, 0.05D, 0.0D);
+		   worldObj.spawnParticle("smoke", this.xCoord + 0.75, this.yCoord + 1.2, this.zCoord + 0.25, 0.0D, 0.05D, 0.0D);
+		   worldObj.spawnParticle("smoke", this.xCoord + 0.75, this.yCoord + 1.2, this.zCoord + 0.25, 0.0D, 0.05D, 0.0D);
 
+		   worldObj.spawnParticle("smoke", this.xCoord + 0.25, this.yCoord + 1.2, this.zCoord + 0.75, 0.0D, 0.05D, 0.0D);
+		   worldObj.spawnParticle("smoke", this.xCoord + 0.25, this.yCoord + 1.2, this.zCoord + 0.75, 0.0D, 0.05D, 0.0D);
+		   worldObj.spawnParticle("smoke", this.xCoord + 0.25, this.yCoord + 1.2, this.zCoord + 0.75, 0.0D, 0.05D, 0.0D);
+		   
+		   worldObj.spawnParticle("smoke", this.xCoord + 0.75, this.yCoord + 1.2, this.zCoord + 0.75, 0.0D, 0.05D, 0.0D);
+		   worldObj.spawnParticle("smoke", this.xCoord + 0.75, this.yCoord + 1.2, this.zCoord + 0.75, 0.0D, 0.05D, 0.0D);
+		   worldObj.spawnParticle("smoke", this.xCoord + 0.75, this.yCoord + 1.2, this.zCoord + 0.75, 0.0D, 0.05D, 0.0D);
+		}
 	}
 
 	
