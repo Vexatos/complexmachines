@@ -36,7 +36,7 @@ public class TileEntityBatteryBox extends TileEntityUniversalElectrical implemen
 	public void updateEntity()
 	{
 		super.updateEntity();
-
+		
 		if (!this.worldObj.isRemote)
 		{
 			this.recharge(this.containingItems[0]);
