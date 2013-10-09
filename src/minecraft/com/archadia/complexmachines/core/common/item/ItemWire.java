@@ -1,12 +1,6 @@
 package com.archadia.complexmachines.core.common.item;
 
-import java.util.List;
-
-import com.archadia.complexmachines.core.common.ComplexMachines;
-import com.archadia.complexmachines.prefab.item.ItemBase;
-
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.ItemStack;
+import basicmachinery.api.item.ItemBase;
 
 /**
  * @author Archadia

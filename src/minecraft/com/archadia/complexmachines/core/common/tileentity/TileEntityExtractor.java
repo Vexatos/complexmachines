@@ -2,27 +2,30 @@ package com.archadia.complexmachines.core.common.tileentity;
 
 import java.util.Random;
 
-import com.archadia.complexmachines.api.ExtractorHelper;
-import com.archadia.complexmachines.core.common.ComplexMachines;
-import com.archadia.complexmachines.helper.ArchHelper;
-import com.archadia.complexmachines.network.PacketHandler;
-import com.archadia.complexmachines.network.packet.PacketExtractor;
-import com.archadia.complexmachines.prefab.tileentity.ElectricConsumerMachine;
-
+import universalelectricity.prefab.network.PacketManager;
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraftforge.common.ForgeDirection;
+import basicmachinery.api.tileentity.ElectricContainer;
+
+import com.archadia.complexmachines.api.ExtractorHelper;
+import com.archadia.complexmachines.core.common.ComplexMachines;
+import com.archadia.complexmachines.helper.ArchHelper;
+import com.google.common.io.ByteArrayDataInput;
 
 /**
  * @author Archadia
  *
  */
-public class TileEntityExtractor extends ElectricConsumerMachine {
+public class TileEntityExtractor extends ElectricContainer {
 	
 	private final static TileEntityExtractor tileEntityBase = new TileEntityExtractor();   
  		
@@ -45,12 +48,6 @@ public class TileEntityExtractor extends ElectricConsumerMachine {
 		setMaxTicks(200);
 		addExtractorVanillaOre();
 	}
-	
-    public void sendUpdatePacket() {
-        PacketExtractor packet = new PacketExtractor(this);
-        int dimensionID = worldObj.provider.dimensionId;
-        PacketHandler.instance().extractorUpdateHandler.sendToAllPlayersInDimension(packet, dimensionID);
-    }
 	
 	public void updateEntity() {
 		super.updateEntity();
@@ -87,7 +84,7 @@ public class TileEntityExtractor extends ElectricConsumerMachine {
 	private void findOre() {
 		boolean oreFound = false;
 		int tries = 0;
-		while (!oreFound/* && getJoules() > 100000*/) {
+		while (!oreFound && getEnergyStored() > 100000) {
 			tries++;
 			
 			if(tries > 5) {
@@ -108,8 +105,7 @@ public class TileEntityExtractor extends ElectricConsumerMachine {
 			
 			if (worldObj.getChunkFromBlockCoords(targetX, targetZ).isChunkLoaded && ore) {
 				oreFound = true;
-				//setJoules(getJoules() - 100000);
-            	sendUpdatePacket();
+				setEnergyStored(getEnergyStored() - 100000);
 				
 				inventory[7].setItemDamage(inventory[7].getItemDamage() + ComplexMachines.extractorPickDegradeRate);
 				if(inventory[7].getItemDamage() > inventory[7].getMaxDamage()) {
@@ -253,4 +249,33 @@ public class TileEntityExtractor extends ElectricConsumerMachine {
 	public String getInvName() {
 		return "Extractor";
 	}
+	
+
+	@Override
+	public Packet getDescriptionPacket() {
+		return PacketManager.getPacket(ComplexMachines.CHANNEL, this, this.getEnergyStored());
+	}
+
+	@Override
+	public void handlePacketData(INetworkManager network, int packetType,
+			Packet250CustomPayload packet, EntityPlayer player,
+			ByteArrayDataInput dataStream) {
+		this.energyStored = dataStream.readInt();
+	}
+	
+	@Override
+	public float getRequest(ForgeDirection direction) {
+		return 200000;
+	}
+
+	@Override
+	public float getProvide(ForgeDirection direction) {
+		return 0;
+	}
+
+	@Override
+	public float getMaxEnergyStored() {
+		return 12500;
+	}
+	
 }

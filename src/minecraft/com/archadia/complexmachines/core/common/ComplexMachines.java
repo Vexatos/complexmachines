@@ -2,6 +2,16 @@ package com.archadia.complexmachines.core.common;
 
 import java.io.File;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.common.Configuration;
+import net.minecraftforge.oredict.OreDictionary;
+import universalelectricity.prefab.network.PacketManager;
+
 import com.archadia.complexmachines.api.ExtractorHelper;
 import com.archadia.complexmachines.core.common.block.BlockAlloyFabricator;
 import com.archadia.complexmachines.core.common.block.BlockCookieMaker;
@@ -24,18 +34,8 @@ import com.archadia.complexmachines.core.common.tileentity.TileEntityIronClad;
 import com.archadia.complexmachines.core.common.tileentity.TileEntityWireMill;
 import com.archadia.complexmachines.helper.ArchLoader;
 import com.archadia.complexmachines.helper.recipes.MachineRecipes;
-import com.archadia.complexmachines.network.PacketHandler;
 import com.archadia.complexmachines.prefab.block.BlockModOre;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.Icon;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -52,7 +52,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
  * Originally by Pixlepix, renamed to Modech, now owned by Archadia(Me)
  */
 @Mod(modid = ComplexMachines.MOD_ID, name = ComplexMachines.NAME, version = ComplexMachines.VERSION)
-@NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {ComplexMachines.CHANNEL}, packetHandler = PacketHandler.class)
+@NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {ComplexMachines.CHANNEL}, packetHandler = PacketManager.class)
 public class ComplexMachines {
 
 	public static final String[] languages = new String[] {"en_US", "de_DE", "ru_RU"};

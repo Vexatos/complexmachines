@@ -1,15 +1,23 @@
 package com.archadia.complexmachines.core.common.tileentity;
 
-import com.archadia.complexmachines.prefab.tileentity.ElectricConsumerMachine;
-
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet250CustomPayload;
+import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.prefab.network.PacketManager;
+import basicmachinery.api.tileentity.ElectricContainer;
+
+import com.archadia.complexmachines.core.common.ComplexMachines;
+import com.google.common.io.ByteArrayDataInput;
 
 /**
  * @author Archadia
  *
  */
-public class TileEntityCookieMaker extends ElectricConsumerMachine {
+public class TileEntityCookieMaker extends ElectricContainer {
 	
 	private final static TileEntityCookieMaker tileEntityBase = new TileEntityCookieMaker();   
 	 	
@@ -26,7 +34,7 @@ public class TileEntityCookieMaker extends ElectricConsumerMachine {
 		boolean flag1 = false;
         if (!this.worldObj.isRemote)
         {
-            if (this.canProcess())
+            if (this.canProcess() && getEnergyStored() >= 1000)
             {
             	this.processTicks++;
     	    	
@@ -34,6 +42,7 @@ public class TileEntityCookieMaker extends ElectricConsumerMachine {
                 {
                 	this.processTicks = 0;
                     processItems();
+                    setEnergyStored(getEnergyStored() - 1000);
                     flag1 = true;
                 }
             } else {
@@ -114,5 +123,32 @@ public class TileEntityCookieMaker extends ElectricConsumerMachine {
 	            inventory[2] = null;
 	        }
 		}
+	}
+
+	@Override
+	public float getRequest(ForgeDirection direction) {
+		return 1000;
+	}
+
+	@Override
+	public float getProvide(ForgeDirection direction) {
+		return 0;
+	}
+
+	@Override
+	public float getMaxEnergyStored() {
+		return 10000;
+	}
+
+	@Override
+	public Packet getDescriptionPacket() {
+		return PacketManager.getPacket(ComplexMachines.CHANNEL, this, this.getEnergyStored());
+	}
+
+	@Override
+	public void handlePacketData(INetworkManager network, int packetType,
+			Packet250CustomPayload packet, EntityPlayer player,
+			ByteArrayDataInput dataStream) {
+		this.energyStored = dataStream.readInt();
 	}
 }

@@ -1,15 +1,15 @@
 package com.archadia.complexmachines.core.common.block;
 
-import com.archadia.complexmachines.core.common.ComplexMachines;
-import com.archadia.complexmachines.core.common.tileentity.TileEntityIronClad;
-import com.archadia.complexmachines.prefab.block.BlockBase;
-
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import basicmachinery.api.block.BlockBase;
+
+import com.archadia.complexmachines.core.common.ComplexMachines;
+import com.archadia.complexmachines.core.common.tileentity.TileEntityIronClad;
 
 /**
  * @author Archadia

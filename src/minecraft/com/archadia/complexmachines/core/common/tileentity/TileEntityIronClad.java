@@ -1,19 +1,21 @@
 package com.archadia.complexmachines.core.common.tileentity;
 
-import com.archadia.complexmachines.helper.ArchHelper;
-import com.archadia.complexmachines.helper.recipes.MachineRecipes;
-import com.archadia.complexmachines.network.PacketHandler;
-import com.archadia.complexmachines.network.packet.PacketIronClad;
-import com.archadia.complexmachines.network.packet.PacketWireMill;
-import com.archadia.complexmachines.prefab.tileentity.ElectricProducerMachine;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet250CustomPayload;
+import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.prefab.network.PacketManager;
+import basicmachinery.api.tileentity.ElectricContainer;
 
-import net.minecraft.item.ItemStack;
+import com.archadia.complexmachines.core.common.ComplexMachines;
+import com.google.common.io.ByteArrayDataInput;
 
 /**
  * @author Archadia
  *
  */
-public class TileEntityIronClad extends ElectricProducerMachine {
+public class TileEntityIronClad extends ElectricContainer {
 	
 	private final static TileEntityIronClad tileEntityBase = new TileEntityIronClad();   
 	 	
@@ -30,21 +32,10 @@ public class TileEntityIronClad extends ElectricProducerMachine {
 	
 	public void updateEntity() {
 		if(worldObj.getWorldTime()%20==0) {
-		   worldObj.spawnParticle("smoke", this.xCoord + 0.25, this.yCoord + 1.2, this.zCoord + 0.25, 0.0D, 0.05D, 0.0D);
-		   worldObj.spawnParticle("smoke", this.xCoord + 0.25, this.yCoord + 1.2, this.zCoord + 0.25, 0.0D, 0.05D, 0.0D);
-		   worldObj.spawnParticle("smoke", this.xCoord + 0.25, this.yCoord + 1.2, this.zCoord + 0.25, 0.0D, 0.05D, 0.0D);
-		   
-		   worldObj.spawnParticle("smoke", this.xCoord + 0.75, this.yCoord + 1.2, this.zCoord + 0.25, 0.0D, 0.05D, 0.0D);
-		   worldObj.spawnParticle("smoke", this.xCoord + 0.75, this.yCoord + 1.2, this.zCoord + 0.25, 0.0D, 0.05D, 0.0D);
-		   worldObj.spawnParticle("smoke", this.xCoord + 0.75, this.yCoord + 1.2, this.zCoord + 0.25, 0.0D, 0.05D, 0.0D);
-
-		   worldObj.spawnParticle("smoke", this.xCoord + 0.25, this.yCoord + 1.2, this.zCoord + 0.75, 0.0D, 0.05D, 0.0D);
-		   worldObj.spawnParticle("smoke", this.xCoord + 0.25, this.yCoord + 1.2, this.zCoord + 0.75, 0.0D, 0.05D, 0.0D);
-		   worldObj.spawnParticle("smoke", this.xCoord + 0.25, this.yCoord + 1.2, this.zCoord + 0.75, 0.0D, 0.05D, 0.0D);
-		   
-		   worldObj.spawnParticle("smoke", this.xCoord + 0.75, this.yCoord + 1.2, this.zCoord + 0.75, 0.0D, 0.05D, 0.0D);
-		   worldObj.spawnParticle("smoke", this.xCoord + 0.75, this.yCoord + 1.2, this.zCoord + 0.75, 0.0D, 0.05D, 0.0D);
-		   worldObj.spawnParticle("smoke", this.xCoord + 0.75, this.yCoord + 1.2, this.zCoord + 0.75, 0.0D, 0.05D, 0.0D);
+			worldHelper.spawnSeriesOfParticles(worldObj, "smoke", this.xCoord + 0.25, this.yCoord + 1.2, this.zCoord + 0.25, 0.0D, 0.05D, 0.0D, 3);
+			worldHelper.spawnSeriesOfParticles(worldObj, "smoke", this.xCoord + 0.75, this.yCoord + 1.2, this.zCoord + 0.25, 0.0D, 0.05D, 0.0D, 3);
+			worldHelper.spawnSeriesOfParticles(worldObj, "smoke", this.xCoord + 0.25, this.yCoord + 1.2, this.zCoord + 0.75, 0.0D, 0.05D, 0.0D, 3);
+			worldHelper.spawnSeriesOfParticles(worldObj, "smoke", this.xCoord + 0.75, this.yCoord + 1.2, this.zCoord + 0.75, 0.0D, 0.05D, 0.0D, 3);
 		}
 	}
 
@@ -54,12 +45,33 @@ public class TileEntityIronClad extends ElectricProducerMachine {
     }
 	
 	public String getInvName() {
-		return "Wire Mill";
+		return "Iron Clad";
 	}
 	
-    public void sendUpdatePacket() {
-        PacketIronClad packet = new PacketIronClad(this);
-        int dimensionID = worldObj.provider.dimensionId;
-        PacketHandler.instance().ironCladUpdateHandler.sendToAllPlayersInDimension(packet, dimensionID);
-    }
+	@Override
+	public float getRequest(ForgeDirection direction) {
+		return 0;
+	}
+
+	@Override
+	public float getProvide(ForgeDirection direction) {
+		return 0;
+	}
+
+	@Override
+	public float getMaxEnergyStored() {
+		return 10000;
+	}
+
+	@Override
+	public Packet getDescriptionPacket() {
+		return PacketManager.getPacket(ComplexMachines.CHANNEL, this, this.getEnergyStored());
+	}
+
+	@Override
+	public void handlePacketData(INetworkManager network, int packetType,
+			Packet250CustomPayload packet, EntityPlayer player,
+			ByteArrayDataInput dataStream) {
+		this.energyStored = dataStream.readInt();
+	}
 }

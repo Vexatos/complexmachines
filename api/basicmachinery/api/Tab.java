@@ -1,21 +1,22 @@
 package basicmachinery.api;
 
-import com.archadia.basicmachinery.core.common.BasicMachinery;
-
+import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
+import archadia.basicmachinery.core.common.BasicMachinery;
 
 /**
  * @author Archadia
  *
  */
 public class Tab extends CreativeTabs {
+	
+	
 	public Tab(String tabname) {
 		super(tabname);
 	}
 	
-	@Override
-	public ItemStack getIconItemStack() {
-		return new ItemStack(BasicMachinery.electricFurnace);
+	public ItemStack getIconItemStack(Block block) {
+		return new ItemStack(block);
 	}
 }

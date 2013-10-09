@@ -11,7 +11,6 @@ import org.lwjgl.opengl.GL11;
 import com.archadia.complexmachines.core.common.container.ContainerExtractor;
 import com.archadia.complexmachines.core.common.tileentity.TileEntityExtractor;
 import com.archadia.complexmachines.helper.ArchHelper;
-import com.archadia.complexmachines.network.packet.PacketExtractor;
 
 /**
  * @author Archadia
@@ -21,7 +20,6 @@ public class GuiExtractor extends GuiContainer {
 	
     private static TileEntityExtractor tileINV;
     private ArchHelper helper = new ArchHelper();
-    PacketExtractor packet = new PacketExtractor();
     
     public GuiExtractor(InventoryPlayer par1InventoryPlayer, TileEntityExtractor tile) {
         super(new ContainerExtractor(par1InventoryPlayer, tile));
@@ -31,22 +29,18 @@ public class GuiExtractor extends GuiContainer {
     }
 
     protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-    	
-		String capacityInfo = packet.getJoules() + "/" + tileINV.maxJoules;
-    	
-        String s = this.tileINV.isInvNameLocalized() ? this.tileINV.getInvName() : I18n.func_135053_a(this.tileINV.getInvName());
-        this.fontRenderer.drawString(s, this.xSize / 2 + 16, 72, 4210752);
-        this.fontRenderer.drawString(capacityInfo, this.xSize / 2 - 96, 72, 0x404040);
         int k = (this.width - this.xSize) / 2;
         int l = (this.height - this.ySize) / 2;
         
         buttonList.clear();
-        buttonList.add(new GuiButton(0, k +147, l + 6, 20, 20, "M"));
+        buttonList.add(new GuiButton(0, k +147, l + 6, 20, 20, "M"));        
+        String s = this.tileINV.isInvNameLocalized() ? this.tileINV.getInvName() : I18n.getString(this.tileINV.getInvName());
+        this.fontRenderer.drawString(s, this.xSize / 2 + 44, 7, 4210752);
     }
 
     protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		this.mc.func_110434_K().func_110577_a(new ResourceLocation("complexmachines","textures/gui/extractor.png"));
+		this.mc.getTextureManager().bindTexture(new ResourceLocation("complexmachines","textures/gui/extractor.png"));
         int k = (this.width - this.xSize) / 2;
         int l = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);

@@ -1,18 +1,23 @@
 package com.archadia.complexmachines.core.common.tileentity;
 
-import com.archadia.complexmachines.helper.ArchHelper;
-import com.archadia.complexmachines.helper.recipes.MachineRecipes;
-import com.archadia.complexmachines.network.PacketHandler;
-import com.archadia.complexmachines.network.packet.PacketWireMill;
-import com.archadia.complexmachines.prefab.tileentity.ElectricConsumerMachine;
-
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet250CustomPayload;
+import net.minecraftforge.common.ForgeDirection;
+import universalelectricity.prefab.network.PacketManager;
+import basicmachinery.api.tileentity.ElectricContainer;
+
+import com.archadia.complexmachines.core.common.ComplexMachines;
+import com.archadia.complexmachines.helper.recipes.MachineRecipes;
+import com.google.common.io.ByteArrayDataInput;
 
 /**
  * @author Archadia
  *
  */
-public class TileEntityWireMill extends ElectricConsumerMachine {
+public class TileEntityWireMill extends ElectricContainer {
 		
 	public final static int[] input = { 0 };
 	public final static int[] output = { 1 };
@@ -33,22 +38,19 @@ public class TileEntityWireMill extends ElectricConsumerMachine {
 
 		if (!this.worldObj.isRemote)
         {
-            if (this.canProcess())
+            if (this.canProcess() && getEnergyStored() >= 5000)
             {
-            	ArchHelper.println("Joules = " + getEnergyStored());
             	this.processTicks++;
-            	sendUpdatePacket();
             	
                 if (this.processTicks == getMaxTicks())
                 {
                 	this.processTicks = 0;
-                	sendUpdatePacket();
                     processItems();
+                    setEnergyStored(getEnergyStored() - 2250);
                     flag1 = true;
                 }
             } else {
             	this.processTicks = 0;
-            	sendUpdatePacket();
             }
         }
         if (flag1)
@@ -84,12 +86,6 @@ public class TileEntityWireMill extends ElectricConsumerMachine {
         }
     }
 	
-    public void sendUpdatePacket() {
-        PacketWireMill packet = new PacketWireMill(this);
-        int dimensionID = worldObj.provider.dimensionId;
-        PacketHandler.instance().wiremillUpdateHandler.sendToAllPlayersInDimension(packet, dimensionID);
-    }
-	
 	public void processItems() {
 		if(canProcess()) {
             ItemStack itemstack = MachineRecipes.Recipe.WIREMILL.getResult(inventory[0].itemID);
@@ -111,14 +107,32 @@ public class TileEntityWireMill extends ElectricConsumerMachine {
 	        }
 		}
 	}
-	
-	public int[] getAccessibleSlotsFromSide(int var1) {
-		if(var1==1){
-			return this.input;
-		}
-		if(var1==0){
-			return this.output;
-		}
-		return this.input;
+
+	@Override
+	public Packet getDescriptionPacket() {
+		return PacketManager.getPacket(ComplexMachines.CHANNEL, this, this.getEnergyStored());
 	}
+
+	@Override
+	public void handlePacketData(INetworkManager network, int packetType,
+			Packet250CustomPayload packet, EntityPlayer player,
+			ByteArrayDataInput dataStream) {
+		this.energyStored = dataStream.readInt();
+	}
+	
+	@Override
+	public float getRequest(ForgeDirection direction) {
+		return 2250;
+	}
+
+	@Override
+	public float getProvide(ForgeDirection direction) {
+		return 0;
+	}
+
+	@Override
+	public float getMaxEnergyStored() {
+		return 12500;
+	}
+	
 }

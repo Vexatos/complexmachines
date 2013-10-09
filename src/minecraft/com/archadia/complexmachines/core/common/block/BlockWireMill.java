@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import basicmachinery.api.BlockWrenchable;
+import basicmachinery.api.block.BlockWrenchable;
 
 import com.archadia.complexmachines.core.common.ComplexMachines;
 import com.archadia.complexmachines.core.common.tileentity.TileEntityWireMill;
@@ -18,9 +18,8 @@ import com.archadia.complexmachines.core.common.tileentity.TileEntityWireMill;
 public class BlockWireMill extends BlockWrenchable {
 
 	public BlockWireMill(int id, Material material, String name) {
-		super(id, material, name, ComplexMachines.tabComplexMachines);
+		super(id, material, name);
 		setHardness(2F);
-		setUnlocalizedName(name);
 		setIconMax(6);
 	}
 

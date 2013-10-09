@@ -2,14 +2,12 @@ package com.archadia.complexmachines.core.common.item;
 
 import java.util.List;
 
-import com.archadia.complexmachines.core.common.ComplexMachines;
-import com.archadia.complexmachines.prefab.item.ItemBase;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import basicmachinery.api.item.ItemBase;
 
 /**
  * @author Archadia

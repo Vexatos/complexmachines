@@ -16,7 +16,7 @@ public class UtilRender {
 	}
 	
 	public static void bindResTexture(ResourceLocation loc) {
-		renderEngine().func_110577_a(loc);
+		renderEngine().bindTexture(loc);
 	}
 	
 	public void registerIcon(IconRegister ir) {
