@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import basicmachinery.api.block.BlockWrenchable;
+import archadia.basicmachinery.core.prefab.BlockBase;
 
 import com.archadia.complexmachines.core.common.ComplexMachines;
 import com.archadia.complexmachines.core.common.tileentity.TileEntityExtractor;
@@ -15,7 +15,7 @@ import com.archadia.complexmachines.core.common.tileentity.TileEntityExtractor;
  * @author Archadia
  *
  */
-public class BlockExtractor extends BlockWrenchable {
+public class BlockExtractor extends BlockBase {
 
 	public BlockExtractor(int id, Material material, String name) {
 		super(id, material, name);

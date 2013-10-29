@@ -10,9 +10,10 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
+import universalelectricity.compatibility.Compatibility;
 import universalelectricity.prefab.network.PacketManager;
+import archadia.basicmachinery.core.common.BasicMachinery;
 
-import com.archadia.complexmachines.api.ExtractorHelper;
 import com.archadia.complexmachines.core.common.block.BlockAlloyFabricator;
 import com.archadia.complexmachines.core.common.block.BlockCookieMaker;
 import com.archadia.complexmachines.core.common.block.BlockExtractor;
@@ -35,7 +36,9 @@ import com.archadia.complexmachines.core.common.tileentity.TileEntityWireMill;
 import com.archadia.complexmachines.helper.ArchLoader;
 import com.archadia.complexmachines.helper.recipes.MachineRecipes;
 import com.archadia.complexmachines.prefab.block.BlockModOre;
+import com.archadia.utils.Tab;
 
+import complexmachines.api.ExtractorHelper;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -68,7 +71,7 @@ public class ComplexMachines {
 	@SidedProxy(clientSide = "com.archadia.complexmachines.core.common.proxy.ClientProxy", serverSide = "com.archadia.complexmachines.core.common.proxy.CommonProxy")
 	public static CommonProxy proxy;
 	
-	public static ComplexMachinesTab tabComplexMachines = new ComplexMachinesTab();
+	public static Tab tab;
 	
 	public static ArchLoader loader = new ArchLoader();
 	public static final Configuration config = new Configuration(new File(Loader.instance().getConfigDir() + "/Modech.cfg"));
@@ -102,9 +105,11 @@ public class ComplexMachines {
 	
 	@EventHandler
 	public void PreInit(FMLPreInitializationEvent event) {
+		tab = new Tab("Complex Machines");
+		
 		oreCopper = new BlockModOre(2389, Material.rock, "oreCopper").setHardness(2F);
 		oreTin = new BlockModOre(2390, Material.rock, "oreTin").setHardness(2F);
-		wireMill = new BlockWireMill(2391, Material.iron, "wireMill").setHardness(2F);
+		wireMill = new BlockWireMill(2391, Material.iron, "wireMill").setHardness(2F).setCreativeTab(BasicMachinery.BMTab1);
 		alloyFabricator = new BlockAlloyFabricator(2392, Material.iron, "alloyFabricator").setHardness(2F);;
 		grinder = new BlockGrinder(2393, Material.iron, "grinder").setHardness(2F);
 		extractor = new BlockExtractor(2394, Material.iron, "extractor").setHardness(2F);
@@ -131,10 +136,13 @@ public class ComplexMachines {
 	
 	@EventHandler
 	public void Init(FMLInitializationEvent event) {
+		Compatibility.initiate();
+		
 		loader.addBlock(wireMill);
 		loader.addBlock(oreTin);
 		loader.addBlock(alloyFabricator);
 		loader.addBlock(grinder);
+		
 		loader.addBlock(oreCopper);
 		loader.addBlock(extractor);
 		loader.addBlock(cookieMaker);
@@ -177,6 +185,10 @@ public class ComplexMachines {
 	    
 	    GameRegistry.addRecipe(new ItemStack(this.infoPacket, 1), new Object[] {
 	    	"XXX", Character.valueOf('X'), Block.dirt
+	    });
+	    
+	    GameRegistry.addRecipe(new ItemStack(this.wireMill, 1), new Object[] {
+	    	"XXX", Character.valueOf('X'), Block.sand
 	    });
 	}
 }

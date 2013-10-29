@@ -7,7 +7,7 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 
 import com.google.common.io.ByteArrayDataInput;
 
-import basicmachinery.api.tileentity.ElectricContainer;
+import archadia.basicmachinery.core.prefab.ElectricContainer;
 
 
 

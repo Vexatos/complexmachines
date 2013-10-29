@@ -1,7 +1,7 @@
 package com.archadia.complexmachines.core.common.item;
 
 import net.minecraft.item.Item;
-import basicmachinery.api.item.ItemBase;
+import archadia.basicmachinery.core.prefab.ItemBase;
 
 import com.archadia.complexmachines.helper.ArchLoader;
 

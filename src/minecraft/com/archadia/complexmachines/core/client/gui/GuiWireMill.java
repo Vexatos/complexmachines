@@ -2,7 +2,10 @@ package com.archadia.complexmachines.core.client.gui;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -10,6 +13,7 @@ import org.lwjgl.opengl.GL11;
 import com.archadia.complexmachines.core.common.container.ContainerWireMill;
 import com.archadia.complexmachines.core.common.tileentity.TileEntityWireMill;
 import com.archadia.complexmachines.helper.ArchHelper;
+import com.archadia.utils.BlockRenderer3D;
 
 /**
  * @author Archadia
@@ -19,7 +23,8 @@ public class GuiWireMill extends GuiContainer {
 	
     private static TileEntityWireMill tileINV = new TileEntityWireMill();
     private ArchHelper helper = new ArchHelper();
-
+    private BlockRenderer3D blockRender = new BlockRenderer3D();
+    
     public GuiWireMill(InventoryPlayer par1InventoryPlayer, TileEntityWireMill tile) {
         super(new ContainerWireMill(par1InventoryPlayer, tile));
     }

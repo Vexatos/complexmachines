@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import basicmachinery.api.item.ItemBase;
+import archadia.basicmachinery.core.prefab.ItemBase;
 
 /**
  * @author Archadia

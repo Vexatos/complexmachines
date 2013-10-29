@@ -1,7 +1,7 @@
 package com.archadia.complexmachines.prefab.block;
 
 import net.minecraft.block.material.Material;
-import basicmachinery.api.block.BlockBase;
+import archadia.basicmachinery.core.prefab.BlockBase;
 
 import com.archadia.complexmachines.core.common.ComplexMachines;
 

@@ -1,4 +1,4 @@
-package com.archadia.complexmachines.api;
+package complexmachines.api;
 
 import net.minecraft.client.renderer.texture.IconRegister;
 

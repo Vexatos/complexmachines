@@ -1,5 +1,9 @@
 package com.archadia.complexmachines.core.common.proxy;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+
 import com.archadia.complexmachines.core.client.gui.GuiAlloyFabricator;
 import com.archadia.complexmachines.core.client.gui.GuiCookieMaker;
 import com.archadia.complexmachines.core.client.gui.GuiExtractor;
@@ -19,9 +23,6 @@ import com.archadia.complexmachines.core.common.tileentity.TileEntityGrinder;
 import com.archadia.complexmachines.core.common.tileentity.TileEntityIronClad;
 import com.archadia.complexmachines.core.common.tileentity.TileEntityWireMill;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 
 /**

@@ -1,4 +1,4 @@
-package com.archadia.complexmachines.api;
+package complexmachines.api;
 
 import java.util.ArrayList;
 

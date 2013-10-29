@@ -6,7 +6,7 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.prefab.network.PacketManager;
-import basicmachinery.api.tileentity.ElectricContainer;
+import archadia.basicmachinery.core.prefab.ElectricContainer;
 
 import com.archadia.complexmachines.core.common.ComplexMachines;
 import com.google.common.io.ByteArrayDataInput;

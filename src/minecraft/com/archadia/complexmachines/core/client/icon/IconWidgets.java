@@ -5,7 +5,7 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import com.archadia.complexmachines.helper.visual.UtilRender;
+import com.archadia.utils.helper.RenderHelper;
 
 /**
  * @author Archadia
@@ -48,7 +48,7 @@ public class IconWidgets {
 
 	    Tessellator tessellator = Tessellator.instance;
 	    if(doDraw) {
-	      UtilRender.bindResTexture(TEXTURE);
+	      RenderHelper.bindResTexture(TEXTURE);
 	      GL11.glColor3f(1, 1, 1);
 	      tessellator.startDrawingQuads();
 	    }

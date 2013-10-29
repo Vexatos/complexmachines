@@ -14,12 +14,13 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.common.ForgeDirection;
-import basicmachinery.api.tileentity.ElectricContainer;
+import archadia.basicmachinery.core.prefab.ElectricContainer;
 
-import com.archadia.complexmachines.api.ExtractorHelper;
 import com.archadia.complexmachines.core.common.ComplexMachines;
 import com.archadia.complexmachines.helper.ArchHelper;
 import com.google.common.io.ByteArrayDataInput;
+
+import complexmachines.api.ExtractorHelper;
 
 /**
  * @author Archadia

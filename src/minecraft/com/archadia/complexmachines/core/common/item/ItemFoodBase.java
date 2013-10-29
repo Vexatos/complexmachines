@@ -15,7 +15,6 @@ public class ItemFoodBase extends ItemFood {
 	
 	public ItemFoodBase(int id, int par2, float par3, boolean par4, String name) {
 		super(id, par2, par3, par4);
-		setCreativeTab(ComplexMachines.tabComplexMachines);
 		setUnlocalizedName(name);		
 		itemname = name;
 	}

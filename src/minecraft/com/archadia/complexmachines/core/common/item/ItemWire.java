@@ -1,6 +1,6 @@
 package com.archadia.complexmachines.core.common.item;
 
-import basicmachinery.api.item.ItemBase;
+import archadia.basicmachinery.core.prefab.ItemBase;
 
 /**
  * @author Archadia
