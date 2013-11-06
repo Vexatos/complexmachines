@@ -12,7 +12,6 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import universalelectricity.compatibility.Compatibility;
 import universalelectricity.prefab.network.PacketManager;
-import archadia.basicmachinery.core.common.BasicMachinery;
 
 import com.archadia.complexmachines.core.common.block.BlockAlloyFabricator;
 import com.archadia.complexmachines.core.common.block.BlockCookieMaker;
@@ -21,7 +20,6 @@ import com.archadia.complexmachines.core.common.block.BlockGrinder;
 import com.archadia.complexmachines.core.common.block.BlockIronClad;
 import com.archadia.complexmachines.core.common.block.BlockWireMill;
 import com.archadia.complexmachines.core.common.gen.OreGenerator;
-import com.archadia.complexmachines.core.common.item.ItemAlloy;
 import com.archadia.complexmachines.core.common.item.ItemFoodBase;
 import com.archadia.complexmachines.core.common.item.ItemInfoPacket;
 import com.archadia.complexmachines.core.common.item.ItemIngot;
@@ -36,9 +34,8 @@ import com.archadia.complexmachines.core.common.tileentity.TileEntityWireMill;
 import com.archadia.complexmachines.helper.ArchLoader;
 import com.archadia.complexmachines.helper.recipes.MachineRecipes;
 import com.archadia.complexmachines.prefab.block.BlockModOre;
-import com.archadia.utils.Tab;
-
 import complexmachines.api.ExtractorHelper;
+
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -118,11 +115,10 @@ public class ComplexMachines {
 		
 		ingotTin = new ItemIngot(8930, "ingotTin");
 		ingotCopper = new ItemIngot(8931, "ingotCopper");
-		C194 = new ItemAlloy(8932, "C194");
-		wiring1 = new ItemWire(8933, "c194-wiring");
-		wiring2 = new ItemWire(8934, "tin-wiring");
-		wiring3 = new ItemWire(8935, "gold-wiring");
-		infoPacket = new ItemInfoPacket(8936, "iPacketExtractor");
+		C194 = new ItemIngot(8932, "C194");
+		wiring1 = new ItemIngot(8933, "c194-wiring");
+		wiring2 = new ItemIngot(8934, "tin-wiring");
+		wiring3 = new ItemIngot(8935, "gold-wiring");
 		russianCandy = new ItemFoodBase(8937, 5, 5, false, "ruCandy");
 		polishCandy = new ItemFoodBase(8938, 5, 5, false, "poCandy");
 		
