@@ -5,9 +5,8 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 
+import com.archadia.complexmachines.prefab.te.TileElectricMachine;
 import com.google.common.io.ByteArrayDataInput;
-
-import archadia.basicmachinery.core.prefab.ElectricContainer;
 
 
 
@@ -15,7 +14,7 @@ import archadia.basicmachinery.core.prefab.ElectricContainer;
  * @author Archadia
  *
  */
-public class TileEntityAlloyFabricator extends ElectricContainer {
+public class TileEntityAlloyFabricator extends TileElectricMachine {
 		
 	public TileEntityAlloyFabricator() {
 		setInventorySize(5);

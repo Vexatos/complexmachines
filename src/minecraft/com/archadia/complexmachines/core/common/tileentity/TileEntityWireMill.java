@@ -7,17 +7,17 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.prefab.network.PacketManager;
-import archadia.basicmachinery.core.prefab.ElectricContainer;
 
 import com.archadia.complexmachines.core.common.ComplexMachines;
 import com.archadia.complexmachines.helper.recipes.MachineRecipes;
+import com.archadia.complexmachines.prefab.te.TileElectricMachine;
 import com.google.common.io.ByteArrayDataInput;
 
 /**
  * @author Archadia
  *
  */
-public class TileEntityWireMill extends ElectricContainer {
+public class TileEntityWireMill extends TileElectricMachine {
 		
 	public final static int[] input = { 0 };
 	public final static int[] output = { 1 };

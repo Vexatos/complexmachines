@@ -8,16 +8,16 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.prefab.network.PacketManager;
-import archadia.basicmachinery.core.prefab.ElectricContainer;
 
 import com.archadia.complexmachines.core.common.ComplexMachines;
+import com.archadia.complexmachines.prefab.te.TileElectricMachine;
 import com.google.common.io.ByteArrayDataInput;
 
 /**
  * @author Archadia
  *
  */
-public class TileEntityCookieMaker extends ElectricContainer {
+public class TileEntityCookieMaker extends TileElectricMachine {
 	
 	private final static TileEntityCookieMaker tileEntityBase = new TileEntityCookieMaker();   
 	 	

@@ -2,7 +2,6 @@ package com.archadia.complexmachines.core.common.tileentity;
 
 import java.util.Random;
 
-import universalelectricity.prefab.network.PacketManager;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -14,40 +13,24 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.common.ForgeDirection;
-import archadia.basicmachinery.core.prefab.ElectricContainer;
+import universalelectricity.prefab.network.PacketManager;
 
 import com.archadia.complexmachines.core.common.ComplexMachines;
 import com.archadia.complexmachines.helper.ArchHelper;
+import com.archadia.complexmachines.prefab.te.TileElectricMachine;
 import com.google.common.io.ByteArrayDataInput;
-
-import complexmachines.api.ExtractorHelper;
 
 /**
  * @author Archadia
  *
  */
-public class TileEntityExtractor extends ElectricContainer {
-	
-	private final static TileEntityExtractor tileEntityBase = new TileEntityExtractor();   
- 		
+public class TileEntityExtractor extends TileElectricMachine {
+	 		
 	private Random rand = new Random();
 		
-	public void addExtractorVanillaOre() {
-		ExtractorHelper.instance().addExtractorValidOre(Block.oreCoal.blockID);
-		ExtractorHelper.instance().addExtractorValidOre(Block.oreIron.blockID);
-		ExtractorHelper.instance().addExtractorValidOre(Block.oreGold.blockID);
-		ExtractorHelper.instance().addExtractorValidOre(Block.oreRedstone.blockID);
-		ExtractorHelper.instance().addExtractorValidOre(Block.oreLapis.blockID);
-	}
-	
-	public final static TileEntityExtractor instance() {
-		return tileEntityBase;
-	}
-	 
 	public TileEntityExtractor() {
 		setInventorySize(9);
 		setMaxTicks(200);
-		addExtractorVanillaOre();
 	}
 	
 	public void updateEntity() {
@@ -64,20 +47,6 @@ public class TileEntityExtractor extends ElectricContainer {
 						}
 					}
 				}
-			}
-		}
-	}
-	
-	public void addInfoPacket() {
-		if(!isSlotNull(9)) {
-			if(slotContains(9, ComplexMachines.infoPacket.itemID)) {
-				int info1 = inventory[9].getTagCompound().getInteger("1");
-				int info2 = inventory[9].getTagCompound().getInteger("2");
-				int info3 = inventory[9].getTagCompound().getInteger("3");
-				
-				if(info1 != 0) ExtractorHelper.instance().addExtractorValidOre(info1);
-				if(info2 != 0) ExtractorHelper.instance().addExtractorValidOre(info2);
-				if(info3 != 0) ExtractorHelper.instance().addExtractorValidOre(info3);
 			}
 		}
 	}
@@ -127,9 +96,11 @@ public class TileEntityExtractor extends ElectricContainer {
 	}
 	
 	private boolean isOre(int id) {
-		for(int oreID : ExtractorHelper.instance().getValidOres()) {
-			if(id == oreID) {
-				return true;
+		for(Block block : Block.blocksList) {
+			if(block.blockID == id) {
+				if(block.getUnlocalizedName().contains("ore")) {
+					return true;
+				}
 			}
 		}
 		return false;
