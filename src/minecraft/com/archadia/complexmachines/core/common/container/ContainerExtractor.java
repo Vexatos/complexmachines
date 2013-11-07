@@ -21,10 +21,8 @@ public class ContainerExtractor extends ContainerBasicMachine {
     	this.tile = (TileEntityExtractor) tile2;
     	
     	for(int i = 0; i < 6; i++) {
-        	addSlotToContainer(new SlotOutput(tile2, i, 8 + i * 22, 8));
+        	addSlotToContainer(new Slot(tile2, i, 8 + i * 22, 8));
     	}
     	addSlotToContainer(new Slot(tile2, 7, 142, 45));
-    	addSlotToContainer(new Slot(tile2, 8, 184, 11));
     }
-	
 }

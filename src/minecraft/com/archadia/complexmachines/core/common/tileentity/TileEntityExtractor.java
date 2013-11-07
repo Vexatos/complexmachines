@@ -29,7 +29,7 @@ public class TileEntityExtractor extends TileElectricMachine {
 	private HashSet<Integer> validIds = new HashSet<Integer>();
 	
 	public TileEntityExtractor() {
-		setInventorySize(9);
+		setInventorySize(8);
 		setMaxTicks(200);
 		
 		validIds.add(Block.oreCoal.blockID);
