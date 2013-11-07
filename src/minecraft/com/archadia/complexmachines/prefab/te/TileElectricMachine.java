@@ -28,8 +28,8 @@ public abstract class TileElectricMachine extends TileEntityUniversalElectrical 
 
     public void setFacing(int value) {
             facing = value;
-  
     }
+    
 	@Override
 	public float getRequest(ForgeDirection direction) {
 		return 0;
@@ -139,7 +139,10 @@ public abstract class TileElectricMachine extends TileEntityUniversalElectrical 
 
     @Override
     public boolean canConnect(ForgeDirection direction) {
-    	return true;
+    	if(direction == ForgeDirection.SOUTH) {
+    		return true;
+    	}
+    	return false;
     }
 
     public void setMaxTicks(int amt) {

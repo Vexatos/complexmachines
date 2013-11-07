@@ -1,5 +1,7 @@
 package com.archadia.complexmachines.prefab.block;
 
+import com.archadia.complexmachines.core.common.ComplexMachines;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -17,6 +19,7 @@ public class BlockBase extends Block {
 	public BlockBase(int id, Material material, String name) {
 		super(id, material);
 		setUnlocalizedName(name);
+		setCreativeTab(ComplexMachines.tab);
 		iconPath = name;
 	}
 	

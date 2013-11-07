@@ -66,9 +66,11 @@ public class ComplexMachines {
 	public static CommonProxy proxy;
 		
 	public static ArchLoader loader = new ArchLoader();
-	public static final Configuration config = new Configuration(new File(Loader.instance().getConfigDir() + "/Modech.cfg"));
+	public static final Configuration config = new Configuration(new File(Loader.instance().getConfigDir() + "/ComplexMachines.cfg"));
 	
 	public static boolean oldExtractorMode = false;
+	
+	public static ComplexTab tab = new ComplexTab();
 	
 	public static Block wireMill;
 	public static Block alloyFabricator;
@@ -85,7 +87,6 @@ public class ComplexMachines {
 	public static Item wiring2;
 	public static Item wiring3;
 	public static Item C194;
-	public static Item infoPacket;
 	public static Item russianCandy;
 	public static Item polishCandy;
 	
@@ -161,20 +162,5 @@ public class ComplexMachines {
 		MachineRecipes.instance().addWireMillRecipes(C194.itemID, new ItemStack(wiring1));
 		
 		GameRegistry.registerWorldGenerator(new OreGenerator());
-		
-		ItemStack par1ItemStack = new ItemStack(infoPacket);
-		
-        if( par1ItemStack.stackTagCompound == null )
-            par1ItemStack.setTagCompound( new NBTTagCompound( ) );
-
-	    par1ItemStack.stackTagCompound.setInteger("packetInfo1", Block.dirt.blockID);
-	    
-	    GameRegistry.addRecipe(new ItemStack(this.infoPacket, 1), new Object[] {
-	    	"XXX", Character.valueOf('X'), Block.dirt
-	    });
-	    
-	    GameRegistry.addRecipe(new ItemStack(this.wireMill, 1), new Object[] {
-	    	"XXX", Character.valueOf('X'), Block.sand
-	    });
 	}
 }

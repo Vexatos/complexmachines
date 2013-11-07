@@ -18,28 +18,18 @@ import com.google.common.io.ByteArrayDataInput;
  *
  */
 public class TileEntityWireMill extends TileElectricMachine {
-		
-	public final static int[] input = { 0 };
-	public final static int[] output = { 1 };
-	
-	private final static TileEntityWireMill tileEntityBase = new TileEntityWireMill();   
-	 	
-	public final static TileEntityWireMill instance() {
-		return tileEntityBase;
-	}
-	 
+
 	public TileEntityWireMill() {
 		setInventorySize(2);
 		setMaxTicks(200);
 	}
 	
 	public void updateEntity() {
-		boolean flag1 = false;
-
 		if (!this.worldObj.isRemote)
         {
             if (this.canProcess() && getEnergyStored() >= 5000)
             {
+                System.out.println("Node 1");
             	this.processTicks++;
             	
                 if (this.processTicks == getMaxTicks())
@@ -47,16 +37,14 @@ public class TileEntityWireMill extends TileElectricMachine {
                 	this.processTicks = 0;
                     processItems();
                     setEnergyStored(getEnergyStored() - 2250);
-                    flag1 = true;
                 }
             } else {
             	this.processTicks = 0;
             }
+            System.out.println("Energy Stored: " + getEnergyStored());
+            System.out.println("Ticks: " + getTicks());
         }
-        if (flag1)
-        {
-            this.onInventoryChanged();
-        }
+ 
 	}
 	
     public int getProcessProgressScaled(int par1) {   
@@ -72,6 +60,7 @@ public class TileEntityWireMill extends TileElectricMachine {
         	return false;
         } else {
             ItemStack itemstack = MachineRecipes.Recipe.WIREMILL.getResult(inventory[0].itemID);
+            System.out.println("ItemStack: " + itemstack);
             if (itemstack == null) {
             	return false;
             }

@@ -9,7 +9,6 @@ import org.lwjgl.opengl.GL11;
 
 import com.archadia.complexmachines.core.common.container.ContainerCookieMaker;
 import com.archadia.complexmachines.core.common.tileentity.TileEntityCookieMaker;
-import com.archadia.complexmachines.core.common.tileentity.TileEntityWireMill;
 import com.archadia.complexmachines.helper.ArchHelper;
 
 /**
@@ -36,8 +35,5 @@ public class GuiCookieMaker extends GuiContainer {
         int k = (this.width - this.xSize) / 2;
         int l = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
-        int i1;
-        i1 = TileEntityWireMill.instance().getProcessProgressScaled(24);
-        this.drawTexturedModalRect(k + 77, l + 43, 176, 0, i1 + 1, 16);
     }
 }

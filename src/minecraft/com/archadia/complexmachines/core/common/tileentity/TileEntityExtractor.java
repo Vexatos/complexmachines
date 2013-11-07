@@ -16,7 +16,6 @@ import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.prefab.network.PacketManager;
 
 import com.archadia.complexmachines.core.common.ComplexMachines;
-import com.archadia.complexmachines.helper.ArchHelper;
 import com.archadia.complexmachines.prefab.te.TileElectricMachine;
 import com.google.common.io.ByteArrayDataInput;
 
@@ -44,6 +43,7 @@ public class TileEntityExtractor extends TileElectricMachine {
 					} else {
 						if(worldObj.getWorldTime()%20 == 0) {
 							findOre();
+							System.out.println("Energy: " + getEnergyStored());
 						}
 					}
 				}
@@ -71,7 +71,11 @@ public class TileEntityExtractor extends TileElectricMachine {
 	
 			int targetId = worldObj.getBlockId(targetX, targetY, targetZ);
 			
-			boolean ore = isOre(targetId);
+			boolean ore = false;
+			
+			if(targetId == 15) {
+				ore = true;
+			}
 			
 			if (worldObj.getChunkFromBlockCoords(targetX, targetZ).isChunkLoaded && ore) {
 				oreFound = true;
@@ -81,9 +85,7 @@ public class TileEntityExtractor extends TileElectricMachine {
 				if(inventory[7].getItemDamage() > inventory[7].getMaxDamage()) {
 					inventory[7].setItemDamage(inventory[7].getMaxDamage());
 				}
-				
-				ArchHelper.println("PICK: " + inventory[7].getItemDamage());
-				
+								
 				if(inventory[7].getItemDamage() == 1561) {
 					inventory[7] = null;
 				}
@@ -96,12 +98,8 @@ public class TileEntityExtractor extends TileElectricMachine {
 	}
 	
 	private boolean isOre(int id) {
-		for(Block block : Block.blocksList) {
-			if(block.blockID == id) {
-				if(block.getUnlocalizedName().contains("ore")) {
-					return true;
-				}
-			}
+		if(id == 15) {
+			return true;
 		}
 		return false;
 	}
@@ -247,7 +245,7 @@ public class TileEntityExtractor extends TileElectricMachine {
 
 	@Override
 	public float getMaxEnergyStored() {
-		return 12500;
+		return 200000;
 	}
 	
 }
