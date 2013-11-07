@@ -1,5 +1,6 @@
 package com.archadia.complexmachines.core.common.tileentity;
 
+import java.util.HashSet;
 import java.util.Random;
 
 import net.minecraft.block.Block;
@@ -10,8 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.common.ForgeDirection;
 import universalelectricity.prefab.network.PacketManager;
 
@@ -27,23 +26,43 @@ public class TileEntityExtractor extends TileElectricMachine {
 	 		
 	private Random rand = new Random();
 		
+	private HashSet<Integer> validIds = new HashSet<Integer>();
+	
 	public TileEntityExtractor() {
 		setInventorySize(9);
 		setMaxTicks(200);
+		
+		validIds.add(Block.oreCoal.blockID);
+		validIds.add(Block.oreIron.blockID);
+		validIds.add(Block.oreGold.blockID);
+		validIds.add(Block.oreEmerald.blockID);
+		validIds.add(Block.oreRedstone.blockID);
+		validIds.add(Block.oreLapis.blockID);
+	}
+	
+	public void addIDFromINV() {
+		for(int i = 0; i < 6; i++) {
+			if(inventory[i] != null) {
+				int id = inventory[i].itemID;
+				validIds.add(id);
+			}
+		}
 	}
 	
 	public void updateEntity() {
 		super.updateEntity();
 
 		if(!worldObj.isRemote) {
-			if(inventory[7] != null) {
-				if(inventory[7].itemID == Item.pickaxeDiamond.itemID) {
-					if(ComplexMachines.oldExtractorMode) {
-						findOre();
-					} else {
-						if(worldObj.getWorldTime()%20 == 0) {
+			if(findInventory() != null) {
+				addIDFromINV();
+				if(inventory[7] != null) {
+					if(inventory[7].itemID == Item.pickaxeDiamond.itemID) {
+						if(ComplexMachines.oldExtractorMode) {
 							findOre();
-							System.out.println("Energy: " + getEnergyStored());
+						} else {
+							if(worldObj.getWorldTime()%20 == 0) {
+								findOre();
+							}
 						}
 					}
 				}
@@ -71,11 +90,7 @@ public class TileEntityExtractor extends TileElectricMachine {
 	
 			int targetId = worldObj.getBlockId(targetX, targetY, targetZ);
 			
-			boolean ore = false;
-			
-			if(targetId == 15) {
-				ore = true;
-			}
+			boolean ore = isOre(targetId);
 			
 			if (worldObj.getChunkFromBlockCoords(targetX, targetZ).isChunkLoaded && ore) {
 				oreFound = true;
@@ -98,63 +113,35 @@ public class TileEntityExtractor extends TileElectricMachine {
 	}
 	
 	private boolean isOre(int id) {
-		if(id == 15) {
+		if(validIds.contains(id)) {
 			return true;
 		}
 		return false;
 	}
 	
-	private TileEntityFurnace findFurnace() {
-		if (worldObj.getBlockTileEntity(xCoord + 1, yCoord, zCoord) instanceof TileEntityFurnace) {
-			return (TileEntityFurnace) worldObj.getBlockTileEntity(xCoord + 1,
-					yCoord, zCoord);
-		}
-		if (worldObj.getBlockTileEntity(xCoord - 1, yCoord, zCoord) instanceof TileEntityFurnace) {
-			return (TileEntityFurnace) worldObj.getBlockTileEntity(xCoord - 1,
-					yCoord, zCoord);
-		}
-		if (worldObj.getBlockTileEntity(xCoord, yCoord + 1, zCoord) instanceof TileEntityFurnace) {
-			return (TileEntityFurnace) worldObj.getBlockTileEntity(xCoord,
-					yCoord + 1, zCoord);
-		}
-		if (worldObj.getBlockTileEntity(xCoord, yCoord - 1, zCoord) instanceof TileEntityFurnace) {
-			return (TileEntityFurnace) worldObj.getBlockTileEntity(xCoord,
-					yCoord - 1, zCoord);
-		}
-		if (worldObj.getBlockTileEntity(xCoord, yCoord, zCoord + 1) instanceof TileEntityFurnace) {
-			return (TileEntityFurnace) worldObj.getBlockTileEntity(xCoord,
-					yCoord, zCoord + 1);
-		}
-		if (worldObj.getBlockTileEntity(xCoord, yCoord, zCoord - 1) instanceof TileEntityFurnace) {
-			return (TileEntityFurnace) worldObj.getBlockTileEntity(xCoord,
-					yCoord, zCoord - 1);
-		}
-		return null;	}
-	
-	private TileEntityChest findChest() {
+	private IInventory findInventory() {
 
-		if (worldObj.getBlockTileEntity(xCoord + 1, yCoord, zCoord) instanceof TileEntityChest) {
-			return (TileEntityChest) worldObj.getBlockTileEntity(xCoord + 1,
+		if (worldObj.getBlockTileEntity(xCoord + 1, yCoord, zCoord) instanceof IInventory) {
+			return (IInventory) worldObj.getBlockTileEntity(xCoord + 1, yCoord, zCoord);
+		}
+		if (worldObj.getBlockTileEntity(xCoord - 1, yCoord, zCoord) instanceof IInventory) {
+			return (IInventory) worldObj.getBlockTileEntity(xCoord - 1,
 					yCoord, zCoord);
 		}
-		if (worldObj.getBlockTileEntity(xCoord - 1, yCoord, zCoord) instanceof TileEntityChest) {
-			return (TileEntityChest) worldObj.getBlockTileEntity(xCoord - 1,
-					yCoord, zCoord);
-		}
-		if (worldObj.getBlockTileEntity(xCoord, yCoord + 1, zCoord) instanceof TileEntityChest) {
-			return (TileEntityChest) worldObj.getBlockTileEntity(xCoord,
+		if (worldObj.getBlockTileEntity(xCoord, yCoord + 1, zCoord) instanceof IInventory) {
+			return (IInventory) worldObj.getBlockTileEntity(xCoord,
 					yCoord + 1, zCoord);
 		}
-		if (worldObj.getBlockTileEntity(xCoord, yCoord - 1, zCoord) instanceof TileEntityChest) {
-			return (TileEntityChest) worldObj.getBlockTileEntity(xCoord,
+		if (worldObj.getBlockTileEntity(xCoord, yCoord - 1, zCoord) instanceof IInventory) {
+			return (IInventory) worldObj.getBlockTileEntity(xCoord,
 					yCoord - 1, zCoord);
 		}
-		if (worldObj.getBlockTileEntity(xCoord, yCoord, zCoord + 1) instanceof TileEntityChest) {
-			return (TileEntityChest) worldObj.getBlockTileEntity(xCoord,
+		if (worldObj.getBlockTileEntity(xCoord, yCoord, zCoord + 1) instanceof IInventory) {
+			return (IInventory) worldObj.getBlockTileEntity(xCoord,
 					yCoord, zCoord + 1);
 		}
-		if (worldObj.getBlockTileEntity(xCoord, yCoord, zCoord - 1) instanceof TileEntityChest) {
-			return (TileEntityChest) worldObj.getBlockTileEntity(xCoord,
+		if (worldObj.getBlockTileEntity(xCoord, yCoord, zCoord - 1) instanceof IInventory) {
+			return (IInventory) worldObj.getBlockTileEntity(xCoord,
 					yCoord, zCoord - 1);
 		}
 		return null;
@@ -165,16 +152,10 @@ public class TileEntityExtractor extends TileElectricMachine {
 
 		if(itemStack != null) {
 			for (int i = 0; i < this.inventory.length;i++) {
-				if(findChest() != null) {
-					itemStack = this.addStackToInventory(i, findChest(), itemStack);
+				if(findInventory() != null) {
+					itemStack = this.addStackToInventory(i, findInventory(), itemStack);
 					return;
 				}
-				if(findFurnace() != null) {
-					itemStack = this.addStackToInventory(i, findFurnace(), itemStack);
-					return;
-				}
-				itemStack = this.addStackToInventory(i, this, itemStack);
-
 			}
 		}
 
