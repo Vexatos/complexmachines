@@ -1,0 +1,31 @@
+#simplified Chinese @Author crafteverywhere
+
+itemGroup.tabComplexMachines=复杂机械
+
+## Items
+item.ingotCopper.name=铜锭
+item.ingotTin.name=锡锭
+item.C194.name=C194合金铜
+item.c194-wiring.name=C194线缆
+item.tin-wiring.name=锡质线缆
+item.gold-wiring.name=金质线缆
+item.iPacketExtractor.name=信息包
+item.ruCandy.name=俄罗斯糖果
+item.poCandy.name=波兰糖果
+
+## Blocks
+tile.wireMill.name=线材轧机
+tile.alloyFabricator.name=合金制造机
+tile.grinder.name=研磨机
+tile.extractor.name=提取机
+tile.oreCopper.name=铜矿石
+tile.oreTin.name=锡矿石
+tile.cookieMaker.name=Vexatos的饼干机
+tile.ironClad.name="铁甲舰"
+
+## Container
+gui.alloyFabricator.name=合金制造机
+gui.wireMill.name=线材轧机
+gui.grinder.name=研磨机
+gui.extractor.name=提取机
+gui.cookieMaker.name=Vexatos的饼干机
