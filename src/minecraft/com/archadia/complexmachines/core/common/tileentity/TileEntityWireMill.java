@@ -18,10 +18,9 @@ import com.google.common.io.ByteArrayDataInput;
  *
  */
 public class TileEntityWireMill extends TileElectricMachine {
-
+	
 	public TileEntityWireMill() {
 		setInventorySize(2);
-		setMaxTicks(200);
 	}
 	
 	public void updateEntity() {
@@ -42,7 +41,7 @@ public class TileEntityWireMill extends TileElectricMachine {
             	this.processTicks = 0;
             }
             System.out.println("Energy Stored: " + getEnergyStored());
-            System.out.println("Ticks: " + getTicks());
+            System.out.println("Ticks: " + this.processTicks);
         }
  
 	}

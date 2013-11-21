@@ -25,36 +25,17 @@ import com.google.common.io.ByteArrayDataInput;
 public class TileEntityExtractor extends TileElectricMachine {
 	 		
 	private Random rand = new Random();
-		
-	private HashSet<Integer> validIds = new HashSet<Integer>();
-	
+			
 	public TileEntityExtractor() {
 		setInventorySize(8);
 		setMaxTicks(200);
-		
-		validIds.add(Block.oreCoal.blockID);
-		validIds.add(Block.oreIron.blockID);
-		validIds.add(Block.oreGold.blockID);
-		validIds.add(Block.oreEmerald.blockID);
-		validIds.add(Block.oreRedstone.blockID);
-		validIds.add(Block.oreLapis.blockID);
 	}
-	
-	public void addIDFromINV() {
-		for(int i = 0; i < 6; i++) {
-			if(inventory[i] != null) {
-				int id = inventory[i].itemID;
-				validIds.add(id);
-			}
-		}
-	}
-	
+
 	public void updateEntity() {
 		super.updateEntity();
 
 		if(!worldObj.isRemote) {
 			if(findInventory() != null) {
-				addIDFromINV();
 				if(inventory[7] != null) {
 					if(inventory[7].itemID == Item.pickaxeDiamond.itemID) {
 						if(ComplexMachines.oldExtractorMode) {
@@ -113,9 +94,6 @@ public class TileEntityExtractor extends TileElectricMachine {
 	}
 	
 	private boolean isOre(int id) {
-		if(validIds.contains(id)) {
-			return true;
-		}
 		return false;
 	}
 	

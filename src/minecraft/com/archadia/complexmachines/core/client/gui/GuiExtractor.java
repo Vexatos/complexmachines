@@ -39,6 +39,10 @@ public class GuiExtractor extends GuiContainer {
     }
 
     protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
+    	drawGuiMain();
+    }
+    
+    private void drawGuiMain() {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.getTextureManager().bindTexture(new ResourceLocation("complexmachines","textures/gui/extractor.png"));
         int k = (this.width - this.xSize) / 2;
