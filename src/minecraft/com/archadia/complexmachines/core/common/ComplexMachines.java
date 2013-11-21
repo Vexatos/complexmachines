@@ -7,11 +7,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
-import universalelectricity.compatibility.Compatibility;
-import universalelectricity.prefab.network.PacketManager;
 
 import com.archadia.complexmachines.core.common.block.BlockAlloyFabricator;
 import com.archadia.complexmachines.core.common.block.BlockCookieMaker;
@@ -49,7 +46,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
  * Originally by Pixlepix, renamed to Modech, now owned by Archadia(Me)
  */
 @Mod(modid = ComplexMachines.MOD_ID, name = ComplexMachines.NAME, version = ComplexMachines.VERSION)
-@NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {ComplexMachines.CHANNEL}, packetHandler = PacketManager.class)
+@NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {ComplexMachines.CHANNEL})
 public class ComplexMachines {
 
 	public static final String[] languages = new String[] {"en_US", "de_DE", "ru_RU"};
@@ -125,9 +122,7 @@ public class ComplexMachines {
 	}
 	
 	@EventHandler
-	public void Init(FMLInitializationEvent event) {
-		Compatibility.initiate();
-		
+	public void Init(FMLInitializationEvent event) {		
 		loader.addBlock(wireMill);
 		loader.addBlock(oreTin);
 		loader.addBlock(alloyFabricator);

@@ -1,17 +1,9 @@
 package com.archadia.complexmachines.core.common.tileentity;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.prefab.network.PacketManager;
 
-import com.archadia.complexmachines.core.common.ComplexMachines;
 import com.archadia.complexmachines.prefab.te.TileElectricMachine;
-import com.google.common.io.ByteArrayDataInput;
 
 /**
  * @author Archadia
@@ -34,7 +26,7 @@ public class TileEntityCookieMaker extends TileElectricMachine {
 		boolean flag1 = false;
         if (!this.worldObj.isRemote)
         {
-            if (this.canProcess() && getEnergyStored() >= 1000)
+            if (this.canProcess() && getEnergyStored(null) >= 1000)
             {
             	this.processTicks++;
     	    	
@@ -42,7 +34,7 @@ public class TileEntityCookieMaker extends TileElectricMachine {
                 {
                 	this.processTicks = 0;
                     processItems();
-                    setEnergyStored(getEnergyStored() - 1000);
+                    storage.setEnergyStored(getEnergyStored(null) - 1000);
                     flag1 = true;
                 }
             } else {
@@ -123,32 +115,5 @@ public class TileEntityCookieMaker extends TileElectricMachine {
 	            inventory[2] = null;
 	        }
 		}
-	}
-
-	@Override
-	public float getRequest(ForgeDirection direction) {
-		return 1000;
-	}
-
-	@Override
-	public float getProvide(ForgeDirection direction) {
-		return 0;
-	}
-
-	@Override
-	public float getMaxEnergyStored() {
-		return 10000;
-	}
-
-	@Override
-	public Packet getDescriptionPacket() {
-		return PacketManager.getPacket(ComplexMachines.CHANNEL, this, this.getEnergyStored());
-	}
-
-	@Override
-	public void handlePacketData(INetworkManager network, int packetType,
-			Packet250CustomPayload packet, EntityPlayer player,
-			ByteArrayDataInput dataStream) {
-		this.energyStored = dataStream.readInt();
 	}
 }

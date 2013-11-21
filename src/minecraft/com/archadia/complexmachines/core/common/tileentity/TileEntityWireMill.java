@@ -6,7 +6,6 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.prefab.network.PacketManager;
 
 import com.archadia.complexmachines.core.common.ComplexMachines;
 import com.archadia.complexmachines.helper.recipes.MachineRecipes;
@@ -26,7 +25,7 @@ public class TileEntityWireMill extends TileElectricMachine {
 	public void updateEntity() {
 		if (!this.worldObj.isRemote)
         {
-            if (this.canProcess() && getEnergyStored() >= 5000)
+            if (this.canProcess() && getEnergyStored(null) >= 5000)
             {
                 System.out.println("Node 1");
             	this.processTicks++;
@@ -35,12 +34,12 @@ public class TileEntityWireMill extends TileElectricMachine {
                 {
                 	this.processTicks = 0;
                     processItems();
-                    setEnergyStored(getEnergyStored() - 2250);
+                    storage.setEnergyStored(getEnergyStored(null) - 2250);
                 }
             } else {
             	this.processTicks = 0;
             }
-            System.out.println("Energy Stored: " + getEnergyStored());
+            System.out.println("Energy Stored: " + getEnergyStored(null));
             System.out.println("Ticks: " + this.processTicks);
         }
  
@@ -95,32 +94,4 @@ public class TileEntityWireMill extends TileElectricMachine {
 	        }
 		}
 	}
-
-	@Override
-	public Packet getDescriptionPacket() {
-		return PacketManager.getPacket(ComplexMachines.CHANNEL, this, this.getEnergyStored());
-	}
-
-	@Override
-	public void handlePacketData(INetworkManager network, int packetType,
-			Packet250CustomPayload packet, EntityPlayer player,
-			ByteArrayDataInput dataStream) {
-		this.energyStored = dataStream.readInt();
-	}
-	
-	@Override
-	public float getRequest(ForgeDirection direction) {
-		return 2250;
-	}
-
-	@Override
-	public float getProvide(ForgeDirection direction) {
-		return 0;
-	}
-
-	@Override
-	public float getMaxEnergyStored() {
-		return 12500;
-	}
-	
 }

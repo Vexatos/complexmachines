@@ -1,20 +1,18 @@
 package com.archadia.complexmachines.prefab.te;
 
-import com.google.common.io.ByteArrayDataInput;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.compatibility.TileEntityUniversalElectrical;
-import universalelectricity.prefab.network.IPacketReceiver;
+import cofh.api.energy.TileEnergyHandler;
 
-public class TileElectricMachine extends TileEntityUniversalElectrical implements IInventory, IPacketReceiver {
+import com.google.common.io.ByteArrayDataInput;
+
+public class TileElectricMachine extends TileEnergyHandler implements IInventory {
 	
 	protected ItemStack[] inventory;
     
@@ -145,36 +143,7 @@ public class TileElectricMachine extends TileEntityUniversalElectrical implement
         par1NBTTagCompound.setTag("Items", nbttaglist);
     }
 
-	@Override
-	public float getRequest(ForgeDirection direction) {
-		return 0;
-	}
-
-	@Override
-	public float getProvide(ForgeDirection direction) {
-		return 0;
-	}
-
-	@Override
-	public float getMaxEnergyStored() {
-		return 0;
-	}
-	
-	@Override
-	public boolean canConnect(ForgeDirection direction) {
-		return true;
-	}
-
 	public void setInventorySize(int amt) {
 		inventory = new ItemStack[amt];
 	}
-	
-
-	@Override
-	public void handlePacketData(INetworkManager network, int packetType,
-			Packet250CustomPayload packet, EntityPlayer player,
-			ByteArrayDataInput dataStream) {
-		
-	}
-
 }

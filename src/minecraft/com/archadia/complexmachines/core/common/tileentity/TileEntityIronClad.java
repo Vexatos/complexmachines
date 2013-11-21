@@ -1,15 +1,6 @@
 package com.archadia.complexmachines.core.common.tileentity;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraftforge.common.ForgeDirection;
-import universalelectricity.prefab.network.PacketManager;
-
-import com.archadia.complexmachines.core.common.ComplexMachines;
 import com.archadia.complexmachines.prefab.te.TileElectricMachine;
-import com.google.common.io.ByteArrayDataInput;
 
 /**
  * @author Archadia
@@ -38,32 +29,5 @@ public class TileEntityIronClad extends TileElectricMachine {
 	
 	public String getInvName() {
 		return "Iron Clad";
-	}
-	
-	@Override
-	public float getRequest(ForgeDirection direction) {
-		return 0;
-	}
-
-	@Override
-	public float getProvide(ForgeDirection direction) {
-		return 0;
-	}
-
-	@Override
-	public float getMaxEnergyStored() {
-		return 10000;
-	}
-
-	@Override
-	public Packet getDescriptionPacket() {
-		return PacketManager.getPacket(ComplexMachines.CHANNEL, this, this.getEnergyStored());
-	}
-
-	@Override
-	public void handlePacketData(INetworkManager network, int packetType,
-			Packet250CustomPayload packet, EntityPlayer player,
-			ByteArrayDataInput dataStream) {
-		this.energyStored = dataStream.readInt();
 	}
 }
