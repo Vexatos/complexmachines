@@ -5,12 +5,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraftforge.common.ForgeDirection;
 import cofh.api.energy.TileEnergyHandler;
-
-import com.google.common.io.ByteArrayDataInput;
 
 public class TileElectricMachine extends TileEnergyHandler implements IInventory {
 	
