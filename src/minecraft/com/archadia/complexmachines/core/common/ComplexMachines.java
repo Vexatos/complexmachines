@@ -49,7 +49,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {ComplexMachines.CHANNEL})
 public class ComplexMachines {
 
-	public static final String[] languages = new String[] {"en_US", "de_DE", "ru_RU"};
+	public static final String[] languages = new String[] {"en_US", "de_DE", "ru_RU", "pt_BR"};
 	
 	public static final String CHANNEL = "ComplexMachines";
 	public static final String MOD_ID = "complexmachines";

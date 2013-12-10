@@ -34,7 +34,7 @@ public class TileEntityWireMill extends TileElectricMachine {
                 {
                 	this.processTicks = 0;
                     processItems();
-                    storage.setEnergyStored(getEnergyStored(null) - 2250);
+                    storage.extractEnergy(2250, true);
                 }
             } else {
             	this.processTicks = 0;

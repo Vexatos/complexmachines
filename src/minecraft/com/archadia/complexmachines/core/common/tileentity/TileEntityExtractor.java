@@ -67,8 +67,7 @@ public class TileEntityExtractor extends TileElectricMachine {
 			
 			if (worldObj.getChunkFromBlockCoords(targetX, targetZ).isChunkLoaded && ore) {
 				oreFound = true;
-				storage.setEnergyStored(getEnergyStored(null) - 100000);
-				
+                storage.extractEnergy(100000, true);
 				inventory[7].setItemDamage(inventory[7].getItemDamage() + ComplexMachines.extractorPickDegradeRate);
 				if(inventory[7].getItemDamage() > inventory[7].getMaxDamage()) {
 					inventory[7].setItemDamage(inventory[7].getMaxDamage());

@@ -34,7 +34,7 @@ public class TileEntityCookieMaker extends TileElectricMachine {
                 {
                 	this.processTicks = 0;
                     processItems();
-                    storage.setEnergyStored(getEnergyStored(null) - 1000);
+                    storage.extractEnergy(1000, true);
                     flag1 = true;
                 }
             } else {
