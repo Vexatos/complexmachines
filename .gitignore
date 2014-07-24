@@ -1,4 +1,16 @@
-/*
+# /*
 !/src
 !/.gitignore
 !/README.md
+!/build.gradle
+
+.idea/
+eclipse/
+
+gradle/
+
+gradlew
+
+complexmachines.iml
+complexmachines.ipr
+complexmachines.iws
