@@ -1,11 +1,4 @@
-*.class
-bin
-net
-/net
-DS_STORE
-.DS_STORE
-# Package Files #
-*.jar
-*.war
-*.ear
-ixbm
+/*
+!/src
+!/.gitignore
+!/README.md
